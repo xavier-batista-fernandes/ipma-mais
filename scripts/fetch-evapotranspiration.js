@@ -19,14 +19,12 @@ async function downloadAndSaveCSV({ dico, municipality, district }) {
 
     try {
         console.log(`⏳ Fetching data for ${municipality}...`);
-
         const response = await axios.get(url, { responseType: 'stream' });
 
+        console.log(`💿 Saving data for ${municipality}...`);
         fs.mkdirSync(outputDir, { recursive: true });
-
         const writeStream = fs.createWriteStream(outputPath);
         response.data.pipe(writeStream);
-
         await new Promise((resolve, reject) => {
             writeStream.on('finish', resolve);
             writeStream.on('error', reject);
