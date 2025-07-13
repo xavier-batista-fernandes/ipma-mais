@@ -1,12 +1,11 @@
 {
-  "name": "ipma-mais",
-  "version": "1.0.0",
-  "description": "",
-  "author": "",
-  "type": "commonjs",
-  "main": "index.js",
-  "dependencies": {
-    "axios": "^1.10.0",
-    "csv-parser": "^3.2.0"
-  }
+    "name": "ipma-mais",
+    "version": "1.0.0",
+    "description": "",
+    "author": "",
+    "type": "commonjs",
+    "main": "index.js",
+    "dependencies": {
+        "axios": "^1.10.0"
+    }
 }
