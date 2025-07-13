@@ -1,4 +1,4 @@
-name: Export (Fetch, Write & Commit) Evapotranspiration Data
+name: Export Evapotranspiration
 
 on:
     schedule:
@@ -23,7 +23,7 @@ jobs:
             - name: 📦 Install dependencies
               run: npm ci
 
-            - name: 🚿 Run data fetch script
+            - name: 🚿 Export data
               run: node scripts/fetch-evapotranspiration.js
 
             - name: 📸 Commit changes
@@ -35,6 +35,6 @@ jobs:
                   if git diff --cached --quiet; then
                     echo "🟢 No changes to commit."
                   else
-                    git commit -m "🤖 export new evapotranspiration data"
+                    git commit -m "🧤 export evapotranspiration data"
                     git push
                   fi
