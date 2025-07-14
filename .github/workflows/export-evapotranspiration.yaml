@@ -10,23 +10,23 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: ⬇️ Checkout repository
+            - name: 🧶 Checkout repository
               uses: actions/checkout@v4
               with:
                   persist-credentials: true
 
-            - name: 🟢 Set up Node.js
+            - name: 🧶 Set up Node.js
               uses: actions/setup-node@v4
               with:
                   node-version: '20'
 
-            - name: 📦 Install dependencies
+            - name: 🧶 Install dependencies
               run: npm ci
 
-            - name: 🚿 Export data
-              run: node scripts/fetch-evapotranspiration.js
+            - name: 🧶 Export data
+              run: node scripts/export-evapotranspiration.js
 
-            - name: 📸 Commit changes
+            - name: 🧶 Commit changes
               run: |
                   git config user.name "github-actions[bot]"
                   git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -35,6 +35,6 @@ jobs:
                   if git diff --cached --quiet; then
                     echo "🟢 No changes to commit."
                   else
-                    git commit -m "🧤 export evapotranspiration data"
+                    git commit -m "[auto] 🧤 export evapotranspiration data"
                     git push
                   fi
