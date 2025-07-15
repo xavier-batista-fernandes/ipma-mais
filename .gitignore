@@ -1,5 +1,6 @@
-# Node modules
+# Directories
 node_modules/
+dist/
 
 # Logs
 logs/

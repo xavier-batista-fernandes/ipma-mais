@@ -1,12 +1,12 @@
 import path from 'path';
 import fs from 'fs';
-import { readDailyRecord } from '../utilities/read-daily-record.ts';
-import { writeDailyRecord } from '../utilities/write-daily-record.ts';
-import { PROJECT_ROOT } from '../constants/paths.ts';
+import { readDailyRecord } from '../utilities/read-daily-record.js';
+import { writeDailyRecord } from '../utilities/write-daily-record.js';
+import { INPUTS_DIR, PROJECT_ROOT } from '../constants/paths.ts';
 
 console.log('📁 Project root:', PROJECT_ROOT);
 
-const inputPath = path.join(PROJECT_ROOT, '/models/municipalities.json');
+const inputPath = path.join(INPUTS_DIR, '/municipalities.json');
 const data = fs.readFileSync(inputPath, 'utf-8');
 const municipalities = JSON.parse(data);
 
