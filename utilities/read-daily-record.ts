@@ -12,7 +12,7 @@ async function readDailyRecord({ district, municipality, dico }) {
     const inputPath = path.join(IPMA_EVAPOTRANSPIRATION_BASE_URL, relativePath);
 
     const date = new Date();
-    date.setDate(date.getDate() - 1);
+    date.setDate(date.getDate() - 3);
     const todaysDate = date.toISOString().split('T')[0];
     // const todaysDate = '2025-07-11';
 
