@@ -24,7 +24,7 @@ jobs:
               run: npm ci
 
             - name: 🧶 Export data
-              run: npx ts-node scripts/export-evapotranspiration.ts
+              run: node scripts/export-evapotranspiration.js
 
             - name: 🧶 Commit changes
               run: |
