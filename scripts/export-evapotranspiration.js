@@ -14,7 +14,7 @@ async function main() {
     console.log('🌱 Starting evapotranspiration export...');
 
     for (const municipality of municipalities) {
-        console.log(`\n🧵 Processing data for ${municipality.municipality}...`);
+        // console.log(`\n🧵 Processing data for ${municipality.municipality}...`);
 
         const todaysEntry = await readDailyRecord(municipality);
         if (!todaysEntry) continue;

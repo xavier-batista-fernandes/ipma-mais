@@ -6,7 +6,7 @@ import { IPMA_EVAPOTRANSPIRATION_BASE_URL } from '../constants/paths.ts';
 export { readDailyRecord };
 
 async function readDailyRecord({ district, municipality, dico }) {
-    console.log('🧶 Reading daily evapotranspiration measurements...');
+    // console.log('🧶 Reading daily evapotranspiration measurements...');
 
     const relativePath = `${district}/et0-${dico}-${municipality}.csv`;
     const inputPath = path.join(IPMA_EVAPOTRANSPIRATION_BASE_URL, relativePath);
@@ -36,10 +36,10 @@ async function readDailyRecord({ district, municipality, dico }) {
                 })
                 .on('end', () => {
                     if (todaysEntry) {
-                        console.log(`✅ Entry found for ${todaysDate}.`);
+                        // console.log(`✅ Entry found for ${todaysDate}.`);
                         resolve(todaysEntry);
                     } else {
-                        console.log(`👎 No entry found for ${todaysDate}.`);
+                        // console.log(`👎 No entry found for ${todaysDate}.`);
                         resolve(undefined);
                     }
                 })

@@ -6,7 +6,7 @@ import { OUTPUTS_DIR } from '../constants/paths.ts';
 export { writeDailyRecord };
 
 function writeDailyRecord(municipality, entry) {
-    console.log('💿 Saving daily evapotranspiration measurements...');
+    // console.log('💿 Saving daily evapotranspiration measurements...');
 
     const relativePath = `evapotranspiration/${municipality.district}/${municipality.municipality}.csv`;
     const outputPath = path.join(OUTPUTS_DIR, relativePath);
