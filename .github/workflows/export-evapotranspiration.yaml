@@ -18,13 +18,13 @@ jobs:
             - name: 🧶 Set up Node.js
               uses: actions/setup-node@v4
               with:
-                  node-version: '20'
+                  node-version: '24'
 
             - name: 🧶 Install dependencies
               run: npm ci
 
             - name: 🧶 Export data
-              run: node scripts/export-evapotranspiration.js
+              run: node --loader ts-node/esm scripts/export-evapotranspiration.ts
 
             - name: 🧶 Commit changes
               run: |
