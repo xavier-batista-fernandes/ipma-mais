@@ -1,4 +1,3 @@
-import axios from 'axios';
 import path from 'path';
 import fs from 'fs';
 import { readDailyRecord } from '../utilities/read-daily-record.ts';
