@@ -6,7 +6,7 @@ on:
     workflow_dispatch:
 
 jobs:
-    fetch-data:
+    export:
         runs-on: ubuntu-latest
 
         steps:

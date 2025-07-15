@@ -11,9 +11,6 @@ const inputPath = path.join(PROJECT_ROOT, '/models/municipalities.json');
 const data = fs.readFileSync(inputPath, 'utf-8');
 const municipalities = JSON.parse(data);
 
-/**
- * Main function: download & optionally parse data
- */
 async function main() {
     console.log('🌱 Starting evapotranspiration export...');
 
