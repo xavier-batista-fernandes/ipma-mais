@@ -1,7 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
-import { INPUTS_DIR, IPMA_EVAPOTRANSPIRATION_BASE_URL, OUTPUTS_DIR } from '../constants/paths.ts';
+import {
+    INPUTS_DIR,
+    IPMA_EVAPOTRANSPIRATION_BASE_URL,
+    OUTPUTS_DIR,
+} from '../../../constants/paths.ts';
 
 async function main() {
     // Step 1: Load municipalities from input JSON file
@@ -9,7 +13,7 @@ async function main() {
     const municipalitiesRaw = fs.readFileSync(municipalitiesPath, 'utf-8');
     const municipalities = JSON.parse(municipalitiesRaw);
 
-    console.log(`\n🪀 Loaded ${municipalities.length} municipalities.`);
+    console.log(`\n🧶 Loaded ${municipalities.length} municipalities.`);
 
     // Step 2: Iterate through each municipality
     for (const { district, municipality, dico } of municipalities) {
@@ -65,7 +69,7 @@ async function main() {
         }
     }
 
-    console.log('\n🪀 Updated evapotranspiration data for all municipalities.');
+    console.log('\n🧶 Updated evapotranspiration data for all municipalities.');
 }
 
 main();

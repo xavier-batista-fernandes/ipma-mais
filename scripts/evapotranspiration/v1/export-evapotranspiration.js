@@ -1,8 +1,8 @@
 import path from 'path';
 import fs from 'fs';
-import { readDailyRecord } from '../utilities/read-daily-record.js';
-import { writeDailyRecord } from '../utilities/write-daily-record.js';
-import { INPUTS_DIR, PROJECT_ROOT } from '../constants/paths.ts';
+import { readDailyRecord } from '../../../utilities/read-daily-record.js';
+import { writeDailyRecord } from '../../../utilities/write-daily-record.js';
+import { INPUTS_DIR, PROJECT_ROOT } from '../../../constants/paths.ts';
 
 console.log('📁 Project root:', PROJECT_ROOT);
 
