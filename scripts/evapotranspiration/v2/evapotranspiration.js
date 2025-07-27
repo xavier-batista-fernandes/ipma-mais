@@ -61,7 +61,7 @@ async function main() {
 
         // Step 6: Append new rows to disk if any
         if (newRows.length > 0) {
-            const csvToAppend = newRows.join('\n') + '\n';
+            const csvToAppend = '\n' + newRows.join('\n');
             fs.appendFileSync(localCsvPath, csvToAppend);
             console.log(`🪀 Appended ${newRows.length} new row(s) to ${municipality}.`);
         } else {
