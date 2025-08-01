@@ -5,6 +5,7 @@ on:
         inputs:
             data-type:
                 type: string
+                required: true
 
 jobs:
     sort:
