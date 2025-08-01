@@ -9,4 +9,4 @@ jobs:
     export-evapotranspiration:
         uses: ./.github/workflows/export.yaml
         with:
-            data-type: evapotranspiration
+            data-type: 'evapotranspiration'
