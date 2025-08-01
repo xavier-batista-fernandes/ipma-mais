@@ -4,13 +4,7 @@ on:
     workflow_call:
         inputs:
             data-type:
-                required: true
-                type: choice
-                options:
-                    - evapotranspiration
-                    - maxtemp
-                    - mintemp
-                default: evapotranspiration
+                type: string
 
 jobs:
     export:
