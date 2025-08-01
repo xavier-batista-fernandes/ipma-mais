@@ -1,6 +1,7 @@
 name: Export Evapotranspiration
 
 on:
+    workflow_dispatch:
     schedule:
         - cron: '0 0 * * *'
 
@@ -8,4 +9,4 @@ jobs:
     export-evapotranspiration:
         uses: ./.github/workflows/export.yaml
         with:
-            dataType: evapotranspiration
+            data-type: evapotranspiration

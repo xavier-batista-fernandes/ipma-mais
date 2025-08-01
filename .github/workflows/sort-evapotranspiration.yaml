@@ -1,6 +1,7 @@
 name: Sort Evapotranspiration
 
 on:
+    workflow_dispatch:
     schedule:
         - cron: '0 0 1 * *'
 
@@ -8,4 +9,4 @@ jobs:
     sort-evapotranspiration:
         uses: ./.github/workflows/sort.yaml
         with:
-            dataType: evapotranspiration
+            data-type: evapotranspiration

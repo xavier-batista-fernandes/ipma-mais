@@ -3,8 +3,7 @@ name: Sort
 on:
     workflow_call:
         inputs:
-            dataType:
-                description: 'A type of data IPMA offers.'
+            data-type:
                 required: true
                 type: choice
                 options:
@@ -34,7 +33,7 @@ jobs:
 
             - name: ☘️ Sort data
               run: |
-                  node utilities/sort.js -t ${{ github.event.inputs.dataType }}
+                  node utilities/sort.js -t ${{ github.event.inputs.data-type }}
 
             - name: ☘️ Commit changes
               run: |
@@ -45,6 +44,6 @@ jobs:
                   if git diff --cached --quiet; then
                     echo "🟢 No changes to commit."
                   else
-                    git commit -m "[auto] ⚙️ sort ${{ github.event.inputs.dataType }} data"
+                    git commit -m "[auto] ⚙️ sort ${{ github.event.inputs.data-type }} data"
                     git push
                   fi

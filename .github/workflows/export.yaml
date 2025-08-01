@@ -3,8 +3,7 @@ name: Export
 on:
     workflow_call:
         inputs:
-            dataType:
-                description: 'A type of data IPMA offers.'
+            data-type:
                 required: true
                 type: choice
                 options:
@@ -31,7 +30,7 @@ jobs:
               run: npm ci
 
             - name: 🧶 Export data
-              run: npm run export:${{ github.event.inputs.dataType }}
+              run: npm run export:${{ github.event.inputs.data-type }}
 
             - name: 🧶 Commit changes
               run: |
@@ -42,6 +41,6 @@ jobs:
                   if git diff --cached --quiet; then
                     echo "🟢 No changes to commit."
                   else
-                    git commit -m "[auto] ⚙️ export ${{ github.event.inputs.dataType }} data"
+                    git commit -m "[auto] ⚙️ export ${{ github.event.inputs.data-type }} data"
                     git push
                   fi
