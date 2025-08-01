@@ -1,0 +1,50 @@
+name: Sort
+
+on:
+    workflow_dispatch:
+        inputs:
+            dataType:
+                description: 'A type of data IPMA offers.'
+                required: true
+                type: choice
+                options:
+                    - evapotranspiration
+                    - maxtemp
+                    - mintemp
+                default: evapotranspiration
+
+jobs:
+    sort:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: ☘️ Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  persist-credentials: true
+
+            - name: ☘️ Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '24'
+
+            - name: ☘️ Install dependencies
+              run: npm ci
+
+            - name: ☘️ Sort data
+              run: |
+                  node utilities/sort.js -t ${{ github.event.inputs.dataType }}
+
+            - name: ☘️ Commit changes
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+                  git add outputs/
+                  if git diff --cached --quiet; then
+                    echo "🟢 No changes to commit."
+                  else
+                    git commit -m "[auto] ⚙️ sort ${{ github.event.inputs.dataType }} data"
+                    git push
+                  fi
