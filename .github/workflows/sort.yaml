@@ -28,7 +28,7 @@ jobs:
 
             - name: ☘️ Sort data
               run: |
-                  node utilities/sort.js -t ${{ github.event.inputs.data-type }}
+                  node utilities/sort.js -t ${{ inputs.data-type }}
 
             - name: ☘️ Commit changes
               run: |
@@ -39,6 +39,6 @@ jobs:
                   if git diff --cached --quiet; then
                     echo "🟢 No changes to commit."
                   else
-                    git commit -m "[auto] ⚙️ sort ${{ github.event.inputs.data-type }} data"
+                    git commit -m "[auto] ⚙️ sort ${{ inputs.data-type }} data"
                     git push
                   fi
