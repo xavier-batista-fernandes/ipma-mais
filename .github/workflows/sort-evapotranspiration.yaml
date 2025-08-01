@@ -6,6 +6,6 @@ on:
 
 jobs:
     sort-evapotranspiration:
-        uses: .github/workflows/sort.yaml
+        uses: ./.github/workflows/sort.yaml
         with:
             dataType: evapotranspiration

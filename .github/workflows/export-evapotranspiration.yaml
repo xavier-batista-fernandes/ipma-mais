@@ -6,6 +6,6 @@ on:
 
 jobs:
     export-evapotranspiration:
-        uses: .github/workflows/export.yaml
+        uses: ./.github/workflows/export.yaml
         with:
             dataType: evapotranspiration

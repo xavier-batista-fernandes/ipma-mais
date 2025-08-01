@@ -1,7 +1,7 @@
 name: Sort
 
 on:
-    workflow_dispatch:
+    workflow_call:
         inputs:
             dataType:
                 description: 'A type of data IPMA offers.'
