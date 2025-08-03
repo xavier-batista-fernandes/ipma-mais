@@ -1,0 +1,12 @@
+name: Export Temperature Min
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: '20 0 * * 1'
+
+jobs:
+    export-temperature-min:
+        uses: ./.github/workflows/export.yaml
+        with:
+            data-type: 'temperature-min'

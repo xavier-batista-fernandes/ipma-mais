@@ -1,0 +1,12 @@
+name: Export Temperature Max
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: '10 0 * * 1'
+
+jobs:
+    export-temperature-max:
+        uses: ./.github/workflows/export.yaml
+        with:
+            data-type: 'temperature-max'
