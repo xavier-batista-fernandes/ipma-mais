@@ -43,8 +43,6 @@ for (const { district, municipality, dico } of municipalities) {
     } else {
         console.log(`🧣 No new rows to add for ${municipality}.`);
     }
-
-    break;
 }
 
 console.log(`\n🌱 Updated ${type} data for all municipalities.`);

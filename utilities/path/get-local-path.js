@@ -10,14 +10,15 @@ export function getLocalPath(type, municipality, district) {
 
     console.log('🔗 Resolving local path...');
 
-    const typeDir = path.join(OUTPUTS_DIR, type, district);
-    if (!fs.existsSync(typeDir)) {
-        fs.mkdirSync(typeDir, { recursive: true });
+    const localDir = path.join(OUTPUTS_DIR, type, district);
+    if (!fs.existsSync(localDir)) {
+        fs.mkdirSync(localDir, { recursive: true });
     }
 
-    const localPath = path.join(typeDir, `${municipality}.csv`);
+    const localPath = path.join(localDir, `${municipality}.csv`);
     if (!fs.existsSync(localPath)) {
-        fs.writeFileSync(localPath, '');
+        const headers = 'date,minimum,maximum,range,mean,std';
+        fs.writeFileSync(localPath, headers);
         console.log(`🌱 Created new file at ${localPath}`);
     }
 
