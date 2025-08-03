@@ -1,34 +1,11 @@
 import minimist from 'minimist';
 import fs from 'fs';
 import path from 'path';
-import { MUNICIPALITIES_PATH, EVAPOTRANSPIRATION_DIR } from '../constants/paths.ts';
+import { EVAPOTRANSPIRATION_DIR } from '../constants/paths.ts';
+import { getMunicipalities } from '../utilities/get-municipalities.js';
 
-// ───────────────────────────────────────────────────
-// Step 1: Parse and validate CLI arguments
-// ───────────────────────────────────────────────────
-
-const VALID_TYPES = ['evapotranspiration', 'maxtemp', 'mintemp'];
-
-const args = minimist(process.argv.slice(2), {
-    alias: { t: 'type' },
-});
-
-const type = args.type;
-
-if (!type || !VALID_TYPES.includes(type)) {
-    console.error('❌ Invalid or missing -t/--type argument.');
-    console.error('✅ Valid options are: evapotranspiration, maxtemp, mintemp');
-    process.exit(1);
-}
-
-console.log(`🔍 You selected type: ${type}`);
-
-// ───────────────────────────────────────────────────
-// Step 2: Load municipality data into memory
-// ───────────────────────────────────────────────────
-
-const rawMunicipalities = fs.readFileSync(MUNICIPALITIES_PATH, 'utf-8');
-const jsonMunicipalities = JSON.parse(rawMunicipalities);
+const type = getTypeFromArgs();
+const municipalities = getMunicipalities();
 
 // ───────────────────────────────────────────────────
 // Step 3: Resolve the CSV directory for given type
@@ -51,7 +28,7 @@ console.log(`📁 Using data directory: ${csvDir}`);
 // Step 4: Sort each CSV file by ascending date
 // ───────────────────────────────────────────────────
 
-for (const { district, municipality } of jsonMunicipalities) {
+for (const { district, municipality } of municipalities) {
     const csvPath = path.join(csvDir, district, `${municipality}.csv`);
 
     if (!fs.existsSync(csvPath)) {
