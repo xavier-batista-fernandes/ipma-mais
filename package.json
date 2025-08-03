@@ -3,7 +3,9 @@
     "version": "1.0.0",
     "type": "module",
     "scripts": {
-        "export:evapotranspiration": "node scripts/export --type evapotranspiration"
+        "export:evapotranspiration": "node scripts/export --type evapotranspiration",
+        "export:temperature-max": "node scripts/export --type temperature-max",
+        "export:temperature-min": "node scripts/export --type temperature-min"
     },
     "dependencies": {
         "axios": "^1.10.0",

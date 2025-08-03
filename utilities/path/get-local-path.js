@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import { OUTPUTS_DIR } from '../../constants/paths.ts';
 
 export function getLocalPath(type, municipality, district) {
@@ -9,18 +10,16 @@ export function getLocalPath(type, municipality, district) {
 
     console.log('🔗 Resolving local path...');
 
-    switch (type) {
-        case 'evapotranspiration':
-            return path.join(OUTPUTS_DIR, 'evapotranspiration', district, `${municipality}.csv`);
-
-        case 'temperature-max':
-            return path.join(OUTPUTS_DIR, 'temperature-max', district, `${municipality}.csv`);
-
-        case 'temperature-min':
-            return path.join(OUTPUTS_DIR, 'temperature-min', district, `${municipality}.csv`);
-
-        default:
-            console.error(`❌ Unsupported type: ${type}`);
-            process.exit(1);
+    const typeDir = path.join(OUTPUTS_DIR, type, district);
+    if (!fs.existsSync(typeDir)) {
+        fs.mkdirSync(typeDir, { recursive: true });
     }
+
+    const localPath = path.join(typeDir, `${municipality}.csv`);
+    if (!fs.existsSync(localPath)) {
+        fs.writeFileSync(localPath, '');
+        console.log(`🌱 Created new file at ${localPath}`);
+    }
+
+    return localPath;
 }

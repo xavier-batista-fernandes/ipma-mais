@@ -13,3 +13,11 @@ export const IPMA_EVAPOTRANSPIRATION_BASE_URL = path.join(
     IPMA_BASE_URL,
     '/observation/climate/evapotranspiration/'
 );
+export const IPMA_TEMPERATURE_MAX_BASE_URL = path.join(
+    IPMA_BASE_URL,
+    '/observation/climate/temperature-max/'
+);
+export const IPMA_TEMPERATURE_MIN_BASE_URL = path.join(
+    IPMA_BASE_URL,
+    '/observation/climate/temperature-min/'
+);

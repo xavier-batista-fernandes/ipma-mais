@@ -1,5 +1,9 @@
 import path from 'path';
-import { IPMA_EVAPOTRANSPIRATION_BASE_URL } from '../../constants/paths.ts';
+import {
+    IPMA_EVAPOTRANSPIRATION_BASE_URL,
+    IPMA_TEMPERATURE_MAX_BASE_URL,
+    IPMA_TEMPERATURE_MIN_BASE_URL,
+} from '../../constants/paths.ts';
 
 export function getRemotePath(type, dico, municipality, district) {
     if (!type) {
@@ -17,10 +21,16 @@ export function getRemotePath(type, dico, municipality, district) {
             );
 
         case 'temperature-max':
-            return ''; // implement the logic for temperature-max
+            return path.join(
+                IPMA_TEMPERATURE_MAX_BASE_URL,
+                `${district}/mtxmx-${dico}-${municipality}.csv`
+            );
 
         case 'temperature-min':
-            return ''; // implement the logic for temperature-min
+            return path.join(
+                IPMA_TEMPERATURE_MIN_BASE_URL,
+                `${district}/mtnmn-${dico}-${municipality}.csv`
+            );
 
         default:
             console.error(`❌ Unsupported type: ${type}`);

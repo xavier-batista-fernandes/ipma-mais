@@ -20,6 +20,7 @@ export function getTypeFromArgs() {
         process.exit(1);
     }
 
-    console.log(`🔍 You selected type: ${type}`);
+    console.log(`🔍 You selected type: \x1b[1m${type}\x1b[0m`);
+
     return type;
 }
