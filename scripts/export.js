@@ -3,8 +3,8 @@ import { getTypeFromArgs } from '../utilities/get-type-from-args.js';
 import { getMunicipalities } from '../utilities/get-municipalities.js';
 import { getRemotePath } from '../utilities/path/get-remote-path.js';
 import { getLocalPath } from '../utilities/path/get-local-path.js';
-import { fetchRemoteCsv } from '../utilities/fetch-remote-csv.js';
-import { fetchLocalCsv } from '../utilities/fetch-local-csv.js';
+import { fetchRemoteCsv } from '../utilities/fetch/fetch-remote-csv.js';
+import { fetchLocalCsv } from '../utilities/fetch/fetch-local-csv.js';
 
 const type = getTypeFromArgs();
 const municipalities = getMunicipalities();
@@ -43,6 +43,8 @@ for (const { district, municipality, dico } of municipalities) {
     } else {
         console.log(`🧣 No new rows to add for ${municipality}.`);
     }
+
+    break;
 }
 
 console.log(`\n🌱 Updated ${type} data for all municipalities.`);

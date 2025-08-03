@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "type": "module",
     "scripts": {
-        "export:evapotranspiration": "node scripts/evapotranspiration/v2/evapotranspiration.js"
+        "export:evapotranspiration": "node scripts/export --type evapotranspiration"
     },
     "dependencies": {
         "axios": "^1.10.0",
