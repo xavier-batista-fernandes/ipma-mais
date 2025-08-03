@@ -33,7 +33,7 @@ jobs:
 
             - name: ☘️ Sort data
               run: |
-                  node utilities/sort.js -t ${{ inputs.data-type }}
+                  node scripts/sort.js -t ${{ inputs.data-type }}
 
             - name: ☘️ Commit changes
               run: |

@@ -1,8 +1,8 @@
-import minimist from 'minimist';
 import fs from 'fs';
 import path from 'path';
 import { EVAPOTRANSPIRATION_DIR } from '../constants/paths.ts';
 import { getMunicipalities } from '../utilities/get-municipalities.js';
+import { getTypeFromArgs } from '../utilities/get-type-from-args.js';
 
 const type = getTypeFromArgs();
 const municipalities = getMunicipalities();
