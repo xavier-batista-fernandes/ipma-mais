@@ -53,12 +53,12 @@ et0Data.et0.forEach((municipality) => {
         console.log(`Created file: ${filePath}`);
     }
 
-    // 4.4 Skip if entry for today already exists
-    const existingRows = fetchLocalCsv(filePath).split('\n');
-    if (existingRows.some((row) => row.startsWith(today))) {
-        console.log(`🧤 Entry for ${today} already exists. Skipping...`);
-        return;
-    }
+    // // 4.4 Skip if entry for today already exists
+    // const existingRows = fetchLocalCsv(filePath).split('\n');
+    // if (existingRows.some((row) => row.startsWith(today))) {
+    //     console.log(`🧤 Entry for ${today} already exists. Skipping...`);
+    //     return;
+    // }
 
     // 4.5 Append new row
     const newRow = `${today},${MEAN}\n`;
