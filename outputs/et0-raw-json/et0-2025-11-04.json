@@ -1,9 +1,9 @@
 {
-  "data": "Dom, 02 Nov 2025",
+  "data": "Seg, 03 Nov 2025",
   "et0": [
     {
       "JCOD": "a1",
-      "MEAN": 1.66,
+      "MEAN": 1.78,
       "DICO": "1401",
       "DI": "14",
       "CONCELHO": "ABRANTES",
@@ -11,7 +11,7 @@
     },
     {
       "JCOD": "a2",
-      "MEAN": 1.29,
+      "MEAN": 1.43,
       "DICO": "0101",
       "DI": "01",
       "CONCELHO": "ÁGUEDA",
@@ -19,7 +19,7 @@
     },
     {
       "JCOD": "a3",
-      "MEAN": 1.35,
+      "MEAN": 1.64,
       "DICO": "0901",
       "DI": "09",
       "CONCELHO": "AGUIAR DA BEIRA",
@@ -27,7 +27,7 @@
     },
     {
       "JCOD": "a4",
-      "MEAN": 2.05,
+      "MEAN": 2.09,
       "DICO": "0701",
       "DI": "07",
       "CONCELHO": "ALANDROAL",
@@ -35,7 +35,7 @@
     },
     {
       "JCOD": "a5",
-      "MEAN": 1.31,
+      "MEAN": 1.44,
       "DICO": "0102",
       "DI": "01",
       "CONCELHO": "ALBERGARIA-A-VELHA",
@@ -43,7 +43,7 @@
     },
     {
       "JCOD": "a6",
-      "MEAN": 2.42,
+      "MEAN": 2.13,
       "DICO": "0801",
       "DI": "08",
       "CONCELHO": "ALBUFEIRA",
@@ -51,7 +51,7 @@
     },
     {
       "JCOD": "a7",
-      "MEAN": 1.69,
+      "MEAN": 1.97,
       "DICO": "1501",
       "DI": "15",
       "CONCELHO": "ALCÁCER DO SAL",
@@ -59,7 +59,7 @@
     },
     {
       "JCOD": "a8",
-      "MEAN": 1.51,
+      "MEAN": 1.52,
       "DICO": "1402",
       "DI": "14",
       "CONCELHO": "ALCANENA",
@@ -67,7 +67,7 @@
     },
     {
       "JCOD": "a9",
-      "MEAN": 1.39,
+      "MEAN": 1.33,
       "DICO": "1001",
       "DI": "10",
       "CONCELHO": "ALCOBAÇA",
@@ -75,7 +75,7 @@
     },
     {
       "JCOD": "a10",
-      "MEAN": 1.73,
+      "MEAN": 1.51,
       "DICO": "1502",
       "DI": "15",
       "CONCELHO": "ALCOCHETE",
@@ -83,7 +83,7 @@
     },
     {
       "JCOD": "a11",
-      "MEAN": 2.57,
+      "MEAN": 2.24,
       "DICO": "0802",
       "DI": "08",
       "CONCELHO": "ALCOUTIM",
@@ -91,7 +91,7 @@
     },
     {
       "JCOD": "a12",
-      "MEAN": 1.39,
+      "MEAN": 1.38,
       "DICO": "1101",
       "DI": "11",
       "CONCELHO": "ALENQUER",
@@ -99,7 +99,7 @@
     },
     {
       "JCOD": "a13",
-      "MEAN": 1.17,
+      "MEAN": 1.53,
       "DICO": "0401",
       "DI": "04",
       "CONCELHO": "ALFÂNDEGA DA FÉ",
@@ -107,7 +107,7 @@
     },
     {
       "JCOD": "a14",
-      "MEAN": 0.96,
+      "MEAN": 1.1,
       "DICO": "1701",
       "DI": "17",
       "CONCELHO": "ALIJÓ",
@@ -115,7 +115,7 @@
     },
     {
       "JCOD": "a15",
-      "MEAN": 2.19,
+      "MEAN": 1.77,
       "DICO": "0803",
       "DI": "08",
       "CONCELHO": "ALJEZUR",
@@ -123,7 +123,7 @@
     },
     {
       "JCOD": "a16",
-      "MEAN": 2.17,
+      "MEAN": 2.13,
       "DICO": "0201",
       "DI": "02",
       "CONCELHO": "ALJUSTREL",
@@ -131,7 +131,7 @@
     },
     {
       "JCOD": "a17",
-      "MEAN": 1.64,
+      "MEAN": 1.48,
       "DICO": "1503",
       "DI": "15",
       "CONCELHO": "ALMADA",
@@ -139,7 +139,7 @@
     },
     {
       "JCOD": "a18",
-      "MEAN": 1.37,
+      "MEAN": 1.73,
       "DICO": "0902",
       "DI": "09",
       "CONCELHO": "ALMEIDA",
@@ -147,7 +147,7 @@
     },
     {
       "JCOD": "a19",
-      "MEAN": 1.71,
+      "MEAN": 1.7,
       "DICO": "1403",
       "DI": "14",
       "CONCELHO": "ALMEIRIM",
@@ -155,7 +155,7 @@
     },
     {
       "JCOD": "a20",
-      "MEAN": 2.41,
+      "MEAN": 2.11,
       "DICO": "0202",
       "DI": "02",
       "CONCELHO": "ALMODÔVAR",
@@ -171,7 +171,7 @@
     },
     {
       "JCOD": "a22",
-      "MEAN": 1.88,
+      "MEAN": 1.97,
       "DICO": "1201",
       "DI": "12",
       "CONCELHO": "ALTER DO CHÃO",
@@ -179,7 +179,7 @@
     },
     {
       "JCOD": "a23",
-      "MEAN": 1.43,
+      "MEAN": 1.85,
       "DICO": "1002",
       "DI": "10",
       "CONCELHO": "ALVAIÁZERE",
@@ -187,7 +187,7 @@
     },
     {
       "JCOD": "a24",
-      "MEAN": 2.01,
+      "MEAN": 2.42,
       "DICO": "0203",
       "DI": "02",
       "CONCELHO": "ALVITO",
@@ -195,7 +195,7 @@
     },
     {
       "JCOD": "a25",
-      "MEAN": 1.71,
+      "MEAN": 1.46,
       "DICO": "1115",
       "DI": "11",
       "CONCELHO": "AMADORA",
@@ -203,7 +203,7 @@
     },
     {
       "JCOD": "a26",
-      "MEAN": 0.96,
+      "MEAN": 1.14,
       "DICO": "1301",
       "DI": "13",
       "CONCELHO": "AMARANTE",
@@ -211,7 +211,7 @@
     },
     {
       "JCOD": "a27",
-      "MEAN": 0.97,
+      "MEAN": 1.29,
       "DICO": "0301",
       "DI": "03",
       "CONCELHO": "AMARES",
@@ -219,7 +219,7 @@
     },
     {
       "JCOD": "a28",
-      "MEAN": 1.25,
+      "MEAN": 1.42,
       "DICO": "0103",
       "DI": "01",
       "CONCELHO": "ANADIA",
@@ -227,7 +227,7 @@
     },
     {
       "JCOD": "a29",
-      "MEAN": 1.42,
+      "MEAN": 1.86,
       "DICO": "1003",
       "DI": "10",
       "CONCELHO": "ANSIÃO",
@@ -235,7 +235,7 @@
     },
     {
       "JCOD": "a30",
-      "MEAN": 0.96,
+      "MEAN": 1.45,
       "DICO": "1601",
       "DI": "16",
       "CONCELHO": "ARCOS DE VALDEVEZ",
@@ -243,7 +243,7 @@
     },
     {
       "JCOD": "a31",
-      "MEAN": 1.52,
+      "MEAN": 1.54,
       "DICO": "0601",
       "DI": "06",
       "CONCELHO": "ARGANIL",
@@ -251,7 +251,7 @@
     },
     {
       "JCOD": "a32",
-      "MEAN": 1.17,
+      "MEAN": 1.22,
       "DICO": "1801",
       "DI": "18",
       "CONCELHO": "ARMAMAR",
@@ -259,7 +259,7 @@
     },
     {
       "JCOD": "a33",
-      "MEAN": 0.99,
+      "MEAN": 1.11,
       "DICO": "0104",
       "DI": "01",
       "CONCELHO": "AROUCA",
@@ -267,7 +267,7 @@
     },
     {
       "JCOD": "a34",
-      "MEAN": 1.8,
+      "MEAN": 2.02,
       "DICO": "0702",
       "DI": "07",
       "CONCELHO": "ARRAIOLOS",
@@ -275,7 +275,7 @@
     },
     {
       "JCOD": "a35",
-      "MEAN": 2.02,
+      "MEAN": 2.09,
       "DICO": "1202",
       "DI": "12",
       "CONCELHO": "ARRONCHES",
@@ -283,7 +283,7 @@
     },
     {
       "JCOD": "a36",
-      "MEAN": 1.37,
+      "MEAN": 1.34,
       "DICO": "1102",
       "DI": "11",
       "CONCELHO": "ARRUDA DOS VINHOS",
@@ -291,7 +291,7 @@
     },
     {
       "JCOD": "a37",
-      "MEAN": 1.41,
+      "MEAN": 1.55,
       "DICO": "0105",
       "DI": "01",
       "CONCELHO": "AVEIRO",
@@ -307,7 +307,7 @@
     },
     {
       "JCOD": "a39",
-      "MEAN": 1.58,
+      "MEAN": 1.52,
       "DICO": "1103",
       "DI": "11",
       "CONCELHO": "AZAMBUJA",
@@ -315,7 +315,7 @@
     },
     {
       "JCOD": "a40",
-      "MEAN": 0.99,
+      "MEAN": 1.16,
       "DICO": "1302",
       "DI": "13",
       "CONCELHO": "BAIÃO",
@@ -323,7 +323,7 @@
     },
     {
       "JCOD": "a41",
-      "MEAN": 1.01,
+      "MEAN": 1.29,
       "DICO": "0302",
       "DI": "03",
       "CONCELHO": "BARCELOS",
@@ -331,7 +331,7 @@
     },
     {
       "JCOD": "a42",
-      "MEAN": 2.17,
+      "MEAN": 2.19,
       "DICO": "0204",
       "DI": "02",
       "CONCELHO": "BARRANCOS",
@@ -339,7 +339,7 @@
     },
     {
       "JCOD": "a43",
-      "MEAN": 1.83,
+      "MEAN": 1.49,
       "DICO": "1504",
       "DI": "15",
       "CONCELHO": "BARREIRO",
@@ -347,7 +347,7 @@
     },
     {
       "JCOD": "a44",
-      "MEAN": 1.44,
+      "MEAN": 1.54,
       "DICO": "1004",
       "DI": "10",
       "CONCELHO": "BATALHA",
@@ -355,7 +355,7 @@
     },
     {
       "JCOD": "a45",
-      "MEAN": 2.25,
+      "MEAN": 2.34,
       "DICO": "0205",
       "DI": "02",
       "CONCELHO": "BEJA",
@@ -363,7 +363,7 @@
     },
     {
       "JCOD": "a46",
-      "MEAN": 1.45,
+      "MEAN": 1.4,
       "DICO": "0501",
       "DI": "05",
       "CONCELHO": "BELMONTE",
@@ -371,7 +371,7 @@
     },
     {
       "JCOD": "a47",
-      "MEAN": 1.63,
+      "MEAN": 1.54,
       "DICO": "1405",
       "DI": "14",
       "CONCELHO": "BENAVENTE",
@@ -379,7 +379,7 @@
     },
     {
       "JCOD": "a48",
-      "MEAN": 1.43,
+      "MEAN": 1.4,
       "DICO": "1005",
       "DI": "10",
       "CONCELHO": "BOMBARRAL",
@@ -387,7 +387,7 @@
     },
     {
       "JCOD": "a49",
-      "MEAN": 1.76,
+      "MEAN": 1.8,
       "DICO": "0703",
       "DI": "07",
       "CONCELHO": "BORBA",
@@ -395,7 +395,7 @@
     },
     {
       "JCOD": "a50",
-      "MEAN": 0.93,
+      "MEAN": 1.18,
       "DICO": "1702",
       "DI": "17",
       "CONCELHO": "BOTICAS",
@@ -403,7 +403,7 @@
     },
     {
       "JCOD": "a51",
-      "MEAN": 0.99,
+      "MEAN": 1.3,
       "DICO": "0303",
       "DI": "03",
       "CONCELHO": "BRAGA",
@@ -411,7 +411,7 @@
     },
     {
       "JCOD": "a52",
-      "MEAN": 1.38,
+      "MEAN": 1.52,
       "DICO": "0402",
       "DI": "04",
       "CONCELHO": "BRAGANÇA",
@@ -419,7 +419,7 @@
     },
     {
       "JCOD": "a53",
-      "MEAN": 0.87,
+      "MEAN": 1.16,
       "DICO": "0304",
       "DI": "03",
       "CONCELHO": "CABECEIRAS DE BASTO",
@@ -427,7 +427,7 @@
     },
     {
       "JCOD": "a54",
-      "MEAN": 1.46,
+      "MEAN": 1.4,
       "DICO": "1104",
       "DI": "11",
       "CONCELHO": "CADAVAL",
@@ -435,7 +435,7 @@
     },
     {
       "JCOD": "a55",
-      "MEAN": 1.45,
+      "MEAN": 1.38,
       "DICO": "1006",
       "DI": "10",
       "CONCELHO": "CALDAS DA RAINHA",
@@ -443,7 +443,7 @@
     },
     {
       "JCOD": "a56",
-      "MEAN": 0.97,
+      "MEAN": 1.26,
       "DICO": "1602",
       "DI": "16",
       "CONCELHO": "CAMINHA",
@@ -451,7 +451,7 @@
     },
     {
       "JCOD": "a57",
-      "MEAN": 2.09,
+      "MEAN": 1.96,
       "DICO": "1204",
       "DI": "12",
       "CONCELHO": "CAMPO MAIOR",
@@ -459,7 +459,7 @@
     },
     {
       "JCOD": "a58",
-      "MEAN": 1.37,
+      "MEAN": 1.44,
       "DICO": "0602",
       "DI": "06",
       "CONCELHO": "CANTANHEDE",
@@ -467,7 +467,7 @@
     },
     {
       "JCOD": "a59",
-      "MEAN": 0.84,
+      "MEAN": 1.01,
       "DICO": "0403",
       "DI": "04",
       "CONCELHO": "CARRAZEDA DE ANSIÃES",
@@ -475,7 +475,7 @@
     },
     {
       "JCOD": "a60",
-      "MEAN": 1.47,
+      "MEAN": 1.54,
       "DICO": "1802",
       "DI": "18",
       "CONCELHO": "CARREGAL DO SAL",
@@ -483,7 +483,7 @@
     },
     {
       "JCOD": "a61",
-      "MEAN": 1.73,
+      "MEAN": 1.71,
       "DICO": "1406",
       "DI": "14",
       "CONCELHO": "CARTAXO",
@@ -491,7 +491,7 @@
     },
     {
       "JCOD": "a62",
-      "MEAN": 1.65,
+      "MEAN": 1.47,
       "DICO": "1105",
       "DI": "11",
       "CONCELHO": "CASCAIS",
@@ -499,7 +499,7 @@
     },
     {
       "JCOD": "a63",
-      "MEAN": 1.49,
+      "MEAN": 1.64,
       "DICO": "1007",
       "DI": "10",
       "CONCELHO": "CASTANHEIRA DE PÊRA",
@@ -507,7 +507,7 @@
     },
     {
       "JCOD": "a64",
-      "MEAN": 1.7,
+      "MEAN": 1.89,
       "DICO": "0502",
       "DI": "05",
       "CONCELHO": "CASTELO BRANCO",
@@ -515,7 +515,7 @@
     },
     {
       "JCOD": "a65",
-      "MEAN": 0.97,
+      "MEAN": 1.13,
       "DICO": "0106",
       "DI": "01",
       "CONCELHO": "CASTELO DE PAIVA",
@@ -523,7 +523,7 @@
     },
     {
       "JCOD": "a66",
-      "MEAN": 1.92,
+      "MEAN": 2.16,
       "DICO": "1205",
       "DI": "12",
       "CONCELHO": "CASTELO DE VIDE",
@@ -531,7 +531,7 @@
     },
     {
       "JCOD": "a67",
-      "MEAN": 1.14,
+      "MEAN": 1.27,
       "DICO": "1803",
       "DI": "18",
       "CONCELHO": "CASTRO DAIRE",
@@ -539,7 +539,7 @@
     },
     {
       "JCOD": "a68",
-      "MEAN": 2.94,
+      "MEAN": 2.42,
       "DICO": "0804",
       "DI": "08",
       "CONCELHO": "CASTRO MARIM",
@@ -547,7 +547,7 @@
     },
     {
       "JCOD": "a69",
-      "MEAN": 2.35,
+      "MEAN": 2.13,
       "DICO": "0206",
       "DI": "02",
       "CONCELHO": "CASTRO VERDE",
@@ -555,7 +555,7 @@
     },
     {
       "JCOD": "a70",
-      "MEAN": 1.43,
+      "MEAN": 1.75,
       "DICO": "0903",
       "DI": "09",
       "CONCELHO": "CELORICO DA BEIRA",
@@ -563,7 +563,7 @@
     },
     {
       "JCOD": "a71",
-      "MEAN": 0.9,
+      "MEAN": 1.15,
       "DICO": "0305",
       "DI": "03",
       "CONCELHO": "CELORICO DE BASTO",
@@ -571,7 +571,7 @@
     },
     {
       "JCOD": "a72",
-      "MEAN": 1.64,
+      "MEAN": 1.69,
       "DICO": "1407",
       "DI": "14",
       "CONCELHO": "CHAMUSCA",
@@ -579,7 +579,7 @@
     },
     {
       "JCOD": "a73",
-      "MEAN": 0.96,
+      "MEAN": 1.22,
       "DICO": "1703",
       "DI": "17",
       "CONCELHO": "CHAVES",
@@ -587,7 +587,7 @@
     },
     {
       "JCOD": "a74",
-      "MEAN": 1,
+      "MEAN": 1.17,
       "DICO": "1804",
       "DI": "18",
       "CONCELHO": "CINFÃES",
@@ -595,7 +595,7 @@
     },
     {
       "JCOD": "a75",
-      "MEAN": 1.48,
+      "MEAN": 1.39,
       "DICO": "0603",
       "DI": "06",
       "CONCELHO": "COIMBRA",
@@ -603,7 +603,7 @@
     },
     {
       "JCOD": "a76",
-      "MEAN": 1.52,
+      "MEAN": 1.49,
       "DICO": "0604",
       "DI": "06",
       "CONCELHO": "CONDEIXA-A-NOVA",
@@ -611,7 +611,7 @@
     },
     {
       "JCOD": "a77",
-      "MEAN": 1.62,
+      "MEAN": 1.73,
       "DICO": "1408",
       "DI": "14",
       "CONCELHO": "CONSTÂNCIA",
@@ -619,7 +619,7 @@
     },
     {
       "JCOD": "a78",
-      "MEAN": 1.66,
+      "MEAN": 1.68,
       "DICO": "1409",
       "DI": "14",
       "CONCELHO": "CORUCHE",
@@ -627,7 +627,7 @@
     },
     {
       "JCOD": "a79",
-      "MEAN": 1.5,
+      "MEAN": 1.41,
       "DICO": "0503",
       "DI": "05",
       "CONCELHO": "COVILHÃ",
@@ -635,7 +635,7 @@
     },
     {
       "JCOD": "a80",
-      "MEAN": 1.94,
+      "MEAN": 2.15,
       "DICO": "1206",
       "DI": "12",
       "CONCELHO": "CRATO",
@@ -643,7 +643,7 @@
     },
     {
       "JCOD": "a81",
-      "MEAN": 2.11,
+      "MEAN": 2.38,
       "DICO": "0207",
       "DI": "02",
       "CONCELHO": "CUBA",
@@ -651,7 +651,7 @@
     },
     {
       "JCOD": "a82",
-      "MEAN": 2.07,
+      "MEAN": 1.9,
       "DICO": "1207",
       "DI": "12",
       "CONCELHO": "ELVAS",
@@ -659,7 +659,7 @@
     },
     {
       "JCOD": "a83",
-      "MEAN": 1.54,
+      "MEAN": 1.6,
       "DICO": "1410",
       "DI": "14",
       "CONCELHO": "ENTRONCAMENTO",
@@ -667,7 +667,7 @@
     },
     {
       "JCOD": "a84",
-      "MEAN": 1.05,
+      "MEAN": 1.29,
       "DICO": "0107",
       "DI": "01",
       "CONCELHO": "ESPINHO",
@@ -675,7 +675,7 @@
     },
     {
       "JCOD": "a85",
-      "MEAN": 1.04,
+      "MEAN": 1.26,
       "DICO": "0306",
       "DI": "03",
       "CONCELHO": "ESPOSENDE",
@@ -683,7 +683,7 @@
     },
     {
       "JCOD": "a86",
-      "MEAN": 1.29,
+      "MEAN": 1.43,
       "DICO": "0108",
       "DI": "01",
       "CONCELHO": "ESTARREJA",
@@ -691,7 +691,7 @@
     },
     {
       "JCOD": "a87",
-      "MEAN": 1.78,
+      "MEAN": 1.86,
       "DICO": "0704",
       "DI": "07",
       "CONCELHO": "ESTREMOZ",
@@ -699,7 +699,7 @@
     },
     {
       "JCOD": "a88",
-      "MEAN": 1.92,
+      "MEAN": 2.37,
       "DICO": "0705",
       "DI": "07",
       "CONCELHO": "ÉVORA",
@@ -707,7 +707,7 @@
     },
     {
       "JCOD": "a89",
-      "MEAN": 0.92,
+      "MEAN": 1.2,
       "DICO": "0307",
       "DI": "03",
       "CONCELHO": "FAFE",
@@ -715,7 +715,7 @@
     },
     {
       "JCOD": "a90",
-      "MEAN": 2.4,
+      "MEAN": 2.15,
       "DICO": "0805",
       "DI": "08",
       "CONCELHO": "FARO",
@@ -723,7 +723,7 @@
     },
     {
       "JCOD": "a91",
-      "MEAN": 0.96,
+      "MEAN": 1.19,
       "DICO": "1303",
       "DI": "13",
       "CONCELHO": "FELGUEIRAS",
@@ -731,7 +731,7 @@
     },
     {
       "JCOD": "a92",
-      "MEAN": 2.08,
+      "MEAN": 2.19,
       "DICO": "0208",
       "DI": "02",
       "CONCELHO": "FERREIRA DO ALENTEJO",
@@ -739,7 +739,7 @@
     },
     {
       "JCOD": "a93",
-      "MEAN": 1.49,
+      "MEAN": 1.76,
       "DICO": "1411",
       "DI": "14",
       "CONCELHO": "FERREIRA DO ZÊZERE",
@@ -747,7 +747,7 @@
     },
     {
       "JCOD": "a94",
-      "MEAN": 1.44,
+      "MEAN": 1.5,
       "DICO": "0605",
       "DI": "06",
       "CONCELHO": "FIGUEIRA DA FOZ",
@@ -755,7 +755,7 @@
     },
     {
       "JCOD": "a95",
-      "MEAN": 1.26,
+      "MEAN": 1.75,
       "DICO": "0904",
       "DI": "09",
       "CONCELHO": "FIGUEIRA DE CASTELO RODRIGO",
@@ -763,7 +763,7 @@
     },
     {
       "JCOD": "a96",
-      "MEAN": 1.45,
+      "MEAN": 1.77,
       "DICO": "1008",
       "DI": "10",
       "CONCELHO": "FIGUEIRÓ DOS VINHOS",
@@ -771,7 +771,7 @@
     },
     {
       "JCOD": "a97",
-      "MEAN": 1.45,
+      "MEAN": 1.68,
       "DICO": "0905",
       "DI": "09",
       "CONCELHO": "FORNOS DE ALGODRES",
@@ -779,7 +779,7 @@
     },
     {
       "JCOD": "a98",
-      "MEAN": 1.21,
+      "MEAN": 1.57,
       "DICO": "0404",
       "DI": "04",
       "CONCELHO": "FREIXO DE ESPADA À CINTA",
@@ -787,7 +787,7 @@
     },
     {
       "JCOD": "a99",
-      "MEAN": 1.86,
+      "MEAN": 1.94,
       "DICO": "1208",
       "DI": "12",
       "CONCELHO": "FRONTEIRA",
@@ -795,7 +795,7 @@
     },
     {
       "JCOD": "a100",
-      "MEAN": 1.6,
+      "MEAN": 1.57,
       "DICO": "0504",
       "DI": "05",
       "CONCELHO": "FUNDÃO",
@@ -803,7 +803,7 @@
     },
     {
       "JCOD": "a101",
-      "MEAN": 1.75,
+      "MEAN": 1.91,
       "DICO": "1209",
       "DI": "12",
       "CONCELHO": "GAVIÃO",
@@ -811,7 +811,7 @@
     },
     {
       "JCOD": "a102",
-      "MEAN": 1.51,
+      "MEAN": 1.58,
       "DICO": "0606",
       "DI": "06",
       "CONCELHO": "GÓIS",
@@ -819,7 +819,7 @@
     },
     {
       "JCOD": "a103",
-      "MEAN": 1.57,
+      "MEAN": 1.62,
       "DICO": "1412",
       "DI": "14",
       "CONCELHO": "GOLEGÃ",
@@ -827,7 +827,7 @@
     },
     {
       "JCOD": "a104",
-      "MEAN": 1,
+      "MEAN": 1.23,
       "DICO": "1304",
       "DI": "13",
       "CONCELHO": "GONDOMAR",
@@ -835,7 +835,7 @@
     },
     {
       "JCOD": "a105",
-      "MEAN": 1.71,
+      "MEAN": 1.6,
       "DICO": "0906",
       "DI": "09",
       "CONCELHO": "GOUVEIA",
@@ -843,7 +843,7 @@
     },
     {
       "JCOD": "a106",
-      "MEAN": 1.87,
+      "MEAN": 1.96,
       "DICO": "1505",
       "DI": "15",
       "CONCELHO": "GRÂNDOLA",
@@ -851,7 +851,7 @@
     },
     {
       "JCOD": "a107",
-      "MEAN": 1.43,
+      "MEAN": 1.76,
       "DICO": "0907",
       "DI": "09",
       "CONCELHO": "GUARDA",
@@ -859,7 +859,7 @@
     },
     {
       "JCOD": "a108",
-      "MEAN": 0.97,
+      "MEAN": 1.27,
       "DICO": "0308",
       "DI": "03",
       "CONCELHO": "GUIMARÃES",
@@ -867,7 +867,7 @@
     },
     {
       "JCOD": "a109",
-      "MEAN": 1.95,
+      "MEAN": 2.07,
       "DICO": "0505",
       "DI": "05",
       "CONCELHO": "IDANHA-A-NOVA",
@@ -875,7 +875,7 @@
     },
     {
       "JCOD": "a110",
-      "MEAN": 1.43,
+      "MEAN": 1.56,
       "DICO": "0110",
       "DI": "01",
       "CONCELHO": "ÍLHAVO",
@@ -883,7 +883,7 @@
     },
     {
       "JCOD": "a111",
-      "MEAN": 2.39,
+      "MEAN": 1.97,
       "DICO": "0806",
       "DI": "08",
       "CONCELHO": "LAGOA",
@@ -891,7 +891,7 @@
     },
     {
       "JCOD": "a112",
-      "MEAN": 2.35,
+      "MEAN": 1.95,
       "DICO": "0807",
       "DI": "08",
       "CONCELHO": "LAGOS",
@@ -899,7 +899,7 @@
     },
     {
       "JCOD": "a113",
-      "MEAN": 1.1,
+      "MEAN": 1.2,
       "DICO": "1805",
       "DI": "18",
       "CONCELHO": "LAMEGO",
@@ -907,7 +907,7 @@
     },
     {
       "JCOD": "a114",
-      "MEAN": 1.44,
+      "MEAN": 1.63,
       "DICO": "1009",
       "DI": "10",
       "CONCELHO": "LEIRIA",
@@ -915,7 +915,7 @@
     },
     {
       "JCOD": "a115",
-      "MEAN": 1.77,
+      "MEAN": 1.48,
       "DICO": "1106",
       "DI": "11",
       "CONCELHO": "LISBOA",
@@ -923,7 +923,7 @@
     },
     {
       "JCOD": "a116",
-      "MEAN": 2.43,
+      "MEAN": 2.15,
       "DICO": "0808",
       "DI": "08",
       "CONCELHO": "LOULÉ",
@@ -931,7 +931,7 @@
     },
     {
       "JCOD": "a117",
-      "MEAN": 1.62,
+      "MEAN": 1.44,
       "DICO": "1107",
       "DI": "11",
       "CONCELHO": "LOURES",
@@ -939,7 +939,7 @@
     },
     {
       "JCOD": "a118",
-      "MEAN": 1.36,
+      "MEAN": 1.41,
       "DICO": "1108",
       "DI": "11",
       "CONCELHO": "LOURINHÃ",
@@ -947,7 +947,7 @@
     },
     {
       "JCOD": "a119",
-      "MEAN": 1.49,
+      "MEAN": 1.52,
       "DICO": "0607",
       "DI": "06",
       "CONCELHO": "LOUSÃ",
@@ -955,7 +955,7 @@
     },
     {
       "JCOD": "a120",
-      "MEAN": 0.96,
+      "MEAN": 1.19,
       "DICO": "1305",
       "DI": "13",
       "CONCELHO": "LOUSADA",
@@ -963,7 +963,7 @@
     },
     {
       "JCOD": "a121",
-      "MEAN": 1.63,
+      "MEAN": 1.85,
       "DICO": "1413",
       "DI": "14",
       "CONCELHO": "MAÇÃO",
@@ -971,7 +971,7 @@
     },
     {
       "JCOD": "a122",
-      "MEAN": 1.21,
+      "MEAN": 1.6,
       "DICO": "0405",
       "DI": "04",
       "CONCELHO": "MACEDO DE CAVALEIROS",
@@ -979,7 +979,7 @@
     },
     {
       "JCOD": "a123",
-      "MEAN": 1.39,
+      "MEAN": 1.38,
       "DICO": "1109",
       "DI": "11",
       "CONCELHO": "MAFRA",
@@ -987,7 +987,7 @@
     },
     {
       "JCOD": "a124",
-      "MEAN": 1.12,
+      "MEAN": 1.49,
       "DICO": "1306",
       "DI": "13",
       "CONCELHO": "MAIA",
@@ -995,7 +995,7 @@
     },
     {
       "JCOD": "a125",
-      "MEAN": 1.51,
+      "MEAN": 1.58,
       "DICO": "1806",
       "DI": "18",
       "CONCELHO": "MANGUALDE",
@@ -1003,7 +1003,7 @@
     },
     {
       "JCOD": "a126",
-      "MEAN": 1.77,
+      "MEAN": 1.54,
       "DICO": "0908",
       "DI": "09",
       "CONCELHO": "MANTEIGAS",
@@ -1011,7 +1011,7 @@
     },
     {
       "JCOD": "a127",
-      "MEAN": 0.94,
+      "MEAN": 1.14,
       "DICO": "1307",
       "DI": "13",
       "CONCELHO": "MARCO DE CANAVESES",
@@ -1019,7 +1019,7 @@
     },
     {
       "JCOD": "a128",
-      "MEAN": 1.44,
+      "MEAN": 1.59,
       "DICO": "1010",
       "DI": "10",
       "CONCELHO": "MARINHA GRANDE",
@@ -1027,7 +1027,7 @@
     },
     {
       "JCOD": "a129",
-      "MEAN": 2.02,
+      "MEAN": 2.3,
       "DICO": "1210",
       "DI": "12",
       "CONCELHO": "MARVÃO",
@@ -1035,7 +1035,7 @@
     },
     {
       "JCOD": "a130",
-      "MEAN": 1.11,
+      "MEAN": 1.49,
       "DICO": "1308",
       "DI": "13",
       "CONCELHO": "MATOSINHOS",
@@ -1043,7 +1043,7 @@
     },
     {
       "JCOD": "a131",
-      "MEAN": 1.33,
+      "MEAN": 1.41,
       "DICO": "0111",
       "DI": "01",
       "CONCELHO": "MEALHADA",
@@ -1051,7 +1051,7 @@
     },
     {
       "JCOD": "a132",
-      "MEAN": 1.26,
+      "MEAN": 1.59,
       "DICO": "0909",
       "DI": "09",
       "CONCELHO": "MÊDA",
@@ -1059,7 +1059,7 @@
     },
     {
       "JCOD": "a133",
-      "MEAN": 0.98,
+      "MEAN": 1.89,
       "DICO": "1603",
       "DI": "16",
       "CONCELHO": "MELGAÇO",
@@ -1067,7 +1067,7 @@
     },
     {
       "JCOD": "a134",
-      "MEAN": 2.37,
+      "MEAN": 2.17,
       "DICO": "0209",
       "DI": "02",
       "CONCELHO": "MÉRTOLA",
@@ -1075,7 +1075,7 @@
     },
     {
       "JCOD": "a135",
-      "MEAN": 1.03,
+      "MEAN": 1.14,
       "DICO": "1704",
       "DI": "17",
       "CONCELHO": "MESÃO FRIO",
@@ -1083,7 +1083,7 @@
     },
     {
       "JCOD": "a136",
-      "MEAN": 1.37,
+      "MEAN": 1.47,
       "DICO": "0608",
       "DI": "06",
       "CONCELHO": "MIRA",
@@ -1091,7 +1091,7 @@
     },
     {
       "JCOD": "a137",
-      "MEAN": 1.5,
+      "MEAN": 1.51,
       "DICO": "0609",
       "DI": "06",
       "CONCELHO": "MIRANDA DO CORVO",
@@ -1099,7 +1099,7 @@
     },
     {
       "JCOD": "a138",
-      "MEAN": 1.26,
+      "MEAN": 1.71,
       "DICO": "0406",
       "DI": "04",
       "CONCELHO": "MIRANDA DO DOURO",
@@ -1107,7 +1107,7 @@
     },
     {
       "JCOD": "a139",
-      "MEAN": 1.04,
+      "MEAN": 1.28,
       "DICO": "0407",
       "DI": "04",
       "CONCELHO": "MIRANDELA",
@@ -1115,7 +1115,7 @@
     },
     {
       "JCOD": "a140",
-      "MEAN": 1.3,
+      "MEAN": 1.99,
       "DICO": "0408",
       "DI": "04",
       "CONCELHO": "MOGADOURO",
@@ -1131,7 +1131,7 @@
     },
     {
       "JCOD": "a142",
-      "MEAN": 1.85,
+      "MEAN": 1.49,
       "DICO": "1506",
       "DI": "15",
       "CONCELHO": "MOITA",
@@ -1139,7 +1139,7 @@
     },
     {
       "JCOD": "a143",
-      "MEAN": 0.98,
+      "MEAN": 1.3,
       "DICO": "1604",
       "DI": "16",
       "CONCELHO": "MONÇÃO",
@@ -1147,7 +1147,7 @@
     },
     {
       "JCOD": "a144",
-      "MEAN": 2.58,
+      "MEAN": 2.54,
       "DICO": "0809",
       "DI": "08",
       "CONCELHO": "MONCHIQUE",
@@ -1155,7 +1155,7 @@
     },
     {
       "JCOD": "a145",
-      "MEAN": 0.92,
+      "MEAN": 1.12,
       "DICO": "1705",
       "DI": "17",
       "CONCELHO": "MONDIM DE BASTO",
@@ -1163,7 +1163,7 @@
     },
     {
       "JCOD": "a146",
-      "MEAN": 1.92,
+      "MEAN": 2,
       "DICO": "1211",
       "DI": "12",
       "CONCELHO": "MONFORTE",
@@ -1171,7 +1171,7 @@
     },
     {
       "JCOD": "a147",
-      "MEAN": 0.92,
+      "MEAN": 1.19,
       "DICO": "1706",
       "DI": "17",
       "CONCELHO": "MONTALEGRE",
@@ -1179,7 +1179,7 @@
     },
     {
       "JCOD": "a148",
-      "MEAN": 1.68,
+      "MEAN": 1.95,
       "DICO": "0706",
       "DI": "07",
       "CONCELHO": "MONTEMOR-O-NOVO",
@@ -1187,7 +1187,7 @@
     },
     {
       "JCOD": "a149",
-      "MEAN": 1.46,
+      "MEAN": 1.45,
       "DICO": "0610",
       "DI": "06",
       "CONCELHO": "MONTEMOR-O-VELHO",
@@ -1195,7 +1195,7 @@
     },
     {
       "JCOD": "a150",
-      "MEAN": 1.58,
+      "MEAN": 1.65,
       "DICO": "1507",
       "DI": "15",
       "CONCELHO": "MONTIJO",
@@ -1203,7 +1203,7 @@
     },
     {
       "JCOD": "a151",
-      "MEAN": 1.72,
+      "MEAN": 1.76,
       "DICO": "0707",
       "DI": "07",
       "CONCELHO": "MORA",
@@ -1211,7 +1211,7 @@
     },
     {
       "JCOD": "a152",
-      "MEAN": 1.35,
+      "MEAN": 1.44,
       "DICO": "1808",
       "DI": "18",
       "CONCELHO": "MORTÁGUA",
@@ -1219,7 +1219,7 @@
     },
     {
       "JCOD": "a153",
-      "MEAN": 2.18,
+      "MEAN": 2.21,
       "DICO": "0210",
       "DI": "02",
       "CONCELHO": "MOURA",
@@ -1227,7 +1227,7 @@
     },
     {
       "JCOD": "a154",
-      "MEAN": 2.12,
+      "MEAN": 2.18,
       "DICO": "0708",
       "DI": "07",
       "CONCELHO": "MOURÃO",
@@ -1235,7 +1235,7 @@
     },
     {
       "JCOD": "a155",
-      "MEAN": 0.97,
+      "MEAN": 1.15,
       "DICO": "1707",
       "DI": "17",
       "CONCELHO": "MURÇA",
@@ -1243,7 +1243,7 @@
     },
     {
       "JCOD": "a156",
-      "MEAN": 1.32,
+      "MEAN": 1.47,
       "DICO": "0112",
       "DI": "01",
       "CONCELHO": "MURTOSA",
@@ -1251,7 +1251,7 @@
     },
     {
       "JCOD": "a157",
-      "MEAN": 1.38,
+      "MEAN": 1.32,
       "DICO": "1011",
       "DI": "10",
       "CONCELHO": "NAZARÉ",
@@ -1259,7 +1259,7 @@
     },
     {
       "JCOD": "a158",
-      "MEAN": 1.51,
+      "MEAN": 1.58,
       "DICO": "1809",
       "DI": "18",
       "CONCELHO": "NELAS",
@@ -1267,7 +1267,7 @@
     },
     {
       "JCOD": "a159",
-      "MEAN": 1.78,
+      "MEAN": 1.98,
       "DICO": "1212",
       "DI": "12",
       "CONCELHO": "NISA",
@@ -1275,7 +1275,7 @@
     },
     {
       "JCOD": "a160",
-      "MEAN": 1.44,
+      "MEAN": 1.41,
       "DICO": "1012",
       "DI": "10",
       "CONCELHO": "ÓBIDOS",
@@ -1283,7 +1283,7 @@
     },
     {
       "JCOD": "a161",
-      "MEAN": 2.34,
+      "MEAN": 2.04,
       "DICO": "0211",
       "DI": "02",
       "CONCELHO": "ODEMIRA",
@@ -1291,7 +1291,7 @@
     },
     {
       "JCOD": "a162",
-      "MEAN": 1.72,
+      "MEAN": 1.47,
       "DICO": "1116",
       "DI": "11",
       "CONCELHO": "ODIVELAS",
@@ -1299,7 +1299,7 @@
     },
     {
       "JCOD": "a163",
-      "MEAN": 1.69,
+      "MEAN": 1.46,
       "DICO": "1110",
       "DI": "11",
       "CONCELHO": "OEIRAS",
@@ -1307,7 +1307,7 @@
     },
     {
       "JCOD": "a164",
-      "MEAN": 1.59,
+      "MEAN": 1.74,
       "DICO": "0506",
       "DI": "05",
       "CONCELHO": "OLEIROS",
@@ -1315,7 +1315,7 @@
     },
     {
       "JCOD": "a165",
-      "MEAN": 2.46,
+      "MEAN": 2.17,
       "DICO": "0810",
       "DI": "08",
       "CONCELHO": "OLHÃO",
@@ -1323,7 +1323,7 @@
     },
     {
       "JCOD": "a166",
-      "MEAN": 1.12,
+      "MEAN": 1.27,
       "DICO": "0113",
       "DI": "01",
       "CONCELHO": "OLIVEIRA DE AZEMÉIS",
@@ -1331,7 +1331,7 @@
     },
     {
       "JCOD": "a167",
-      "MEAN": 1.2,
+      "MEAN": 1.33,
       "DICO": "1810",
       "DI": "18",
       "CONCELHO": "OLIVEIRA DE FRADES",
@@ -1339,7 +1339,7 @@
     },
     {
       "JCOD": "a168",
-      "MEAN": 1.32,
+      "MEAN": 1.46,
       "DICO": "0114",
       "DI": "01",
       "CONCELHO": "OLIVEIRA DO BAIRRO",
@@ -1347,7 +1347,7 @@
     },
     {
       "JCOD": "a169",
-      "MEAN": 1.56,
+      "MEAN": 1.55,
       "DICO": "0611",
       "DI": "06",
       "CONCELHO": "OLIVEIRA DO HOSPITAL",
@@ -1355,7 +1355,7 @@
     },
     {
       "JCOD": "a170",
-      "MEAN": 1.46,
+      "MEAN": 1.65,
       "DICO": "1421",
       "DI": "14",
       "CONCELHO": "OURÉM",
@@ -1363,7 +1363,7 @@
     },
     {
       "JCOD": "a171",
-      "MEAN": 2.31,
+      "MEAN": 2.1,
       "DICO": "0212",
       "DI": "02",
       "CONCELHO": "OURIQUE",
@@ -1371,7 +1371,7 @@
     },
     {
       "JCOD": "a172",
-      "MEAN": 1.15,
+      "MEAN": 1.34,
       "DICO": "0115",
       "DI": "01",
       "CONCELHO": "OVAR",
@@ -1379,7 +1379,7 @@
     },
     {
       "JCOD": "a173",
-      "MEAN": 1,
+      "MEAN": 1.25,
       "DICO": "1309",
       "DI": "13",
       "CONCELHO": "PAÇOS DE FERREIRA",
@@ -1387,7 +1387,7 @@
     },
     {
       "JCOD": "a174",
-      "MEAN": 1.64,
+      "MEAN": 1.57,
       "DICO": "1508",
       "DI": "15",
       "CONCELHO": "PALMELA",
@@ -1395,7 +1395,7 @@
     },
     {
       "JCOD": "a175",
-      "MEAN": 1.56,
+      "MEAN": 1.62,
       "DICO": "0612",
       "DI": "06",
       "CONCELHO": "PAMPILHOSA DA SERRA",
@@ -1403,7 +1403,7 @@
     },
     {
       "JCOD": "a176",
-      "MEAN": 0.98,
+      "MEAN": 1.21,
       "DICO": "1310",
       "DI": "13",
       "CONCELHO": "PAREDES",
@@ -1411,7 +1411,7 @@
     },
     {
       "JCOD": "a177",
-      "MEAN": 0.95,
+      "MEAN": 1.28,
       "DICO": "1605",
       "DI": "16",
       "CONCELHO": "PAREDES DE COURA",
@@ -1419,7 +1419,7 @@
     },
     {
       "JCOD": "a178",
-      "MEAN": 1.48,
+      "MEAN": 1.71,
       "DICO": "1013",
       "DI": "10",
       "CONCELHO": "PEDRÓGÃO GRANDE",
@@ -1427,7 +1427,7 @@
     },
     {
       "JCOD": "a179",
-      "MEAN": 1.43,
+      "MEAN": 1.44,
       "DICO": "0613",
       "DI": "06",
       "CONCELHO": "PENACOVA",
@@ -1435,7 +1435,7 @@
     },
     {
       "JCOD": "a180",
-      "MEAN": 0.93,
+      "MEAN": 1.14,
       "DICO": "1311",
       "DI": "13",
       "CONCELHO": "PENAFIEL",
@@ -1443,7 +1443,7 @@
     },
     {
       "JCOD": "a181",
-      "MEAN": 1.44,
+      "MEAN": 1.58,
       "DICO": "1811",
       "DI": "18",
       "CONCELHO": "PENALVA DO CASTELO",
@@ -1451,7 +1451,7 @@
     },
     {
       "JCOD": "a182",
-      "MEAN": 1.58,
+      "MEAN": 1.7,
       "DICO": "0507",
       "DI": "05",
       "CONCELHO": "PENAMACOR",
@@ -1459,7 +1459,7 @@
     },
     {
       "JCOD": "a183",
-      "MEAN": 1.22,
+      "MEAN": 1.43,
       "DICO": "1812",
       "DI": "18",
       "CONCELHO": "PENEDONO",
@@ -1467,7 +1467,7 @@
     },
     {
       "JCOD": "a184",
-      "MEAN": 1.46,
+      "MEAN": 1.69,
       "DICO": "0614",
       "DI": "06",
       "CONCELHO": "PENELA",
@@ -1475,7 +1475,7 @@
     },
     {
       "JCOD": "a185",
-      "MEAN": 1.41,
+      "MEAN": 1.42,
       "DICO": "1014",
       "DI": "10",
       "CONCELHO": "PENICHE",
@@ -1483,7 +1483,7 @@
     },
     {
       "JCOD": "a186",
-      "MEAN": 1.04,
+      "MEAN": 1.11,
       "DICO": "1708",
       "DI": "17",
       "CONCELHO": "PESO DA RÉGUA",
@@ -1491,7 +1491,7 @@
     },
     {
       "JCOD": "a187",
-      "MEAN": 1.33,
+      "MEAN": 1.75,
       "DICO": "0910",
       "DI": "09",
       "CONCELHO": "PINHEL",
@@ -1499,7 +1499,7 @@
     },
     {
       "JCOD": "a188",
-      "MEAN": 1.45,
+      "MEAN": 1.66,
       "DICO": "1015",
       "DI": "10",
       "CONCELHO": "POMBAL",
@@ -1507,7 +1507,7 @@
     },
     {
       "JCOD": "a189",
-      "MEAN": 0.96,
+      "MEAN": 1.36,
       "DICO": "1606",
       "DI": "16",
       "CONCELHO": "PONTE DA BARCA",
@@ -1515,7 +1515,7 @@
     },
     {
       "JCOD": "a190",
-      "MEAN": 0.94,
+      "MEAN": 1.22,
       "DICO": "1607",
       "DI": "16",
       "CONCELHO": "PONTE DE LIMA",
@@ -1523,7 +1523,7 @@
     },
     {
       "JCOD": "a191",
-      "MEAN": 1.75,
+      "MEAN": 1.8,
       "DICO": "1213",
       "DI": "12",
       "CONCELHO": "PONTE DE SOR",
@@ -1531,7 +1531,7 @@
     },
     {
       "JCOD": "a192",
-      "MEAN": 2.08,
+      "MEAN": 2.38,
       "DICO": "1214",
       "DI": "12",
       "CONCELHO": "PORTALEGRE",
@@ -1539,7 +1539,7 @@
     },
     {
       "JCOD": "a193",
-      "MEAN": 2.08,
+      "MEAN": 2.3,
       "DICO": "0709",
       "DI": "07",
       "CONCELHO": "PORTEL",
@@ -1547,7 +1547,7 @@
     },
     {
       "JCOD": "a194",
-      "MEAN": 2.42,
+      "MEAN": 2.03,
       "DICO": "0811",
       "DI": "08",
       "CONCELHO": "PORTIMÃO",
@@ -1555,7 +1555,7 @@
     },
     {
       "JCOD": "a195",
-      "MEAN": 0.94,
+      "MEAN": 1.13,
       "DICO": "1312",
       "DI": "13",
       "CONCELHO": "PORTO",
@@ -1571,7 +1571,7 @@
     },
     {
       "JCOD": "a197",
-      "MEAN": 0.96,
+      "MEAN": 1.27,
       "DICO": "0309",
       "DI": "03",
       "CONCELHO": "PÓVOA DE LANHOSO",
@@ -1579,7 +1579,7 @@
     },
     {
       "JCOD": "a198",
-      "MEAN": 1.06,
+      "MEAN": 1.38,
       "DICO": "1313",
       "DI": "13",
       "CONCELHO": "PÓVOA DE VARZIM",
@@ -1587,7 +1587,7 @@
     },
     {
       "JCOD": "a199",
-      "MEAN": 1.61,
+      "MEAN": 1.86,
       "DICO": "0508",
       "DI": "05",
       "CONCELHO": "PROENÇA-A-NOVA",
@@ -1595,7 +1595,7 @@
     },
     {
       "JCOD": "a200",
-      "MEAN": 1.98,
+      "MEAN": 2.13,
       "DICO": "0710",
       "DI": "07",
       "CONCELHO": "REDONDO",
@@ -1603,7 +1603,7 @@
     },
     {
       "JCOD": "a201",
-      "MEAN": 2.13,
+      "MEAN": 2.2,
       "DICO": "0711",
       "DI": "07",
       "CONCELHO": "REGUENGOS DE MONSARAZ",
@@ -1611,7 +1611,7 @@
     },
     {
       "JCOD": "a202",
-      "MEAN": 1.05,
+      "MEAN": 1.19,
       "DICO": "1813",
       "DI": "18",
       "CONCELHO": "RESENDE",
@@ -1619,7 +1619,7 @@
     },
     {
       "JCOD": "a203",
-      "MEAN": 0.92,
+      "MEAN": 1.15,
       "DICO": "1709",
       "DI": "17",
       "CONCELHO": "RIBEIRA DE PENA",
@@ -1627,7 +1627,7 @@
     },
     {
       "JCOD": "a204",
-      "MEAN": 1.52,
+      "MEAN": 1.4,
       "DICO": "1414",
       "DI": "14",
       "CONCELHO": "RIO MAIOR",
@@ -1635,7 +1635,7 @@
     },
     {
       "JCOD": "a205",
-      "MEAN": 1.03,
+      "MEAN": 1.1,
       "DICO": "1710",
       "DI": "17",
       "CONCELHO": "SABROSA",
@@ -1643,7 +1643,7 @@
     },
     {
       "JCOD": "a206",
-      "MEAN": 1.49,
+      "MEAN": 1.7,
       "DICO": "0911",
       "DI": "09",
       "CONCELHO": "SABUGAL",
@@ -1651,7 +1651,7 @@
     },
     {
       "JCOD": "a207",
-      "MEAN": 1.66,
+      "MEAN": 1.62,
       "DICO": "1415",
       "DI": "14",
       "CONCELHO": "SALVATERRA DE MAGOS",
@@ -1659,7 +1659,7 @@
     },
     {
       "JCOD": "a208",
-      "MEAN": 1.42,
+      "MEAN": 1.49,
       "DICO": "1814",
       "DI": "18",
       "CONCELHO": "SANTA COMBA DÃO",
@@ -1667,7 +1667,7 @@
     },
     {
       "JCOD": "a209",
-      "MEAN": 1.05,
+      "MEAN": 1.24,
       "DICO": "0109",
       "DI": "01",
       "CONCELHO": "SANTA MARIA DA FEIRA",
@@ -1675,7 +1675,7 @@
     },
     {
       "JCOD": "a210",
-      "MEAN": 1.02,
+      "MEAN": 1.07,
       "DICO": "1711",
       "DI": "17",
       "CONCELHO": "SANTA MARTA DE PENAGUIÃO",
@@ -1683,7 +1683,7 @@
     },
     {
       "JCOD": "a211",
-      "MEAN": 1.62,
+      "MEAN": 1.6,
       "DICO": "1416",
       "DI": "14",
       "CONCELHO": "SANTARÉM",
@@ -1691,7 +1691,7 @@
     },
     {
       "JCOD": "a212",
-      "MEAN": 2.08,
+      "MEAN": 2,
       "DICO": "1509",
       "DI": "15",
       "CONCELHO": "SANTIAGO DO CACÉM",
@@ -1699,7 +1699,7 @@
     },
     {
       "JCOD": "a213",
-      "MEAN": 1.02,
+      "MEAN": 1.3,
       "DICO": "1314",
       "DI": "13",
       "CONCELHO": "SANTO TIRSO",
@@ -1707,7 +1707,7 @@
     },
     {
       "JCOD": "a214",
-      "MEAN": 2.47,
+      "MEAN": 2.17,
       "DICO": "0812",
       "DI": "08",
       "CONCELHO": "SÃO BRÁS DE ALPORTEL",
@@ -1715,7 +1715,7 @@
     },
     {
       "JCOD": "a215",
-      "MEAN": 1.09,
+      "MEAN": 1.25,
       "DICO": "0116",
       "DI": "01",
       "CONCELHO": "SÃO JOÃO DA MADEIRA",
@@ -1723,7 +1723,7 @@
     },
     {
       "JCOD": "a216",
-      "MEAN": 1.06,
+      "MEAN": 1.21,
       "DICO": "1815",
       "DI": "18",
       "CONCELHO": "SÃO JOÃO DA PESQUEIRA",
@@ -1731,7 +1731,7 @@
     },
     {
       "JCOD": "a217",
-      "MEAN": 1.12,
+      "MEAN": 1.26,
       "DICO": "1816",
       "DI": "18",
       "CONCELHO": "SÃO PEDRO DO SUL",
@@ -1739,7 +1739,7 @@
     },
     {
       "JCOD": "a218",
-      "MEAN": 1.61,
+      "MEAN": 1.79,
       "DICO": "1417",
       "DI": "14",
       "CONCELHO": "SARDOAL",
@@ -1747,7 +1747,7 @@
     },
     {
       "JCOD": "a219",
-      "MEAN": 1.34,
+      "MEAN": 1.5,
       "DICO": "1817",
       "DI": "18",
       "CONCELHO": "SÁTÃO",
@@ -1755,7 +1755,7 @@
     },
     {
       "JCOD": "a220",
-      "MEAN": 1.66,
+      "MEAN": 1.55,
       "DICO": "0912",
       "DI": "09",
       "CONCELHO": "SEIA",
@@ -1763,7 +1763,7 @@
     },
     {
       "JCOD": "a221",
-      "MEAN": 1.72,
+      "MEAN": 1.49,
       "DICO": "1510",
       "DI": "15",
       "CONCELHO": "SEIXAL",
@@ -1771,7 +1771,7 @@
     },
     {
       "JCOD": "a222",
-      "MEAN": 1.3,
+      "MEAN": 1.45,
       "DICO": "1818",
       "DI": "18",
       "CONCELHO": "SERNANCELHE",
@@ -1779,7 +1779,7 @@
     },
     {
       "JCOD": "a223",
-      "MEAN": 2.27,
+      "MEAN": 2.22,
       "DICO": "0213",
       "DI": "02",
       "CONCELHO": "SERPA",
@@ -1787,7 +1787,7 @@
     },
     {
       "JCOD": "a224",
-      "MEAN": 1.53,
+      "MEAN": 1.77,
       "DICO": "0509",
       "DI": "05",
       "CONCELHO": "SERTÃ",
@@ -1795,7 +1795,7 @@
     },
     {
       "JCOD": "a225",
-      "MEAN": 1.69,
+      "MEAN": 1.51,
       "DICO": "1511",
       "DI": "15",
       "CONCELHO": "SESIMBRA",
@@ -1803,7 +1803,7 @@
     },
     {
       "JCOD": "a226",
-      "MEAN": 1.71,
+      "MEAN": 1.5,
       "DICO": "1512",
       "DI": "15",
       "CONCELHO": "SETÚBAL",
@@ -1811,7 +1811,7 @@
     },
     {
       "JCOD": "a227",
-      "MEAN": 1.2,
+      "MEAN": 1.33,
       "DICO": "0117",
       "DI": "01",
       "CONCELHO": "SEVER DO VOUGA",
@@ -1819,7 +1819,7 @@
     },
     {
       "JCOD": "a228",
-      "MEAN": 2.45,
+      "MEAN": 2.2,
       "DICO": "0813",
       "DI": "08",
       "CONCELHO": "SILVES",
@@ -1827,7 +1827,7 @@
     },
     {
       "JCOD": "a229",
-      "MEAN": 2.09,
+      "MEAN": 2.05,
       "DICO": "1513",
       "DI": "15",
       "CONCELHO": "SINES",
@@ -1835,7 +1835,7 @@
     },
     {
       "JCOD": "a230",
-      "MEAN": 1.61,
+      "MEAN": 1.45,
       "DICO": "1111",
       "DI": "11",
       "CONCELHO": "SINTRA",
@@ -1843,7 +1843,7 @@
     },
     {
       "JCOD": "a231",
-      "MEAN": 1.24,
+      "MEAN": 1.26,
       "DICO": "1112",
       "DI": "11",
       "CONCELHO": "SOBRAL DE MONTE AGRAÇO",
@@ -1851,7 +1851,7 @@
     },
     {
       "JCOD": "a232",
-      "MEAN": 1.48,
+      "MEAN": 1.55,
       "DICO": "0615",
       "DI": "06",
       "CONCELHO": "SOURE",
@@ -1859,7 +1859,7 @@
     },
     {
       "JCOD": "a233",
-      "MEAN": 1.81,
+      "MEAN": 1.87,
       "DICO": "1215",
       "DI": "12",
       "CONCELHO": "SOUSEL",
@@ -1867,7 +1867,7 @@
     },
     {
       "JCOD": "a234",
-      "MEAN": 1.49,
+      "MEAN": 1.52,
       "DICO": "0616",
       "DI": "06",
       "CONCELHO": "TÁBUA",
@@ -1875,7 +1875,7 @@
     },
     {
       "JCOD": "a235",
-      "MEAN": 1.18,
+      "MEAN": 1.24,
       "DICO": "1819",
       "DI": "18",
       "CONCELHO": "TABUAÇO",
@@ -1883,7 +1883,7 @@
     },
     {
       "JCOD": "a236",
-      "MEAN": 1.2,
+      "MEAN": 1.26,
       "DICO": "1820",
       "DI": "18",
       "CONCELHO": "TAROUCA",
@@ -1891,7 +1891,7 @@
     },
     {
       "JCOD": "a237",
-      "MEAN": 2.62,
+      "MEAN": 2.25,
       "DICO": "0814",
       "DI": "08",
       "CONCELHO": "TAVIRA",
@@ -1899,7 +1899,7 @@
     },
     {
       "JCOD": "a238",
-      "MEAN": 0.95,
+      "MEAN": 1.33,
       "DICO": "0310",
       "DI": "03",
       "CONCELHO": "TERRAS DE BOURO",
@@ -1907,7 +1907,7 @@
     },
     {
       "JCOD": "a239",
-      "MEAN": 1.53,
+      "MEAN": 1.7,
       "DICO": "1418",
       "DI": "14",
       "CONCELHO": "TOMAR",
@@ -1915,7 +1915,7 @@
     },
     {
       "JCOD": "a240",
-      "MEAN": 1.36,
+      "MEAN": 1.46,
       "DICO": "1821",
       "DI": "18",
       "CONCELHO": "TONDELA",
@@ -1923,7 +1923,7 @@
     },
     {
       "JCOD": "a241",
-      "MEAN": 1.11,
+      "MEAN": 1.26,
       "DICO": "0409",
       "DI": "04",
       "CONCELHO": "TORRE DE MONCORVO",
@@ -1931,7 +1931,7 @@
     },
     {
       "JCOD": "a242",
-      "MEAN": 1.52,
+      "MEAN": 1.59,
       "DICO": "1419",
       "DI": "14",
       "CONCELHO": "TORRES NOVAS",
@@ -1939,7 +1939,7 @@
     },
     {
       "JCOD": "a243",
-      "MEAN": 1.26,
+      "MEAN": 1.35,
       "DICO": "1113",
       "DI": "11",
       "CONCELHO": "TORRES VEDRAS",
@@ -1947,7 +1947,7 @@
     },
     {
       "JCOD": "a244",
-      "MEAN": 1.36,
+      "MEAN": 1.83,
       "DICO": "0913",
       "DI": "09",
       "CONCELHO": "TRANCOSO",
@@ -1955,7 +1955,7 @@
     },
     {
       "JCOD": "a245",
-      "MEAN": 1.09,
+      "MEAN": 1.43,
       "DICO": "1318",
       "DI": "13",
       "CONCELHO": "TROFA",
@@ -1963,7 +1963,7 @@
     },
     {
       "JCOD": "a246",
-      "MEAN": 1.38,
+      "MEAN": 1.5,
       "DICO": "0118",
       "DI": "01",
       "CONCELHO": "VAGOS",
@@ -1971,7 +1971,7 @@
     },
     {
       "JCOD": "a247",
-      "MEAN": 1.06,
+      "MEAN": 1.18,
       "DICO": "0119",
       "DI": "01",
       "CONCELHO": "VALE DE CAMBRA",
@@ -1979,7 +1979,7 @@
     },
     {
       "JCOD": "a248",
-      "MEAN": 0.94,
+      "MEAN": 1.27,
       "DICO": "1608",
       "DI": "16",
       "CONCELHO": "VALENÇA",
@@ -1987,7 +1987,7 @@
     },
     {
       "JCOD": "a249",
-      "MEAN": 1.02,
+      "MEAN": 1.29,
       "DICO": "1315",
       "DI": "13",
       "CONCELHO": "VALONGO",
@@ -1995,7 +1995,7 @@
     },
     {
       "JCOD": "a250",
-      "MEAN": 1,
+      "MEAN": 1.23,
       "DICO": "1712",
       "DI": "17",
       "CONCELHO": "VALPAÇOS",
@@ -2003,7 +2003,7 @@
     },
     {
       "JCOD": "a251",
-      "MEAN": 1.54,
+      "MEAN": 1.75,
       "DICO": "0712",
       "DI": "07",
       "CONCELHO": "VENDAS NOVAS",
@@ -2011,7 +2011,7 @@
     },
     {
       "JCOD": "a252",
-      "MEAN": 1.84,
+      "MEAN": 2.36,
       "DICO": "0713",
       "DI": "07",
       "CONCELHO": "VIANA DO ALENTEJO",
@@ -2019,7 +2019,7 @@
     },
     {
       "JCOD": "a253",
-      "MEAN": 1.02,
+      "MEAN": 1.23,
       "DICO": "1609",
       "DI": "16",
       "CONCELHO": "VIANA DO CASTELO",
@@ -2027,7 +2027,7 @@
     },
     {
       "JCOD": "a254",
-      "MEAN": 2.15,
+      "MEAN": 2.32,
       "DICO": "0214",
       "DI": "02",
       "CONCELHO": "VIDIGUEIRA",
@@ -2035,7 +2035,7 @@
     },
     {
       "JCOD": "a255",
-      "MEAN": 0.92,
+      "MEAN": 1.25,
       "DICO": "0311",
       "DI": "03",
       "CONCELHO": "VIEIRA DO MINHO",
@@ -2043,7 +2043,7 @@
     },
     {
       "JCOD": "a256",
-      "MEAN": 1.57,
+      "MEAN": 1.79,
       "DICO": "0510",
       "DI": "05",
       "CONCELHO": "VILA DE REI",
@@ -2051,7 +2051,7 @@
     },
     {
       "JCOD": "a257",
-      "MEAN": 2.33,
+      "MEAN": 1.97,
       "DICO": "0815",
       "DI": "08",
       "CONCELHO": "VILA DO BISPO",
@@ -2059,7 +2059,7 @@
     },
     {
       "JCOD": "a258",
-      "MEAN": 1.13,
+      "MEAN": 1.52,
       "DICO": "1316",
       "DI": "13",
       "CONCELHO": "VILA DO CONDE",
@@ -2067,7 +2067,7 @@
     },
     {
       "JCOD": "a259",
-      "MEAN": 0.98,
+      "MEAN": 1.18,
       "DICO": "0410",
       "DI": "04",
       "CONCELHO": "VILA FLOR",
@@ -2075,7 +2075,7 @@
     },
     {
       "JCOD": "a260",
-      "MEAN": 1.58,
+      "MEAN": 1.46,
       "DICO": "1114",
       "DI": "11",
       "CONCELHO": "VILA FRANCA DE XIRA",
@@ -2083,7 +2083,7 @@
     },
     {
       "JCOD": "a261",
-      "MEAN": 1.57,
+      "MEAN": 1.66,
       "DICO": "1420",
       "DI": "14",
       "CONCELHO": "VILA NOVA DA BARQUINHA",
@@ -2091,7 +2091,7 @@
     },
     {
       "JCOD": "a262",
-      "MEAN": 0.94,
+      "MEAN": 1.26,
       "DICO": "1610",
       "DI": "16",
       "CONCELHO": "VILA NOVA DE CERVEIRA",
@@ -2099,7 +2099,7 @@
     },
     {
       "JCOD": "a263",
-      "MEAN": 1.02,
+      "MEAN": 1.33,
       "DICO": "0312",
       "DI": "03",
       "CONCELHO": "VILA NOVA DE FAMALICÃO",
@@ -2107,7 +2107,7 @@
     },
     {
       "JCOD": "a264",
-      "MEAN": 1.14,
+      "MEAN": 1.37,
       "DICO": "0914",
       "DI": "09",
       "CONCELHO": "VILA NOVA DE FOZ CÔA",
@@ -2115,7 +2115,7 @@
     },
     {
       "JCOD": "a265",
-      "MEAN": 1.01,
+      "MEAN": 1.24,
       "DICO": "1317",
       "DI": "13",
       "CONCELHO": "VILA NOVA DE GAIA",
@@ -2123,7 +2123,7 @@
     },
     {
       "JCOD": "a266",
-      "MEAN": 1.25,
+      "MEAN": 1.36,
       "DICO": "1822",
       "DI": "18",
       "CONCELHO": "VILA NOVA DE PAIVA",
@@ -2131,7 +2131,7 @@
     },
     {
       "JCOD": "a267",
-      "MEAN": 1.47,
+      "MEAN": 1.46,
       "DICO": "0617",
       "DI": "06",
       "CONCELHO": "VILA NOVA DE POIARES",
@@ -2139,7 +2139,7 @@
     },
     {
       "JCOD": "a268",
-      "MEAN": 0.96,
+      "MEAN": 1.17,
       "DICO": "1713",
       "DI": "17",
       "CONCELHO": "VILA POUCA DE AGUIAR",
@@ -2147,7 +2147,7 @@
     },
     {
       "JCOD": "a269",
-      "MEAN": 1.01,
+      "MEAN": 1.06,
       "DICO": "1714",
       "DI": "17",
       "CONCELHO": "VILA REAL",
@@ -2155,7 +2155,7 @@
     },
     {
       "JCOD": "a270",
-      "MEAN": 2.99,
+      "MEAN": 2.44,
       "DICO": "0816",
       "DI": "08",
       "CONCELHO": "VILA REAL DE SANTO ANTÓNIO",
@@ -2163,7 +2163,7 @@
     },
     {
       "JCOD": "a271",
-      "MEAN": 1.68,
+      "MEAN": 1.9,
       "DICO": "0511",
       "DI": "05",
       "CONCELHO": "VILA VELHA DE RÓDÃO",
@@ -2171,7 +2171,7 @@
     },
     {
       "JCOD": "a272",
-      "MEAN": 0.97,
+      "MEAN": 1.28,
       "DICO": "0313",
       "DI": "03",
       "CONCELHO": "VILA VERDE",
@@ -2179,7 +2179,7 @@
     },
     {
       "JCOD": "a273",
-      "MEAN": 1.94,
+      "MEAN": 1.92,
       "DICO": "0714",
       "DI": "07",
       "CONCELHO": "VILA VIÇOSA",
@@ -2187,7 +2187,7 @@
     },
     {
       "JCOD": "a274",
-      "MEAN": 1.29,
+      "MEAN": 1.73,
       "DICO": "0411",
       "DI": "04",
       "CONCELHO": "VIMIOSO",
@@ -2195,7 +2195,7 @@
     },
     {
       "JCOD": "a275",
-      "MEAN": 1.19,
+      "MEAN": 1.35,
       "DICO": "0412",
       "DI": "04",
       "CONCELHO": "VINHAIS",
@@ -2203,7 +2203,7 @@
     },
     {
       "JCOD": "a276",
-      "MEAN": 1.34,
+      "MEAN": 1.48,
       "DICO": "1823",
       "DI": "18",
       "CONCELHO": "VISEU",
@@ -2211,7 +2211,7 @@
     },
     {
       "JCOD": "a277",
-      "MEAN": 0.98,
+      "MEAN": 1.23,
       "DICO": "0314",
       "DI": "03",
       "CONCELHO": "VIZELA",
@@ -2219,7 +2219,7 @@
     },
     {
       "JCOD": "a278",
-      "MEAN": 1.26,
+      "MEAN": 1.38,
       "DICO": "1824",
       "DI": "18",
       "CONCELHO": "VOUZELA",
