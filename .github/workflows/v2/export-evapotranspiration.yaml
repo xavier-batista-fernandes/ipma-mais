@@ -1,0 +1,12 @@
+name: (v2) Export Evapotranspiration
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: '0 12 * * *'
+
+jobs:
+    v2-export-evapotranspiration:
+        uses: ./.github/workflows/export.yaml
+        with:
+            data-type: 'v2/evapotranspiration'

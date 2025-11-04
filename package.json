@@ -4,6 +4,7 @@
     "type": "module",
     "scripts": {
         "export:evapotranspiration": "node scripts/export --type evapotranspiration",
+        "export:v2/evapotranspiration": "node scripts/v2/export",
         "export:temperature-max": "node scripts/export --type temperature-max",
         "export:temperature-min": "node scripts/export --type temperature-min"
     },
