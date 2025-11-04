@@ -26,8 +26,10 @@ const et0Data = JSON.parse(todayMatch[1]);
 console.log(`Extracted ET0 data for: ${et0Data.data}`);
 
 // 3. Format today’s date for CSV entry
-const today = new Date().toISOString().split('T')[0];
-console.log(`Today: ${today}`);
+const date = new Date();
+date.setDate(date.getDate() - 1);
+const dateString = date.toISOString().split('T')[0];
+console.log(`Date: ${dateString}`);
 
 // 4. Loop through each municipality and save/update its CSV file
 et0Data.et0.forEach((municipality) => {
@@ -53,6 +55,7 @@ et0Data.et0.forEach((municipality) => {
         console.log(`Created file: ${filePath}`);
     }
 
+    // TODO: Decode date from the object instead of using today's date
     // // 4.4 Skip if entry for today already exists
     // const existingRows = fetchLocalCsv(filePath).split('\n');
     // if (existingRows.some((row) => row.startsWith(today))) {
