@@ -64,7 +64,7 @@ et0Data.et0.forEach((municipality) => {
     // }
 
     // 4.5 Append new row
-    const newRow = `${today},${MEAN}\n`;
+    const newRow = `${dateString},${MEAN}\n`;
     fs.appendFileSync(filePath, newRow);
     console.log(`🌱 Added new row: ${newRow.trim()}`);
 });
@@ -74,6 +74,6 @@ if (!fs.existsSync(RAW_JSON_DIR)) {
     fs.mkdirSync(RAW_JSON_DIR, { recursive: true });
 }
 
-const rawJsonPath = path.join(RAW_JSON_DIR, `et0-${today}.json`);
+const rawJsonPath = path.join(RAW_JSON_DIR, `et0-${dateString}.json`);
 fs.writeFileSync(rawJsonPath, JSON.stringify(et0Data, null, 2));
 console.log(`\nSaved detailed JSON to: ${rawJsonPath}`);
