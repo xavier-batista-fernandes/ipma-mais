@@ -1,0 +1,2229 @@
+{
+  "data": "Dom, 23 Nov 2025",
+  "et0": [
+    {
+      "JCOD": "a1",
+      "MEAN": 0.96,
+      "DICO": "1401",
+      "DI": "14",
+      "CONCELHO": "ABRANTES",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a2",
+      "MEAN": 0.76,
+      "DICO": "0101",
+      "DI": "01",
+      "CONCELHO": "ÁGUEDA",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a3",
+      "MEAN": 0.64,
+      "DICO": "0901",
+      "DI": "09",
+      "CONCELHO": "AGUIAR DA BEIRA",
+      "Distrito": "GUARDA"
+    },
+    {
+      "JCOD": "a4",
+      "MEAN": 1.26,
+      "DICO": "0701",
+      "DI": "07",
+      "CONCELHO": "ALANDROAL",
+      "Distrito": "ÉVORA"
+    },
+    {
+      "JCOD": "a5",
+      "MEAN": 0.84,
+      "DICO": "0102",
+      "DI": "01",
+      "CONCELHO": "ALBERGARIA-A-VELHA",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a6",
+      "MEAN": 1.71,
+      "DICO": "0801",
+      "DI": "08",
+      "CONCELHO": "ALBUFEIRA",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a7",
+      "MEAN": 1.12,
+      "DICO": "1501",
+      "DI": "15",
+      "CONCELHO": "ALCÁCER DO SAL",
+      "Distrito": "SETÚBAL"
+    },
+    {
+      "JCOD": "a8",
+      "MEAN": 0.85,
+      "DICO": "1402",
+      "DI": "14",
+      "CONCELHO": "ALCANENA",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a9",
+      "MEAN": 0.78,
+      "DICO": "1001",
+      "DI": "10",
+      "CONCELHO": "ALCOBAÇA",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a10",
+      "MEAN": 0.98,
+      "DICO": "1502",
+      "DI": "15",
+      "CONCELHO": "ALCOCHETE",
+      "Distrito": "SETÚBAL"
+    },
+    {
+      "JCOD": "a11",
+      "MEAN": 1.72,
+      "DICO": "0802",
+      "DI": "08",
+      "CONCELHO": "ALCOUTIM",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a12",
+      "MEAN": 0.92,
+      "DICO": "1101",
+      "DI": "11",
+      "CONCELHO": "ALENQUER",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a13",
+      "MEAN": 0.75,
+      "DICO": "0401",
+      "DI": "04",
+      "CONCELHO": "ALFÂNDEGA DA FÉ",
+      "Distrito": "BRAGANÇA"
+    },
+    {
+      "JCOD": "a14",
+      "MEAN": 0.58,
+      "DICO": "1701",
+      "DI": "17",
+      "CONCELHO": "ALIJÓ",
+      "Distrito": "VILA REAL"
+    },
+    {
+      "JCOD": "a15",
+      "MEAN": 1.31,
+      "DICO": "0803",
+      "DI": "08",
+      "CONCELHO": "ALJEZUR",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a16",
+      "MEAN": 1.33,
+      "DICO": "0201",
+      "DI": "02",
+      "CONCELHO": "ALJUSTREL",
+      "Distrito": "BEJA"
+    },
+    {
+      "JCOD": "a17",
+      "MEAN": 1.01,
+      "DICO": "1503",
+      "DI": "15",
+      "CONCELHO": "ALMADA",
+      "Distrito": "SETÚBAL"
+    },
+    {
+      "JCOD": "a18",
+      "MEAN": 0.79,
+      "DICO": "0902",
+      "DI": "09",
+      "CONCELHO": "ALMEIDA",
+      "Distrito": "GUARDA"
+    },
+    {
+      "JCOD": "a19",
+      "MEAN": 0.95,
+      "DICO": "1403",
+      "DI": "14",
+      "CONCELHO": "ALMEIRIM",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a20",
+      "MEAN": 1.47,
+      "DICO": "0202",
+      "DI": "02",
+      "CONCELHO": "ALMODÔVAR",
+      "Distrito": "BEJA"
+    },
+    {
+      "JCOD": "a21",
+      "MEAN": 0.94,
+      "DICO": "1404",
+      "DI": "14",
+      "CONCELHO": "ALPIARÇA",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a22",
+      "MEAN": 1.1,
+      "DICO": "1201",
+      "DI": "12",
+      "CONCELHO": "ALTER DO CHÃO",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a23",
+      "MEAN": 0.79,
+      "DICO": "1002",
+      "DI": "10",
+      "CONCELHO": "ALVAIÁZERE",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a24",
+      "MEAN": 1.28,
+      "DICO": "0203",
+      "DI": "02",
+      "CONCELHO": "ALVITO",
+      "Distrito": "BEJA"
+    },
+    {
+      "JCOD": "a25",
+      "MEAN": 0.98,
+      "DICO": "1115",
+      "DI": "11",
+      "CONCELHO": "AMADORA",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a26",
+      "MEAN": 0.55,
+      "DICO": "1301",
+      "DI": "13",
+      "CONCELHO": "AMARANTE",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a27",
+      "MEAN": 0.55,
+      "DICO": "0301",
+      "DI": "03",
+      "CONCELHO": "AMARES",
+      "Distrito": "BRAGA"
+    },
+    {
+      "JCOD": "a28",
+      "MEAN": 0.69,
+      "DICO": "0103",
+      "DI": "01",
+      "CONCELHO": "ANADIA",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a29",
+      "MEAN": 0.78,
+      "DICO": "1003",
+      "DI": "10",
+      "CONCELHO": "ANSIÃO",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a30",
+      "MEAN": 0.66,
+      "DICO": "1601",
+      "DI": "16",
+      "CONCELHO": "ARCOS DE VALDEVEZ",
+      "Distrito": "VIANA DO CASTELO"
+    },
+    {
+      "JCOD": "a31",
+      "MEAN": 0.77,
+      "DICO": "0601",
+      "DI": "06",
+      "CONCELHO": "ARGANIL",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a32",
+      "MEAN": 0.65,
+      "DICO": "1801",
+      "DI": "18",
+      "CONCELHO": "ARMAMAR",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a33",
+      "MEAN": 0.62,
+      "DICO": "0104",
+      "DI": "01",
+      "CONCELHO": "AROUCA",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a34",
+      "MEAN": 1.11,
+      "DICO": "0702",
+      "DI": "07",
+      "CONCELHO": "ARRAIOLOS",
+      "Distrito": "ÉVORA"
+    },
+    {
+      "JCOD": "a35",
+      "MEAN": 1.28,
+      "DICO": "1202",
+      "DI": "12",
+      "CONCELHO": "ARRONCHES",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a36",
+      "MEAN": 0.93,
+      "DICO": "1102",
+      "DI": "11",
+      "CONCELHO": "ARRUDA DOS VINHOS",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a37",
+      "MEAN": 0.97,
+      "DICO": "0105",
+      "DI": "01",
+      "CONCELHO": "AVEIRO",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a38",
+      "MEAN": 0.98,
+      "DICO": "1203",
+      "DI": "12",
+      "CONCELHO": "AVIS",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a39",
+      "MEAN": 0.91,
+      "DICO": "1103",
+      "DI": "11",
+      "CONCELHO": "AZAMBUJA",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a40",
+      "MEAN": 0.57,
+      "DICO": "1302",
+      "DI": "13",
+      "CONCELHO": "BAIÃO",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a41",
+      "MEAN": 0.58,
+      "DICO": "0302",
+      "DI": "03",
+      "CONCELHO": "BARCELOS",
+      "Distrito": "BRAGA"
+    },
+    {
+      "JCOD": "a42",
+      "MEAN": 1.35,
+      "DICO": "0204",
+      "DI": "02",
+      "CONCELHO": "BARRANCOS",
+      "Distrito": "BEJA"
+    },
+    {
+      "JCOD": "a43",
+      "MEAN": 1.01,
+      "DICO": "1504",
+      "DI": "15",
+      "CONCELHO": "BARREIRO",
+      "Distrito": "SETÚBAL"
+    },
+    {
+      "JCOD": "a44",
+      "MEAN": 0.84,
+      "DICO": "1004",
+      "DI": "10",
+      "CONCELHO": "BATALHA",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a45",
+      "MEAN": 1.48,
+      "DICO": "0205",
+      "DI": "02",
+      "CONCELHO": "BEJA",
+      "Distrito": "BEJA"
+    },
+    {
+      "JCOD": "a46",
+      "MEAN": 0.81,
+      "DICO": "0501",
+      "DI": "05",
+      "CONCELHO": "BELMONTE",
+      "Distrito": "CASTELO BRANCO"
+    },
+    {
+      "JCOD": "a47",
+      "MEAN": 0.95,
+      "DICO": "1405",
+      "DI": "14",
+      "CONCELHO": "BENAVENTE",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a48",
+      "MEAN": 0.92,
+      "DICO": "1005",
+      "DI": "10",
+      "CONCELHO": "BOMBARRAL",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a49",
+      "MEAN": 1.08,
+      "DICO": "0703",
+      "DI": "07",
+      "CONCELHO": "BORBA",
+      "Distrito": "ÉVORA"
+    },
+    {
+      "JCOD": "a50",
+      "MEAN": 0.54,
+      "DICO": "1702",
+      "DI": "17",
+      "CONCELHO": "BOTICAS",
+      "Distrito": "VILA REAL"
+    },
+    {
+      "JCOD": "a51",
+      "MEAN": 0.52,
+      "DICO": "0303",
+      "DI": "03",
+      "CONCELHO": "BRAGA",
+      "Distrito": "BRAGA"
+    },
+    {
+      "JCOD": "a52",
+      "MEAN": 0.84,
+      "DICO": "0402",
+      "DI": "04",
+      "CONCELHO": "BRAGANÇA",
+      "Distrito": "BRAGANÇA"
+    },
+    {
+      "JCOD": "a53",
+      "MEAN": 0.52,
+      "DICO": "0304",
+      "DI": "03",
+      "CONCELHO": "CABECEIRAS DE BASTO",
+      "Distrito": "BRAGA"
+    },
+    {
+      "JCOD": "a54",
+      "MEAN": 0.89,
+      "DICO": "1104",
+      "DI": "11",
+      "CONCELHO": "CADAVAL",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a55",
+      "MEAN": 0.83,
+      "DICO": "1006",
+      "DI": "10",
+      "CONCELHO": "CALDAS DA RAINHA",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a56",
+      "MEAN": 0.65,
+      "DICO": "1602",
+      "DI": "16",
+      "CONCELHO": "CAMINHA",
+      "Distrito": "VIANA DO CASTELO"
+    },
+    {
+      "JCOD": "a57",
+      "MEAN": 1.21,
+      "DICO": "1204",
+      "DI": "12",
+      "CONCELHO": "CAMPO MAIOR",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a58",
+      "MEAN": 0.78,
+      "DICO": "0602",
+      "DI": "06",
+      "CONCELHO": "CANTANHEDE",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a59",
+      "MEAN": 0.56,
+      "DICO": "0403",
+      "DI": "04",
+      "CONCELHO": "CARRAZEDA DE ANSIÃES",
+      "Distrito": "BRAGANÇA"
+    },
+    {
+      "JCOD": "a60",
+      "MEAN": 0.69,
+      "DICO": "1802",
+      "DI": "18",
+      "CONCELHO": "CARREGAL DO SAL",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a61",
+      "MEAN": 0.96,
+      "DICO": "1406",
+      "DI": "14",
+      "CONCELHO": "CARTAXO",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a62",
+      "MEAN": 0.99,
+      "DICO": "1105",
+      "DI": "11",
+      "CONCELHO": "CASCAIS",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a63",
+      "MEAN": 0.79,
+      "DICO": "1007",
+      "DI": "10",
+      "CONCELHO": "CASTANHEIRA DE PÊRA",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a64",
+      "MEAN": 1.01,
+      "DICO": "0502",
+      "DI": "05",
+      "CONCELHO": "CASTELO BRANCO",
+      "Distrito": "CASTELO BRANCO"
+    },
+    {
+      "JCOD": "a65",
+      "MEAN": 0.6,
+      "DICO": "0106",
+      "DI": "01",
+      "CONCELHO": "CASTELO DE PAIVA",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a66",
+      "MEAN": 1.25,
+      "DICO": "1205",
+      "DI": "12",
+      "CONCELHO": "CASTELO DE VIDE",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a67",
+      "MEAN": 0.62,
+      "DICO": "1803",
+      "DI": "18",
+      "CONCELHO": "CASTRO DAIRE",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a68",
+      "MEAN": 2.07,
+      "DICO": "0804",
+      "DI": "08",
+      "CONCELHO": "CASTRO MARIM",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a69",
+      "MEAN": 1.39,
+      "DICO": "0206",
+      "DI": "02",
+      "CONCELHO": "CASTRO VERDE",
+      "Distrito": "BEJA"
+    },
+    {
+      "JCOD": "a70",
+      "MEAN": 0.68,
+      "DICO": "0903",
+      "DI": "09",
+      "CONCELHO": "CELORICO DA BEIRA",
+      "Distrito": "GUARDA"
+    },
+    {
+      "JCOD": "a71",
+      "MEAN": 0.53,
+      "DICO": "0305",
+      "DI": "03",
+      "CONCELHO": "CELORICO DE BASTO",
+      "Distrito": "BRAGA"
+    },
+    {
+      "JCOD": "a72",
+      "MEAN": 0.93,
+      "DICO": "1407",
+      "DI": "14",
+      "CONCELHO": "CHAMUSCA",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a73",
+      "MEAN": 0.68,
+      "DICO": "1703",
+      "DI": "17",
+      "CONCELHO": "CHAVES",
+      "Distrito": "VILA REAL"
+    },
+    {
+      "JCOD": "a74",
+      "MEAN": 0.59,
+      "DICO": "1804",
+      "DI": "18",
+      "CONCELHO": "CINFÃES",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a75",
+      "MEAN": 0.74,
+      "DICO": "0603",
+      "DI": "06",
+      "CONCELHO": "COIMBRA",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a76",
+      "MEAN": 0.79,
+      "DICO": "0604",
+      "DI": "06",
+      "CONCELHO": "CONDEIXA-A-NOVA",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a77",
+      "MEAN": 0.93,
+      "DICO": "1408",
+      "DI": "14",
+      "CONCELHO": "CONSTÂNCIA",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a78",
+      "MEAN": 0.96,
+      "DICO": "1409",
+      "DI": "14",
+      "CONCELHO": "CORUCHE",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a79",
+      "MEAN": 0.85,
+      "DICO": "0503",
+      "DI": "05",
+      "CONCELHO": "COVILHÃ",
+      "Distrito": "CASTELO BRANCO"
+    },
+    {
+      "JCOD": "a80",
+      "MEAN": 1.25,
+      "DICO": "1206",
+      "DI": "12",
+      "CONCELHO": "CRATO",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a81",
+      "MEAN": 1.35,
+      "DICO": "0207",
+      "DI": "02",
+      "CONCELHO": "CUBA",
+      "Distrito": "BEJA"
+    },
+    {
+      "JCOD": "a82",
+      "MEAN": 1.16,
+      "DICO": "1207",
+      "DI": "12",
+      "CONCELHO": "ELVAS",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a83",
+      "MEAN": 0.88,
+      "DICO": "1410",
+      "DI": "14",
+      "CONCELHO": "ENTRONCAMENTO",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a84",
+      "MEAN": 0.66,
+      "DICO": "0107",
+      "DI": "01",
+      "CONCELHO": "ESPINHO",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a85",
+      "MEAN": 0.59,
+      "DICO": "0306",
+      "DI": "03",
+      "CONCELHO": "ESPOSENDE",
+      "Distrito": "BRAGA"
+    },
+    {
+      "JCOD": "a86",
+      "MEAN": 0.84,
+      "DICO": "0108",
+      "DI": "01",
+      "CONCELHO": "ESTARREJA",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a87",
+      "MEAN": 1.09,
+      "DICO": "0704",
+      "DI": "07",
+      "CONCELHO": "ESTREMOZ",
+      "Distrito": "ÉVORA"
+    },
+    {
+      "JCOD": "a88",
+      "MEAN": 1.23,
+      "DICO": "0705",
+      "DI": "07",
+      "CONCELHO": "ÉVORA",
+      "Distrito": "ÉVORA"
+    },
+    {
+      "JCOD": "a89",
+      "MEAN": 0.54,
+      "DICO": "0307",
+      "DI": "03",
+      "CONCELHO": "FAFE",
+      "Distrito": "BRAGA"
+    },
+    {
+      "JCOD": "a90",
+      "MEAN": 1.75,
+      "DICO": "0805",
+      "DI": "08",
+      "CONCELHO": "FARO",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a91",
+      "MEAN": 0.56,
+      "DICO": "1303",
+      "DI": "13",
+      "CONCELHO": "FELGUEIRAS",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a92",
+      "MEAN": 1.29,
+      "DICO": "0208",
+      "DI": "02",
+      "CONCELHO": "FERREIRA DO ALENTEJO",
+      "Distrito": "BEJA"
+    },
+    {
+      "JCOD": "a93",
+      "MEAN": 0.84,
+      "DICO": "1411",
+      "DI": "14",
+      "CONCELHO": "FERREIRA DO ZÊZERE",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a94",
+      "MEAN": 0.8,
+      "DICO": "0605",
+      "DI": "06",
+      "CONCELHO": "FIGUEIRA DA FOZ",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a95",
+      "MEAN": 0.69,
+      "DICO": "0904",
+      "DI": "09",
+      "CONCELHO": "FIGUEIRA DE CASTELO RODRIGO",
+      "Distrito": "GUARDA"
+    },
+    {
+      "JCOD": "a96",
+      "MEAN": 0.79,
+      "DICO": "1008",
+      "DI": "10",
+      "CONCELHO": "FIGUEIRÓ DOS VINHOS",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a97",
+      "MEAN": 0.64,
+      "DICO": "0905",
+      "DI": "09",
+      "CONCELHO": "FORNOS DE ALGODRES",
+      "Distrito": "GUARDA"
+    },
+    {
+      "JCOD": "a98",
+      "MEAN": 0.78,
+      "DICO": "0404",
+      "DI": "04",
+      "CONCELHO": "FREIXO DE ESPADA À CINTA",
+      "Distrito": "BRAGANÇA"
+    },
+    {
+      "JCOD": "a99",
+      "MEAN": 1.11,
+      "DICO": "1208",
+      "DI": "12",
+      "CONCELHO": "FRONTEIRA",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a100",
+      "MEAN": 0.91,
+      "DICO": "0504",
+      "DI": "05",
+      "CONCELHO": "FUNDÃO",
+      "Distrito": "CASTELO BRANCO"
+    },
+    {
+      "JCOD": "a101",
+      "MEAN": 1.04,
+      "DICO": "1209",
+      "DI": "12",
+      "CONCELHO": "GAVIÃO",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a102",
+      "MEAN": 0.79,
+      "DICO": "0606",
+      "DI": "06",
+      "CONCELHO": "GÓIS",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a103",
+      "MEAN": 0.9,
+      "DICO": "1412",
+      "DI": "14",
+      "CONCELHO": "GOLEGÃ",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a104",
+      "MEAN": 0.62,
+      "DICO": "1304",
+      "DI": "13",
+      "CONCELHO": "GONDOMAR",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a105",
+      "MEAN": 0.53,
+      "DICO": "0906",
+      "DI": "09",
+      "CONCELHO": "GOUVEIA",
+      "Distrito": "GUARDA"
+    },
+    {
+      "JCOD": "a106",
+      "MEAN": 1.17,
+      "DICO": "1505",
+      "DI": "15",
+      "CONCELHO": "GRÂNDOLA",
+      "Distrito": "SETÚBAL"
+    },
+    {
+      "JCOD": "a107",
+      "MEAN": 0.78,
+      "DICO": "0907",
+      "DI": "09",
+      "CONCELHO": "GUARDA",
+      "Distrito": "GUARDA"
+    },
+    {
+      "JCOD": "a108",
+      "MEAN": 0.55,
+      "DICO": "0308",
+      "DI": "03",
+      "CONCELHO": "GUIMARÃES",
+      "Distrito": "BRAGA"
+    },
+    {
+      "JCOD": "a109",
+      "MEAN": 1.03,
+      "DICO": "0505",
+      "DI": "05",
+      "CONCELHO": "IDANHA-A-NOVA",
+      "Distrito": "CASTELO BRANCO"
+    },
+    {
+      "JCOD": "a110",
+      "MEAN": 0.98,
+      "DICO": "0110",
+      "DI": "01",
+      "CONCELHO": "ÍLHAVO",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a111",
+      "MEAN": 1.64,
+      "DICO": "0806",
+      "DI": "08",
+      "CONCELHO": "LAGOA",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a112",
+      "MEAN": 1.59,
+      "DICO": "0807",
+      "DI": "08",
+      "CONCELHO": "LAGOS",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a113",
+      "MEAN": 0.61,
+      "DICO": "1805",
+      "DI": "18",
+      "CONCELHO": "LAMEGO",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a114",
+      "MEAN": 0.87,
+      "DICO": "1009",
+      "DI": "10",
+      "CONCELHO": "LEIRIA",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a115",
+      "MEAN": 1,
+      "DICO": "1106",
+      "DI": "11",
+      "CONCELHO": "LISBOA",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a116",
+      "MEAN": 1.67,
+      "DICO": "0808",
+      "DI": "08",
+      "CONCELHO": "LOULÉ",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a117",
+      "MEAN": 0.98,
+      "DICO": "1107",
+      "DI": "11",
+      "CONCELHO": "LOURES",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a118",
+      "MEAN": 1.01,
+      "DICO": "1108",
+      "DI": "11",
+      "CONCELHO": "LOURINHÃ",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a119",
+      "MEAN": 0.77,
+      "DICO": "0607",
+      "DI": "06",
+      "CONCELHO": "LOUSÃ",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a120",
+      "MEAN": 0.57,
+      "DICO": "1305",
+      "DI": "13",
+      "CONCELHO": "LOUSADA",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a121",
+      "MEAN": 0.99,
+      "DICO": "1413",
+      "DI": "14",
+      "CONCELHO": "MAÇÃO",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a122",
+      "MEAN": 0.71,
+      "DICO": "0405",
+      "DI": "04",
+      "CONCELHO": "MACEDO DE CAVALEIROS",
+      "Distrito": "BRAGANÇA"
+    },
+    {
+      "JCOD": "a123",
+      "MEAN": 0.99,
+      "DICO": "1109",
+      "DI": "11",
+      "CONCELHO": "MAFRA",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a124",
+      "MEAN": 0.71,
+      "DICO": "1306",
+      "DI": "13",
+      "CONCELHO": "MAIA",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a125",
+      "MEAN": 0.63,
+      "DICO": "1806",
+      "DI": "18",
+      "CONCELHO": "MANGUALDE",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a126",
+      "MEAN": 0.51,
+      "DICO": "0908",
+      "DI": "09",
+      "CONCELHO": "MANTEIGAS",
+      "Distrito": "GUARDA"
+    },
+    {
+      "JCOD": "a127",
+      "MEAN": 0.56,
+      "DICO": "1307",
+      "DI": "13",
+      "CONCELHO": "MARCO DE CANAVESES",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a128",
+      "MEAN": 0.86,
+      "DICO": "1010",
+      "DI": "10",
+      "CONCELHO": "MARINHA GRANDE",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a129",
+      "MEAN": 1.38,
+      "DICO": "1210",
+      "DI": "12",
+      "CONCELHO": "MARVÃO",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a130",
+      "MEAN": 0.71,
+      "DICO": "1308",
+      "DI": "13",
+      "CONCELHO": "MATOSINHOS",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a131",
+      "MEAN": 0.71,
+      "DICO": "0111",
+      "DI": "01",
+      "CONCELHO": "MEALHADA",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a132",
+      "MEAN": 0.66,
+      "DICO": "0909",
+      "DI": "09",
+      "CONCELHO": "MÊDA",
+      "Distrito": "GUARDA"
+    },
+    {
+      "JCOD": "a133",
+      "MEAN": 0.67,
+      "DICO": "1603",
+      "DI": "16",
+      "CONCELHO": "MELGAÇO",
+      "Distrito": "VIANA DO CASTELO"
+    },
+    {
+      "JCOD": "a134",
+      "MEAN": 1.5,
+      "DICO": "0209",
+      "DI": "02",
+      "CONCELHO": "MÉRTOLA",
+      "Distrito": "BEJA"
+    },
+    {
+      "JCOD": "a135",
+      "MEAN": 0.57,
+      "DICO": "1704",
+      "DI": "17",
+      "CONCELHO": "MESÃO FRIO",
+      "Distrito": "VILA REAL"
+    },
+    {
+      "JCOD": "a136",
+      "MEAN": 0.85,
+      "DICO": "0608",
+      "DI": "06",
+      "CONCELHO": "MIRA",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a137",
+      "MEAN": 0.77,
+      "DICO": "0609",
+      "DI": "06",
+      "CONCELHO": "MIRANDA DO CORVO",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a138",
+      "MEAN": 0.73,
+      "DICO": "0406",
+      "DI": "04",
+      "CONCELHO": "MIRANDA DO DOURO",
+      "Distrito": "BRAGANÇA"
+    },
+    {
+      "JCOD": "a139",
+      "MEAN": 0.65,
+      "DICO": "0407",
+      "DI": "04",
+      "CONCELHO": "MIRANDELA",
+      "Distrito": "BRAGANÇA"
+    },
+    {
+      "JCOD": "a140",
+      "MEAN": 0.72,
+      "DICO": "0408",
+      "DI": "04",
+      "CONCELHO": "MOGADOURO",
+      "Distrito": "BRAGANÇA"
+    },
+    {
+      "JCOD": "a141",
+      "MEAN": 0.71,
+      "DICO": "1807",
+      "DI": "18",
+      "CONCELHO": "MOIMENTA DA BEIRA",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a142",
+      "MEAN": 1.02,
+      "DICO": "1506",
+      "DI": "15",
+      "CONCELHO": "MOITA",
+      "Distrito": "SETÚBAL"
+    },
+    {
+      "JCOD": "a143",
+      "MEAN": 0.77,
+      "DICO": "1604",
+      "DI": "16",
+      "CONCELHO": "MONÇÃO",
+      "Distrito": "VIANA DO CASTELO"
+    },
+    {
+      "JCOD": "a144",
+      "MEAN": 2.23,
+      "DICO": "0809",
+      "DI": "08",
+      "CONCELHO": "MONCHIQUE",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a145",
+      "MEAN": 0.53,
+      "DICO": "1705",
+      "DI": "17",
+      "CONCELHO": "MONDIM DE BASTO",
+      "Distrito": "VILA REAL"
+    },
+    {
+      "JCOD": "a146",
+      "MEAN": 1.19,
+      "DICO": "1211",
+      "DI": "12",
+      "CONCELHO": "MONFORTE",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a147",
+      "MEAN": 0.47,
+      "DICO": "1706",
+      "DI": "17",
+      "CONCELHO": "MONTALEGRE",
+      "Distrito": "VILA REAL"
+    },
+    {
+      "JCOD": "a148",
+      "MEAN": 1.06,
+      "DICO": "0706",
+      "DI": "07",
+      "CONCELHO": "MONTEMOR-O-NOVO",
+      "Distrito": "ÉVORA"
+    },
+    {
+      "JCOD": "a149",
+      "MEAN": 0.77,
+      "DICO": "0610",
+      "DI": "06",
+      "CONCELHO": "MONTEMOR-O-VELHO",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a150",
+      "MEAN": 0.91,
+      "DICO": "1507",
+      "DI": "15",
+      "CONCELHO": "MONTIJO",
+      "Distrito": "SETÚBAL"
+    },
+    {
+      "JCOD": "a151",
+      "MEAN": 1.02,
+      "DICO": "0707",
+      "DI": "07",
+      "CONCELHO": "MORA",
+      "Distrito": "ÉVORA"
+    },
+    {
+      "JCOD": "a152",
+      "MEAN": 0.72,
+      "DICO": "1808",
+      "DI": "18",
+      "CONCELHO": "MORTÁGUA",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a153",
+      "MEAN": 1.35,
+      "DICO": "0210",
+      "DI": "02",
+      "CONCELHO": "MOURA",
+      "Distrito": "BEJA"
+    },
+    {
+      "JCOD": "a154",
+      "MEAN": 1.32,
+      "DICO": "0708",
+      "DI": "07",
+      "CONCELHO": "MOURÃO",
+      "Distrito": "ÉVORA"
+    },
+    {
+      "JCOD": "a155",
+      "MEAN": 0.61,
+      "DICO": "1707",
+      "DI": "17",
+      "CONCELHO": "MURÇA",
+      "Distrito": "VILA REAL"
+    },
+    {
+      "JCOD": "a156",
+      "MEAN": 0.88,
+      "DICO": "0112",
+      "DI": "01",
+      "CONCELHO": "MURTOSA",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a157",
+      "MEAN": 0.77,
+      "DICO": "1011",
+      "DI": "10",
+      "CONCELHO": "NAZARÉ",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a158",
+      "MEAN": 0.66,
+      "DICO": "1809",
+      "DI": "18",
+      "CONCELHO": "NELAS",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a159",
+      "MEAN": 1.1,
+      "DICO": "1212",
+      "DI": "12",
+      "CONCELHO": "NISA",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a160",
+      "MEAN": 0.89,
+      "DICO": "1012",
+      "DI": "10",
+      "CONCELHO": "ÓBIDOS",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a161",
+      "MEAN": 1.46,
+      "DICO": "0211",
+      "DI": "02",
+      "CONCELHO": "ODEMIRA",
+      "Distrito": "BEJA"
+    },
+    {
+      "JCOD": "a162",
+      "MEAN": 0.99,
+      "DICO": "1116",
+      "DI": "11",
+      "CONCELHO": "ODIVELAS",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a163",
+      "MEAN": 0.98,
+      "DICO": "1110",
+      "DI": "11",
+      "CONCELHO": "OEIRAS",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a164",
+      "MEAN": 0.91,
+      "DICO": "0506",
+      "DI": "05",
+      "CONCELHO": "OLEIROS",
+      "Distrito": "CASTELO BRANCO"
+    },
+    {
+      "JCOD": "a165",
+      "MEAN": 1.76,
+      "DICO": "0810",
+      "DI": "08",
+      "CONCELHO": "OLHÃO",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a166",
+      "MEAN": 0.71,
+      "DICO": "0113",
+      "DI": "01",
+      "CONCELHO": "OLIVEIRA DE AZEMÉIS",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a167",
+      "MEAN": 0.69,
+      "DICO": "1810",
+      "DI": "18",
+      "CONCELHO": "OLIVEIRA DE FRADES",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a168",
+      "MEAN": 0.79,
+      "DICO": "0114",
+      "DI": "01",
+      "CONCELHO": "OLIVEIRA DO BAIRRO",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a169",
+      "MEAN": 0.69,
+      "DICO": "0611",
+      "DI": "06",
+      "CONCELHO": "OLIVEIRA DO HOSPITAL",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a170",
+      "MEAN": 0.83,
+      "DICO": "1421",
+      "DI": "14",
+      "CONCELHO": "OURÉM",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a171",
+      "MEAN": 1.46,
+      "DICO": "0212",
+      "DI": "02",
+      "CONCELHO": "OURIQUE",
+      "Distrito": "BEJA"
+    },
+    {
+      "JCOD": "a172",
+      "MEAN": 0.74,
+      "DICO": "0115",
+      "DI": "01",
+      "CONCELHO": "OVAR",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a173",
+      "MEAN": 0.6,
+      "DICO": "1309",
+      "DI": "13",
+      "CONCELHO": "PAÇOS DE FERREIRA",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a174",
+      "MEAN": 0.91,
+      "DICO": "1508",
+      "DI": "15",
+      "CONCELHO": "PALMELA",
+      "Distrito": "SETÚBAL"
+    },
+    {
+      "JCOD": "a175",
+      "MEAN": 0.83,
+      "DICO": "0612",
+      "DI": "06",
+      "CONCELHO": "PAMPILHOSA DA SERRA",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a176",
+      "MEAN": 0.6,
+      "DICO": "1310",
+      "DI": "13",
+      "CONCELHO": "PAREDES",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a177",
+      "MEAN": 0.69,
+      "DICO": "1605",
+      "DI": "16",
+      "CONCELHO": "PAREDES DE COURA",
+      "Distrito": "VIANA DO CASTELO"
+    },
+    {
+      "JCOD": "a178",
+      "MEAN": 0.81,
+      "DICO": "1013",
+      "DI": "10",
+      "CONCELHO": "PEDRÓGÃO GRANDE",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a179",
+      "MEAN": 0.73,
+      "DICO": "0613",
+      "DI": "06",
+      "CONCELHO": "PENACOVA",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a180",
+      "MEAN": 0.56,
+      "DICO": "1311",
+      "DI": "13",
+      "CONCELHO": "PENAFIEL",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a181",
+      "MEAN": 0.65,
+      "DICO": "1811",
+      "DI": "18",
+      "CONCELHO": "PENALVA DO CASTELO",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a182",
+      "MEAN": 1,
+      "DICO": "0507",
+      "DI": "05",
+      "CONCELHO": "PENAMACOR",
+      "Distrito": "CASTELO BRANCO"
+    },
+    {
+      "JCOD": "a183",
+      "MEAN": 0.66,
+      "DICO": "1812",
+      "DI": "18",
+      "CONCELHO": "PENEDONO",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a184",
+      "MEAN": 0.78,
+      "DICO": "0614",
+      "DI": "06",
+      "CONCELHO": "PENELA",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a185",
+      "MEAN": 0.97,
+      "DICO": "1014",
+      "DI": "10",
+      "CONCELHO": "PENICHE",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a186",
+      "MEAN": 0.56,
+      "DICO": "1708",
+      "DI": "17",
+      "CONCELHO": "PESO DA RÉGUA",
+      "Distrito": "VILA REAL"
+    },
+    {
+      "JCOD": "a187",
+      "MEAN": 0.7,
+      "DICO": "0910",
+      "DI": "09",
+      "CONCELHO": "PINHEL",
+      "Distrito": "GUARDA"
+    },
+    {
+      "JCOD": "a188",
+      "MEAN": 0.82,
+      "DICO": "1015",
+      "DI": "10",
+      "CONCELHO": "POMBAL",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a189",
+      "MEAN": 0.6,
+      "DICO": "1606",
+      "DI": "16",
+      "CONCELHO": "PONTE DA BARCA",
+      "Distrito": "VIANA DO CASTELO"
+    },
+    {
+      "JCOD": "a190",
+      "MEAN": 0.57,
+      "DICO": "1607",
+      "DI": "16",
+      "CONCELHO": "PONTE DE LIMA",
+      "Distrito": "VIANA DO CASTELO"
+    },
+    {
+      "JCOD": "a191",
+      "MEAN": 0.99,
+      "DICO": "1213",
+      "DI": "12",
+      "CONCELHO": "PONTE DE SOR",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a192",
+      "MEAN": 1.46,
+      "DICO": "1214",
+      "DI": "12",
+      "CONCELHO": "PORTALEGRE",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a193",
+      "MEAN": 1.3,
+      "DICO": "0709",
+      "DI": "07",
+      "CONCELHO": "PORTEL",
+      "Distrito": "ÉVORA"
+    },
+    {
+      "JCOD": "a194",
+      "MEAN": 1.73,
+      "DICO": "0811",
+      "DI": "08",
+      "CONCELHO": "PORTIMÃO",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a195",
+      "MEAN": 0.58,
+      "DICO": "1312",
+      "DI": "13",
+      "CONCELHO": "PORTO",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a196",
+      "MEAN": 0.81,
+      "DICO": "1016",
+      "DI": "10",
+      "CONCELHO": "PORTO DE MÓS",
+      "Distrito": "LEIRIA"
+    },
+    {
+      "JCOD": "a197",
+      "MEAN": 0.55,
+      "DICO": "0309",
+      "DI": "03",
+      "CONCELHO": "PÓVOA DE LANHOSO",
+      "Distrito": "BRAGA"
+    },
+    {
+      "JCOD": "a198",
+      "MEAN": 0.65,
+      "DICO": "1313",
+      "DI": "13",
+      "CONCELHO": "PÓVOA DE VARZIM",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a199",
+      "MEAN": 0.99,
+      "DICO": "0508",
+      "DI": "05",
+      "CONCELHO": "PROENÇA-A-NOVA",
+      "Distrito": "CASTELO BRANCO"
+    },
+    {
+      "JCOD": "a200",
+      "MEAN": 1.23,
+      "DICO": "0710",
+      "DI": "07",
+      "CONCELHO": "REDONDO",
+      "Distrito": "ÉVORA"
+    },
+    {
+      "JCOD": "a201",
+      "MEAN": 1.34,
+      "DICO": "0711",
+      "DI": "07",
+      "CONCELHO": "REGUENGOS DE MONSARAZ",
+      "Distrito": "ÉVORA"
+    },
+    {
+      "JCOD": "a202",
+      "MEAN": 0.6,
+      "DICO": "1813",
+      "DI": "18",
+      "CONCELHO": "RESENDE",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a203",
+      "MEAN": 0.54,
+      "DICO": "1709",
+      "DI": "17",
+      "CONCELHO": "RIBEIRA DE PENA",
+      "Distrito": "VILA REAL"
+    },
+    {
+      "JCOD": "a204",
+      "MEAN": 0.81,
+      "DICO": "1414",
+      "DI": "14",
+      "CONCELHO": "RIO MAIOR",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a205",
+      "MEAN": 0.56,
+      "DICO": "1710",
+      "DI": "17",
+      "CONCELHO": "SABROSA",
+      "Distrito": "VILA REAL"
+    },
+    {
+      "JCOD": "a206",
+      "MEAN": 1.04,
+      "DICO": "0911",
+      "DI": "09",
+      "CONCELHO": "SABUGAL",
+      "Distrito": "GUARDA"
+    },
+    {
+      "JCOD": "a207",
+      "MEAN": 0.95,
+      "DICO": "1415",
+      "DI": "14",
+      "CONCELHO": "SALVATERRA DE MAGOS",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a208",
+      "MEAN": 0.72,
+      "DICO": "1814",
+      "DI": "18",
+      "CONCELHO": "SANTA COMBA DÃO",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a209",
+      "MEAN": 0.66,
+      "DICO": "0109",
+      "DI": "01",
+      "CONCELHO": "SANTA MARIA DA FEIRA",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a210",
+      "MEAN": 0.54,
+      "DICO": "1711",
+      "DI": "17",
+      "CONCELHO": "SANTA MARTA DE PENAGUIÃO",
+      "Distrito": "VILA REAL"
+    },
+    {
+      "JCOD": "a211",
+      "MEAN": 0.9,
+      "DICO": "1416",
+      "DI": "14",
+      "CONCELHO": "SANTARÉM",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a212",
+      "MEAN": 1.27,
+      "DICO": "1509",
+      "DI": "15",
+      "CONCELHO": "SANTIAGO DO CACÉM",
+      "Distrito": "SETÚBAL"
+    },
+    {
+      "JCOD": "a213",
+      "MEAN": 0.62,
+      "DICO": "1314",
+      "DI": "13",
+      "CONCELHO": "SANTO TIRSO",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a214",
+      "MEAN": 1.72,
+      "DICO": "0812",
+      "DI": "08",
+      "CONCELHO": "SÃO BRÁS DE ALPORTEL",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a215",
+      "MEAN": 0.68,
+      "DICO": "0116",
+      "DI": "01",
+      "CONCELHO": "SÃO JOÃO DA MADEIRA",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a216",
+      "MEAN": 0.63,
+      "DICO": "1815",
+      "DI": "18",
+      "CONCELHO": "SÃO JOÃO DA PESQUEIRA",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a217",
+      "MEAN": 0.64,
+      "DICO": "1816",
+      "DI": "18",
+      "CONCELHO": "SÃO PEDRO DO SUL",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a218",
+      "MEAN": 0.94,
+      "DICO": "1417",
+      "DI": "14",
+      "CONCELHO": "SARDOAL",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a219",
+      "MEAN": 0.65,
+      "DICO": "1817",
+      "DI": "18",
+      "CONCELHO": "SÁTÃO",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a220",
+      "MEAN": 0.62,
+      "DICO": "0912",
+      "DI": "09",
+      "CONCELHO": "SEIA",
+      "Distrito": "GUARDA"
+    },
+    {
+      "JCOD": "a221",
+      "MEAN": 1.01,
+      "DICO": "1510",
+      "DI": "15",
+      "CONCELHO": "SEIXAL",
+      "Distrito": "SETÚBAL"
+    },
+    {
+      "JCOD": "a222",
+      "MEAN": 0.67,
+      "DICO": "1818",
+      "DI": "18",
+      "CONCELHO": "SERNANCELHE",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a223",
+      "MEAN": 1.45,
+      "DICO": "0213",
+      "DI": "02",
+      "CONCELHO": "SERPA",
+      "Distrito": "BEJA"
+    },
+    {
+      "JCOD": "a224",
+      "MEAN": 0.89,
+      "DICO": "0509",
+      "DI": "05",
+      "CONCELHO": "SERTÃ",
+      "Distrito": "CASTELO BRANCO"
+    },
+    {
+      "JCOD": "a225",
+      "MEAN": 1,
+      "DICO": "1511",
+      "DI": "15",
+      "CONCELHO": "SESIMBRA",
+      "Distrito": "SETÚBAL"
+    },
+    {
+      "JCOD": "a226",
+      "MEAN": 0.93,
+      "DICO": "1512",
+      "DI": "15",
+      "CONCELHO": "SETÚBAL",
+      "Distrito": "SETÚBAL"
+    },
+    {
+      "JCOD": "a227",
+      "MEAN": 0.72,
+      "DICO": "0117",
+      "DI": "01",
+      "CONCELHO": "SEVER DO VOUGA",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a228",
+      "MEAN": 1.79,
+      "DICO": "0813",
+      "DI": "08",
+      "CONCELHO": "SILVES",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a229",
+      "MEAN": 1.32,
+      "DICO": "1513",
+      "DI": "15",
+      "CONCELHO": "SINES",
+      "Distrito": "SETÚBAL"
+    },
+    {
+      "JCOD": "a230",
+      "MEAN": 0.99,
+      "DICO": "1111",
+      "DI": "11",
+      "CONCELHO": "SINTRA",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a231",
+      "MEAN": 0.91,
+      "DICO": "1112",
+      "DI": "11",
+      "CONCELHO": "SOBRAL DE MONTE AGRAÇO",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a232",
+      "MEAN": 0.79,
+      "DICO": "0615",
+      "DI": "06",
+      "CONCELHO": "SOURE",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a233",
+      "MEAN": 1.06,
+      "DICO": "1215",
+      "DI": "12",
+      "CONCELHO": "SOUSEL",
+      "Distrito": "PORTALEGRE"
+    },
+    {
+      "JCOD": "a234",
+      "MEAN": 0.73,
+      "DICO": "0616",
+      "DI": "06",
+      "CONCELHO": "TÁBUA",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a235",
+      "MEAN": 0.66,
+      "DICO": "1819",
+      "DI": "18",
+      "CONCELHO": "TABUAÇO",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a236",
+      "MEAN": 0.66,
+      "DICO": "1820",
+      "DI": "18",
+      "CONCELHO": "TAROUCA",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a237",
+      "MEAN": 1.8,
+      "DICO": "0814",
+      "DI": "08",
+      "CONCELHO": "TAVIRA",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a238",
+      "MEAN": 0.57,
+      "DICO": "0310",
+      "DI": "03",
+      "CONCELHO": "TERRAS DE BOURO",
+      "Distrito": "BRAGA"
+    },
+    {
+      "JCOD": "a239",
+      "MEAN": 0.87,
+      "DICO": "1418",
+      "DI": "14",
+      "CONCELHO": "TOMAR",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a240",
+      "MEAN": 0.71,
+      "DICO": "1821",
+      "DI": "18",
+      "CONCELHO": "TONDELA",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a241",
+      "MEAN": 0.86,
+      "DICO": "0409",
+      "DI": "04",
+      "CONCELHO": "TORRE DE MONCORVO",
+      "Distrito": "BRAGANÇA"
+    },
+    {
+      "JCOD": "a242",
+      "MEAN": 0.86,
+      "DICO": "1419",
+      "DI": "14",
+      "CONCELHO": "TORRES NOVAS",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a243",
+      "MEAN": 1.02,
+      "DICO": "1113",
+      "DI": "11",
+      "CONCELHO": "TORRES VEDRAS",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a244",
+      "MEAN": 0.6,
+      "DICO": "0913",
+      "DI": "09",
+      "CONCELHO": "TRANCOSO",
+      "Distrito": "GUARDA"
+    },
+    {
+      "JCOD": "a245",
+      "MEAN": 0.68,
+      "DICO": "1318",
+      "DI": "13",
+      "CONCELHO": "TROFA",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a246",
+      "MEAN": 0.87,
+      "DICO": "0118",
+      "DI": "01",
+      "CONCELHO": "VAGOS",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a247",
+      "MEAN": 0.66,
+      "DICO": "0119",
+      "DI": "01",
+      "CONCELHO": "VALE DE CAMBRA",
+      "Distrito": "AVEIRO"
+    },
+    {
+      "JCOD": "a248",
+      "MEAN": 0.76,
+      "DICO": "1608",
+      "DI": "16",
+      "CONCELHO": "VALENÇA",
+      "Distrito": "VIANA DO CASTELO"
+    },
+    {
+      "JCOD": "a249",
+      "MEAN": 0.64,
+      "DICO": "1315",
+      "DI": "13",
+      "CONCELHO": "VALONGO",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a250",
+      "MEAN": 0.66,
+      "DICO": "1712",
+      "DI": "17",
+      "CONCELHO": "VALPAÇOS",
+      "Distrito": "VILA REAL"
+    },
+    {
+      "JCOD": "a251",
+      "MEAN": 0.91,
+      "DICO": "0712",
+      "DI": "07",
+      "CONCELHO": "VENDAS NOVAS",
+      "Distrito": "ÉVORA"
+    },
+    {
+      "JCOD": "a252",
+      "MEAN": 1.24,
+      "DICO": "0713",
+      "DI": "07",
+      "CONCELHO": "VIANA DO ALENTEJO",
+      "Distrito": "ÉVORA"
+    },
+    {
+      "JCOD": "a253",
+      "MEAN": 0.59,
+      "DICO": "1609",
+      "DI": "16",
+      "CONCELHO": "VIANA DO CASTELO",
+      "Distrito": "VIANA DO CASTELO"
+    },
+    {
+      "JCOD": "a254",
+      "MEAN": 1.37,
+      "DICO": "0214",
+      "DI": "02",
+      "CONCELHO": "VIDIGUEIRA",
+      "Distrito": "BEJA"
+    },
+    {
+      "JCOD": "a255",
+      "MEAN": 0.55,
+      "DICO": "0311",
+      "DI": "03",
+      "CONCELHO": "VIEIRA DO MINHO",
+      "Distrito": "BRAGA"
+    },
+    {
+      "JCOD": "a256",
+      "MEAN": 0.92,
+      "DICO": "0510",
+      "DI": "05",
+      "CONCELHO": "VILA DE REI",
+      "Distrito": "CASTELO BRANCO"
+    },
+    {
+      "JCOD": "a257",
+      "MEAN": 1.54,
+      "DICO": "0815",
+      "DI": "08",
+      "CONCELHO": "VILA DO BISPO",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a258",
+      "MEAN": 0.72,
+      "DICO": "1316",
+      "DI": "13",
+      "CONCELHO": "VILA DO CONDE",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a259",
+      "MEAN": 0.67,
+      "DICO": "0410",
+      "DI": "04",
+      "CONCELHO": "VILA FLOR",
+      "Distrito": "BRAGANÇA"
+    },
+    {
+      "JCOD": "a260",
+      "MEAN": 0.96,
+      "DICO": "1114",
+      "DI": "11",
+      "CONCELHO": "VILA FRANCA DE XIRA",
+      "Distrito": "LISBOA"
+    },
+    {
+      "JCOD": "a261",
+      "MEAN": 0.89,
+      "DICO": "1420",
+      "DI": "14",
+      "CONCELHO": "VILA NOVA DA BARQUINHA",
+      "Distrito": "SANTARÉM"
+    },
+    {
+      "JCOD": "a262",
+      "MEAN": 0.73,
+      "DICO": "1610",
+      "DI": "16",
+      "CONCELHO": "VILA NOVA DE CERVEIRA",
+      "Distrito": "VIANA DO CASTELO"
+    },
+    {
+      "JCOD": "a263",
+      "MEAN": 0.6,
+      "DICO": "0312",
+      "DI": "03",
+      "CONCELHO": "VILA NOVA DE FAMALICÃO",
+      "Distrito": "BRAGA"
+    },
+    {
+      "JCOD": "a264",
+      "MEAN": 0.71,
+      "DICO": "0914",
+      "DI": "09",
+      "CONCELHO": "VILA NOVA DE FOZ CÔA",
+      "Distrito": "GUARDA"
+    },
+    {
+      "JCOD": "a265",
+      "MEAN": 0.63,
+      "DICO": "1317",
+      "DI": "13",
+      "CONCELHO": "VILA NOVA DE GAIA",
+      "Distrito": "PORTO"
+    },
+    {
+      "JCOD": "a266",
+      "MEAN": 0.65,
+      "DICO": "1822",
+      "DI": "18",
+      "CONCELHO": "VILA NOVA DE PAIVA",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a267",
+      "MEAN": 0.75,
+      "DICO": "0617",
+      "DI": "06",
+      "CONCELHO": "VILA NOVA DE POIARES",
+      "Distrito": "COIMBRA"
+    },
+    {
+      "JCOD": "a268",
+      "MEAN": 0.58,
+      "DICO": "1713",
+      "DI": "17",
+      "CONCELHO": "VILA POUCA DE AGUIAR",
+      "Distrito": "VILA REAL"
+    },
+    {
+      "JCOD": "a269",
+      "MEAN": 0.53,
+      "DICO": "1714",
+      "DI": "17",
+      "CONCELHO": "VILA REAL",
+      "Distrito": "VILA REAL"
+    },
+    {
+      "JCOD": "a270",
+      "MEAN": 2.11,
+      "DICO": "0816",
+      "DI": "08",
+      "CONCELHO": "VILA REAL DE SANTO ANTÓNIO",
+      "Distrito": "FARO"
+    },
+    {
+      "JCOD": "a271",
+      "MEAN": 1.02,
+      "DICO": "0511",
+      "DI": "05",
+      "CONCELHO": "VILA VELHA DE RÓDÃO",
+      "Distrito": "CASTELO BRANCO"
+    },
+    {
+      "JCOD": "a272",
+      "MEAN": 0.55,
+      "DICO": "0313",
+      "DI": "03",
+      "CONCELHO": "VILA VERDE",
+      "Distrito": "BRAGA"
+    },
+    {
+      "JCOD": "a273",
+      "MEAN": 1.14,
+      "DICO": "0714",
+      "DI": "07",
+      "CONCELHO": "VILA VIÇOSA",
+      "Distrito": "ÉVORA"
+    },
+    {
+      "JCOD": "a274",
+      "MEAN": 0.75,
+      "DICO": "0411",
+      "DI": "04",
+      "CONCELHO": "VIMIOSO",
+      "Distrito": "BRAGANÇA"
+    },
+    {
+      "JCOD": "a275",
+      "MEAN": 0.74,
+      "DICO": "0412",
+      "DI": "04",
+      "CONCELHO": "VINHAIS",
+      "Distrito": "BRAGANÇA"
+    },
+    {
+      "JCOD": "a276",
+      "MEAN": 0.66,
+      "DICO": "1823",
+      "DI": "18",
+      "CONCELHO": "VISEU",
+      "Distrito": "VISEU"
+    },
+    {
+      "JCOD": "a277",
+      "MEAN": 0.57,
+      "DICO": "0314",
+      "DI": "03",
+      "CONCELHO": "VIZELA",
+      "Distrito": "BRAGA"
+    },
+    {
+      "JCOD": "a278",
+      "MEAN": 0.69,
+      "DICO": "1824",
+      "DI": "18",
+      "CONCELHO": "VOUZELA",
+      "Distrito": "VISEU"
+    }
+  ]
+}
