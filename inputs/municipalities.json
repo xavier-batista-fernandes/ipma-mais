@@ -1,0 +1,1392 @@
+[
+    {
+        "dico": "0101",
+        "municipality": "agueda",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0102",
+        "municipality": "albergaria-a-velha",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0103",
+        "municipality": "anadia",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0104",
+        "municipality": "arouca",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0105",
+        "municipality": "aveiro",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0106",
+        "municipality": "castelo-de-paiva",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0107",
+        "municipality": "espinho",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0108",
+        "municipality": "estarreja",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0109",
+        "municipality": "santa-maria-da-feira",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0110",
+        "municipality": "ilhavo",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0111",
+        "municipality": "mealhada",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0112",
+        "municipality": "murtosa",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0113",
+        "municipality": "oliveira-de-azemeis",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0114",
+        "municipality": "oliveira-do-bairro",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0115",
+        "municipality": "ovar",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0116",
+        "municipality": "sao-joao-da-madeira",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0117",
+        "municipality": "sever-do-vouga",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0118",
+        "municipality": "vagos",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0119",
+        "municipality": "vale-de-cambra",
+        "district": "aveiro"
+    },
+    {
+        "dico": "0201",
+        "municipality": "aljustrel",
+        "district": "beja"
+    },
+    {
+        "dico": "0202",
+        "municipality": "almodovar",
+        "district": "beja"
+    },
+    {
+        "dico": "0203",
+        "municipality": "alvito",
+        "district": "beja"
+    },
+    {
+        "dico": "0204",
+        "municipality": "barrancos",
+        "district": "beja"
+    },
+    {
+        "dico": "0205",
+        "municipality": "beja",
+        "district": "beja"
+    },
+    {
+        "dico": "0206",
+        "municipality": "castro-verde",
+        "district": "beja"
+    },
+    {
+        "dico": "0207",
+        "municipality": "cuba",
+        "district": "beja"
+    },
+    {
+        "dico": "0208",
+        "municipality": "ferreira-do-alentejo",
+        "district": "beja"
+    },
+    {
+        "dico": "0209",
+        "municipality": "mertola",
+        "district": "beja"
+    },
+    {
+        "dico": "0210",
+        "municipality": "moura",
+        "district": "beja"
+    },
+    {
+        "dico": "0211",
+        "municipality": "odemira",
+        "district": "beja"
+    },
+    {
+        "dico": "0212",
+        "municipality": "ourique",
+        "district": "beja"
+    },
+    {
+        "dico": "0213",
+        "municipality": "serpa",
+        "district": "beja"
+    },
+    {
+        "dico": "0214",
+        "municipality": "vidigueira",
+        "district": "beja"
+    },
+    {
+        "dico": "0301",
+        "municipality": "amares",
+        "district": "braga"
+    },
+    {
+        "dico": "0302",
+        "municipality": "barcelos",
+        "district": "braga"
+    },
+    {
+        "dico": "0303",
+        "municipality": "braga",
+        "district": "braga"
+    },
+    {
+        "dico": "0304",
+        "municipality": "cabeceiras-de-basto",
+        "district": "braga"
+    },
+    {
+        "dico": "0305",
+        "municipality": "celorico-de-basto",
+        "district": "braga"
+    },
+    {
+        "dico": "0306",
+        "municipality": "esposende",
+        "district": "braga"
+    },
+    {
+        "dico": "0307",
+        "municipality": "fafe",
+        "district": "braga"
+    },
+    {
+        "dico": "0308",
+        "municipality": "guimaraes",
+        "district": "braga"
+    },
+    {
+        "dico": "0309",
+        "municipality": "povoa-de-lanhoso",
+        "district": "braga"
+    },
+    {
+        "dico": "0310",
+        "municipality": "terras-de-bouro",
+        "district": "braga"
+    },
+    {
+        "dico": "0311",
+        "municipality": "vieira-do-minho",
+        "district": "braga"
+    },
+    {
+        "dico": "0312",
+        "municipality": "vila-nova-de-famalicao",
+        "district": "braga"
+    },
+    {
+        "dico": "0313",
+        "municipality": "vila-verde",
+        "district": "braga"
+    },
+    {
+        "dico": "0314",
+        "municipality": "vizela",
+        "district": "braga"
+    },
+    {
+        "dico": "0401",
+        "municipality": "alfandega-da-fe",
+        "district": "braganca"
+    },
+    {
+        "dico": "0402",
+        "municipality": "braganca",
+        "district": "braganca"
+    },
+    {
+        "dico": "0403",
+        "municipality": "carrazeda-de-ansiaes",
+        "district": "braganca"
+    },
+    {
+        "dico": "0404",
+        "municipality": "freixo-de-espada-a-cinta",
+        "district": "braganca"
+    },
+    {
+        "dico": "0405",
+        "municipality": "macedo-de-cavaleiros",
+        "district": "braganca"
+    },
+    {
+        "dico": "0406",
+        "municipality": "miranda-do-douro",
+        "district": "braganca"
+    },
+    {
+        "dico": "0407",
+        "municipality": "mirandela",
+        "district": "braganca"
+    },
+    {
+        "dico": "0408",
+        "municipality": "mogadouro",
+        "district": "braganca"
+    },
+    {
+        "dico": "0409",
+        "municipality": "torre-de-moncorvo",
+        "district": "braganca"
+    },
+    {
+        "dico": "0410",
+        "municipality": "vila-flor",
+        "district": "braganca"
+    },
+    {
+        "dico": "0411",
+        "municipality": "vimioso",
+        "district": "braganca"
+    },
+    {
+        "dico": "0412",
+        "municipality": "vinhais",
+        "district": "braganca"
+    },
+    {
+        "dico": "0501",
+        "municipality": "belmonte",
+        "district": "castelo-branco"
+    },
+    {
+        "dico": "0502",
+        "municipality": "castelo-branco",
+        "district": "castelo-branco"
+    },
+    {
+        "dico": "0503",
+        "municipality": "covilha",
+        "district": "castelo-branco"
+    },
+    {
+        "dico": "0504",
+        "municipality": "fundao",
+        "district": "castelo-branco"
+    },
+    {
+        "dico": "0505",
+        "municipality": "idanha-a-nova",
+        "district": "castelo-branco"
+    },
+    {
+        "dico": "0506",
+        "municipality": "oleiros",
+        "district": "castelo-branco"
+    },
+    {
+        "dico": "0507",
+        "municipality": "penamacor",
+        "district": "castelo-branco"
+    },
+    {
+        "dico": "0508",
+        "municipality": "proenca-a-nova",
+        "district": "castelo-branco"
+    },
+    {
+        "dico": "0509",
+        "municipality": "serta",
+        "district": "castelo-branco"
+    },
+    {
+        "dico": "0510",
+        "municipality": "vila-de-rei",
+        "district": "castelo-branco"
+    },
+    {
+        "dico": "0511",
+        "municipality": "vila-velha-de-rodao",
+        "district": "castelo-branco"
+    },
+    {
+        "dico": "0601",
+        "municipality": "arganil",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0602",
+        "municipality": "cantanhede",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0603",
+        "municipality": "coimbra",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0604",
+        "municipality": "condeixa-a-nova",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0605",
+        "municipality": "figueira-da-foz",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0606",
+        "municipality": "gois",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0607",
+        "municipality": "lousa",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0608",
+        "municipality": "mira",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0609",
+        "municipality": "miranda-do-corvo",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0610",
+        "municipality": "montemor-o-velho",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0611",
+        "municipality": "oliveira-do-hospital",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0612",
+        "municipality": "pampilhosa-da-serra",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0613",
+        "municipality": "penacova",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0614",
+        "municipality": "penela",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0615",
+        "municipality": "soure",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0616",
+        "municipality": "tabua",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0617",
+        "municipality": "vila-nova-de-poiares",
+        "district": "coimbra"
+    },
+    {
+        "dico": "0701",
+        "municipality": "alandroal",
+        "district": "evora"
+    },
+    {
+        "dico": "0702",
+        "municipality": "arraiolos",
+        "district": "evora"
+    },
+    {
+        "dico": "0703",
+        "municipality": "borba",
+        "district": "evora"
+    },
+    {
+        "dico": "0704",
+        "municipality": "estremoz",
+        "district": "evora"
+    },
+    {
+        "dico": "0705",
+        "municipality": "evora",
+        "district": "evora"
+    },
+    {
+        "dico": "0706",
+        "municipality": "montemor-o-novo",
+        "district": "evora"
+    },
+    {
+        "dico": "0707",
+        "municipality": "mora",
+        "district": "evora"
+    },
+    {
+        "dico": "0708",
+        "municipality": "mourao",
+        "district": "evora"
+    },
+    {
+        "dico": "0709",
+        "municipality": "portel",
+        "district": "evora"
+    },
+    {
+        "dico": "0710",
+        "municipality": "redondo",
+        "district": "evora"
+    },
+    {
+        "dico": "0711",
+        "municipality": "reguengos-de-monsaraz",
+        "district": "evora"
+    },
+    {
+        "dico": "0712",
+        "municipality": "vendas-novas",
+        "district": "evora"
+    },
+    {
+        "dico": "0713",
+        "municipality": "viana-do-alentejo",
+        "district": "evora"
+    },
+    {
+        "dico": "0714",
+        "municipality": "vila-vicosa",
+        "district": "evora"
+    },
+    {
+        "dico": "0801",
+        "municipality": "albufeira",
+        "district": "faro"
+    },
+    {
+        "dico": "0802",
+        "municipality": "alcoutim",
+        "district": "faro"
+    },
+    {
+        "dico": "0803",
+        "municipality": "aljezur",
+        "district": "faro"
+    },
+    {
+        "dico": "0804",
+        "municipality": "castro-marim",
+        "district": "faro"
+    },
+    {
+        "dico": "0805",
+        "municipality": "faro",
+        "district": "faro"
+    },
+    {
+        "dico": "0806",
+        "municipality": "lagoa",
+        "district": "faro"
+    },
+    {
+        "dico": "0807",
+        "municipality": "lagos",
+        "district": "faro"
+    },
+    {
+        "dico": "0808",
+        "municipality": "loule",
+        "district": "faro"
+    },
+    {
+        "dico": "0809",
+        "municipality": "monchique",
+        "district": "faro"
+    },
+    {
+        "dico": "0810",
+        "municipality": "olhao",
+        "district": "faro"
+    },
+    {
+        "dico": "0811",
+        "municipality": "portimao",
+        "district": "faro"
+    },
+    {
+        "dico": "0812",
+        "municipality": "sao-bras-de-alportel",
+        "district": "faro"
+    },
+    {
+        "dico": "0813",
+        "municipality": "silves",
+        "district": "faro"
+    },
+    {
+        "dico": "0814",
+        "municipality": "tavira",
+        "district": "faro"
+    },
+    {
+        "dico": "0815",
+        "municipality": "vila-do-bispo",
+        "district": "faro"
+    },
+    {
+        "dico": "0816",
+        "municipality": "vila-real-de-santo-antonio",
+        "district": "faro"
+    },
+    {
+        "dico": "0901",
+        "municipality": "aguiar-da-beira",
+        "district": "guarda"
+    },
+    {
+        "dico": "0902",
+        "municipality": "almeida",
+        "district": "guarda"
+    },
+    {
+        "dico": "0903",
+        "municipality": "celorico-da-beira",
+        "district": "guarda"
+    },
+    {
+        "dico": "0904",
+        "municipality": "figueira-de-castelo-rodrigo",
+        "district": "guarda"
+    },
+    {
+        "dico": "0905",
+        "municipality": "fornos-de-algodres",
+        "district": "guarda"
+    },
+    {
+        "dico": "0906",
+        "municipality": "gouveia",
+        "district": "guarda"
+    },
+    {
+        "dico": "0907",
+        "municipality": "guarda",
+        "district": "guarda"
+    },
+    {
+        "dico": "0908",
+        "municipality": "manteigas",
+        "district": "guarda"
+    },
+    {
+        "dico": "0909",
+        "municipality": "meda",
+        "district": "guarda"
+    },
+    {
+        "dico": "0910",
+        "municipality": "pinhel",
+        "district": "guarda"
+    },
+    {
+        "dico": "0911",
+        "municipality": "sabugal",
+        "district": "guarda"
+    },
+    {
+        "dico": "0912",
+        "municipality": "seia",
+        "district": "guarda"
+    },
+    {
+        "dico": "0913",
+        "municipality": "trancoso",
+        "district": "guarda"
+    },
+    {
+        "dico": "0914",
+        "municipality": "vila-nova-de-foz-coa",
+        "district": "guarda"
+    },
+    {
+        "dico": "1001",
+        "municipality": "alcobaca",
+        "district": "leiria"
+    },
+    {
+        "dico": "1002",
+        "municipality": "alvaiazere",
+        "district": "leiria"
+    },
+    {
+        "dico": "1003",
+        "municipality": "ansiao",
+        "district": "leiria"
+    },
+    {
+        "dico": "1004",
+        "municipality": "batalha",
+        "district": "leiria"
+    },
+    {
+        "dico": "1005",
+        "municipality": "bombarral",
+        "district": "leiria"
+    },
+    {
+        "dico": "1006",
+        "municipality": "caldas-da-rainha",
+        "district": "leiria"
+    },
+    {
+        "dico": "1007",
+        "municipality": "castanheira-de-pera",
+        "district": "leiria"
+    },
+    {
+        "dico": "1008",
+        "municipality": "figueiro-dos-vinhos",
+        "district": "leiria"
+    },
+    {
+        "dico": "1009",
+        "municipality": "leiria",
+        "district": "leiria"
+    },
+    {
+        "dico": "1010",
+        "municipality": "marinha-grande",
+        "district": "leiria"
+    },
+    {
+        "dico": "1011",
+        "municipality": "nazare",
+        "district": "leiria"
+    },
+    {
+        "dico": "1012",
+        "municipality": "obidos",
+        "district": "leiria"
+    },
+    {
+        "dico": "1013",
+        "municipality": "pedrogao-grande",
+        "district": "leiria"
+    },
+    {
+        "dico": "1014",
+        "municipality": "peniche",
+        "district": "leiria"
+    },
+    {
+        "dico": "1015",
+        "municipality": "pombal",
+        "district": "leiria"
+    },
+    {
+        "dico": "1016",
+        "municipality": "porto-de-mos",
+        "district": "leiria"
+    },
+    {
+        "dico": "1101",
+        "municipality": "alenquer",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1102",
+        "municipality": "arruda-dos-vinhos",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1103",
+        "municipality": "azambuja",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1104",
+        "municipality": "cadaval",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1105",
+        "municipality": "cascais",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1106",
+        "municipality": "lisboa",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1107",
+        "municipality": "loures",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1108",
+        "municipality": "lourinha",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1109",
+        "municipality": "mafra",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1110",
+        "municipality": "oeiras",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1111",
+        "municipality": "sintra",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1112",
+        "municipality": "sobral-de-monte-agraco",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1113",
+        "municipality": "torres-vedras",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1114",
+        "municipality": "vila-franca-de-xira",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1115",
+        "municipality": "amadora",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1116",
+        "municipality": "odivelas",
+        "district": "lisboa"
+    },
+    {
+        "dico": "1201",
+        "municipality": "alter-do-chao",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1202",
+        "municipality": "arronches",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1203",
+        "municipality": "avis",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1204",
+        "municipality": "campo-maior",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1205",
+        "municipality": "castelo-de-vide",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1206",
+        "municipality": "crato",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1207",
+        "municipality": "elvas",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1208",
+        "municipality": "fronteira",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1209",
+        "municipality": "gaviao",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1210",
+        "municipality": "marvao",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1211",
+        "municipality": "monforte",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1212",
+        "municipality": "nisa",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1213",
+        "municipality": "ponte-de-sor",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1214",
+        "municipality": "portalegre",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1215",
+        "municipality": "sousel",
+        "district": "portalegre"
+    },
+    {
+        "dico": "1301",
+        "municipality": "amarante",
+        "district": "porto"
+    },
+    {
+        "dico": "1302",
+        "municipality": "baiao",
+        "district": "porto"
+    },
+    {
+        "dico": "1303",
+        "municipality": "felgueiras",
+        "district": "porto"
+    },
+    {
+        "dico": "1304",
+        "municipality": "gondomar",
+        "district": "porto"
+    },
+    {
+        "dico": "1305",
+        "municipality": "lousada",
+        "district": "porto"
+    },
+    {
+        "dico": "1306",
+        "municipality": "maia",
+        "district": "porto"
+    },
+    {
+        "dico": "1307",
+        "municipality": "marco-de-canaveses",
+        "district": "porto"
+    },
+    {
+        "dico": "1308",
+        "municipality": "matosinhos",
+        "district": "porto"
+    },
+    {
+        "dico": "1309",
+        "municipality": "pacos-de-ferreira",
+        "district": "porto"
+    },
+    {
+        "dico": "1310",
+        "municipality": "paredes",
+        "district": "porto"
+    },
+    {
+        "dico": "1311",
+        "municipality": "penafiel",
+        "district": "porto"
+    },
+    {
+        "dico": "1312",
+        "municipality": "porto",
+        "district": "porto"
+    },
+    {
+        "dico": "1313",
+        "municipality": "povoa-de-varzim",
+        "district": "porto"
+    },
+    {
+        "dico": "1314",
+        "municipality": "santo-tirso",
+        "district": "porto"
+    },
+    {
+        "dico": "1315",
+        "municipality": "valongo",
+        "district": "porto"
+    },
+    {
+        "dico": "1316",
+        "municipality": "vila-do-conde",
+        "district": "porto"
+    },
+    {
+        "dico": "1317",
+        "municipality": "vila-nova-de-gaia",
+        "district": "porto"
+    },
+    {
+        "dico": "1318",
+        "municipality": "trofa",
+        "district": "porto"
+    },
+    {
+        "dico": "1401",
+        "municipality": "abrantes",
+        "district": "santarem"
+    },
+    {
+        "dico": "1402",
+        "municipality": "alcanena",
+        "district": "santarem"
+    },
+    {
+        "dico": "1403",
+        "municipality": "almeirim",
+        "district": "santarem"
+    },
+    {
+        "dico": "1404",
+        "municipality": "alpiarca",
+        "district": "santarem"
+    },
+    {
+        "dico": "1405",
+        "municipality": "benavente",
+        "district": "santarem"
+    },
+    {
+        "dico": "1406",
+        "municipality": "cartaxo",
+        "district": "santarem"
+    },
+    {
+        "dico": "1407",
+        "municipality": "chamusca",
+        "district": "santarem"
+    },
+    {
+        "dico": "1408",
+        "municipality": "constancia",
+        "district": "santarem"
+    },
+    {
+        "dico": "1409",
+        "municipality": "coruche",
+        "district": "santarem"
+    },
+    {
+        "dico": "1410",
+        "municipality": "entroncamento",
+        "district": "santarem"
+    },
+    {
+        "dico": "1411",
+        "municipality": "ferreira-do-zezere",
+        "district": "santarem"
+    },
+    {
+        "dico": "1412",
+        "municipality": "golega",
+        "district": "santarem"
+    },
+    {
+        "dico": "1413",
+        "municipality": "macao",
+        "district": "santarem"
+    },
+    {
+        "dico": "1414",
+        "municipality": "rio-maior",
+        "district": "santarem"
+    },
+    {
+        "dico": "1415",
+        "municipality": "salvaterra-de-magos",
+        "district": "santarem"
+    },
+    {
+        "dico": "1416",
+        "municipality": "santarem",
+        "district": "santarem"
+    },
+    {
+        "dico": "1417",
+        "municipality": "sardoal",
+        "district": "santarem"
+    },
+    {
+        "dico": "1418",
+        "municipality": "tomar",
+        "district": "santarem"
+    },
+    {
+        "dico": "1419",
+        "municipality": "torres-novas",
+        "district": "santarem"
+    },
+    {
+        "dico": "1420",
+        "municipality": "vila-nova-da-barquinha",
+        "district": "santarem"
+    },
+    {
+        "dico": "1421",
+        "municipality": "ourem",
+        "district": "santarem"
+    },
+    {
+        "dico": "1501",
+        "municipality": "alcacer-do-sal",
+        "district": "setubal"
+    },
+    {
+        "dico": "1502",
+        "municipality": "alcochete",
+        "district": "setubal"
+    },
+    {
+        "dico": "1503",
+        "municipality": "almada",
+        "district": "setubal"
+    },
+    {
+        "dico": "1504",
+        "municipality": "barreiro",
+        "district": "setubal"
+    },
+    {
+        "dico": "1505",
+        "municipality": "grandola",
+        "district": "setubal"
+    },
+    {
+        "dico": "1506",
+        "municipality": "moita",
+        "district": "setubal"
+    },
+    {
+        "dico": "1507",
+        "municipality": "montijo",
+        "district": "setubal"
+    },
+    {
+        "dico": "1508",
+        "municipality": "palmela",
+        "district": "setubal"
+    },
+    {
+        "dico": "1509",
+        "municipality": "santiago-do-cacem",
+        "district": "setubal"
+    },
+    {
+        "dico": "1510",
+        "municipality": "seixal",
+        "district": "setubal"
+    },
+    {
+        "dico": "1511",
+        "municipality": "sesimbra",
+        "district": "setubal"
+    },
+    {
+        "dico": "1512",
+        "municipality": "setubal",
+        "district": "setubal"
+    },
+    {
+        "dico": "1513",
+        "municipality": "sines",
+        "district": "setubal"
+    },
+    {
+        "dico": "1601",
+        "municipality": "arcos-de-valdevez",
+        "district": "viana-do-castelo"
+    },
+    {
+        "dico": "1602",
+        "municipality": "caminha",
+        "district": "viana-do-castelo"
+    },
+    {
+        "dico": "1603",
+        "municipality": "melgaco",
+        "district": "viana-do-castelo"
+    },
+    {
+        "dico": "1604",
+        "municipality": "moncao",
+        "district": "viana-do-castelo"
+    },
+    {
+        "dico": "1605",
+        "municipality": "paredes-de-coura",
+        "district": "viana-do-castelo"
+    },
+    {
+        "dico": "1606",
+        "municipality": "ponte-da-barca",
+        "district": "viana-do-castelo"
+    },
+    {
+        "dico": "1607",
+        "municipality": "ponte-de-lima",
+        "district": "viana-do-castelo"
+    },
+    {
+        "dico": "1608",
+        "municipality": "valenca",
+        "district": "viana-do-castelo"
+    },
+    {
+        "dico": "1609",
+        "municipality": "viana-do-castelo",
+        "district": "viana-do-castelo"
+    },
+    {
+        "dico": "1610",
+        "municipality": "vila-nova-de-cerveira",
+        "district": "viana-do-castelo"
+    },
+    {
+        "dico": "1701",
+        "municipality": "alijo",
+        "district": "vila-real"
+    },
+    {
+        "dico": "1702",
+        "municipality": "boticas",
+        "district": "vila-real"
+    },
+    {
+        "dico": "1703",
+        "municipality": "chaves",
+        "district": "vila-real"
+    },
+    {
+        "dico": "1704",
+        "municipality": "mesao-frio",
+        "district": "vila-real"
+    },
+    {
+        "dico": "1705",
+        "municipality": "mondim-de-basto",
+        "district": "vila-real"
+    },
+    {
+        "dico": "1706",
+        "municipality": "montalegre",
+        "district": "vila-real"
+    },
+    {
+        "dico": "1707",
+        "municipality": "murca",
+        "district": "vila-real"
+    },
+    {
+        "dico": "1708",
+        "municipality": "peso-da-regua",
+        "district": "vila-real"
+    },
+    {
+        "dico": "1709",
+        "municipality": "ribeira-de-pena",
+        "district": "vila-real"
+    },
+    {
+        "dico": "1710",
+        "municipality": "sabrosa",
+        "district": "vila-real"
+    },
+    {
+        "dico": "1711",
+        "municipality": "santa-marta-de-penaguiao",
+        "district": "vila-real"
+    },
+    {
+        "dico": "1712",
+        "municipality": "valpacos",
+        "district": "vila-real"
+    },
+    {
+        "dico": "1713",
+        "municipality": "vila-pouca-de-aguiar",
+        "district": "vila-real"
+    },
+    {
+        "dico": "1714",
+        "municipality": "vila-real",
+        "district": "vila-real"
+    },
+    {
+        "dico": "1801",
+        "municipality": "armamar",
+        "district": "viseu"
+    },
+    {
+        "dico": "1802",
+        "municipality": "carregal-do-sal",
+        "district": "viseu"
+    },
+    {
+        "dico": "1803",
+        "municipality": "castro-daire",
+        "district": "viseu"
+    },
+    {
+        "dico": "1804",
+        "municipality": "cinfaes",
+        "district": "viseu"
+    },
+    {
+        "dico": "1805",
+        "municipality": "lamego",
+        "district": "viseu"
+    },
+    {
+        "dico": "1806",
+        "municipality": "mangualde",
+        "district": "viseu"
+    },
+    {
+        "dico": "1807",
+        "municipality": "moimenta-da-beira",
+        "district": "viseu"
+    },
+    {
+        "dico": "1808",
+        "municipality": "mortagua",
+        "district": "viseu"
+    },
+    {
+        "dico": "1809",
+        "municipality": "nelas",
+        "district": "viseu"
+    },
+    {
+        "dico": "1810",
+        "municipality": "oliveira-de-frades",
+        "district": "viseu"
+    },
+    {
+        "dico": "1811",
+        "municipality": "penalva-do-castelo",
+        "district": "viseu"
+    },
+    {
+        "dico": "1812",
+        "municipality": "penedono",
+        "district": "viseu"
+    },
+    {
+        "dico": "1813",
+        "municipality": "resende",
+        "district": "viseu"
+    },
+    {
+        "dico": "1814",
+        "municipality": "santa-comba-dao",
+        "district": "viseu"
+    },
+    {
+        "dico": "1815",
+        "municipality": "sao-joao-da-pesqueira",
+        "district": "viseu"
+    },
+    {
+        "dico": "1816",
+        "municipality": "sao-pedro-do-sul",
+        "district": "viseu"
+    },
+    {
+        "dico": "1817",
+        "municipality": "satao",
+        "district": "viseu"
+    },
+    {
+        "dico": "1818",
+        "municipality": "sernancelhe",
+        "district": "viseu"
+    },
+    {
+        "dico": "1819",
+        "municipality": "tabuaco",
+        "district": "viseu"
+    },
+    {
+        "dico": "1820",
+        "municipality": "tarouca",
+        "district": "viseu"
+    },
+    {
+        "dico": "1821",
+        "municipality": "tondela",
+        "district": "viseu"
+    },
+    {
+        "dico": "1822",
+        "municipality": "vila-nova-de-paiva",
+        "district": "viseu"
+    },
+    {
+        "dico": "1823",
+        "municipality": "viseu",
+        "district": "viseu"
+    },
+    {
+        "dico": "1824",
+        "municipality": "vouzela",
+        "district": "viseu"
+    }
+]

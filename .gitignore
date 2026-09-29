@@ -1,0 +1,19 @@
+# Directories
+node_modules/
+dist/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS / IDE specific
+.DS_Store
+Thumbs.db
+
+# dotenv environment files
+.env
+.env.local
+.env.*.local
