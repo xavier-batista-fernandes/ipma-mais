@@ -1,0 +1,66 @@
+name: Deploy site
+
+on:
+    workflow_dispatch:
+    push:
+        branches: [main]
+        paths:
+            - 'web/**'
+            - 'scripts/build-api.js'
+            - 'lib/**'
+            - '.github/workflows/deploy.yaml'
+    # Collect pushes with the default token, which doesn't trigger `push` workflows,
+    # so redeploy whenever a collection run finishes to publish the new data.
+    workflow_run:
+        workflows: [Collect]
+        types: [completed]
+
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
+concurrency:
+    group: pages
+    cancel-in-progress: true
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+              with:
+                  ref: main
+
+            - uses: actions/setup-node@v5
+              with:
+                  node-version: '24'
+                  cache: npm
+                  cache-dependency-path: |
+                      package-lock.json
+                      web/package-lock.json
+
+            - name: Install
+              run: |
+                  npm ci
+                  npm ci --prefix web
+
+            - name: Build data API and site
+              working-directory: web
+              run: |
+                  npm run api
+                  npm run build
+
+            - uses: actions/upload-pages-artifact@v4
+              with:
+                  path: web/dist
+
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - id: deployment
+              uses: actions/deploy-pages@v4

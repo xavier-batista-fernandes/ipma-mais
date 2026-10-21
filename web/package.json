@@ -1,0 +1,30 @@
+{
+    "name": "ipma-mais-web",
+    "private": true,
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+        "api": "node ../scripts/build-api.js --out public/api",
+        "dev": "npm run api && vite",
+        "build": "tsc --noEmit && vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "cartis": "0.6.1",
+        "d3-scale": "4.0.2",
+        "d3-scale-chromatic": "3.1.0",
+        "d3-shape": "3.2.0",
+        "react": "19.3.1",
+        "react-dom": "19.3.1"
+    },
+    "devDependencies": {
+        "@types/d3-scale": "4.0.9",
+        "@types/d3-scale-chromatic": "3.1.0",
+        "@types/d3-shape": "3.2.0",
+        "@types/react": "19.3.0",
+        "@types/react-dom": "19.3.0",
+        "@vitejs/plugin-react": "6.1.2",
+        "typescript": "5.9.3",
+        "vite": "8.3.5"
+    }
+}
