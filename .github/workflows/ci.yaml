@@ -17,8 +17,17 @@ jobs:
               with:
                   node-version: '24'
                   cache: npm
+                  cache-dependency-path: |
+                      package-lock.json
+                      web/package-lock.json
 
             - run: npm ci
             - run: npm test
             - name: Build the static API from data/
               run: npm run build:api
+
+            - name: Typecheck and build the web app
+              run: |
+                  npm ci --prefix web
+                  npm run api --prefix web
+                  npm run build --prefix web
