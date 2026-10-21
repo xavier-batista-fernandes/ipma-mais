@@ -4,7 +4,7 @@
  *   node scripts/build-api.js [--out dist/api]
  *
  * Output (all generated, never committed):
- *   index.json                    metrics, available dates, municipalities, source status
+ *   index.json                    metrics (dates, colour domain), municipalities, source status
  *   {metric}/days/{date}.json     { date, values: { dico: mean } }  → one request per map
  *   {metric}/series/{dico}.json   { dico, rows: [[date, mean, min, max]] } → one per chart
  *   {metric}/latest.json          same shape as a day file, for the most recent day
@@ -70,6 +70,7 @@ for (const metric of METRICS) {
         unit: metric.unit,
         firstDate: dates[0] ?? null,
         lastDate: dates.at(-1) ?? null,
+        domain: colourDomain(byDate),
         dates,
     });
     console.log(`${metric.id}: ${dates.length} day(s), ${dates[0]} → ${dates.at(-1)}`);
@@ -77,6 +78,17 @@ for (const metric of METRICS) {
 
 writeJson('index.json', index);
 console.log(`API written to ${outDir}`);
+
+/**
+ * The value range the app's colour scale spans: the 2nd–98th percentile of every value ever
+ * recorded, so colours mean the same thing on every day and a few outliers don't wash it out.
+ */
+function colourDomain(byDate) {
+    const values = [...byDate.values()].flatMap((day) => Object.values(day)).sort((a, b) => a - b);
+    if (values.length === 0) return null;
+    const at = (q) => values[Math.min(values.length - 1, Math.floor(q * values.length))];
+    return [Math.floor(at(0.02)), Math.ceil(at(0.98))];
+}
 
 function round(value) {
     return value === null ? null : Math.round(value * 100) / 100;
