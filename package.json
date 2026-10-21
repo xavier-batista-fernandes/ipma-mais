@@ -1,17 +1,20 @@
 {
     "name": "ipma-mais",
     "version": "1.0.0",
+    "private": true,
     "type": "module",
+    "engines": {
+        "node": ">=22"
+    },
     "scripts": {
-        "export:evapotranspiration": "node scripts/export --type evapotranspiration",
-        "export:v2/evapotranspiration": "node scripts/v2/export",
-        "export:temperature-max": "node scripts/export --type temperature-max",
-        "export:temperature-min": "node scripts/export --type temperature-min"
+        "collect": "node scripts/collect.js",
+        "collect:page": "node scripts/collect.js --source page",
+        "collect:api": "node scripts/collect.js --source api",
+        "migrate": "node scripts/migrate.js",
+        "build:api": "node scripts/build-api.js",
+        "test": "node --test \"test/*.test.js\""
     },
     "dependencies": {
-        "axios": "^1.10.0",
-        "csv-parser": "^3.2.0",
-        "csv-stringify": "^6.6.0",
-        "minimist": "^1.2.8"
+        "cartis": "0.6.1"
     }
 }
