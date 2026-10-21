@@ -1,0 +1,69 @@
+name: Collect
+
+on:
+    workflow_dispatch:
+        inputs:
+            source:
+                type: choice
+                description: Which IPMA source to collect.
+                options:
+                    - all
+                    - page
+                    - api
+                default: all
+    schedule:
+        # Daily ET0 page, twice a day so a missed or late update is picked up the same day.
+        - cron: '0 8 * * *'
+        - cron: '0 20 * * *'
+        # Open-data API (ET0, max and min temperature): weekly, it returns a rolling window.
+        - cron: '0 4 * * 1'
+
+concurrency:
+    group: collect
+    cancel-in-progress: false
+
+permissions:
+    contents: write
+
+jobs:
+    collect:
+        runs-on: ubuntu-latest
+        steps:
+            - name: 🧶 Checkout repository
+              uses: actions/checkout@v5
+
+            - name: 🧶 Set up Node.js
+              uses: actions/setup-node@v5
+              with:
+                  node-version: '24'
+                  cache: npm
+
+            - name: 🧶 Install dependencies
+              run: npm ci
+
+            - name: 🧶 Collect data
+              run: |
+                  if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+                    source="${{ inputs.source }}"
+                  elif [ "${{ github.event.schedule }}" = "0 4 * * 1" ]; then
+                    source="api"
+                  else
+                    source="page"
+                  fi
+                  npm run collect -- --source "$source"
+
+            # Runs even when collection failed, so whatever did validate is kept.
+            - name: 🧶 Commit changes
+              if: ${{ !cancelled() }}
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+                  git add data/
+                  if git diff --cached --quiet; then
+                    echo "🟢 No changes to commit."
+                  else
+                    git commit -m "[auto] ⚙️ collect IPMA data"
+                    git pull --rebase
+                    git push
+                  fi
