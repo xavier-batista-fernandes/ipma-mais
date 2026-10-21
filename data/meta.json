@@ -1,0 +1,20 @@
+{
+    "sources": {
+        "page": {
+            "lastSuccess": "2026-10-21T23:26:08.115Z",
+            "latestDate": "2026-10-20"
+        },
+        "api:et0": {
+            "lastSuccess": "2026-10-21T23:26:28.256Z",
+            "latestDate": "2025-09-20"
+        },
+        "api:tmax": {
+            "lastSuccess": "2026-10-21T23:26:28.344Z",
+            "latestDate": "2025-11-11"
+        },
+        "api:tmin": {
+            "lastSuccess": "2026-10-21T23:26:28.425Z",
+            "latestDate": "2025-11-11"
+        }
+    }
+}
