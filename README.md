@@ -40,6 +40,19 @@ npm test
 - `{métrica}/series/{dico}.json`: `{ dico, rows: [[data, média, mín, máx]] }`;
 - `{métrica}/latest.json`: o dia mais recente.
 
+## Aplicação web
+
+`web/` é uma aplicação React + Vite que mostra os dados num mapa de Portugal continental desenhado com [Cartis](https://github.com/xavier-batista-fernandes/cartis): escolha a variável e o dia, passe o rato por um município para ver o valor, e clique para ver a evolução diária. A vista atual fica no endereço (`?m=et0&d=2026-10-20&c=1106`), por isso pode ser partilhada.
+
+```bash
+cd web
+npm ci
+npm run dev        # gera public/api a partir de ../data e abre o servidor de desenvolvimento
+npm run build      # verifica os tipos e gera web/dist
+```
+
+O workflow `Deploy site` publica a aplicação e os dados no GitHub Pages sempre que a aplicação muda e depois de cada recolha. Requer que o GitHub Pages esteja ativo no repositório com a origem **GitHub Actions** (Settings → Pages).
+
 ## Aviso Legal e Responsabilidade
 Este projeto tem unicamente o propósito de recolher e armazenar dados disponibilizados pela API do Instituto Português do Mar e da Atmosfera (IPMA), sem alterar ou redistribuir os mesmos.
 
