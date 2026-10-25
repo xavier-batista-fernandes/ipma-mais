@@ -22,6 +22,14 @@ export const pt: Messages = {
     'controls.nextDay': 'Dia seguinte',
     'controls.pickDay': 'Escolher dia',
 
+    'timeline.label': 'Linha do tempo',
+    'timeline.dayOf': 'dia {day} de {total}',
+    'timeline.firstDay': 'Primeiro dia',
+    'timeline.lastDay': 'Último dia',
+    'timeline.play': 'Reproduzir a evolução',
+    'timeline.pause': 'Pausar',
+    'timeline.speed': 'Velocidade',
+
     'search.placeholder': 'Procurar município…',
     'search.label': 'Procurar município',
 

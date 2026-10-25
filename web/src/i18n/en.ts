@@ -23,6 +23,14 @@ export const en = {
     'controls.nextDay': 'Next day',
     'controls.pickDay': 'Choose a day',
 
+    'timeline.label': 'Timeline',
+    'timeline.dayOf': 'day {day} of {total}',
+    'timeline.firstDay': 'First day',
+    'timeline.lastDay': 'Last day',
+    'timeline.play': 'Play how it evolves',
+    'timeline.pause': 'Pause',
+    'timeline.speed': 'Speed',
+
     'search.placeholder': 'Search municipality…',
     'search.label': 'Search municipality',
 
