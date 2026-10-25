@@ -1,59 +1,59 @@
 # IPMA+
 
-Este projeto tem como objetivo colmatar a limitação da API do [Instituto Português do Mar e da Atmosfera (IPMA)](https://www.ipma.pt/pt/index.html), que não disponibiliza certos dados meteorológicos até datas muito recentes.
+This project works around a limitation of the [Portuguese Institute for Sea and Atmosphere (IPMA)](https://www.ipma.pt/en/index.html) API, which does not keep some weather data available for long.
 
-Por exemplo, os dados de evapotranspiração apenas estão acessíveis até cerca de dois meses antes da data atual.
+For example, evapotranspiration data is only available up to about two months before the current date.
 
-Deste modo, este repositório disponibiliza scripts que recolhem e armazenam esses dados de forma recorrente, garantindo a sua preservação ao longo do tempo para consulta e análise histórica.
+This repository therefore provides scripts that collect and store that data on a schedule, preserving it over time for historical lookup and analysis.
 
-## Funcionalidades
-- Recolha automática (GitHub Actions) de dados do IPMA:
-  - **ET0 diária** a partir da página de agrometeorologia do IPMA, duas vezes por dia;
-  - **ET0, temperatura máxima e mínima** a partir da API de dados abertos, semanalmente.
-- Cada valor é guardado pela data real da observação (a que vem nos dados do IPMA) e pelo código DICO do município. Repetir uma recolha nunca duplica linhas.
-- A recolha falha de forma visível (execução a vermelho) quando uma fonte não responde ou devolve dados inválidos, e avisa quando uma fonte deixa de ter dados recentes.
-- Gera ficheiros JSON estáticos pensados para uma aplicação web (um ficheiro por dia para o mapa, um por município para os gráficos).
+## Features
+- Automatic collection (GitHub Actions) of IPMA data:
+  - **Daily ET0** from the IPMA agrometeorology page, twice a day;
+  - **ET0, maximum and minimum temperature** from the open-data API, weekly.
+- Each value is stored by its actual observation date (the one in the IPMA data) and by the municipality's DICO code. Repeating a collection never duplicates rows.
+- Collection fails visibly (a red run) when a source doesn't respond or returns invalid data, and warns when a source stops having recent data.
+- Generates static JSON files designed for a web app (one file per day for the map, one per municipality for the charts).
 
-## Estrutura
+## Layout
 
-| Caminho | Conteúdo |
+| Path | Contents |
 | --- | --- |
-| `data/{et0,tmax,tmin}/{dico}.csv` | Série diária de cada município: `date,mean,min,max,std,source` (`source` é `api` ou `page`; a API tem prioridade). |
-| `data/raw/et0-page/{data}.json` | Cópia integral de cada dia publicado na página de ET0. |
-| `data/meta.json` | Última recolha bem-sucedida e data mais recente de cada fonte. |
-| `inputs/municipalities.json` | Os 278 municípios do continente com o código DICO. Os nomes canónicos vêm da biblioteca [Cartis](https://github.com/xavier-batista-fernandes/cartis). |
-| `outputs/` | Formato antigo, mantido temporariamente. Já não é atualizado. |
+| `data/{et0,tmax,tmin}/{dico}.csv` | Daily series for each municipality: `date,mean,min,max,std,source` (`source` is `api` or `page`; the API takes priority). |
+| `data/raw/et0-page/{date}.json` | Full copy of each day published on the ET0 page. |
+| `data/meta.json` | Last successful collection and the most recent date from each source. |
+| `inputs/municipalities.json` | The 278 mainland municipalities with their DICO code. Canonical names come from the [Cartis](https://github.com/xavier-batista-fernandes/cartis) library. |
+| `outputs/` | Old format, kept temporarily. No longer updated. |
 
-## Comandos
+## Commands
 
 ```bash
 npm ci
-npm run collect               # todas as fontes (ou collect:page / collect:api)
-npm run build:api             # gera dist/api/ a partir de data/
+npm run collect               # all sources (or collect:page / collect:api)
+npm run build:api             # generates dist/api/ from data/
 npm test
 ```
 
-`npm run build:api` escreve:
+`npm run build:api` writes:
 
-- `index.json`: métricas, datas disponíveis e municípios (DICO, nome, distrito);
-- `{métrica}/days/{data}.json`: `{ date, values: { dico: valor } }`;
-- `{métrica}/series/{dico}.json`: `{ dico, rows: [[data, média, mín, máx]] }`;
-- `{métrica}/latest.json`: o dia mais recente.
+- `index.json`: metrics, available dates and municipalities (DICO, name, district);
+- `{metric}/days/{date}.json`: `{ date, values: { dico: value } }`;
+- `{metric}/series/{dico}.json`: `{ dico, rows: [[date, mean, min, max]] }`;
+- `{metric}/latest.json`: the most recent day.
 
-## Aplicação web
+## Web app
 
-`web/` é uma aplicação React + Vite que mostra os dados num mapa de Portugal continental desenhado com [Cartis](https://github.com/xavier-batista-fernandes/cartis): escolha a variável e o dia, passe o rato por um município para ver o valor, e clique para ver a evolução diária. A vista atual fica no endereço (`?m=et0&d=2026-10-20&c=1106`), por isso pode ser partilhada.
+`web/` is a React + Vite app that shows the data on a map of mainland Portugal drawn with [Cartis](https://github.com/xavier-batista-fernandes/cartis): pick the variable and the day, hover over a municipality to see its value, and click it to see its daily history. The current view is kept in the URL (`?m=et0&d=2026-10-20&c=1106`), so it can be shared.
 
 ```bash
 cd web
 npm ci
-npm run dev        # gera public/api a partir de ../data e abre o servidor de desenvolvimento
-npm run build      # verifica os tipos e gera web/dist
+npm run dev        # generates public/api from ../data and starts the dev server
+npm run build      # type-checks and builds web/dist
 ```
 
-O workflow `Deploy site` publica a aplicação e os dados no GitHub Pages sempre que a aplicação muda e depois de cada recolha. Requer que o GitHub Pages esteja ativo no repositório com a origem **GitHub Actions** (Settings → Pages).
+The `Deploy site` workflow publishes the app and the data to GitHub Pages whenever the app changes and after each collection. It requires GitHub Pages to be enabled on the repository with **GitHub Actions** as the source (Settings → Pages).
 
-## Aviso Legal e Responsabilidade
-Este projeto tem unicamente o propósito de recolher e armazenar dados disponibilizados pela API do Instituto Português do Mar e da Atmosfera (IPMA), sem alterar ou redistribuir os mesmos.
+## Disclaimer and Liability
+This project's sole purpose is to collect and store data made available by the Portuguese Institute for Sea and Atmosphere (IPMA) API, without altering or redistributing it.
 
-Caso, por algum motivo, este projeto viole os termos e condições de utilização do IPMA, solicitamos que entrem em contacto connosco diretamente para que possamos tomar as medidas necessárias, incluindo a descontinuação imediata do projeto.
+If, for any reason, this project violates IPMA's terms and conditions of use, please contact us directly so that we can take the necessary steps, including discontinuing the project immediately.
