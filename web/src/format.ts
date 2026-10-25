@@ -6,6 +6,7 @@ const longDate = new Intl.DateTimeFormat('pt-PT', {
     year: 'numeric',
     timeZone: 'UTC',
 });
+const monthName = new Intl.DateTimeFormat('pt-PT', { month: 'short', timeZone: 'UTC' });
 const shortDate = new Intl.DateTimeFormat('pt-PT', {
     day: 'numeric',
     month: 'short',
@@ -21,3 +22,4 @@ export const formatDateTitle = (iso: string) => {
 };
 export const formatShortDate = (date: Date) => shortDate.format(date);
 export const parseIsoDate = (iso: string) => new Date(`${iso}T00:00:00Z`);
+export const formatMonth = (iso: string) => monthName.format(parseIsoDate(iso)).replace('.', '');
