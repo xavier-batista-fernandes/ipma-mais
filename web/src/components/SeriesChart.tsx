@@ -2,14 +2,15 @@ import { scaleLinear, scaleUtc } from 'd3-scale';
 import { area, line } from 'd3-shape';
 import { useMemo, useState } from 'react';
 import type { SeriesRow } from '../api';
-import { formatDate, formatNumber, formatShortDate, formatValue, parseIsoDate } from '../format';
+import { parseIsoDate } from '../format';
+import { useI18n } from '../i18n';
 
 const RANGES = [
-    { label: '30 d', days: 30 },
-    { label: '90 d', days: 90 },
-    { label: '1 ano', days: 365 },
-    { label: 'Tudo', days: Infinity },
-];
+    { label: 'chart.range30', days: 30 },
+    { label: 'chart.range90', days: 90 },
+    { label: 'chart.range365', days: 365 },
+    { label: 'chart.rangeAll', days: Infinity },
+] as const;
 
 const WIDTH = 360;
 const HEIGHT = 180;
@@ -24,7 +25,8 @@ interface Props {
 
 /** A daily line chart; shaded where the source also gives the municipality's min–max spread. */
 export function SeriesChart({ rows, unit, highlightDate, onPickDate }: Props) {
-    const [rangeDays, setRangeDays] = useState(90);
+    const { t, format } = useI18n();
+    const [rangeDays, setRangeDays] = useState<number>(90);
     const [hover, setHover] = useState<SeriesRow | null>(null);
 
     const chart = useMemo(() => {
@@ -63,7 +65,7 @@ export function SeriesChart({ rows, unit, highlightDate, onPickDate }: Props) {
         return { visible, x, y, meanLines, band };
     }, [rows, rangeDays]);
 
-    if (!chart) return <p className="muted">Sem dados para este município.</p>;
+    if (!chart) return <p className="muted">{t('chart.noData')}</p>;
     const { visible, x, y, meanLines, band } = chart;
 
     const pick = (event: React.MouseEvent<SVGRectElement>) => {
@@ -88,9 +90,9 @@ export function SeriesChart({ rows, unit, highlightDate, onPickDate }: Props) {
         <div className="chart">
             <div className="chart-head">
                 <span>
-                    <strong>{formatValue(shown[1], unit)}</strong> · {formatDate(shown[0])}
+                    <strong>{format.value(shown[1], unit)}</strong> · {format.date(shown[0])}
                 </span>
-                <div className="segmented" role="group" aria-label="Período">
+                <div className="segmented" role="group" aria-label={t('chart.range')}>
                     {RANGES.map((r) => (
                         <button
                             key={r.label}
@@ -98,7 +100,7 @@ export function SeriesChart({ rows, unit, highlightDate, onPickDate }: Props) {
                             aria-pressed={rangeDays === r.days}
                             onClick={() => setRangeDays(r.days)}
                         >
-                            {r.label}
+                            {t(r.label)}
                         </button>
                     ))}
                 </div>
@@ -106,31 +108,37 @@ export function SeriesChart({ rows, unit, highlightDate, onPickDate }: Props) {
             <svg
                 viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
                 role="img"
-                aria-label={`Série diária em ${unit}`}
+                aria-label={t('chart.label', { unit })}
             >
-                {y.ticks(4).map((t) => (
-                    <g key={t}>
+                {y.ticks(4).map((tick) => (
+                    <g key={tick}>
                         <line
                             className="grid"
                             x1={M.left}
                             x2={WIDTH - M.right}
-                            y1={y(t)}
-                            y2={y(t)}
+                            y1={y(tick)}
+                            y2={y(tick)}
                         />
-                        <text className="tick" x={M.left - 4} y={y(t)} dy="0.32em" textAnchor="end">
-                            {formatNumber(t)}
+                        <text
+                            className="tick"
+                            x={M.left - 4}
+                            y={y(tick)}
+                            dy="0.32em"
+                            textAnchor="end"
+                        >
+                            {format.number(tick)}
                         </text>
                     </g>
                 ))}
-                {x.ticks(4).map((t) => (
+                {x.ticks(4).map((tick) => (
                     <text
-                        key={t.getTime()}
+                        key={tick.getTime()}
                         className="tick"
-                        x={x(t)}
+                        x={x(tick)}
                         y={HEIGHT - 6}
                         textAnchor="middle"
                     >
-                        {formatShortDate(t)}
+                        {format.shortDate(tick)}
                     </text>
                 ))}
                 {band && <path className="band" d={band} />}
@@ -157,7 +165,7 @@ export function SeriesChart({ rows, unit, highlightDate, onPickDate }: Props) {
                     onClick={(e) => onPickDate(pick(e)[0])}
                 />
             </svg>
-            <p className="muted small">Clique no gráfico para ver esse dia no mapa.</p>
+            <p className="muted small">{t('chart.hint')}</p>
         </div>
     );
 }
