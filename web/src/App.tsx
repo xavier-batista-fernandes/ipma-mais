@@ -1,5 +1,5 @@
 import type { Municipality, MunicipalityInteractionEvent } from 'cartis';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import {
     getDay,
     getIndex,
@@ -10,14 +10,20 @@ import {
     type Series,
 } from './api';
 import { createColorScale } from './colors';
+import { Header } from './components/Header';
 import { Legend } from './components/Legend';
 import { MapView } from './components/MapView';
 import { Search } from './components/Search';
 import { SeriesChart } from './components/SeriesChart';
-import { formatDate, formatDateTitle, formatValue } from './format';
+import { useI18n } from './i18n';
+import { AboutPage } from './pages/AboutPage';
+import { SettingsPage } from './pages/SettingsPage';
+import { useRoute, type Route } from './route';
 import { readUrlState, writeUrlState } from './url-state';
 
 export function App() {
+    const route = useRoute();
+    const { t, format } = useI18n();
     const [index, setIndex] = useState<ApiIndex | null>(null);
     const [error, setError] = useState<string | null>(null);
 
@@ -91,8 +97,16 @@ export function App() {
         return result;
     }, [day, scale, byDico, activeDate]);
 
-    if (error) return <div className="fatal">Não foi possível carregar os dados: {error}</div>;
-    if (!index || !metric || !scale) return <div className="fatal">A carregar…</div>;
+    // The map's state above lives on while another page is open, so coming back restores it.
+    const shell = (page: ReactNode) => (
+        <Shell route={route} generatedAt={index?.generatedAt ?? null}>
+            {page}
+        </Shell>
+    );
+    if (route === 'settings') return shell(<SettingsPage />);
+    if (route === 'about') return shell(<AboutPage generatedAt={index?.generatedAt ?? null} />);
+    if (error) return shell(<div className="status">{t('app.loadError', { error })}</div>);
+    if (!index || !metric || !scale) return shell(<div className="status">{t('app.loading')}</div>);
 
     const valueOf = (dico: string) => (day?.date === activeDate ? day?.values[dico] : undefined);
     const hoverInfo = hover ? byName.get(hover.municipality) : undefined;
@@ -101,36 +115,32 @@ export function App() {
     const staleNote =
         metric.lastDate &&
         Date.parse(index.generatedAt) - Date.parse(metric.lastDate) > 14 * 86400000
-            ? `O IPMA não publica esta série desde ${formatDate(metric.lastDate)}.`
+            ? t('panel.stale', { date: format.date(metric.lastDate) })
             : null;
 
-    return (
-        <div className="app">
-            <header>
-                <div className="brand">
-                    <h1>IPMA+</h1>
-                    <p>Dados diários do IPMA por município</p>
-                </div>
+    return shell(
+        <>
+            <div className="toolbar">
                 <div className="controls">
                     <label>
-                        <span>Variável</span>
+                        <span>{t('controls.metric')}</span>
                         <select
                             value={metric.id}
                             onChange={(e) => setMetricId(e.target.value as MetricId)}
                         >
                             {index.metrics.map((m) => (
                                 <option key={m.id} value={m.id}>
-                                    {m.label}
+                                    {t(`metric.${m.id}`)}
                                 </option>
                             ))}
                         </select>
                     </label>
                     <div className="date-control">
-                        <span>Dia</span>
+                        <span>{t('controls.day')}</span>
                         <div>
                             <button
                                 type="button"
-                                aria-label="Dia anterior"
+                                aria-label={t('controls.previousDay')}
                                 disabled={dateIndex <= 0}
                                 onClick={() => setDate(metric.dates[dateIndex - 1])}
                             >
@@ -138,7 +148,7 @@ export function App() {
                             </button>
                             <input
                                 type="date"
-                                aria-label="Escolher dia"
+                                aria-label={t('controls.pickDay')}
                                 min={metric.firstDate ?? undefined}
                                 max={metric.lastDate ?? undefined}
                                 value={activeDate ?? ''}
@@ -146,7 +156,7 @@ export function App() {
                             />
                             <button
                                 type="button"
-                                aria-label="Dia seguinte"
+                                aria-label={t('controls.nextDay')}
                                 disabled={dateIndex < 0 || dateIndex >= metric.dates.length - 1}
                                 onClick={() => setDate(metric.dates[dateIndex + 1])}
                             >
@@ -156,9 +166,9 @@ export function App() {
                     </div>
                     <Search onSelect={(name) => setSelectedDico(byName.get(name)?.dico ?? null)} />
                 </div>
-            </header>
+            </div>
 
-            <main>
+            <main className="map-layout">
                 <section className="map-panel">
                     <MapView
                         fills={fills}
@@ -173,8 +183,8 @@ export function App() {
                             <span className="muted">{hover.district}</span>
                             <span>
                                 {hoverValue !== undefined
-                                    ? formatValue(hoverValue, metric.unit)
-                                    : 'sem dados'}
+                                    ? format.value(hoverValue, metric.unit)
+                                    : t('common.noData')}
                             </span>
                         </div>
                     )}
@@ -183,7 +193,7 @@ export function App() {
 
                 <aside className="side-panel">
                     <p className="day-label">
-                        {activeDate ? formatDateTitle(activeDate) : 'Sem dados'}
+                        {activeDate ? format.dateTitle(activeDate) : t('panel.noData')}
                     </p>
                     {staleNote && <p className="notice">{staleNote}</p>}
                     {selected ? (
@@ -191,20 +201,22 @@ export function App() {
                             <div className="selected-head">
                                 <div>
                                     <h2>{selected.name}</h2>
-                                    <p className="muted">Distrito de {selected.district}</p>
+                                    <p className="muted">
+                                        {t('panel.district', { district: selected.district })}
+                                    </p>
                                 </div>
                                 <button
                                     type="button"
                                     className="link"
                                     onClick={() => setSelectedDico(null)}
                                 >
-                                    Fechar
+                                    {t('panel.close')}
                                 </button>
                             </div>
                             <p className="big-value">
                                 {selectedValue !== undefined
-                                    ? formatValue(selectedValue, metric.unit)
-                                    : 'Sem dados neste dia'}
+                                    ? format.value(selectedValue, metric.unit)
+                                    : t('panel.noDataThisDay')}
                             </p>
                             {series ? (
                                 <SeriesChart
@@ -214,7 +226,7 @@ export function App() {
                                     onPickDate={setDate}
                                 />
                             ) : (
-                                <p className="muted">A carregar a série…</p>
+                                <p className="muted">{t('panel.loadingSeries')}</p>
                             )}
                         </>
                     ) : (
@@ -227,13 +239,33 @@ export function App() {
                     )}
                 </aside>
             </main>
+        </>
+    );
+}
 
+/** Header, the current page and the footer. */
+function Shell({
+    route,
+    generatedAt,
+    children,
+}: {
+    route: Route;
+    generatedAt: string | null;
+    children: ReactNode;
+}) {
+    const { t, format } = useI18n();
+    return (
+        <div className="app" data-route={route}>
+            <Header route={route} />
+            {children}
             <footer>
-                Fonte: <a href="https://www.ipma.pt">IPMA</a>, recolhido por{' '}
-                <a href="https://github.com/xavier-batista-fernandes/ipma-mais">IPMA+</a>. Mapa
-                desenhado com{' '}
-                <a href="https://github.com/xavier-batista-fernandes/cartis">Cartis</a>. Atualizado
-                em {formatDate(index.generatedAt.slice(0, 10))}.
+                {t('footer.source')} <a href="https://www.ipma.pt">IPMA</a>,{' '}
+                {t('footer.collectedBy')}{' '}
+                <a href="https://github.com/xavier-batista-fernandes/ipma-mais">IPMA+</a>.{' '}
+                {t('footer.mapBy')}{' '}
+                <a href="https://github.com/xavier-batista-fernandes/cartis">Cartis</a>.
+                {generatedAt &&
+                    ` ${t('footer.updated', { date: format.date(generatedAt.slice(0, 10)) })}`}
             </footer>
         </div>
     );
@@ -250,7 +282,8 @@ function Ranking({
     unit: string;
     onSelect: (dico: string) => void;
 }) {
-    if (!day) return <p className="muted">A carregar…</p>;
+    const { t, format } = useI18n();
+    if (!day) return <p className="muted">{t('app.loading')}</p>;
     const sorted = Object.entries(day.values).sort((a, b) => b[1] - a[1]);
     const list = (entries: [string, number][]) => (
         <ol>
@@ -259,7 +292,7 @@ function Ranking({
                     <button type="button" className="link" onClick={() => onSelect(dico)}>
                         {byDico.get(dico)?.name ?? dico}
                     </button>
-                    <span>{formatValue(value, unit)}</span>
+                    <span>{format.value(value, unit)}</span>
                 </li>
             ))}
         </ol>
@@ -267,10 +300,10 @@ function Ranking({
 
     return (
         <div className="ranking">
-            <p className="muted">Clique num município para ver a sua evolução.</p>
-            <h3>Valores mais altos</h3>
+            <p className="muted">{t('ranking.hint')}</p>
+            <h3>{t('ranking.highest')}</h3>
             {list(sorted.slice(0, 5))}
-            <h3>Valores mais baixos</h3>
+            <h3>{t('ranking.lowest')}</h3>
             {list(sorted.slice(-5).reverse())}
         </div>
     );
