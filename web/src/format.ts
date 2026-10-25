@@ -13,6 +13,8 @@ export function createFormat(locale: string) {
         month: 'short',
         timeZone: 'UTC',
     });
+    const monthName = new Intl.DateTimeFormat(locale, { month: 'short', timeZone: 'UTC' });
+    const relative = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
 
     const date = (iso: string) => longDate.format(parseIsoDate(iso));
     return {
@@ -24,6 +26,12 @@ export function createFormat(locale: string) {
             return text.charAt(0).toUpperCase() + text.slice(1);
         },
         shortDate: (value: Date) => shortDate.format(value),
+        month: (iso: string) => monthName.format(parseIsoDate(iso)).replace('.', ''),
+        /** "Yesterday", "3 days ago"…, capitalised. */
+        relative: (amount: number, unit: Intl.RelativeTimeFormatUnit) => {
+            const text = relative.format(amount, unit);
+            return text.charAt(0).toUpperCase() + text.slice(1);
+        },
     };
 }
 
