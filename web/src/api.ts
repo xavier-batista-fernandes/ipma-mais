@@ -51,7 +51,7 @@ function getJson<T>(path: string): Promise<T> {
     let request = cache.get(path);
     if (!request) {
         request = fetch(`${BASE}/${path}`).then((response) => {
-            if (!response.ok) throw new Error(`${response.status} ao carregar ${path}`);
+            if (!response.ok) throw new Error(`${response.status} loading ${path}`);
             return response.json();
         });
         // Don't keep failures around, so a retry actually refetches.

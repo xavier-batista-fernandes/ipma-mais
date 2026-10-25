@@ -23,5 +23,7 @@ export function writeUrlState({ metric, date, dico }: UrlState) {
     if (date) params.set('d', date);
     if (dico) params.set('c', dico);
     const query = params.toString();
-    window.history.replaceState(null, '', query ? `?${query}` : window.location.pathname);
+    // Keep the hash: it holds the current page (see route.ts).
+    const { pathname, hash } = window.location;
+    window.history.replaceState(null, '', `${query ? `?${query}` : pathname}${hash}`);
 }

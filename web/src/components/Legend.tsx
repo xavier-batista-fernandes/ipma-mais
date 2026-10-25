@@ -1,5 +1,5 @@
 import { MISSING_FILL, type ColorScale } from '../colors';
-import { formatNumber } from '../format';
+import { useI18n } from '../i18n';
 
 interface Props {
     scale: ColorScale;
@@ -8,6 +8,7 @@ interface Props {
 
 /** Colour swatches with each boundary value written under the edge it marks. */
 export function Legend({ scale, unit }: Props) {
+    const { t, format } = useI18n();
     const { colors, thresholds } = scale;
     return (
         <figure className="legend">
@@ -18,14 +19,15 @@ export function Legend({ scale, unit }: Props) {
                 ))}
             </div>
             <div className="legend-ticks">
-                {thresholds.map((t, i) => (
-                    <span key={t} style={{ left: `${((i + 1) / colors.length) * 100}%` }}>
-                        {formatNumber(t)}
+                {thresholds.map((value, i) => (
+                    <span key={value} style={{ left: `${((i + 1) / colors.length) * 100}%` }}>
+                        {format.number(value)}
                     </span>
                 ))}
             </div>
             <div className="legend-missing">
-                <span className="legend-swatch" style={{ background: MISSING_FILL }} /> sem dados
+                <span className="legend-swatch" style={{ background: MISSING_FILL }} />{' '}
+                {t('common.noData')}
             </div>
         </figure>
     );
