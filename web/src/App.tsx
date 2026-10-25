@@ -14,6 +14,7 @@ import { Legend } from './components/Legend';
 import { MapView } from './components/MapView';
 import { Search } from './components/Search';
 import { SeriesChart } from './components/SeriesChart';
+import { Timeline } from './components/Timeline';
 import { formatDate, formatDateTitle, formatValue } from './format';
 import { readUrlState, writeUrlState } from './url-state';
 
@@ -26,7 +27,9 @@ export function App() {
     const [date, setDate] = useState<string | null>(initial.date ?? null);
     const [selectedDico, setSelectedDico] = useState<string | null>(initial.dico ?? null);
 
-    const [day, setDay] = useState<DayValues | null>(null);
+    // The last day loaded for the current metric. While the next one loads the map keeps showing
+    // this one instead of flashing to "no data", which matters most while playing through time.
+    const [day, setDay] = useState<(DayValues & { metric: MetricId }) | null>(null);
     const [series, setSeries] = useState<Series | null>(null);
     const [hover, setHover] = useState<MunicipalityInteractionEvent | null>(null);
 
@@ -50,13 +53,12 @@ export function App() {
     // Keep the date valid for the current metric: fall back to its latest day.
     const activeDate =
         metric && date && metric.dates.includes(date) ? date : (metric?.lastDate ?? null);
-    const dateIndex = metric && activeDate ? metric.dates.indexOf(activeDate) : -1;
 
     useEffect(() => {
         if (!metric || !activeDate) return;
         let current = true;
         getDay(metric.id, activeDate).then(
-            (d) => current && setDay(d),
+            (d) => current && setDay({ ...d, metric: metric.id }),
             (e: unknown) => setError(String(e))
         );
         return () => {
@@ -83,18 +85,19 @@ export function App() {
 
     const fills = useMemo(() => {
         const result = new Map<Municipality, string>();
-        if (!day || !scale || day.date !== activeDate) return result;
+        if (!day || !scale || day.metric !== metric?.id) return result;
         for (const [dico, value] of Object.entries(day.values)) {
             const info = byDico.get(dico);
             if (info) result.set(info.name, scale.color(value));
         }
         return result;
-    }, [day, scale, byDico, activeDate]);
+    }, [day, scale, byDico, metric]);
 
     if (error) return <div className="fatal">Não foi possível carregar os dados: {error}</div>;
     if (!index || !metric || !scale) return <div className="fatal">A carregar…</div>;
 
-    const valueOf = (dico: string) => (day?.date === activeDate ? day?.values[dico] : undefined);
+    const shownDay = day?.metric === metric.id ? day : null;
+    const valueOf = (dico: string) => shownDay?.values[dico];
     const hoverInfo = hover ? byName.get(hover.municipality) : undefined;
     const hoverValue = hoverInfo ? valueOf(hoverInfo.dico) : undefined;
     const selectedValue = selected ? valueOf(selected.dico) : undefined;
@@ -125,60 +128,41 @@ export function App() {
                             ))}
                         </select>
                     </label>
-                    <div className="date-control">
-                        <span>Dia</span>
-                        <div>
-                            <button
-                                type="button"
-                                aria-label="Dia anterior"
-                                disabled={dateIndex <= 0}
-                                onClick={() => setDate(metric.dates[dateIndex - 1])}
-                            >
-                                ‹
-                            </button>
-                            <input
-                                type="date"
-                                aria-label="Escolher dia"
-                                min={metric.firstDate ?? undefined}
-                                max={metric.lastDate ?? undefined}
-                                value={activeDate ?? ''}
-                                onChange={(e) => setDate(nearestDate(metric.dates, e.target.value))}
-                            />
-                            <button
-                                type="button"
-                                aria-label="Dia seguinte"
-                                disabled={dateIndex < 0 || dateIndex >= metric.dates.length - 1}
-                                onClick={() => setDate(metric.dates[dateIndex + 1])}
-                            >
-                                ›
-                            </button>
-                        </div>
-                    </div>
                     <Search onSelect={(name) => setSelectedDico(byName.get(name)?.dico ?? null)} />
                 </div>
             </header>
 
             <main>
                 <section className="map-panel">
-                    <MapView
-                        fills={fills}
-                        allNames={allNames}
-                        selected={selected?.name ?? null}
-                        onHover={setHover}
-                        onSelect={(name) => setSelectedDico(byName.get(name)?.dico ?? null)}
-                    />
-                    {hover && hoverInfo && (
-                        <div className="tooltip" style={{ left: hover.x, top: hover.y }}>
-                            <strong>{hover.municipality}</strong>
-                            <span className="muted">{hover.district}</span>
-                            <span>
-                                {hoverValue !== undefined
-                                    ? formatValue(hoverValue, metric.unit)
-                                    : 'sem dados'}
-                            </span>
-                        </div>
+                    <div className="map-stage">
+                        <MapView
+                            fills={fills}
+                            allNames={allNames}
+                            selected={selected?.name ?? null}
+                            onHover={setHover}
+                            onSelect={(name) => setSelectedDico(byName.get(name)?.dico ?? null)}
+                        />
+                        {hover && hoverInfo && (
+                            <div className="tooltip" style={{ left: hover.x, top: hover.y }}>
+                                <strong>{hover.municipality}</strong>
+                                <span className="muted">{hover.district}</span>
+                                <span>
+                                    {hoverValue !== undefined
+                                        ? formatValue(hoverValue, metric.unit)
+                                        : 'sem dados'}
+                                </span>
+                            </div>
+                        )}
+                        <Legend scale={scale} unit={metric.unit} />
+                    </div>
+                    {activeDate && metric.dates.length > 0 && (
+                        <Timeline
+                            dates={metric.dates}
+                            value={activeDate}
+                            onChange={setDate}
+                            preload={(d) => getDay(metric.id, d)}
+                        />
                     )}
-                    <Legend scale={scale} unit={metric.unit} />
                 </section>
 
                 <aside className="side-panel">
@@ -219,7 +203,7 @@ export function App() {
                         </>
                     ) : (
                         <Ranking
-                            day={day?.date === activeDate ? day : null}
+                            day={shownDay}
                             byDico={byDico}
                             unit={metric.unit}
                             onSelect={setSelectedDico}
@@ -273,14 +257,5 @@ function Ranking({
             <h3>Valores mais baixos</h3>
             {list(sorted.slice(-5).reverse())}
         </div>
-    );
-}
-
-/** The available date closest to `target` (the picker allows days with no data). */
-function nearestDate(dates: string[], target: string) {
-    if (!target || dates.length === 0) return dates.at(-1) ?? null;
-    const t = Date.parse(target);
-    return dates.reduce((best, d) =>
-        Math.abs(Date.parse(d) - t) < Math.abs(Date.parse(best) - t) ? d : best
     );
 }
