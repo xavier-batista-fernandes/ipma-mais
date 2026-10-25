@@ -1,6 +1,7 @@
 import { Country, CountryMap, type Municipality, type MunicipalityInteractionEvent } from 'cartis';
 import { useEffect, useRef, useState } from 'react';
 import { MISSING_FILL } from '../colors';
+import { useI18n } from '../i18n';
 
 const BORDER = { strokeColor: '#ffffff', strokeWidth: 0.3 };
 const SELECTED_BORDER = { strokeColor: '#111827', strokeWidth: 1.5 };
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export function MapView({ fills, allNames, selected, onHover, onSelect }: Props) {
+    const { t } = useI18n();
     const containerRef = useRef<HTMLDivElement>(null);
     const [map, setMap] = useState<CountryMap | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -87,28 +89,26 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
 
     return (
         <div className="map-wrap">
-            <div
-                ref={containerRef}
-                className="map"
-                aria-label="Mapa de Portugal continental por município"
-            />
-            {!map && !error && <div className="map-status">A carregar o mapa…</div>}
-            {error && (
-                <div className="map-status error">Não foi possível desenhar o mapa: {error}</div>
-            )}
+            <div ref={containerRef} className="map" aria-label={t('map.label')} />
+            {!map && !error && <div className="map-status">{t('map.loading')}</div>}
+            {error && <div className="map-status error">{t('map.error', { error })}</div>}
             {map && (
                 <div className="zoom-controls">
-                    <button type="button" onClick={() => map.zoomIn()} aria-label="Aproximar">
+                    <button type="button" onClick={() => map.zoomIn()} aria-label={t('map.zoomIn')}>
                         +
                     </button>
-                    <button type="button" onClick={() => map.zoomOut()} aria-label="Afastar">
+                    <button
+                        type="button"
+                        onClick={() => map.zoomOut()}
+                        aria-label={t('map.zoomOut')}
+                    >
                         −
                     </button>
                     {movedAway && (
                         <button
                             type="button"
                             onClick={() => map.fitToCountry()}
-                            aria-label="Ver o país todo"
+                            aria-label={t('map.reset')}
                         >
                             ⟲
                         </button>

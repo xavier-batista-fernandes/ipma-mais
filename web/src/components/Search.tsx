@@ -1,5 +1,6 @@
 import { getMunicipalitiesFromString, type Municipality } from 'cartis';
 import { useId, useMemo, useState } from 'react';
+import { useI18n } from '../i18n';
 
 interface Props {
     onSelect: (name: Municipality) => void;
@@ -7,6 +8,7 @@ interface Props {
 
 /** Search-as-you-type over the 278 municipality names (accent and case insensitive). */
 export function Search({ onSelect }: Props) {
+    const { t } = useI18n();
     const [query, setQuery] = useState('');
     const [active, setActive] = useState(0);
     const listId = useId();
@@ -31,8 +33,8 @@ export function Search({ onSelect }: Props) {
         <div className="search">
             <input
                 type="search"
-                placeholder="Procurar município…"
-                aria-label="Procurar município"
+                placeholder={t('search.placeholder')}
+                aria-label={t('search.label')}
                 role="combobox"
                 aria-expanded={matches.length > 0}
                 aria-controls={listId}
