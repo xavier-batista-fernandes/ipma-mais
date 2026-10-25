@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { formatDateTitle, formatMonth, parseIsoDate } from '../format';
+import { parseIsoDate, type Format } from '../format';
+import { useI18n } from '../i18n';
 
 /** Milliseconds each day stays on screen while playing. */
 const SPEEDS = [
@@ -23,6 +24,7 @@ interface Props {
  * through time. Space toggles playback and ←/→ step a day, unless the focus is in a text field.
  */
 export function Timeline({ dates, value, onChange, preload }: Props) {
+    const { t, format } = useI18n();
     const [playing, setPlaying] = useState(false);
     const [speed, setSpeed] = useState(1);
     const index = Math.max(0, dates.indexOf(value));
@@ -107,23 +109,23 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
         };
     }, []);
 
-    const marks = useMemo(() => monthMarks(dates), [dates]);
+    const marks = useMemo(() => monthMarks(dates, format), [dates, format]);
     const percent = (i: number) => (last > 0 ? (i / last) * 100 : 0);
-    const relative = relativeDay(value);
+    const relative = relativeDay(value, format);
 
     return (
-        <section className="timeline" aria-label="Linha do tempo">
+        <section className="timeline" aria-label={t('timeline.label')}>
             <div className="timeline-head">
                 <div className="timeline-date" aria-live={playing ? 'off' : 'polite'}>
-                    <strong key={value}>{formatDateTitle(value)}</strong>
+                    <strong key={value}>{format.dateTitle(value)}</strong>
                     <span className="muted">
-                        {relative} · dia {index + 1} de {dates.length}
+                        {relative} · {t('timeline.dayOf', { day: index + 1, total: dates.length })}
                     </span>
                 </div>
                 <div className="timeline-buttons">
                     <button
                         type="button"
-                        aria-label="Primeiro dia"
+                        aria-label={t('timeline.firstDay')}
                         disabled={index <= 0}
                         onClick={() => step(-Infinity)}
                     >
@@ -131,7 +133,7 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
                     </button>
                     <button
                         type="button"
-                        aria-label="Dia anterior"
+                        aria-label={t('controls.previousDay')}
                         disabled={index <= 0}
                         onClick={() => step(-1)}
                     >
@@ -140,7 +142,7 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
                     <button
                         type="button"
                         className="play"
-                        aria-label={playing ? 'Pausar' : 'Reproduzir a evolução'}
+                        aria-label={playing ? t('timeline.pause') : t('timeline.play')}
                         aria-pressed={playing}
                         disabled={dates.length < 2}
                         onClick={togglePlay}
@@ -149,7 +151,7 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
                     </button>
                     <button
                         type="button"
-                        aria-label="Dia seguinte"
+                        aria-label={t('controls.nextDay')}
                         disabled={atEnd}
                         onClick={() => step(1)}
                     >
@@ -157,7 +159,7 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
                     </button>
                     <button
                         type="button"
-                        aria-label="Último dia"
+                        aria-label={t('timeline.lastDay')}
                         disabled={atEnd}
                         onClick={() => step(Infinity)}
                     >
@@ -165,7 +167,7 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
                     </button>
                 </div>
                 <div className="timeline-options">
-                    <div className="segmented" role="group" aria-label="Velocidade">
+                    <div className="segmented" role="group" aria-label={t('timeline.speed')}>
                         {SPEEDS.map((s, i) => (
                             <button
                                 key={s.label}
@@ -179,7 +181,7 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
                     </div>
                     <input
                         type="date"
-                        aria-label="Escolher dia"
+                        aria-label={t('controls.pickDay')}
                         min={dates[0]}
                         max={dates[last]}
                         value={value}
@@ -198,8 +200,8 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
             >
                 <input
                     type="range"
-                    aria-label="Dia"
-                    aria-valuetext={formatDateTitle(value)}
+                    aria-label={t('controls.day')}
+                    aria-valuetext={format.dateTitle(value)}
                     min={0}
                     max={last}
                     step={1}
@@ -226,28 +228,25 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
 }
 
 /** The first available day of each month, labelled; January carries the year. */
-function monthMarks(dates: string[]) {
+function monthMarks(dates: string[], format: Format) {
     const marks: { index: number; label: string; year: boolean }[] = [];
     dates.forEach((date, i) => {
         if (i > 0 && date.slice(0, 7) === dates[i - 1].slice(0, 7)) return;
         const year = i === 0 || date.slice(0, 4) !== dates[i - 1].slice(0, 4);
-        marks.push({ index: i, label: year ? date.slice(0, 4) : formatMonth(date), year });
+        marks.push({ index: i, label: year ? date.slice(0, 4) : format.month(date), year });
     });
     // Too many months for the track's width: keep every other or every third label.
     const every = Math.ceil(marks.length / 14);
     return marks.filter((m, i) => m.year || i % every === 0);
 }
 
-function relativeDay(iso: string) {
+function relativeDay(iso: string, format: Format) {
     const today = new Date();
     const todayUtc = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
     const days = Math.round((todayUtc - parseIsoDate(iso).getTime()) / 86400000);
-    if (days === 0) return 'Hoje';
-    if (days === 1) return 'Ontem';
-    if (days < 0) return `Daqui a ${-days} dias`;
-    if (days < 60) return `Há ${days} dias`;
-    if (days < 730) return `Há ${Math.round(days / 30.44)} meses`;
-    return `Há ${Math.round(days / 365.25)} anos`;
+    if (days < 60) return format.relative(-days, 'day');
+    if (days < 730) return format.relative(-Math.round(days / 30.44), 'month');
+    return format.relative(-Math.round(days / 365.25), 'year');
 }
 
 /** The available date closest to `target` (the picker allows days with no data). */
