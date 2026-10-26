@@ -5,15 +5,15 @@
             "latestDate": "2026-10-24"
         },
         "api:et0": {
-            "lastSuccess": "2026-10-21T23:26:28.256Z",
+            "lastSuccess": "2026-10-26T09:35:42.292Z",
             "latestDate": "2025-09-20"
         },
         "api:tmax": {
-            "lastSuccess": "2026-10-21T23:26:28.344Z",
+            "lastSuccess": "2026-10-26T09:35:42.360Z",
             "latestDate": "2025-11-11"
         },
         "api:tmin": {
-            "lastSuccess": "2026-10-21T23:26:28.425Z",
+            "lastSuccess": "2026-10-26T09:35:42.426Z",
             "latestDate": "2025-11-11"
         }
     }
