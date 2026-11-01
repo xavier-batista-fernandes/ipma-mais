@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { parseIsoDate, type Format } from '../format';
 import { useI18n } from '../i18n';
+import { DatePicker } from './DatePicker';
+import { Icon } from './Icon';
 
 /** Milliseconds each day stays on screen while playing. */
 const SPEEDS = [
@@ -81,11 +83,17 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
     const keys = useRef({ togglePlay, step });
     keys.current = { togglePlay, step };
     useEffect(() => {
-        // Text fields keep their keys; the slider keeps its own arrows but space still plays.
+        // Text fields and open pop-ups keep their keys; the slider keeps its own arrows but space
+        // still plays.
         const ignored = (event: KeyboardEvent) => {
             const target = event.target as HTMLElement;
             if (event.altKey || event.ctrlKey || event.metaKey) return true;
-            if (target.closest('select, textarea, [contenteditable="true"]')) return true;
+            if (
+                target.closest(
+                    'select, textarea, [contenteditable="true"], [aria-haspopup], .popover'
+                )
+            )
+                return true;
             const input = target.closest('input');
             return !!input && (input.type !== 'range' || event.key !== ' ');
         };
@@ -117,7 +125,18 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
         <section className="timeline" aria-label={t('timeline.label')}>
             <div className="timeline-head">
                 <div className="timeline-date" aria-live={playing ? 'off' : 'polite'}>
-                    <strong key={value}>{format.dateTitle(value)}</strong>
+                    <DatePicker
+                        dates={dates}
+                        value={value}
+                        onChange={(d) => {
+                            setPlaying(false);
+                            onChange(d);
+                        }}
+                    >
+                        <Icon name="calendar" />
+                        <strong key={value}>{format.dateTitle(value)}</strong>
+                        <Icon name="chevronDown" />
+                    </DatePicker>
                     <span className="muted">
                         {relative} · {t('timeline.dayOf', { day: index + 1, total: dates.length })}
                     </span>
@@ -129,7 +148,7 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
                         disabled={index <= 0}
                         onClick={() => step(-Infinity)}
                     >
-                        ⏮
+                        <Icon name="skipBack" />
                     </button>
                     <button
                         type="button"
@@ -137,7 +156,7 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
                         disabled={index <= 0}
                         onClick={() => step(-1)}
                     >
-                        ‹
+                        <Icon name="chevronLeft" />
                     </button>
                     <button
                         type="button"
@@ -147,7 +166,7 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
                         disabled={dates.length < 2}
                         onClick={togglePlay}
                     >
-                        {playing ? '❚❚' : '▶'}
+                        <Icon name={playing ? 'pause' : 'play'} />
                     </button>
                     <button
                         type="button"
@@ -155,7 +174,7 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
                         disabled={atEnd}
                         onClick={() => step(1)}
                     >
-                        ›
+                        <Icon name="chevronRight" />
                     </button>
                     <button
                         type="button"
@@ -163,7 +182,7 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
                         disabled={atEnd}
                         onClick={() => step(Infinity)}
                     >
-                        ⏭
+                        <Icon name="skipForward" />
                     </button>
                 </div>
                 <div className="timeline-options">
@@ -179,18 +198,6 @@ export function Timeline({ dates, value, onChange, preload }: Props) {
                             </button>
                         ))}
                     </div>
-                    <input
-                        type="date"
-                        aria-label={t('controls.pickDay')}
-                        min={dates[0]}
-                        max={dates[last]}
-                        value={value}
-                        onChange={(e) => {
-                            setPlaying(false);
-                            const nearest = nearestDate(dates, e.target.value);
-                            if (nearest) onChange(nearest);
-                        }}
-                    />
                 </div>
             </div>
 
@@ -247,13 +254,4 @@ function relativeDay(iso: string, format: Format) {
     if (days < 60) return format.relative(-days, 'day');
     if (days < 730) return format.relative(-Math.round(days / 30.44), 'month');
     return format.relative(-Math.round(days / 365.25), 'year');
-}
-
-/** The available date closest to `target` (the picker allows days with no data). */
-function nearestDate(dates: string[], target: string) {
-    if (!target || dates.length === 0) return dates.at(-1) ?? null;
-    const t = Date.parse(target);
-    return dates.reduce((best, d) =>
-        Math.abs(Date.parse(d) - t) < Math.abs(Date.parse(best) - t) ? d : best
-    );
 }

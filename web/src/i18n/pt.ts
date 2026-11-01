@@ -22,6 +22,11 @@ export const pt: Messages = {
     'controls.nextDay': 'Dia seguinte',
     'controls.pickDay': 'Escolher dia',
 
+    'calendar.previousMonth': 'Mês anterior',
+    'calendar.nextMonth': 'Mês seguinte',
+    'calendar.onlyDataDays': 'Só pode escolher dias com dados',
+    'calendar.latest': 'Último dia',
+
     'timeline.label': 'Linha do tempo',
     'timeline.dayOf': 'dia {day} de {total}',
     'timeline.firstDay': 'Primeiro dia',
@@ -32,6 +37,8 @@ export const pt: Messages = {
 
     'search.placeholder': 'Procurar município…',
     'search.label': 'Procurar município',
+    'search.noResults': 'Nenhum município encontrado',
+    'search.clear': 'Limpar pesquisa',
 
     'map.label': 'Mapa de Portugal continental por município',
     'map.loading': 'A carregar o mapa…',

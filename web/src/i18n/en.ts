@@ -23,6 +23,11 @@ export const en = {
     'controls.nextDay': 'Next day',
     'controls.pickDay': 'Choose a day',
 
+    'calendar.previousMonth': 'Previous month',
+    'calendar.nextMonth': 'Next month',
+    'calendar.onlyDataDays': 'Only days with data can be picked',
+    'calendar.latest': 'Latest day',
+
     'timeline.label': 'Timeline',
     'timeline.dayOf': 'day {day} of {total}',
     'timeline.firstDay': 'First day',
@@ -33,6 +38,8 @@ export const en = {
 
     'search.placeholder': 'Search municipality…',
     'search.label': 'Search municipality',
+    'search.noResults': 'No municipality matches',
+    'search.clear': 'Clear search',
 
     'map.label': 'Map of mainland Portugal by municipality',
     'map.loading': 'Loading the map…',
