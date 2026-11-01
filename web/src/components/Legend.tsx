@@ -4,23 +4,46 @@ import { useI18n } from '../i18n';
 interface Props {
     scale: ColorScale;
     unit: string;
+    /** A value to point at on the scale, e.g. the hovered or selected municipality's. */
+    marker?: number;
 }
 
-/** Colour swatches with each boundary value written under the edge it marks. */
-export function Legend({ scale, unit }: Props) {
+/**
+ * One swatch per colour class, with round boundaries labelled under the edge they mark and an
+ * optional pointer at the current value.
+ */
+export function Legend({ scale, unit, marker }: Props) {
     const { t, format } = useI18n();
-    const { colors, thresholds } = scale;
+    const { colors, thresholds, labels, domain } = scale;
+    const [lo, hi] = domain;
+    const position = (value: number) => ((value - lo) / (hi - lo)) * 100;
+    const markerAt = marker === undefined ? null : Math.min(100, Math.max(0, position(marker)));
+    const stepLabel = format.number(thresholds.length > 0 ? thresholds[0] - lo : hi - lo);
+
     return (
         <figure className="legend">
-            <figcaption>{unit}</figcaption>
-            <div className="legend-scale">
-                {colors.map((color) => (
-                    <span key={color} className="legend-swatch" style={{ background: color }} />
-                ))}
+            <figcaption>
+                <span>{unit}</span>
+                <span className="legend-step">
+                    {t('legend.step', { step: `${stepLabel} ${unit}` })}
+                </span>
+            </figcaption>
+            <div className="legend-bar">
+                <div className="legend-scale">
+                    {colors.map((color, i) => (
+                        <span key={i} className="legend-swatch" style={{ background: color }} />
+                    ))}
+                </div>
+                {markerAt !== null && marker !== undefined && (
+                    <span
+                        className="legend-marker"
+                        style={{ left: `${markerAt}%`, background: scale.color(marker) }}
+                    />
+                )}
             </div>
             <div className="legend-ticks">
-                {thresholds.map((value, i) => (
-                    <span key={value} style={{ left: `${((i + 1) / colors.length) * 100}%` }}>
+                {labels.map((value) => (
+                    <span key={value} style={{ left: `${position(value)}%` }}>
                         {format.number(value)}
                     </span>
                 ))}

@@ -48,6 +48,7 @@ export const pt: Messages = {
     'map.reset': 'Ver o país todo',
 
     'common.noData': 'sem dados',
+    'legend.step': 'uma cor = {step}',
 
     'panel.noData': 'Sem dados',
     'panel.stale': 'O IPMA não publica esta série desde {date}.',
