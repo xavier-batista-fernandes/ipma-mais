@@ -49,6 +49,7 @@ export const en = {
     'map.reset': 'Show the whole country',
 
     'common.noData': 'no data',
+    'legend.step': 'one colour = {step}',
 
     'panel.noData': 'No data',
     'panel.stale': 'IPMA has not published this series since {date}.',
