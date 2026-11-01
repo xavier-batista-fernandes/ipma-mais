@@ -11,6 +11,8 @@ interface Props {
     onChange: (date: string) => void;
     /** The button's content; the calendar opens from it. */
     children: ReactNode;
+    /** Names the button and the calendar ("Choose a day" unless given). */
+    label?: string;
 }
 
 const DAY = 86400000;
@@ -28,8 +30,9 @@ const addMonths = (month: string, delta: number) => {
  * map never lands on an empty day. Arrows move a day or a week, PageUp/PageDown a month, Enter
  * picks and Escape closes.
  */
-export function DatePicker({ dates, value, onChange, children }: Props) {
+export function DatePicker({ dates, value, onChange, children, label }: Props) {
     const { t, locale } = useI18n();
+    const name = label ?? t('controls.pickDay');
     const { ref, triggerRef, open, setOpen, close } = usePopover<HTMLDivElement>();
     const gridRef = useRef<HTMLDivElement>(null);
     const [focused, setFocused] = useState(value);
@@ -117,13 +120,13 @@ export function DatePicker({ dates, value, onChange, children }: Props) {
                 className="date-trigger"
                 aria-haspopup="dialog"
                 aria-expanded={open}
-                aria-label={`${t('controls.pickDay')}: ${labels.full(value)}`}
+                aria-label={`${name}: ${labels.full(value)}`}
                 onClick={() => setOpen((o) => !o)}
             >
                 {children}
             </button>
             {open && (
-                <div className="popover calendar" role="dialog" aria-label={t('controls.pickDay')}>
+                <div className="popover calendar" role="dialog" aria-label={name}>
                     <div className="calendar-head">
                         <button
                             type="button"

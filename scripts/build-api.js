@@ -8,6 +8,7 @@
  *   {metric}/days/{date}.json     { date, values: { dico: mean } }  → one request per map
  *   {metric}/series/{dico}.json   { dico, rows: [[date, mean, min, max]] } → one per chart
  *   {metric}/latest.json          same shape as a day file, for the most recent day
+ *   {metric}/values.json          { dates, values: { dico: [mean|null per date] } } → queries
  */
 import fs from 'fs';
 import path from 'path';
@@ -55,6 +56,15 @@ for (const metric of METRICS) {
     for (const date of dates) {
         writeJson(path.join(metric.id, 'days', `${date}.json`), { date, values: byDate.get(date) });
     }
+
+    // Every value in one file, so the app can run queries over any period with one request.
+    const values = {};
+    for (const { dico } of municipalities) {
+        if (dates.some((date) => dico in byDate.get(date))) {
+            values[dico] = dates.map((date) => byDate.get(date)[dico] ?? null);
+        }
+    }
+    writeJson(path.join(metric.id, 'values.json'), { dates, values });
 
     if (dates.length > 0) {
         const latest = dates.at(-1);

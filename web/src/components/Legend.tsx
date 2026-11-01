@@ -6,13 +6,15 @@ interface Props {
     unit: string;
     /** A value to point at on the scale, e.g. the hovered or selected municipality's. */
     marker?: number;
+    /** What the grey swatch means; "no data" unless given. */
+    missingLabel?: string;
 }
 
 /**
  * One swatch per colour class, with round boundaries labelled under the edge they mark and an
  * optional pointer at the current value.
  */
-export function Legend({ scale, unit, marker }: Props) {
+export function Legend({ scale, unit, marker, missingLabel }: Props) {
     const { t, format } = useI18n();
     const { colors, thresholds, labels, domain } = scale;
     const [lo, hi] = domain;
@@ -50,7 +52,7 @@ export function Legend({ scale, unit, marker }: Props) {
             </div>
             <div className="legend-missing">
                 <span className="legend-swatch" style={{ background: MISSING_FILL }} />{' '}
-                {t('common.noData')}
+                {missingLabel ?? t('common.noData')}
             </div>
         </figure>
     );
