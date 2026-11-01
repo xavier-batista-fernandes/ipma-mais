@@ -501,15 +501,26 @@ button:disabled {
 }
 
 .legend figcaption {
-    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
     color: var(--muted);
+}
+
+.legend-step {
+    opacity: 0.8;
+}
+
+.legend-bar {
+    position: relative;
+    width: 260px;
 }
 
 .legend-scale {
     display: flex;
-    width: 224px;
-    height: 12px;
-    border-radius: 2px;
+    height: 14px;
+    border-radius: 999px;
     overflow: hidden;
 }
 
@@ -517,17 +528,38 @@ button:disabled {
     flex: 1;
 }
 
+/* A hairline between classes so each 0.5 mm / 1 °C step reads as its own colour. */
+.legend-scale .legend-swatch + .legend-swatch {
+    box-shadow: inset 1px 0 0 rgb(255 255 255 / 0.35);
+}
+
+.legend-marker {
+    position: absolute;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    border: 3px solid var(--surface);
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 1px var(--border),
+        var(--shadow);
+    transform: translate(-50%, -50%);
+    transition: left 120ms ease-out;
+    pointer-events: none;
+}
+
 .legend-ticks {
     position: relative;
-    width: 224px;
-    height: 16px;
+    width: 260px;
+    height: 18px;
 }
 
 .legend-ticks span {
     position: absolute;
-    top: 2px;
+    top: 4px;
     transform: translateX(-50%);
     color: var(--muted);
+    font-variant-numeric: tabular-nums;
 }
 
 .legend-missing {
