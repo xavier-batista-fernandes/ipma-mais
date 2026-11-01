@@ -23,6 +23,8 @@ const PATHS = {
     skipForward: 'M18 5v14M6 6l8 6-8 6V6Z',
     play: 'M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z',
     pause: 'M7 5h3v14H7zM14 5h3v14h-3z',
+    download: 'M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14',
+    filter: 'M4 5h16l-6 7.5V19l-4 1.5v-8L4 5Z',
     layers: 'm12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5',
 } as const;
 

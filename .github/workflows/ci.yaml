@@ -29,5 +29,6 @@ jobs:
             - name: Typecheck and build the web app
               run: |
                   npm ci --prefix web
+                  npm test --prefix web
                   npm run api --prefix web
                   npm run build --prefix web
