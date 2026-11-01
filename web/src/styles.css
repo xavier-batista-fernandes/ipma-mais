@@ -1451,7 +1451,7 @@ footer a {
  * the theme tokens, so a restyle can change it in one place.
  */
 .mode-switch .segmented {
-    height: 40px;
+    height: 36px;
     align-items: stretch;
 }
 
@@ -1510,11 +1510,11 @@ footer a {
 
 .query-panel .date-trigger {
     width: 100%;
-    height: 40px;
+    height: 36px;
     margin-left: 0;
     gap: 8px;
     border-color: var(--border);
-    background: var(--surface);
+    background: var(--surface-2);
     font-size: 0.9rem;
 }
 
@@ -1586,4 +1586,9 @@ footer a {
         top: 0;
         height: max(70vh, calc(100vh - 160px));
     }
+}
+
+/* "From" and "To" sit under the period's own label, so they drop the "//" marker. */
+.query-period .query-row .field-label::before {
+    content: none;
 }
