@@ -75,6 +75,10 @@ const MAX_LABELS = 8;
 export function createColorScale(metric: MetricInfo): ColorScale {
     const { stops, step } = PALETTES[metric.id];
     const [lo, hi] = metric.domain ?? [0, 1];
+    return createScale(stops, lo, hi, step);
+}
+
+function createScale(stops: string[], lo: number, hi: number, step: number): ColorScale {
     const count = Math.max(1, Math.round((hi - lo) / step));
     const thresholds = Array.from({ length: count - 1 }, (_, i) => round(lo + (i + 1) * step));
     const interpolate = piecewise(interpolateLab, stops);
@@ -88,6 +92,43 @@ export function createColorScale(metric: MetricInfo): ColorScale {
     const labels = thresholds.filter((t) => isMultiple(t, labelStep));
 
     return { color: (value) => scale(value), colors, thresholds, domain: [lo, hi], labels };
+}
+
+const DIVERGING = ['#2166ac', '#67a9cf', '#d1e5f0', '#f7f7f7', '#fddbc7', '#ef8a62', '#b2182b'];
+
+/** 1, 2, 2.5 or 5 times a power of ten: the round class width nearest to `raw`. */
+function niceStep(raw: number, integer: boolean) {
+    if (!(raw > 0)) return 1;
+    const power = 10 ** Math.floor(Math.log10(raw));
+    const step = ([1, 2, 2.5, 5, 10].find((k) => k * power >= raw) ?? 10) * power;
+    return integer ? Math.max(1, Math.round(step)) : step;
+}
+
+/**
+ * A scale fitted to a query's results, which can be counts of days, totals over a period or
+ * changes between periods: about eight round classes from the lowest to the highest result. Signed
+ * results (changes) get a diverging blue–red scale centred on zero.
+ */
+export function createResultScale(
+    metric: MetricInfo,
+    values: number[],
+    { integer = false, signed = false } = {}
+): ColorScale {
+    const CLASSES = 8;
+    if (signed) {
+        const extent = Math.max(...values.map(Math.abs), integer ? 1 : 0.1);
+        const step = niceStep((2 * extent) / CLASSES, integer);
+        const half = Math.max(1, Math.ceil(extent / step));
+        return createScale(DIVERGING, -half * step, half * step, step);
+    }
+    let lo = values.length ? Math.min(...values) : 0;
+    let hi = values.length ? Math.max(...values) : 1;
+    const step = niceStep((hi - lo) / CLASSES, integer);
+    lo = Math.floor(lo / step) * step;
+    hi = Math.max(lo + step, Math.ceil(hi / step) * step);
+    // A count of days starts its own class at each whole number, so the lowest count gets one.
+    if (integer && hi === Math.max(...values)) hi += step;
+    return createScale(PALETTES[metric.id].stops, lo, hi, step);
 }
 
 function round(value: number): number {

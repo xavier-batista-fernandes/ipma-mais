@@ -1,6 +1,10 @@
 /** Number and date formatters for one locale; get them from `useI18n().format`. */
 export function createFormat(locale: string) {
     const number = new Intl.NumberFormat(locale, { maximumFractionDigits: 2 });
+    const signedNumber = new Intl.NumberFormat(locale, {
+        maximumFractionDigits: 2,
+        signDisplay: 'exceptZero',
+    });
     const longDate = new Intl.DateTimeFormat(locale, {
         weekday: 'short',
         day: 'numeric',
@@ -13,6 +17,12 @@ export function createFormat(locale: string) {
         month: 'short',
         timeZone: 'UTC',
     });
+    const dayDate = new Intl.DateTimeFormat(locale, {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        timeZone: 'UTC',
+    });
     const monthName = new Intl.DateTimeFormat(locale, { month: 'short', timeZone: 'UTC' });
     const relative = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
 
@@ -20,12 +30,16 @@ export function createFormat(locale: string) {
     return {
         value: (value: number, unit: string) => `${number.format(value)} ${unit}`,
         number: (value: number) => number.format(value),
+        /** A change, always with its sign: "+1.5 mm", "−0.3 mm". */
+        signed: (value: number, unit: string) => `${signedNumber.format(value)} ${unit}`,
         date,
         dateTitle: (iso: string) => {
             const text = date(iso);
             return text.charAt(0).toUpperCase() + text.slice(1);
         },
         shortDate: (value: Date) => shortDate.format(value),
+        /** "2 Oct 2026": compact, for periods. */
+        day: (iso: string) => dayDate.format(parseIsoDate(iso)),
         month: (iso: string) => monthName.format(parseIsoDate(iso)).replace('.', ''),
         /** "Yesterday", "3 days ago"…, capitalised. */
         relative: (amount: number, unit: Intl.RelativeTimeFormatUnit) => {

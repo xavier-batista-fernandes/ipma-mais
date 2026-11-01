@@ -1,4 +1,5 @@
 import type { District, Municipality } from 'cartis';
+import type { ValueMatrix } from './query';
 
 /** Shapes written by `scripts/build-api.js`. */
 export type MetricId = 'et0' | 'tmax' | 'tmin';
@@ -64,5 +65,7 @@ function getJson<T>(path: string): Promise<T> {
 export const getIndex = () => getJson<ApiIndex>('index.json');
 export const getDay = (metric: MetricId, date: string) =>
     getJson<DayValues>(`${metric}/days/${date}.json`);
+/** Every day's values for one metric in one file, for queries (see `query.ts`). */
+export const getValues = (metric: MetricId) => getJson<ValueMatrix>(`${metric}/values.json`);
 export const getSeries = (metric: MetricId, dico: string) =>
     getJson<Series>(`${metric}/series/${dico}.json`);

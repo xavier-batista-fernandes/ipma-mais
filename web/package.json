@@ -8,6 +8,7 @@
         "dev": "npm run api && vite",
         "build": "tsc --noEmit && vite build",
         "preview": "vite preview",
+        "test": "node --test test/*.test.ts",
         "test:e2e": "playwright test",
         "typecheck:e2e": "tsc --noEmit -p e2e"
     },
