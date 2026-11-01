@@ -1,72 +1,81 @@
 /*
+ * "Weather station": an instrument panel around the map. Chivo for text, Chivo Mono for every
+ * number, date and label (so values line up like readouts), 4 px corners, outlined boxes, a faint
+ * grid behind the map and one signal-orange accent. The map's own colours come from colors.ts.
+ *
  * Theme tokens. Light is the default; dark applies when the system asks for it (unless the user
  * picked light in Settings) or when the user picked dark. The two dark blocks must stay in sync.
  */
 :root {
-    --bg: #f3f5f8;
+    --bg: #eceef1;
     --surface: #ffffff;
-    --surface-2: #f1f5f9;
-    --text: #0f172a;
-    --muted: #64748b;
-    --border: #e2e8f0;
-    --accent: #0f766e;
-    --accent-soft: rgb(15 118 110 / 0.1);
+    --surface-2: #f4f5f7;
+    --text: #0b0d10;
+    --muted: #5d6470;
+    --border: #d3d7de;
+    --border-strong: #aeb4be;
+    --accent: #c2410c;
+    --accent-soft: rgb(194 65 12 / 0.09);
     --accent-contrast: #ffffff;
-    --notice-bg: #fef3c7;
-    --notice-text: #78350f;
-    --hover: rgb(15 23 42 / 0.05);
-    --shadow: 0 1px 2px rgb(15 23 42 / 0.06), 0 6px 20px rgb(15 23 42 / 0.08);
-    --shadow-lg: 0 2px 6px rgb(15 23 42 / 0.06), 0 18px 48px -8px rgb(15 23 42 / 0.22);
-    --popover-bg: color-mix(in srgb, var(--surface) 96%, transparent);
-    --radius: 12px;
-    --topbar-height: 64px;
+    --notice-bg: #fff4e5;
+    --notice-text: #7a2e0a;
+    --hover: rgb(11 13 16 / 0.05);
+    --grid: rgb(11 13 16 / 0.06);
+    --map-outline: #0b0d10;
+    --shadow: 0 1px 2px rgb(11 13 16 / 0.06);
+    --shadow-lg: 0 10px 28px -10px rgb(11 13 16 / 0.28);
+    --popover-bg: var(--surface);
+    --radius: 4px;
+    --topbar-height: 56px;
+    --font-sans: 'Chivo Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'Chivo Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
     color-scheme: light;
-    font-family:
-        Inter,
-        system-ui,
-        -apple-system,
-        'Segoe UI',
-        Roboto,
-        sans-serif;
+    font-family: var(--font-sans);
     color: var(--text);
     background: var(--bg);
 }
 
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme='light']) {
-        --bg: #0b1120;
-        --surface: #111827;
-        --surface-2: #1a2333;
-        --text: #e5e7eb;
-        --muted: #94a3b8;
-        --border: #233044;
-        --accent: #2dd4bf;
-        --accent-soft: rgb(45 212 191 / 0.14);
-        --accent-contrast: #042f2e;
-        --notice-bg: #422006;
-        --notice-text: #fde68a;
-        --hover: rgb(255 255 255 / 0.06);
-        --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 20px rgb(0 0 0 / 0.4);
-        --shadow-lg: 0 2px 6px rgb(0 0 0 / 0.3), 0 18px 48px -8px rgb(0 0 0 / 0.6);
+        --bg: #0d0f12;
+        --surface: #14171b;
+        --surface-2: #1b1f24;
+        --text: #e6e9ee;
+        --muted: #8a919c;
+        --border: #262a31;
+        --border-strong: #3d434d;
+        --accent: #ff7a2f;
+        --accent-soft: rgb(255 122 47 / 0.12);
+        --accent-contrast: #0b0d10;
+        --notice-bg: #2b1a0e;
+        --notice-text: #ffc59e;
+        --hover: rgb(255 255 255 / 0.05);
+        --grid: rgb(255 255 255 / 0.045);
+        --map-outline: #ffffff;
+        --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+        --shadow-lg: 0 12px 32px -10px rgb(0 0 0 / 0.75);
         color-scheme: dark;
     }
 }
 
 :root[data-theme='dark'] {
-    --bg: #0b1120;
-    --surface: #111827;
-    --surface-2: #1a2333;
-    --text: #e5e7eb;
-    --muted: #94a3b8;
-    --border: #233044;
-    --accent: #2dd4bf;
-    --accent-soft: rgb(45 212 191 / 0.14);
-    --accent-contrast: #042f2e;
-    --notice-bg: #422006;
-    --notice-text: #fde68a;
-    --hover: rgb(255 255 255 / 0.06);
-    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 20px rgb(0 0 0 / 0.4);
-    --shadow-lg: 0 2px 6px rgb(0 0 0 / 0.3), 0 18px 48px -8px rgb(0 0 0 / 0.6);
+    --bg: #0d0f12;
+    --surface: #14171b;
+    --surface-2: #1b1f24;
+    --text: #e6e9ee;
+    --muted: #8a919c;
+    --border: #262a31;
+    --border-strong: #3d434d;
+    --accent: #ff7a2f;
+    --accent-soft: rgb(255 122 47 / 0.12);
+    --accent-contrast: #0b0d10;
+    --notice-bg: #2b1a0e;
+    --notice-text: #ffc59e;
+    --hover: rgb(255 255 255 / 0.05);
+    --grid: rgb(255 255 255 / 0.045);
+    --map-outline: #ffffff;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 12px 32px -10px rgb(0 0 0 / 0.75);
     color-scheme: dark;
 }
 
@@ -86,13 +95,54 @@ select {
     color: inherit;
 }
 
+/* Readouts: every number, date and small label is set in the mono face. */
+.field-label,
+.day-label,
+.ranking h3,
+.tag,
+.rank,
+.ranking-value,
+.big-value,
+.tooltip-value,
+.timeline-date > span,
+.timeline-marks,
+.segmented button,
+.legend,
+.chart-head,
+.chart .tick,
+.calendar-weekday,
+.calendar-day,
+.brand-tagline,
+.choice-badge,
+footer {
+    font-family: var(--font-mono);
+}
+
+/* Section labels read like channel names on a panel: "// HIGHEST VALUES". */
+.field-label,
+.day-label,
+.ranking h3 {
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.field-label::before,
+.day-label::before,
+.ranking h3::before {
+    content: '// ';
+    color: var(--accent);
+}
+
 .app {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-/* Top bar: logo slot + wordmark on the left, page menu on the right. */
+/* Top bar: logo + wordmark on the left, page menu on the right. */
 .topbar {
     position: sticky;
     top: 0;
@@ -102,8 +152,7 @@ select {
     gap: 16px;
     height: var(--topbar-height);
     padding: 0 24px;
-    background: color-mix(in srgb, var(--surface) 88%, transparent);
-    backdrop-filter: saturate(1.4) blur(10px);
+    background: var(--surface);
     border-bottom: 1px solid var(--border);
 }
 
@@ -120,7 +169,7 @@ select {
     flex: none;
     width: 1em;
     height: 1em;
-    font-size: 34px;
+    font-size: 32px;
 }
 
 .brand-text {
@@ -131,15 +180,17 @@ select {
 
 .brand-name {
     font-size: 1.15rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
 }
 
 .brand-tagline {
     overflow: hidden;
     color: var(--muted);
-    font-size: 0.8rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
@@ -154,11 +205,12 @@ select {
     display: flex;
     align-items: center;
     gap: 8px;
-    height: 38px;
-    padding: 0 14px;
-    border-radius: 999px;
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
     color: var(--muted);
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     font-weight: 500;
     text-decoration: none;
     transition:
@@ -168,12 +220,12 @@ select {
 
 .menu a:hover {
     color: var(--text);
-    background: var(--surface-2);
+    background: var(--hover);
 }
 
 .menu a[aria-current='page'] {
-    color: var(--accent);
-    background: var(--accent-soft);
+    color: var(--surface);
+    background: var(--text);
 }
 
 .icon {
@@ -185,21 +237,20 @@ select {
 .icon-button {
     display: grid;
     place-items: center;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     padding: 0;
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius);
     background: var(--surface);
     cursor: pointer;
 }
 
 .icon-button.ghost {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     border-color: transparent;
     background: transparent;
-    border-radius: 50%;
     color: var(--muted);
     transition:
         background 0.15s,
@@ -216,9 +267,9 @@ select {
     margin-left: auto;
 }
 
-/* Map controls (variable, day, search) under the top bar. */
+/* Map controls (variable, search) under the top bar. */
 .toolbar {
-    padding: 14px 24px;
+    padding: 10px 24px 12px;
     background: var(--surface);
     border-bottom: 1px solid var(--border);
 }
@@ -233,43 +284,37 @@ select {
 .field-label {
     display: block;
     margin-bottom: 4px;
-    color: var(--muted);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
 }
 
-/* Pop-overs (lists, calendar): frosted surface that fades and lifts in. */
+/* Pop-overs (lists, calendar): a solid panel with a hard edge that drops in. */
 .popover {
     position: absolute;
     z-index: 30;
     margin: 0;
-    padding: 6px;
+    padding: 4px;
     list-style: none;
     background: var(--popover-bg);
-    backdrop-filter: blur(14px) saturate(1.4);
-    border: 1px solid var(--border);
-    border-radius: 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
     box-shadow: var(--shadow-lg);
-    animation: popover-in 140ms ease-out;
+    animation: popover-in 120ms ease-out;
 }
 
 @keyframes popover-in {
     from {
         opacity: 0;
-        transform: translateY(-4px) scale(0.98);
+        transform: translateY(-3px);
     }
 }
 
 .tag {
     flex: none;
-    padding: 2px 7px;
-    border-radius: 999px;
-    background: var(--surface-2);
-    color: var(--muted);
-    font-size: 0.72rem;
-    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: var(--text);
+    color: var(--surface);
+    font-size: 0.7rem;
+    font-weight: 500;
 }
 
 /* Custom drop-down (variable). */
@@ -308,7 +353,7 @@ select {
 }
 
 .select-list {
-    top: calc(100% + 6px);
+    top: calc(100% + 4px);
     left: 0;
     min-width: 100%;
     outline: none;
@@ -318,8 +363,8 @@ select {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 9px 10px;
-    border-radius: 9px;
+    padding: 8px 10px;
+    border-radius: 3px;
     cursor: pointer;
     white-space: nowrap;
 }
@@ -342,17 +387,17 @@ select {
     width: 18px;
 }
 
-/* Shared look for buttons and fields: soft border, gentle hover, accent focus ring. */
+/* Shared look for buttons and fields: a recessed box with a hard outline. */
 input,
 .select-trigger,
 .date-trigger,
 .timeline-buttons button,
 .zoom-controls button {
-    height: 40px;
+    height: 36px;
     padding: 0 12px;
     border: 1px solid var(--border);
-    border-radius: 10px;
-    background: var(--surface);
+    border-radius: var(--radius);
+    background: var(--surface-2);
     transition:
         background 0.15s,
         border-color 0.15s,
@@ -365,14 +410,14 @@ input,
 .timeline-buttons button:not(:disabled):hover,
 .zoom-controls button:hover,
 input:hover {
-    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+    border-color: var(--border-strong);
 }
 
 .select-trigger[aria-expanded='true'],
 .date-trigger[aria-expanded='true'],
 input:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-soft);
+    box-shadow: 0 0 0 1px var(--accent);
     outline: none;
 }
 
@@ -383,7 +428,7 @@ a:focus-visible {
 }
 
 button:disabled {
-    opacity: 0.4;
+    opacity: 0.35;
     cursor: default;
 }
 
@@ -399,14 +444,21 @@ button:disabled {
     min-height: 70vh;
 }
 
+/* The map sits on graph paper. */
 .map-stage {
     position: relative;
     flex: 1;
+    background-color: var(--bg);
+    background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: -1px -1px;
 }
 
 /* Timeline: a scrubbable track over every day with data, with playback controls. */
 .timeline {
-    padding: 12px 24px 8px;
+    padding: 10px 24px 6px;
     background: var(--surface);
     border-top: 1px solid var(--border);
 }
@@ -427,13 +479,14 @@ button:disabled {
 
 .timeline-date strong {
     font-size: 1.05rem;
+    font-weight: 600;
     letter-spacing: -0.01em;
     font-variant-numeric: tabular-nums;
     animation: date-in 250ms ease-out;
 }
 
 .timeline-date > span {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
 }
 
 .timeline-buttons,
@@ -450,43 +503,33 @@ button:disabled {
 .timeline-buttons button {
     display: grid;
     place-items: center;
-    width: 40px;
+    width: 36px;
     padding: 0;
-    border-color: transparent;
-    background: transparent;
-    border-radius: 50%;
     color: var(--text);
     cursor: pointer;
 }
 
-.timeline-buttons button:not(:disabled):hover {
-    border-color: transparent;
-    background: var(--hover);
-}
-
 .timeline-buttons .play {
-    width: 52px;
-    height: 52px;
+    width: 48px;
     margin: 0 4px;
+    border-color: var(--accent);
     background: var(--accent);
     color: var(--accent-contrast);
-    box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--accent) 70%, transparent);
 }
 
 .timeline-buttons .play .icon {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
 }
 
 .timeline-buttons .play:not(:disabled):hover {
-    background: color-mix(in srgb, var(--accent) 88%, var(--text));
-    transform: scale(1.04);
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 85%, var(--text));
 }
 
 .timeline-buttons .play[aria-pressed='true'] {
     background: var(--accent-soft);
     color: var(--accent);
-    box-shadow: none;
 }
 
 /* The day title doubles as the button that opens the calendar. */
@@ -499,7 +542,7 @@ button:disabled {
     display: flex;
     align-items: center;
     gap: 10px;
-    height: 44px;
+    height: 40px;
     margin-left: -12px;
     border-color: transparent;
     background: transparent;
@@ -515,10 +558,10 @@ button:disabled {
 }
 
 .calendar {
-    bottom: calc(100% + 8px);
+    bottom: calc(100% + 6px);
     left: -12px;
     width: 300px;
-    padding: 12px;
+    padding: 10px;
     transform-origin: bottom left;
 }
 
@@ -531,6 +574,7 @@ button:disabled {
 
 .calendar-head strong {
     font-size: 0.95rem;
+    font-weight: 600;
 }
 
 .calendar-grid {
@@ -548,27 +592,29 @@ button:disabled {
 .calendar-weekday {
     display: grid;
     place-items: center;
-    height: 28px;
+    height: 26px;
     color: var(--muted);
-    font-size: 0.72rem;
-    font-weight: 600;
+    font-size: 0.68rem;
+    text-transform: uppercase;
 }
 
 .calendar-day {
     width: 100%;
     aspect-ratio: 1;
     padding: 0;
-    border: 0;
-    border-radius: 50%;
+    border: 1px solid transparent;
+    border-radius: 3px;
     background: transparent;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-variant-numeric: tabular-nums;
     cursor: pointer;
-    transition: background 0.12s;
+    transition:
+        background 0.12s,
+        border-color 0.12s;
 }
 
 .calendar-day:hover {
-    background: var(--hover);
+    border-color: var(--border-strong);
 }
 
 .calendar-day[data-outside] {
@@ -583,13 +629,14 @@ button:disabled {
 }
 
 .calendar-day[aria-disabled]:hover {
-    background: transparent;
+    border-color: transparent;
 }
 
 .calendar-day[aria-selected='true'] {
+    border-color: var(--accent);
     background: var(--accent);
     color: var(--accent-contrast);
-    font-weight: 700;
+    font-weight: 600;
     opacity: 1;
 }
 
@@ -605,15 +652,19 @@ button:disabled {
 
 .chip {
     flex: none;
-    height: 30px;
-    padding: 0 12px;
-    border: 0;
-    border-radius: 999px;
-    background: var(--accent-soft);
+    height: 28px;
+    padding: 0 10px;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    background: transparent;
     color: var(--accent);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
     cursor: pointer;
+}
+
+.chip:hover {
+    background: var(--accent-soft);
 }
 
 .timeline-track {
@@ -633,8 +684,7 @@ button:disabled {
 }
 
 .timeline-track input[type='range']::-webkit-slider-runnable-track {
-    height: 6px;
-    border-radius: 3px;
+    height: 4px;
     background: linear-gradient(
         to right,
         var(--accent) var(--progress),
@@ -643,55 +693,52 @@ button:disabled {
 }
 
 .timeline-track input[type='range']::-moz-range-track {
-    height: 6px;
-    border-radius: 3px;
+    height: 4px;
     background: var(--border);
 }
 
 .timeline-track input[type='range']::-moz-range-progress {
-    height: 6px;
-    border-radius: 3px;
+    height: 4px;
     background: var(--accent);
 }
 
+/* The thumb is a needle, like the pointer on a gauge. */
 .timeline-track input[type='range']::-webkit-slider-thumb {
     appearance: none;
-    width: 18px;
-    height: 18px;
-    margin-top: -6px;
-    border-radius: 50%;
-    background: var(--surface);
-    border: 3px solid var(--accent);
-    box-shadow: var(--shadow);
+    width: 6px;
+    height: 20px;
+    margin-top: -8px;
+    border: 0;
+    border-radius: 1px;
+    background: var(--text);
 }
 
 .timeline-track input[type='range']::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--surface);
-    border: 3px solid var(--accent);
-    box-shadow: var(--shadow);
+    width: 6px;
+    height: 20px;
+    border: 0;
+    border-radius: 1px;
+    background: var(--text);
 }
 
 .timeline-track input[type='range']:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 4px;
-    border-radius: 4px;
+    border-radius: var(--radius);
 }
 
 /* Month labels sit under the thumb's travel, which is inset by half the thumb's width. */
 .timeline-marks {
     position: relative;
     height: 18px;
-    margin: 0 9px;
+    margin: 0 3px;
 }
 
 .timeline-marks span {
     position: absolute;
     top: 0;
     transform: translateX(-50%);
-    font-size: 0.7rem;
+    font-size: 0.66rem;
     color: var(--muted);
     white-space: nowrap;
 }
@@ -719,7 +766,8 @@ button:disabled {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .timeline-date strong {
+    .timeline-date strong,
+    .popover {
         animation: none;
     }
 }
@@ -741,35 +789,36 @@ button:disabled {
     display: grid;
     place-items: center;
     color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
 }
 
 .map-status.error {
-    color: #b91c1c;
+    color: #dc2626;
 }
 
-/* Zoom buttons stacked in one floating pill. */
+/* Zoom buttons stacked in one bordered column. */
 .zoom-controls {
     position: absolute;
     top: 16px;
     left: 16px;
     display: flex;
     flex-direction: column;
-    padding: 4px;
     gap: 2px;
-    background: var(--popover-bg);
-    backdrop-filter: blur(10px);
+    padding: 3px;
+    background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: var(--radius);
     box-shadow: var(--shadow);
 }
 
 .zoom-controls button {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     padding: 0;
     border-color: transparent;
     background: transparent;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     line-height: 1;
     cursor: pointer;
 }
@@ -779,6 +828,7 @@ button:disabled {
     background: var(--hover);
 }
 
+/* Hover read-out: an inverted label that follows the pointer. */
 .tooltip {
     position: absolute;
     z-index: 5;
@@ -786,22 +836,26 @@ button:disabled {
     display: flex;
     flex-direction: column;
     gap: 1px;
-    padding: 10px 12px;
+    padding: 8px 10px;
     font-size: 0.85rem;
-    background: var(--popover-bg);
-    backdrop-filter: blur(12px) saturate(1.4);
-    border: 1px solid var(--border);
+    background: var(--text);
+    color: var(--surface);
     border-radius: var(--radius);
     box-shadow: var(--shadow-lg);
     pointer-events: none;
     white-space: nowrap;
 }
 
+.tooltip .muted {
+    color: color-mix(in srgb, var(--surface) 62%, var(--text));
+}
+
 .tooltip-value {
     margin-top: 4px;
-    font-size: 1.05rem;
-    font-weight: 700;
+    font-size: 1rem;
+    font-weight: 500;
     font-variant-numeric: tabular-nums;
+    color: color-mix(in srgb, var(--accent) 70%, var(--surface));
 }
 
 .legend {
@@ -810,7 +864,7 @@ button:disabled {
     left: 16px;
     margin: 0;
     padding: 10px 12px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -826,7 +880,7 @@ button:disabled {
 }
 
 .legend-step {
-    opacity: 0.8;
+    opacity: 0.85;
 }
 
 .legend-bar {
@@ -836,9 +890,7 @@ button:disabled {
 
 .legend-scale {
     display: flex;
-    height: 14px;
-    border-radius: 999px;
-    overflow: hidden;
+    height: 10px;
 }
 
 .legend-scale .legend-swatch {
@@ -850,16 +902,15 @@ button:disabled {
     box-shadow: inset 1px 0 0 rgb(255 255 255 / 0.35);
 }
 
+/* The marker is a needle over the scale; its colour is the value's own (set inline). */
 .legend-marker {
     position: absolute;
     top: 50%;
-    width: 18px;
-    height: 18px;
-    border: 3px solid var(--surface);
-    border-radius: 50%;
-    box-shadow:
-        0 0 0 1px var(--border),
-        var(--shadow);
+    width: 8px;
+    height: 20px;
+    border: 2px solid var(--text);
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px var(--surface);
     transform: translate(-50%, -50%);
     transition: left 120ms ease-out;
     pointer-events: none;
@@ -889,9 +940,9 @@ button:disabled {
 
 .legend-missing .legend-swatch {
     display: inline-block;
-    width: 12px;
-    height: 12px;
-    border-radius: 2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 1px;
 }
 
 .side-panel {
@@ -902,17 +953,14 @@ button:disabled {
 }
 
 .day-label {
-    margin: 0 0 16px;
-    color: var(--muted);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    margin: 0 0 14px;
 }
 
 .notice {
     padding: 10px 14px;
-    border-radius: 10px;
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    border-left-width: 3px;
+    border-radius: var(--radius);
     background: var(--notice-bg);
     color: var(--notice-text);
     font-size: 0.85rem;
@@ -926,23 +974,26 @@ button:disabled {
 
 .selected-head h2 {
     margin: 0;
-    font-size: 1.4rem;
-    letter-spacing: -0.02em;
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
 }
 
 .selected-head p {
     margin: 2px 0 0;
 }
 
+/* The selected value is the panel's main readout. */
 .big-value {
     margin: 12px 0 16px;
-    padding: 16px 18px;
-    border-radius: 14px;
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-size: 2.25rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    box-shadow: inset 3px 0 0 var(--accent);
+    font-size: 2.4rem;
+    font-weight: 500;
+    letter-spacing: -0.04em;
     font-variant-numeric: tabular-nums;
 }
 
@@ -960,20 +1011,22 @@ button:disabled {
 
 .ranking h3 {
     margin: 20px 0 8px;
-    font-size: 0.72rem;
-    color: var(--muted);
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
 }
 
+/* Rankings are a compact table: one bordered block, rows split by hairlines. */
 .ranking ol {
     display: flex;
     flex-direction: column;
-    gap: 4px;
     margin: 0;
     padding: 0;
     list-style: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.ranking li + li button {
+    border-top: 1px solid var(--border);
 }
 
 /* Each row is a button with a faint bar behind it showing where the value sits that day. */
@@ -981,25 +1034,21 @@ button:disabled {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     width: 100%;
-    padding: 8px 12px 8px 8px;
+    padding: 7px 12px 7px 10px;
     overflow: hidden;
-    border: 1px solid transparent;
-    border-radius: 12px;
-    background: var(--surface-2);
-    font-size: 0.9rem;
+    border: 0;
+    background: var(--surface);
+    font-size: 0.88rem;
     text-align: left;
     cursor: pointer;
     isolation: isolate;
-    transition:
-        border-color 0.15s,
-        transform 0.15s;
+    transition: background 0.15s;
 }
 
 .ranking li button:hover {
-    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
-    transform: translateX(2px);
+    background: var(--surface-2);
 }
 
 .ranking-bar {
@@ -1011,17 +1060,10 @@ button:disabled {
 }
 
 .rank {
-    display: grid;
     flex: none;
-    place-items: center;
     min-width: 28px;
-    height: 28px;
-    padding: 0 4px;
-    border-radius: 8px;
-    background: var(--surface);
     color: var(--muted);
     font-size: 0.75rem;
-    font-weight: 700;
     font-variant-numeric: tabular-nums;
 }
 
@@ -1040,7 +1082,7 @@ button:disabled {
 }
 
 .ranking-value {
-    font-weight: 600;
+    font-weight: 500;
     font-variant-numeric: tabular-nums;
 }
 
@@ -1051,27 +1093,28 @@ button:disabled {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
 }
 
-/* Segmented control: a sunken track with the chosen option raised on it. */
+/* Segmented control: a bordered strip with the chosen option filled in. */
 .segmented {
     display: flex;
     gap: 2px;
-    padding: 3px;
-    border-radius: 10px;
+    padding: 2px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     background: var(--surface-2);
 }
 
 .segmented button {
-    height: 28px;
-    padding: 0 10px;
+    height: 26px;
+    padding: 0 9px;
     border: 0;
-    border-radius: 7px;
+    border-radius: 3px;
     background: transparent;
     color: var(--muted);
-    font-size: 0.78rem;
-    font-weight: 600;
+    font-size: 0.75rem;
+    font-weight: 500;
     font-variant-numeric: tabular-nums;
     cursor: pointer;
     transition:
@@ -1084,11 +1127,8 @@ button:disabled {
 }
 
 .segmented button[aria-pressed='true'] {
-    background: var(--surface);
-    color: var(--accent);
-    box-shadow:
-        0 1px 2px rgb(15 23 42 / 0.12),
-        0 1px 6px rgb(15 23 42 / 0.06);
+    background: var(--text);
+    color: var(--surface);
 }
 
 .chart svg {
@@ -1109,12 +1149,12 @@ button:disabled {
 .chart .series {
     fill: none;
     stroke: var(--accent);
-    stroke-width: 1.75;
+    stroke-width: 1.5;
 }
 
 .chart .band {
     fill: var(--accent);
-    opacity: 0.18;
+    opacity: 0.16;
 }
 
 .chart .dot {
@@ -1132,16 +1172,16 @@ button:disabled {
 
 .search > .icon {
     position: absolute;
-    top: 11px;
-    left: 12px;
+    top: 9px;
+    left: 11px;
     color: var(--muted);
     pointer-events: none;
 }
 
 .search input {
     width: 260px;
-    padding-left: 38px;
-    padding-right: 40px;
+    padding-left: 36px;
+    padding-right: 38px;
 }
 
 .search input::-webkit-search-cancel-button {
@@ -1150,12 +1190,12 @@ button:disabled {
 
 .search .search-clear {
     position: absolute;
-    top: 3px;
-    right: 3px;
+    top: 2px;
+    right: 2px;
 }
 
 .search .popover {
-    top: calc(100% + 6px);
+    top: calc(100% + 4px);
     left: 0;
     right: 0;
 }
@@ -1163,8 +1203,8 @@ button:disabled {
 .search li {
     display: flex;
     flex-direction: column;
-    padding: 8px 10px;
-    border-radius: 9px;
+    padding: 7px 10px;
+    border-radius: 3px;
     cursor: pointer;
 }
 
@@ -1185,8 +1225,8 @@ button:disabled {
 }
 
 footer {
-    padding: 12px 24px;
-    font-size: 0.75rem;
+    padding: 10px 24px;
+    font-size: 0.7rem;
     color: var(--muted);
     border-top: 1px solid var(--border);
     background: var(--surface);
@@ -1202,6 +1242,7 @@ footer a {
     place-items: center;
     padding: 48px 24px;
     color: var(--muted);
+    font-family: var(--font-mono);
 }
 
 /* Content pages (About, Settings). */
@@ -1215,8 +1256,9 @@ footer a {
 
 .page h1 {
     margin: 0 0 6px;
-    font-size: 1.75rem;
-    letter-spacing: -0.02em;
+    font-size: 1.9rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
 }
 
 .page > .muted,
@@ -1231,15 +1273,16 @@ footer a {
 
 .card {
     margin-bottom: 16px;
-    padding: 20px 24px;
+    padding: 18px 20px;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: var(--radius);
 }
 
 .card h2 {
     margin: 0 0 4px;
-    font-size: 1.05rem;
+    font-size: 1rem;
+    font-weight: 700;
 }
 
 .card p,
@@ -1263,11 +1306,11 @@ footer a {
     display: flex;
     align-items: center;
     gap: 10px;
-    height: 48px;
-    padding: 0 14px;
+    height: 44px;
+    padding: 0 12px;
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    background: var(--surface);
+    background: var(--surface-2);
     font-weight: 500;
     cursor: pointer;
     transition:
@@ -1276,12 +1319,13 @@ footer a {
 }
 
 .choices button:hover {
-    background: var(--surface-2);
+    border-color: var(--border-strong);
 }
 
 .choices button[aria-checked='true'] {
     border-color: var(--accent);
     background: var(--accent-soft);
+    box-shadow: inset 0 0 0 1px var(--accent);
     color: var(--accent);
 }
 
@@ -1290,24 +1334,29 @@ footer a {
     place-items: center;
     width: 26px;
     height: 20px;
-    border-radius: 5px;
-    background: var(--surface-2);
-    color: var(--muted);
-    font-size: 0.7rem;
-    font-weight: 700;
+    border-radius: 3px;
+    background: var(--text);
+    color: var(--surface);
+    font-size: 0.68rem;
+    font-weight: 500;
 }
 
 .button {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    height: 40px;
-    padding: 0 16px;
-    border-radius: 10px;
-    background: var(--accent);
-    color: var(--accent-contrast);
+    height: 38px;
+    padding: 0 14px;
+    border-radius: var(--radius);
+    background: var(--text);
+    color: var(--surface);
     font-weight: 600;
     text-decoration: none;
+}
+
+.button:hover {
+    background: var(--accent);
+    color: var(--accent-contrast);
 }
 
 @media (max-width: 900px) {
@@ -1381,7 +1430,7 @@ footer a {
         padding: 8px 12px 12px;
         background: var(--surface);
         border-bottom: 1px solid var(--border);
-        box-shadow: var(--shadow);
+        box-shadow: var(--shadow-lg);
     }
 
     .menu[data-open='true'] {
@@ -1390,7 +1439,6 @@ footer a {
 
     .menu a {
         height: 44px;
-        border-radius: 10px;
     }
 
     .page {
@@ -1403,7 +1451,7 @@ footer a {
  * the theme tokens, so a restyle can change it in one place.
  */
 .mode-switch .segmented {
-    height: 40px;
+    height: 36px;
     align-items: stretch;
 }
 
@@ -1462,11 +1510,11 @@ footer a {
 
 .query-panel .date-trigger {
     width: 100%;
-    height: 40px;
+    height: 36px;
     margin-left: 0;
     gap: 8px;
     border-color: var(--border);
-    background: var(--surface);
+    background: var(--surface-2);
     font-size: 0.9rem;
 }
 
@@ -1538,4 +1586,9 @@ footer a {
         top: 0;
         height: max(70vh, calc(100vh - 160px));
     }
+}
+
+/* "From" and "To" sit under the period's own label, so they drop the "//" marker. */
+.query-period .query-row .field-label::before {
+    content: none;
 }
