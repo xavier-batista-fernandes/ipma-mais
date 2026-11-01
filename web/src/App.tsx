@@ -163,7 +163,11 @@ export function App() {
                                 </span>
                             </div>
                         )}
-                        <Legend scale={scale} unit={metric.unit} />
+                        <Legend
+                            scale={scale}
+                            unit={metric.unit}
+                            marker={hoverValue ?? selectedValue}
+                        />
                     </div>
                     {activeDate && metric.dates.length > 0 && (
                         <Timeline
