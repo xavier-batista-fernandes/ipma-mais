@@ -51,6 +51,14 @@ npm run dev        # generates public/api from ../data and starts the dev server
 npm run build      # type-checks and builds web/dist
 ```
 
+End-to-end tests drive the production build in Chromium with [Playwright](https://playwright.dev), against the API generated from `data/`. The `E2E` workflow runs them on every pull request and push to `main`.
+
+```bash
+cd web
+npx playwright install chromium   # once
+npm run test:e2e                  # builds, serves on :4173 and runs e2e/*.spec.ts
+```
+
 The `Deploy site` workflow publishes the app and the data to GitHub Pages whenever the app changes and after each collection. It requires GitHub Pages to be enabled on the repository with **GitHub Actions** as the source (Settings → Pages).
 
 ## Disclaimer and Liability
