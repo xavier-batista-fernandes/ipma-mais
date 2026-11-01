@@ -438,6 +438,11 @@ button:disabled {
     inset: 0;
 }
 
+/* Keep municipality strokes at a fixed on-screen width instead of growing with zoom. */
+.map path {
+    vector-effect: non-scaling-stroke;
+}
+
 .map-status {
     position: absolute;
     inset: 0;
