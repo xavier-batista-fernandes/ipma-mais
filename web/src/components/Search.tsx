@@ -1,13 +1,16 @@
 import { getMunicipalitiesFromString, type Municipality } from 'cartis';
 import { useId, useMemo, useState } from 'react';
 import { useI18n } from '../i18n';
+import { Icon } from './Icon';
 
 interface Props {
     onSelect: (name: Municipality) => void;
+    /** A second line under each match, such as its district. */
+    describe?: (name: Municipality) => string | undefined;
 }
 
 /** Search-as-you-type over the 278 municipality names (accent and case insensitive). */
-export function Search({ onSelect }: Props) {
+export function Search({ onSelect, describe }: Props) {
     const { t } = useI18n();
     const [query, setQuery] = useState('');
     const [active, setActive] = useState(0);
@@ -31,6 +34,7 @@ export function Search({ onSelect }: Props) {
 
     return (
         <div className="search">
+            <Icon name="search" />
             <input
                 type="search"
                 placeholder={t('search.placeholder')}
@@ -53,8 +57,24 @@ export function Search({ onSelect }: Props) {
                     e.preventDefault();
                 }}
             />
+            {query && (
+                <button
+                    type="button"
+                    className="icon-button ghost search-clear"
+                    aria-label={t('search.clear')}
+                    onClick={() => {
+                        setQuery('');
+                        setActive(0);
+                    }}
+                >
+                    <Icon name="close" />
+                </button>
+            )}
+            {query.trim() && matches.length === 0 && (
+                <p className="popover search-empty">{t('search.noResults')}</p>
+            )}
             {matches.length > 0 && (
-                <ul id={listId} role="listbox">
+                <ul id={listId} role="listbox" className="popover">
                     {matches.map((name, i) => (
                         <li
                             key={name}
@@ -65,7 +85,10 @@ export function Search({ onSelect }: Props) {
                                 choose(name);
                             }}
                         >
-                            {name}
+                            <span>{name}</span>
+                            {describe?.(name) && (
+                                <span className="muted small">{describe(name)}</span>
+                            )}
                         </li>
                     ))}
                 </ul>

@@ -11,9 +11,11 @@ import {
 } from './api';
 import { createColorScale } from './colors';
 import { Header } from './components/Header';
+import { Icon } from './components/Icon';
 import { Legend } from './components/Legend';
 import { MapView } from './components/MapView';
 import { Search } from './components/Search';
+import { Select } from './components/Select';
 import { SeriesChart } from './components/SeriesChart';
 import { Timeline } from './components/Timeline';
 import { useI18n } from './i18n';
@@ -125,20 +127,20 @@ export function App() {
         <>
             <div className="toolbar">
                 <div className="controls">
-                    <label>
-                        <span>{t('controls.metric')}</span>
-                        <select
-                            value={metric.id}
-                            onChange={(e) => setMetricId(e.target.value as MetricId)}
-                        >
-                            {index.metrics.map((m) => (
-                                <option key={m.id} value={m.id}>
-                                    {t(`metric.${m.id}`)}
-                                </option>
-                            ))}
-                        </select>
-                    </label>
-                    <Search onSelect={(name) => setSelectedDico(byName.get(name)?.dico ?? null)} />
+                    <Select
+                        label={t('controls.metric')}
+                        value={metric.id}
+                        onChange={setMetricId}
+                        options={index.metrics.map((m) => ({
+                            value: m.id,
+                            label: t(`metric.${m.id}`),
+                            tag: m.unit,
+                        }))}
+                    />
+                    <Search
+                        onSelect={(name) => setSelectedDico(byName.get(name)?.dico ?? null)}
+                        describe={(name) => byName.get(name)?.district}
+                    />
                 </div>
             </div>
 
@@ -155,8 +157,8 @@ export function App() {
                         {hover && hoverInfo && (
                             <div className="tooltip" style={{ left: hover.x, top: hover.y }}>
                                 <strong>{hover.municipality}</strong>
-                                <span className="muted">{hover.district}</span>
-                                <span>
+                                <span className="muted small">{hover.district}</span>
+                                <span className="tooltip-value">
                                     {hoverValue !== undefined
                                         ? format.value(hoverValue, metric.unit)
                                         : t('common.noData')}
@@ -191,10 +193,12 @@ export function App() {
                                 </div>
                                 <button
                                     type="button"
-                                    className="link"
+                                    className="icon-button ghost"
+                                    aria-label={t('panel.close')}
+                                    title={t('panel.close')}
                                     onClick={() => setSelectedDico(null)}
                                 >
-                                    {t('panel.close')}
+                                    <Icon name="close" />
                                 </button>
                             </div>
                             <p className="big-value">
@@ -269,16 +273,31 @@ function Ranking({
     const { t, format } = useI18n();
     if (!day) return <p className="muted">{t('app.loading')}</p>;
     const sorted = Object.entries(day.values).sort((a, b) => b[1] - a[1]);
-    const list = (entries: [string, number][]) => (
+    const min = sorted.at(-1)?.[1] ?? 0;
+    const max = sorted[0]?.[1] ?? 0;
+    // Each row's bar spans the day's range, so the top and bottom lists compare at a glance.
+    const share = (value: number) => (max > min ? 0.08 + (0.92 * (value - min)) / (max - min) : 1);
+    const list = (entries: [string, number][], rankOf: (i: number) => number) => (
         <ol>
-            {entries.map(([dico, value]) => (
-                <li key={dico}>
-                    <button type="button" className="link" onClick={() => onSelect(dico)}>
-                        {byDico.get(dico)?.name ?? dico}
-                    </button>
-                    <span>{format.value(value, unit)}</span>
-                </li>
-            ))}
+            {entries.map(([dico, value], i) => {
+                const info = byDico.get(dico);
+                return (
+                    <li key={dico}>
+                        <button type="button" onClick={() => onSelect(dico)}>
+                            <span className="rank">{rankOf(i)}</span>
+                            <span className="ranking-name">
+                                <span>{info?.name ?? dico}</span>
+                                <span className="muted small">{info?.district}</span>
+                            </span>
+                            <span className="ranking-value">{format.value(value, unit)}</span>
+                            <span
+                                className="ranking-bar"
+                                style={{ transform: `scaleX(${share(value)})` }}
+                            />
+                        </button>
+                    </li>
+                );
+            })}
         </ol>
     );
 
@@ -286,9 +305,9 @@ function Ranking({
         <div className="ranking">
             <p className="muted">{t('ranking.hint')}</p>
             <h3>{t('ranking.highest')}</h3>
-            {list(sorted.slice(0, 5))}
+            {list(sorted.slice(0, 5), (i) => i + 1)}
             <h3>{t('ranking.lowest')}</h3>
-            {list(sorted.slice(-5).reverse())}
+            {list(sorted.slice(-5).reverse(), (i) => sorted.length - i)}
         </div>
     );
 }
