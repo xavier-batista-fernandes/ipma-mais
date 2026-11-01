@@ -1,4 +1,4 @@
-import { en, expect, fill, metricOf, openMap, test } from './fixtures';
+import { en, expect, fill, metricOf, openMap, pickOtherDay, test } from './fixtures';
 
 test.describe('timeline', () => {
     test('buttons step through days and update the URL', async ({ page, index }) => {
@@ -49,8 +49,9 @@ test.describe('timeline', () => {
         await timeline.getByRole('slider', { name: en['controls.day'] }).fill('0');
         await expect(page).toHaveURL(new RegExp(`[?&]d=${dates[0]}`));
 
-        await timeline.getByLabel(en['controls.pickDay']).fill(dates[5]);
-        await expect(page).toHaveURL(new RegExp(`[?&]d=${dates[5]}`));
+        const picked = await pickOtherDay(page, dates[5]);
+        expect(dates).toContain(picked);
+        await expect(page).toHaveURL(new RegExp(`[?&]d=${picked}`));
     });
 
     test('play advances through days and pause stops', async ({ page, index }) => {

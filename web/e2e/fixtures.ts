@@ -69,3 +69,47 @@ export async function municipalityPoint(page: Page, name: string) {
     if (!point) throw new Error(`no clickable point found for ${name}`);
     return point;
 }
+
+/*
+ * Variable and day pickers. Until #11 (styled drop-down and calendar) is merged, these handle
+ * both the native controls and the custom ones, so the suite passes whichever lands first.
+ * Once it's in, drop the native branches.
+ */
+
+const metricSelect = (page: Page) =>
+    page.locator('select').filter({ has: page.locator('option[value="et0"]') });
+
+/** The variable picker's options, opening the drop-down first if it's a custom one. */
+export async function metricOptions(page: Page) {
+    if (await metricSelect(page).count()) return metricSelect(page).getByRole('option');
+    await page.getByRole('button', { name: en['controls.metric'] }).click();
+    return page.getByRole('listbox', { name: en['controls.metric'] }).getByRole('option');
+}
+
+export async function chooseMetric(page: Page, id: 'et0' | 'tmax' | 'tmin') {
+    if (await metricSelect(page).count()) return void (await metricSelect(page).selectOption(id));
+    const options = await metricOptions(page);
+    await options.filter({ hasText: en[`metric.${id}`] }).click();
+}
+
+/**
+ * Picks a day other than the current one with the date control and returns it: the native
+ * input takes `fallback` directly, the calendar takes the first other day with data it shows.
+ */
+export async function pickOtherDay(page: Page, fallback: string) {
+    const native = page.locator('input[type="date"]');
+    if (await native.count()) {
+        await native.fill(fallback);
+        return fallback;
+    }
+    await page.getByRole('button', { name: en['controls.pickDay'] }).click();
+    const calendar = page.getByRole('dialog', { name: en['controls.pickDay'] });
+    const day = calendar
+        .getByRole('grid')
+        .locator('button:not([aria-disabled]):not([aria-selected="true"])')
+        .first();
+    const date = (await day.getAttribute('data-date'))!;
+    await day.click();
+    await expect(calendar).toBeHidden();
+    return date;
+}

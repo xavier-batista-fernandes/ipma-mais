@@ -1,4 +1,14 @@
-import { en, expect, fill, metricOf, municipalityPoint, openMap, test } from './fixtures';
+import {
+    chooseMetric,
+    en,
+    expect,
+    fill,
+    metricOf,
+    metricOptions,
+    municipalityPoint,
+    openMap,
+    test,
+} from './fixtures';
 
 test.describe('map', () => {
     test('draws every municipality and opens on the latest ET0 day', async ({ page, index }) => {
@@ -8,7 +18,7 @@ test.describe('map', () => {
         await expect(page.getByLabel(en['map.label']).locator('svg path')).toHaveCount(
             index.municipalities.length
         );
-        await expect(page.getByLabel(en['controls.metric'])).toHaveValue('et0');
+        await expect(page).toHaveURL(/[?&]m=et0/);
         await expect(page.getByRole('region', { name: en['timeline.label'] })).toContainText(
             fill(en['timeline.dayOf'], { day: et0.dates.length, total: et0.dates.length })
         );
@@ -52,11 +62,19 @@ test.describe('map', () => {
         await expect(reset).toBeHidden();
     });
 
-    test('clicking a ranking entry selects that municipality', async ({ page }) => {
+    test('clicking a ranking entry selects that municipality', async ({ page, index, request }) => {
+        // The top entry is the day's highest value, read from the same API the app uses.
+        const { lastDate } = metricOf(index, 'et0');
+        const day = await (await request.get(`api/et0/days/${lastDate}.json`)).json();
+        const [topDico] = Object.entries(day.values as Record<string, number>).sort(
+            (a, b) => b[1] - a[1]
+        )[0];
+        const name = index.municipalities.find((m) => m.dico === topDico)!.name;
+
         await openMap(page);
         const panel = page.getByRole('complementary');
         const first = panel.getByRole('listitem').first().getByRole('button');
-        const name = (await first.textContent())!.trim();
+        await expect(first).toContainText(name);
         await first.click();
         await expect(panel.getByRole('heading', { level: 2, name })).toBeVisible();
         await expect(panel.getByRole('img', { name: /./ })).toBeVisible();
@@ -73,7 +91,7 @@ test.describe('variable picker', () => {
             const metric = metricOf(index, id);
             await openMap(page);
 
-            await page.getByLabel(en['controls.metric']).selectOption(id);
+            await chooseMetric(page, id);
             await expect(page).toHaveURL(new RegExp(`[?&]m=${id}`));
             await expect(page).toHaveURL(new RegExp(`[?&]d=${metric.lastDate}`));
             await expect(page.getByRole('region', { name: en['timeline.label'] })).toContainText(
@@ -85,7 +103,10 @@ test.describe('variable picker', () => {
 
     test('lists every metric in the index', async ({ page, index }) => {
         await openMap(page);
-        const options = page.getByLabel(en['controls.metric']).getByRole('option');
-        await expect(options).toHaveText(index.metrics.map((m) => en[`metric.${m.id}`]));
+        const options = await metricOptions(page);
+        await expect(options).toHaveCount(index.metrics.length);
+        for (const [i, m] of index.metrics.entries()) {
+            await expect(options.nth(i)).toContainText(en[`metric.${m.id}`]);
+        }
     });
 });
