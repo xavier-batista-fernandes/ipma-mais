@@ -12,16 +12,32 @@ const PATHS = {
     language:
         'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20',
     github: 'M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.1-1.3-.3-2.5-1-3.5.3-1.2.3-2.4 0-3.5 0 0-1 0-3 1.5a10.4 10.4 0 0 0-5 0C6 2 5 2 5 2c-.3 1.1-.3 2.3 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.4.5-.7 1-.8 1.6-.2.6-.3 1.2-.2 1.9v4m0-3c-4.5 2-5-2-7-2',
+    search: 'M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Zm9 2-4-4',
+    calendar:
+        'M4 6.5A1.5 1.5 0 0 1 5.5 5h13A1.5 1.5 0 0 1 20 6.5v12a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5v-12ZM4 10h16M8 3v4m8-4v4',
+    chevronDown: 'm6 9 6 6 6-6',
+    chevronLeft: 'm15 6-6 6 6 6',
+    chevronRight: 'm9 6 6 6-6 6',
+    check: 'm5 12.5 4.5 4.5L19 7.5',
+    skipBack: 'M6 5v14M18 6l-8 6 8 6V6Z',
+    skipForward: 'M18 5v14M6 6l8 6-8 6V6Z',
+    play: 'M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z',
+    pause: 'M7 5h3v14H7zM14 5h3v14h-3z',
+    layers: 'm12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5',
 } as const;
+
+/** Icons drawn as solid shapes rather than strokes. */
+const FILLED: ReadonlySet<IconName> = new Set(['play', 'pause']);
 
 export type IconName = keyof typeof PATHS;
 
 export function Icon({ name }: { name: IconName }) {
+    const filled = FILLED.has(name);
     return (
         <svg
             className="icon"
             viewBox="0 0 24 24"
-            fill="none"
+            fill={filled ? 'currentColor' : 'none'}
             stroke="currentColor"
             strokeWidth="1.8"
             strokeLinecap="round"
