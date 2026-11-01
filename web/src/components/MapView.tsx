@@ -1,7 +1,8 @@
 import { Country, CountryMap, type Municipality, type MunicipalityInteractionEvent } from 'cartis';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { MISSING_FILL } from '../colors';
 import { useI18n } from '../i18n';
+import { useSettings } from '../settings';
 
 /**
  * No visible borders: each municipality is stroked in its own fill colour, just wide enough to
@@ -10,7 +11,28 @@ import { useI18n } from '../i18n';
  * 1.5 screen pixels at any zoom (narrower still lets the background show through at 1x DPR).
  */
 const SEAM_WIDTH = 1.5;
-const SELECTED_BORDER = { strokeColor: '#111827', strokeWidth: 2 };
+const SELECTED_STROKE_WIDTH = 2;
+
+/**
+ * The selected municipality's outline colour: the theme's `--map-outline` token. Cartis sets it
+ * as an SVG attribute, where `var()` doesn't work, so it is read here and re-read whenever the
+ * theme changes (a Settings choice or the system's light/dark switch).
+ */
+function useOutlineColor() {
+    const { theme } = useSettings();
+    const read = () =>
+        getComputedStyle(document.documentElement).getPropertyValue('--map-outline').trim() ||
+        '#111827';
+    const [color, setColor] = useState(read);
+    useEffect(() => {
+        setColor(read());
+        const query = window.matchMedia('(prefers-color-scheme: dark)');
+        const update = () => setColor(read());
+        query.addEventListener('change', update);
+        return () => query.removeEventListener('change', update);
+    }, [theme]);
+    return color;
+}
 
 /**
  * Moves a municipality's path to the end of its group so its outline paints above its
@@ -43,13 +65,18 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
     const [map, setMap] = useState<CountryMap | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [movedAway, setMovedAway] = useState(false);
+    const outline = useOutlineColor();
+    const selectedBorder = useMemo(
+        () => ({ strokeColor: outline, strokeWidth: SELECTED_STROKE_WIDTH }),
+        [outline]
+    );
 
     // Latest callbacks, so the map's single registered handler never goes stale.
     const handlers = useRef({ onHover, onSelect });
     handlers.current = { onHover, onSelect };
     // Read by the effects below without making them re-run (and re-zoom) on every change.
-    const latest = useRef({ fills, selected });
-    latest.current = { fills, selected };
+    const latest = useRef({ fills, selected, selectedBorder });
+    latest.current = { fills, selected, selectedBorder };
 
     useEffect(() => {
         let cancelled = false;
@@ -97,15 +124,15 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
             map.styleMunicipalities(names, { fill, strokeColor: fill, strokeWidth: SEAM_WIDTH });
         }
         // Recolouring just reset the selected municipality's stroke too; put its outline back.
-        const { selected } = latest.current;
-        if (selected) map.styleMunicipalities([selected], SELECTED_BORDER);
+        const { selected, selectedBorder } = latest.current;
+        if (selected) map.styleMunicipalities([selected], selectedBorder);
     }, [map, fills, allNames]);
 
     // Outline and frame the selected municipality.
     useEffect(() => {
         if (!map || !selected) return;
         bringToFront(containerRef.current, selected);
-        map.styleMunicipalities([selected], SELECTED_BORDER);
+        map.styleMunicipalities([selected], latest.current.selectedBorder);
         // Deferred a little: right after the map first renders, Cartis' resize handling can still
         // reproject once and would interrupt a zoom transition started in the same frame.
         const timer = window.setTimeout(
@@ -118,6 +145,11 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
             map.styleMunicipalities([selected], { strokeColor: fill, strokeWidth: SEAM_WIDTH });
         };
     }, [map, selected]);
+
+    // A theme change only recolours the outline; it doesn't re-zoom.
+    useEffect(() => {
+        if (map && selected) map.styleMunicipalities([selected], selectedBorder);
+    }, [map, selected, selectedBorder]);
 
     return (
         <div className="map-wrap">
