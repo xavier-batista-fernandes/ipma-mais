@@ -1397,3 +1397,145 @@ footer a {
         padding: 24px 16px 40px;
     }
 }
+
+/*
+ * Query mode (mode switch, query builder, results, export). Kept in its own block, built only on
+ * the theme tokens, so a restyle can change it in one place.
+ */
+.mode-switch .segmented {
+    height: 40px;
+    align-items: stretch;
+}
+
+.mode-switch .segmented button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: auto;
+    padding: 0 12px;
+}
+
+.query-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.query-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.query-form .select,
+.query-form .select-trigger {
+    width: 100%;
+    min-width: 0;
+}
+
+.query-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 10px;
+    align-items: end;
+}
+
+.query-field input {
+    width: 100%;
+    font-variant-numeric: tabular-nums;
+}
+
+.query-period {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+}
+
+.query-period > legend {
+    padding: 0;
+}
+
+.query-panel .date-picker {
+    align-self: stretch;
+}
+
+.query-panel .date-trigger {
+    width: 100%;
+    height: 40px;
+    margin-left: 0;
+    gap: 8px;
+    border-color: var(--border);
+    background: var(--surface);
+    font-size: 0.9rem;
+}
+
+.query-panel .date-trigger > span {
+    flex: 1;
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* In the side panel the calendar opens downwards, under its field. */
+.query-panel .calendar {
+    top: calc(100% + 6px);
+    bottom: auto;
+    left: 0;
+}
+
+.query-panel .query-row > :last-child .calendar {
+    left: auto;
+    right: 0;
+}
+
+.query-presets,
+.query-export-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.query-results {
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.query-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 0 0 8px;
+}
+
+.query-export {
+    margin: 12px 0 4px;
+}
+
+.query-export .field-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.query-export .icon {
+    width: 14px;
+    height: 14px;
+}
+
+.query-results .ranking > .muted {
+    margin: 12px 0 8px;
+}
+
+/* The results list can be long: the map stays in view beside it instead of stretching with it. */
+@media (min-width: 901px) {
+    .map-layout[data-mode='query'] {
+        align-items: start;
+    }
+
+    .map-layout[data-mode='query'] .map-panel {
+        position: sticky;
+        top: 0;
+        height: max(70vh, calc(100vh - 160px));
+    }
+}
