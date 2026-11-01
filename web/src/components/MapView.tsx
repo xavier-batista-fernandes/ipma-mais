@@ -3,8 +3,30 @@ import { useEffect, useRef, useState } from 'react';
 import { MISSING_FILL } from '../colors';
 import { useI18n } from '../i18n';
 
-const BORDER = { strokeColor: '#ffffff', strokeWidth: 0.3 };
-const SELECTED_BORDER = { strokeColor: '#111827', strokeWidth: 1.5 };
+/**
+ * No visible borders: each municipality is stroked in its own fill colour, just wide enough to
+ * cover the anti-aliasing seams between neighbouring polygons. Strokes don't scale with zoom
+ * (`vector-effect: non-scaling-stroke` in styles.css), so the overlap stays the same
+ * 1.5 screen pixels at any zoom (narrower still lets the background show through at 1x DPR).
+ */
+const SEAM_WIDTH = 1.5;
+const SELECTED_BORDER = { strokeColor: '#111827', strokeWidth: 2 };
+
+/**
+ * Moves a municipality's path to the end of its group so its outline paints above its
+ * neighbours' seam strokes (otherwise every neighbour drawn later covers half of it). Cartis has
+ * no API for this, so it finds the path through the feature D3 bound to it; if that ever
+ * changes, this quietly does nothing and the outline is just thinner on some sides.
+ */
+function bringToFront(container: HTMLElement | null, name: Municipality) {
+    for (const path of container?.querySelectorAll('svg path') ?? []) {
+        const datum = (path as { __data__?: { properties?: { NAME_2?: string } } }).__data__;
+        if (datum?.properties?.NAME_2 === name) {
+            path.parentNode?.appendChild(path);
+            return;
+        }
+    }
+}
 
 interface Props {
     /** Fill colour per municipality; municipalities left out are drawn as missing data. */
@@ -25,6 +47,9 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
     // Latest callbacks, so the map's single registered handler never goes stale.
     const handlers = useRef({ onHover, onSelect });
     handlers.current = { onHover, onSelect };
+    // Read by the effects below without making them re-run (and re-zoom) on every change.
+    const latest = useRef({ fills, selected });
+    latest.current = { fills, selected };
 
     useEffect(() => {
         let cancelled = false;
@@ -32,7 +57,7 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
         const unsubscribe: (() => void)[] = [];
 
         CountryMap.create(Country.PORTUGAL, containerRef.current!, {
-            style: { fill: MISSING_FILL, ...BORDER },
+            style: { fill: MISSING_FILL, strokeColor: MISSING_FILL, strokeWidth: SEAM_WIDTH },
         })
             .then((created) => {
                 // StrictMode mounts twice: a create() that resolves after cleanup is discarded.
@@ -68,12 +93,18 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
             if (!byColor.has(color)) byColor.set(color, []);
             byColor.get(color)!.push(name);
         }
-        for (const [fill, names] of byColor) map.styleMunicipalities(names, { fill });
+        for (const [fill, names] of byColor) {
+            map.styleMunicipalities(names, { fill, strokeColor: fill, strokeWidth: SEAM_WIDTH });
+        }
+        // Recolouring just reset the selected municipality's stroke too; put its outline back.
+        const { selected } = latest.current;
+        if (selected) map.styleMunicipalities([selected], SELECTED_BORDER);
     }, [map, fills, allNames]);
 
     // Outline and frame the selected municipality.
     useEffect(() => {
         if (!map || !selected) return;
+        bringToFront(containerRef.current, selected);
         map.styleMunicipalities([selected], SELECTED_BORDER);
         // Deferred a little: right after the map first renders, Cartis' resize handling can still
         // reproject once and would interrupt a zoom transition started in the same frame.
@@ -83,7 +114,8 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
         );
         return () => {
             window.clearTimeout(timer);
-            map.styleMunicipalities([selected], BORDER);
+            const fill = latest.current.fills.get(selected) ?? MISSING_FILL;
+            map.styleMunicipalities([selected], { strokeColor: fill, strokeWidth: SEAM_WIDTH });
         };
     }, [map, selected]);
 
