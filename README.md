@@ -6,6 +6,14 @@ For example, evapotranspiration data is only available up to about two months be
 
 This repository therefore provides scripts that collect and store that data on a schedule, preserving it over time for historical lookup and analysis.
 
+## Quick links
+
+- **Live app:** [xavier-batista-fernandes.github.io/ipma-mais](https://xavier-batista-fernandes.github.io/ipma-mais/)
+- **Data API:** [`index.json`](https://xavier-batista-fernandes.github.io/ipma-mais/api/index.json) · latest day for [ET0](https://xavier-batista-fernandes.github.io/ipma-mais/api/et0/latest.json), [max. temperature](https://xavier-batista-fernandes.github.io/ipma-mais/api/tmax/latest.json), [min. temperature](https://xavier-batista-fernandes.github.io/ipma-mais/api/tmin/latest.json)
+- **Workflows:** [Collect](https://github.com/xavier-batista-fernandes/ipma-mais/actions/workflows/collect.yaml) · [Deploy site](https://github.com/xavier-batista-fernandes/ipma-mais/actions/workflows/deploy.yaml) · [CI](https://github.com/xavier-batista-fernandes/ipma-mais/actions/workflows/ci.yaml) · [E2E](https://github.com/xavier-batista-fernandes/ipma-mais/actions/workflows/e2e.yaml)
+- **Data:** [`data/`](data/) · [`data/meta.json`](data/meta.json) (last collection)
+- **Code:** [`web/`](web/) (web app) · [`scripts/`](scripts/) · [Cartis](https://github.com/xavier-batista-fernandes/cartis) (map library)
+
 ## Features
 - Automatic collection (GitHub Actions) of IPMA data:
   - **Daily ET0** from the IPMA agrometeorology page, twice a day;
