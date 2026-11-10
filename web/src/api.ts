@@ -45,7 +45,11 @@ export interface Series {
     rows: SeriesRow[];
 }
 
-const BASE = `${import.meta.env.BASE_URL}api`;
+/**
+ * Static JSON next to the app (GitHub Pages), or the Cloudflare Worker's API when the build sets
+ * `VITE_API_BASE=/v1`. Both serve the same paths and shapes.
+ */
+const BASE: string = import.meta.env.VITE_API_BASE ?? `${import.meta.env.BASE_URL}api`;
 const cache = new Map<string, Promise<unknown>>();
 
 function getJson<T>(path: string): Promise<T> {

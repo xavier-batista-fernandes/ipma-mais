@@ -10,7 +10,6 @@
         "collect": "node scripts/collect.js",
         "collect:page": "node scripts/collect.js --source page",
         "collect:api": "node scripts/collect.js --source api",
-        "migrate": "node scripts/migrate.js",
         "build:api": "node scripts/build-api.js",
         "test": "node --test \"test/*.test.js\""
     },

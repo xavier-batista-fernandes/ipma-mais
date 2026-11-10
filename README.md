@@ -17,7 +17,7 @@ This repository therefore provides scripts that collect and store that data on a
 ## Features
 - Automatic collection (GitHub Actions) of IPMA data:
   - **Daily ET0** from the IPMA agrometeorology page, twice a day;
-  - **ET0, maximum and minimum temperature** from the open-data API, weekly.
+  - **ET0, maximum and minimum temperature** from the open-data API, weekly. Upstream has published nothing new since November 2025 (ET0 since September 2025), so these series are effectively an archive; the app flags them as stale.
 - Each value is stored by its actual observation date (the one in the IPMA data) and by the municipality's DICO code. Repeating a collection never duplicates rows.
 - Collection fails visibly (a red run) when a source doesn't respond or returns invalid data, and warns when a source stops having recent data.
 - Generates static JSON files designed for a web app (one file per day for the map, one per municipality for the charts).
@@ -29,8 +29,8 @@ This repository therefore provides scripts that collect and store that data on a
 | `data/{et0,tmax,tmin}/{dico}.csv` | Daily series for each municipality: `date,mean,min,max,std,source` (`source` is `api` or `page`; the API takes priority). |
 | `data/raw/et0-page/{date}.json` | Full copy of each day published on the ET0 page. |
 | `data/meta.json` | Last successful collection and the most recent date from each source. |
+| `worker/` | Cloudflare Worker: the app plus the `/v1` API over D1 (see below). |
 | `inputs/municipalities.json` | The 278 mainland municipalities with their DICO code. Canonical names come from the [Cartis](https://github.com/xavier-batista-fernandes/cartis) library. |
-| `outputs/` | Old format, kept temporarily. No longer updated. |
 
 ## Commands
 
@@ -68,6 +68,31 @@ npm run test:e2e                  # builds, serves on :4173 and runs e2e/*.spec.
 ```
 
 The `Deploy site` workflow publishes the app and the data to GitHub Pages whenever the app changes and after each collection. It requires GitHub Pages to be enabled on the repository with **GitHub Actions** as the source (Settings → Pages).
+
+## Cloudflare (Worker + D1)
+
+`worker/` is a Cloudflare Worker that serves the built app (`web/dist`) and a JSON API from a D1 database, on one origin. The `Deploy to Cloudflare` workflow runs after every collection and app change: it creates the D1 database on its first run, applies `worker/migrations`, copies only the days that changed from `data/` into D1 (`scripts/sync-d1.js`), builds the app against `/v1` and deploys. It is skipped until the repository has the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets.
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /v1` | the list of endpoints |
+| `GET /v1/index` | metrics (dates, colour domain), municipalities, source status |
+| `GET /v1/{metric}/latest` | `{ date, values: { dico: mean } }` for the newest day |
+| `GET /v1/{metric}/days/{date}` | `{ date, values: { dico: mean } }` |
+| `GET /v1/{metric}/series/{dico}?from=&to=` | `{ dico, rows: [[date, mean, min, max]] }` |
+| `GET /v1/{metric}/values?from=&to=` | `{ dates, values: { dico: [mean or null per date] } }` |
+| `GET /v1/{metric}/stats?from=&to=` | per municipality `{ n, sum, mean, min, max }` over the period |
+
+`metric` is `et0`, `tmax` or `tmin`; `dico` is the 4-digit municipality code; dates are `YYYY-MM-DD`. Every path also works with a `.json` suffix and under `/api/`, the static API's paths.
+
+```bash
+cd worker
+npm ci
+npm run db:migrate:local      # create the local D1 tables
+npm run db:sync:local         # copy data/ into local D1
+VITE_API_BASE=/v1 npm run build --prefix ../web
+npm run dev                   # app + API on http://localhost:8787
+```
 
 ## Disclaimer and Liability
 This project's sole purpose is to collect and store data made available by the Portuguese Institute for Sea and Atmosphere (IPMA) API, without altering or redistributing it.

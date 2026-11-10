@@ -20,6 +20,7 @@ jobs:
                   cache-dependency-path: |
                       package-lock.json
                       web/package-lock.json
+                      worker/package-lock.json
 
             - run: npm ci
             - run: npm test
@@ -32,3 +33,8 @@ jobs:
                   npm test --prefix web
                   npm run api --prefix web
                   npm run build --prefix web
+
+            - name: Typecheck the Worker
+              run: |
+                  npm ci --prefix worker
+                  npm run typecheck --prefix worker

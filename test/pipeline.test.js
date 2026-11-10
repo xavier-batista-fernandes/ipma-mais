@@ -10,6 +10,7 @@ import { createResolver, loadMunicipalities } from '../lib/municipalities.js';
 import { readSeries, upsertSeries } from '../lib/store.js';
 import { apiUrl, parseApiCsv } from '../sources/ipma-api.js';
 import { parseEt0Page, snapshotToRows } from '../sources/ipma-page.js';
+import { buildSyncSql } from '../scripts/sync-d1.js';
 
 const row = (date, mean, source = 'page') => ({
     date,
@@ -201,5 +202,58 @@ describe('fetch', () => {
             results.map((r) => r.value ?? r.error.message),
             [10, 20, 'boom', 40, 50]
         );
+    });
+});
+
+describe('D1 sync', () => {
+    const api = {
+        index: { generatedAt: 'x', metrics: [], municipalities: [], sources: {} },
+        metrics: {
+            et0: {
+                dates: ['2026-11-01', '2026-11-02'],
+                days: new Map([
+                    [
+                        '2026-11-01',
+                        { mean: { '0101': 2.1 }, detail: { '0101': [null, null, null, "page's"] } },
+                    ],
+                    [
+                        '2026-11-02',
+                        { mean: { '0101': 2.3 }, detail: { '0101': [null, null, null, 'page'] } },
+                    ],
+                ]),
+            },
+        },
+    };
+
+    it('writes every day and the index the first time, with quotes escaped', () => {
+        const { sql, days, statements } = buildSyncSql(api, new Map(), 'now');
+        assert.equal(days, 2);
+        assert.equal(statements, 3);
+        assert.match(sql, /"page''s"/);
+        assert.match(sql, /INSERT INTO document/);
+    });
+
+    it('writes nothing when every hash is already in D1', () => {
+        const hashes = new Map(
+            [...buildSyncSql(api, new Map(), 'now').sql.matchAll(/'([0-9a-f]{40})'/g)].map(
+                (m, i) => [['et0/2026-11-01', 'et0/2026-11-02', 'document/index'][i], m[1]]
+            )
+        );
+        assert.equal(buildSyncSql(api, hashes, 'now').statements, 0);
+    });
+
+    it('rewrites only the day that changed', () => {
+        const first = buildSyncSql(api, new Map(), 'now').sql;
+        const hashes = new Map(
+            [...first.matchAll(/'([0-9a-f]{40})'/g)].map((m, i) => [
+                ['et0/2026-11-01', 'et0/2026-11-02', 'document/index'][i],
+                m[1],
+            ])
+        );
+        api.metrics.et0.days.get('2026-11-02').mean['0101'] = 2.4;
+        const { days, sql } = buildSyncSql(api, hashes, 'now');
+        assert.equal(days, 1);
+        assert.match(sql, /'2026-11-02'/);
+        assert.doesNotMatch(sql, /'2026-11-01'/);
     });
 });
