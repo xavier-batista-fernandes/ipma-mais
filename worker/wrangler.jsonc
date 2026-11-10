@@ -1,0 +1,22 @@
+{
+    // One Worker serves the built web app (web/dist) as static assets and the /v1 JSON API
+    // from D1. Only /v1/* runs Worker code; every other path is a static file.
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "ipma-mais",
+    "main": "src/index.ts",
+    "compatibility_date": "2026-10-20",
+    "assets": {
+        "directory": "../web/dist",
+        "run_worker_first": ["/v1", "/v1/*"]
+    },
+    "d1_databases": [
+        {
+            "binding": "DB",
+            "database_name": "ipma-mais",
+            // Replaced by the Cloudflare workflow with the real id; any value works locally.
+            "database_id": "00000000-0000-0000-0000-000000000000",
+            "migrations_dir": "migrations"
+        }
+    ],
+    "observability": { "enabled": true }
+}

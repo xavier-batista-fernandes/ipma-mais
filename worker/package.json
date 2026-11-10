@@ -1,0 +1,17 @@
+{
+    "name": "ipma-mais-worker",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "wrangler dev",
+        "typecheck": "tsc --noEmit",
+        "db:migrate:local": "wrangler d1 migrations apply DB --local",
+        "db:sync:local": "node ../scripts/sync-d1.js --local",
+        "deploy": "wrangler deploy"
+    },
+    "devDependencies": {
+        "@cloudflare/workers-types": "5.20261026.1",
+        "typescript": "5.9.3",
+        "wrangler": "4.152.0"
+    }
+}

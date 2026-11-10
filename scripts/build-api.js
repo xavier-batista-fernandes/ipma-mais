@@ -9,100 +9,47 @@
  *   {metric}/series/{dico}.json   { dico, rows: [[date, mean, min, max]] } → one per chart
  *   {metric}/latest.json          same shape as a day file, for the most recent day
  *   {metric}/values.json          { dates, values: { dico: [mean|null per date] } } → queries
+ *
+ * The Cloudflare Worker serves the same shapes from D1 under /v1 (see worker/).
  */
 import fs from 'fs';
 import path from 'path';
 import { parseArgs } from 'util';
-import { readMeta } from '../lib/meta.js';
-import { METRICS } from '../lib/metrics.js';
-import { loadMunicipalities } from '../lib/municipalities.js';
-import { readSeries } from '../lib/store.js';
+import { buildApi } from '../lib/api.js';
 
 const { values: args } = parseArgs({
     options: { out: { type: 'string', default: path.join('dist', 'api') } },
 });
 
 const outDir = path.resolve(args.out);
-const municipalities = loadMunicipalities();
-
 fs.rmSync(outDir, { recursive: true, force: true });
 
-const index = {
-    generatedAt: new Date().toISOString(),
-    metrics: [],
-    municipalities: municipalities.map(({ dico, name, district }) => ({ dico, name, district })),
-    sources: readMeta().sources,
-};
+const { index, metrics } = buildApi();
 
-for (const metric of METRICS) {
-    const byDate = new Map();
-
-    for (const { dico } of municipalities) {
-        const rows = [...readSeries(metric.id, dico).values()];
-        if (rows.length === 0) continue;
-
-        writeJson(path.join(metric.id, 'series', `${dico}.json`), {
-            dico,
-            rows: rows.map((r) => [r.date, round(r.mean), round(r.min), round(r.max)]),
-        });
-
-        for (const row of rows) {
-            if (!byDate.has(row.date)) byDate.set(row.date, {});
-            byDate.get(row.date)[dico] = round(row.mean);
-        }
+for (const [id, { series, days, dates }] of Object.entries(metrics)) {
+    for (const [dico, rows] of series) {
+        writeJson(path.join(id, 'series', `${dico}.json`), { dico, rows });
     }
-
-    const dates = [...byDate.keys()].sort();
     for (const date of dates) {
-        writeJson(path.join(metric.id, 'days', `${date}.json`), { date, values: byDate.get(date) });
+        writeJson(path.join(id, 'days', `${date}.json`), { date, values: days.get(date).mean });
     }
 
     // Every value in one file, so the app can run queries over any period with one request.
     const values = {};
-    for (const { dico } of municipalities) {
-        if (dates.some((date) => dico in byDate.get(date))) {
-            values[dico] = dates.map((date) => byDate.get(date)[dico] ?? null);
-        }
+    for (const dico of series.keys()) {
+        values[dico] = dates.map((date) => days.get(date).mean[dico] ?? null);
     }
-    writeJson(path.join(metric.id, 'values.json'), { dates, values });
+    writeJson(path.join(id, 'values.json'), { dates, values });
 
     if (dates.length > 0) {
         const latest = dates.at(-1);
-        writeJson(path.join(metric.id, 'latest.json'), {
-            date: latest,
-            values: byDate.get(latest),
-        });
+        writeJson(path.join(id, 'latest.json'), { date: latest, values: days.get(latest).mean });
     }
-
-    index.metrics.push({
-        id: metric.id,
-        label: metric.label,
-        unit: metric.unit,
-        firstDate: dates[0] ?? null,
-        lastDate: dates.at(-1) ?? null,
-        domain: colourDomain(byDate),
-        dates,
-    });
-    console.log(`${metric.id}: ${dates.length} day(s), ${dates[0]} → ${dates.at(-1)}`);
+    console.log(`${id}: ${dates.length} day(s), ${dates[0]} → ${dates.at(-1)}`);
 }
 
 writeJson('index.json', index);
 console.log(`API written to ${outDir}`);
-
-/**
- * The value range the app's colour scale spans: the 2nd–98th percentile of every value ever
- * recorded, so colours mean the same thing on every day and a few outliers don't wash it out.
- */
-function colourDomain(byDate) {
-    const values = [...byDate.values()].flatMap((day) => Object.values(day)).sort((a, b) => a - b);
-    if (values.length === 0) return null;
-    const at = (q) => values[Math.min(values.length - 1, Math.floor(q * values.length))];
-    return [Math.floor(at(0.02)), Math.ceil(at(0.98))];
-}
-
-function round(value) {
-    return value === null ? null : Math.round(value * 100) / 100;
-}
 
 function writeJson(relativePath, value) {
     const file = path.join(outDir, relativePath);
