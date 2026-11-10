@@ -17,7 +17,7 @@ This repository therefore provides scripts that collect and store that data on a
 ## Features
 - Automatic collection (GitHub Actions) of IPMA data:
   - **Daily ET0** from the IPMA agrometeorology page, twice a day;
-  - **ET0, maximum and minimum temperature** from the open-data API, weekly.
+  - **ET0, maximum and minimum temperature** from the open-data API, weekly. Upstream has published nothing new since November 2025 (ET0 since September 2025), so these series are effectively an archive; the app flags them as stale.
 - Each value is stored by its actual observation date (the one in the IPMA data) and by the municipality's DICO code. Repeating a collection never duplicates rows.
 - Collection fails visibly (a red run) when a source doesn't respond or returns invalid data, and warns when a source stops having recent data.
 - Generates static JSON files designed for a web app (one file per day for the map, one per municipality for the charts).
@@ -30,7 +30,6 @@ This repository therefore provides scripts that collect and store that data on a
 | `data/raw/et0-page/{date}.json` | Full copy of each day published on the ET0 page. |
 | `data/meta.json` | Last successful collection and the most recent date from each source. |
 | `inputs/municipalities.json` | The 278 mainland municipalities with their DICO code. Canonical names come from the [Cartis](https://github.com/xavier-batista-fernandes/cartis) library. |
-| `outputs/` | Old format, kept temporarily. No longer updated. |
 
 ## Commands
 
