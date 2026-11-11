@@ -49,6 +49,11 @@ test.describe('map', () => {
             fill(en['panel.district'], { district: odemira.district })
         );
         await expect(page).toHaveURL(new RegExp(`[?&]c=${odemira.dico}`));
+
+        // The rest of the map is dimmed and the selection is not.
+        const map = page.getByLabel(en['map.label']);
+        await expect(map).toHaveClass(/has-selection/);
+        await expect(map.locator('svg path.selected')).toHaveCount(1);
     });
 
     test('toggles thin municipality borders and remembers the choice', async ({ page }) => {

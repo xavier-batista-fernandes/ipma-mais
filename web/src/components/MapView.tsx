@@ -42,19 +42,15 @@ function useThemeColor(token: string, fallback: string) {
 }
 
 /**
- * Moves a municipality's path to the end of its group so its outline paints above its
- * neighbours' seam strokes (otherwise every neighbour drawn later covers half of it). Cartis has
- * no API for this, so it finds the path through the feature D3 bound to it; if that ever
- * changes, this quietly does nothing and the outline is just thinner on some sides.
+ * A municipality's path. Cartis has no API for this, so it is found through the feature D3 bound
+ * to it; if that ever changes, this returns null and the selection is simply not highlighted.
  */
-function bringToFront(container: HTMLElement | null, name: Municipality) {
+function findPath(container: HTMLElement | null, name: Municipality) {
     for (const path of container?.querySelectorAll('svg path') ?? []) {
         const datum = (path as { __data__?: { properties?: { NAME_2?: string } } }).__data__;
-        if (datum?.properties?.NAME_2 === name) {
-            path.parentNode?.appendChild(path);
-            return;
-        }
+        if (datum?.properties?.NAME_2 === name) return path;
     }
+    return null;
 }
 
 interface Props {
@@ -148,7 +144,12 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
     // Outline and frame the selected municipality.
     useEffect(() => {
         if (!map || !selected) return;
-        bringToFront(containerRef.current, selected);
+        // The rest of the map is dimmed (CSS `.map.has-selection path`) and this one isn't. It
+        // also moves to the end of its group so its outline paints above its neighbours' strokes
+        // (otherwise every neighbour drawn later covers half of it).
+        const path = findPath(containerRef.current, selected);
+        path?.classList.add('selected');
+        path?.parentNode?.appendChild(path);
         map.styleMunicipalities([selected], latest.current.selectedBorder);
         // Deferred a little: right after the map first renders, Cartis' resize handling can still
         // reproject once and would interrupt a zoom transition started in the same frame.
@@ -158,6 +159,7 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
         );
         return () => {
             window.clearTimeout(timer);
+            path?.classList.remove('selected');
             const fill = latest.current.fills.get(selected) ?? MISSING_FILL;
             map.styleMunicipalities([selected], latest.current.strokeFor(fill));
         };
@@ -170,7 +172,11 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
 
     return (
         <div className="map-wrap">
-            <div ref={containerRef} className="map" aria-label={t('map.label')} />
+            <div
+                ref={containerRef}
+                className={selected ? 'map has-selection' : 'map'}
+                aria-label={t('map.label')}
+            />
             {!map && !error && <div className="map-status">{t('map.loading')}</div>}
             {error && <div className="map-status error">{t('map.error', { error })}</div>}
             {map && (
