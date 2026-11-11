@@ -51,6 +51,30 @@ test.describe('map', () => {
         await expect(page).toHaveURL(new RegExp(`[?&]c=${odemira.dico}`));
     });
 
+    test('toggles thin municipality borders and remembers the choice', async ({ page }) => {
+        await openMap(page);
+        const toggle = page.getByRole('button', { name: en['map.borders'] });
+        const firstPath = page.getByLabel(en['map.label']).locator('svg path').first();
+        await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+        await expect(firstPath).toHaveAttribute('stroke-width', '1.5');
+
+        await toggle.click();
+        await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+        await expect(firstPath).toHaveAttribute('stroke-width', '0.5');
+
+        await page.reload();
+        await expect(page.getByRole('button', { name: en['map.borders'] })).toHaveAttribute(
+            'aria-pressed',
+            'true'
+        );
+        await page.goto('./#/settings');
+        await expect(
+            page
+                .getByRole('radiogroup', { name: en['settings.borders'] })
+                .getByRole('radio', { name: en['settings.borders.on'] })
+        ).toHaveAttribute('aria-checked', 'true');
+    });
+
     test('zoom buttons move the view and reset brings it back', async ({ page }) => {
         await openMap(page);
         const reset = page.getByRole('button', { name: en['map.reset'] });

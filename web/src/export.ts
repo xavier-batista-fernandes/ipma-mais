@@ -48,6 +48,8 @@ export interface MapImageOptions {
     background: string;
     text: string;
     muted: string;
+    /** Thin municipality borders in this colour, when the map shows them. */
+    border?: string;
 }
 
 const XML_ESCAPES: Record<string, string> = {
@@ -83,7 +85,10 @@ export function mapToSvg(
     const paths = [...mapSvg.querySelectorAll<SVGPathElement>('path')]
         .map((path) => {
             const fill = fillOf(path);
-            return `<path d="${path.getAttribute('d') ?? ''}" fill="${fill}" stroke="${fill}" stroke-width="1"/>`;
+            const stroke = options.border
+                ? `stroke="${options.border}" stroke-width="0.5" vector-effect="non-scaling-stroke"`
+                : `stroke="${fill}" stroke-width="1"`;
+            return `<path d="${path.getAttribute('d') ?? ''}" fill="${fill}" ${stroke}/>`;
         })
         .join('');
 

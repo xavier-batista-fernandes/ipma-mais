@@ -25,6 +25,7 @@ const PATHS = {
     pause: 'M7 5h3v14H7zM14 5h3v14h-3z',
     download: 'M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14',
     filter: 'M4 5h16l-6 7.5V19l-4 1.5v-8L4 5Z',
+    borders: 'M4 4h16v16H4zM4 13l6-1 3-8m-3 8 4 8m-1-6 7-1',
     layers: 'm12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5',
 } as const;
 

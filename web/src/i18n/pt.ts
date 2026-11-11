@@ -46,6 +46,7 @@ export const pt: Messages = {
     'map.zoomIn': 'Aproximar',
     'map.zoomOut': 'Afastar',
     'map.reset': 'Ver o país todo',
+    'map.borders': 'Limites dos concelhos',
 
     'common.noData': 'sem dados',
     'legend.step': 'uma cor = {step}',
@@ -160,6 +161,10 @@ export const pt: Messages = {
     'settings.theme.dark': 'Escuro',
     'settings.language': 'Idioma',
     'settings.languageHint': 'Muda o idioma da interface, das datas e dos números.',
+    'settings.borders': 'Limites no mapa',
+    'settings.bordersHint': 'Linhas finas entre concelhos. Mantêm-se finas em qualquer zoom.',
+    'settings.borders.off': 'Ocultos',
+    'settings.borders.on': 'Linhas finas',
 
     'about.title': 'Sobre o IPMA+',
     'about.intro':

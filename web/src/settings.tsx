@@ -12,11 +12,14 @@ export const LANGUAGES: { id: Language; name: string }[] = [
 interface Settings {
     theme: Theme;
     language: Language;
+    /** Thin municipality borders on the map (off: the map is drawn without visible borders). */
+    borders: boolean;
 }
 
 interface SettingsContext extends Settings {
     setTheme: (theme: Theme) => void;
     setLanguage: (language: Language) => void;
+    setBorders: (borders: boolean) => void;
 }
 
 // Also read by the inline script in index.html, which applies the theme before first paint.
@@ -35,12 +38,13 @@ function loadSettings(): Settings {
         : navigator.language.toLowerCase().startsWith('pt')
           ? 'pt'
           : 'en';
-    return { theme, language };
+    const borders = saved.borders === true;
+    return { theme, language, borders };
 }
 
 const Context = createContext<SettingsContext | null>(null);
 
-/** Theme and language, persisted in localStorage and applied to the `<html>` element. */
+/** Theme, language and map borders, persisted in localStorage and applied to the `<html>` element. */
 export function SettingsProvider({ children }: { children: ReactNode }) {
     const [settings, setSettings] = useState(loadSettings);
 
@@ -61,6 +65,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
             ...settings,
             setTheme: (theme) => setSettings((s) => ({ ...s, theme })),
             setLanguage: (language) => setSettings((s) => ({ ...s, language })),
+            setBorders: (borders) => setSettings((s) => ({ ...s, borders })),
         }),
         [settings]
     );

@@ -22,6 +22,7 @@
     --hover: rgb(11 13 16 / 0.05);
     --grid: rgb(11 13 16 / 0.06);
     --map-outline: #0b0d10;
+    --map-border: #ffffff;
     --shadow: 0 1px 2px rgb(11 13 16 / 0.06);
     --shadow-lg: 0 10px 28px -10px rgb(11 13 16 / 0.28);
     --popover-bg: var(--surface);
@@ -52,6 +53,7 @@
         --hover: rgb(255 255 255 / 0.05);
         --grid: rgb(255 255 255 / 0.045);
         --map-outline: #ffffff;
+        --map-border: #0d0f12;
         --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
         --shadow-lg: 0 12px 32px -10px rgb(0 0 0 / 0.75);
         color-scheme: dark;
@@ -74,6 +76,7 @@
     --hover: rgb(255 255 255 / 0.05);
     --grid: rgb(255 255 255 / 0.045);
     --map-outline: #ffffff;
+    --map-border: #0d0f12;
     --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
     --shadow-lg: 0 12px 32px -10px rgb(0 0 0 / 0.75);
     color-scheme: dark;
@@ -813,6 +816,8 @@ button:disabled {
 }
 
 .zoom-controls button {
+    display: grid;
+    place-items: center;
     width: 32px;
     height: 32px;
     padding: 0;
@@ -826,6 +831,10 @@ button:disabled {
 .zoom-controls button:hover {
     border-color: transparent;
     background: var(--hover);
+}
+
+.zoom-controls button[aria-pressed='true'] {
+    color: var(--accent);
 }
 
 /* Hover read-out: an inverted label that follows the pointer. */

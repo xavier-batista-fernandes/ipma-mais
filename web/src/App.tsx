@@ -34,12 +34,14 @@ import {
     type QueryResult,
     type ValueMatrix,
 } from './query';
+import { useSettings } from './settings';
 import { readUrlState, writeUrlState, type Mode } from './url-state';
 
 export function App() {
     const route = useRoute();
     const i18n = useI18n();
     const { t, format } = i18n;
+    const { borders } = useSettings();
     const [index, setIndex] = useState<ApiIndex | null>(null);
     const [error, setError] = useState<string | null>(null);
 
@@ -300,6 +302,7 @@ export function App() {
                 background: token('--surface') || '#ffffff',
                 text: token('--text') || '#0f172a',
                 muted: token('--muted') || '#64748b',
+                border: borders ? token('--map-border') || '#ffffff' : undefined,
             }
         );
     };
