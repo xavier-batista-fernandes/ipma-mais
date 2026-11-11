@@ -1,19 +1,15 @@
-name: Deploy site
+name: Redirect GitHub Pages
+
+# The app now lives on Cloudflare (see cloudflare.yaml). GitHub Pages only serves pages-redirect/,
+# which sends every old URL, including the app's view in the query string, to the same place there.
 
 on:
     workflow_dispatch:
     push:
         branches: [main]
         paths:
-            - 'web/**'
-            - 'scripts/build-api.js'
-            - 'lib/**'
+            - 'pages-redirect/**'
             - '.github/workflows/deploy.yaml'
-    # Collect pushes with the default token, which doesn't trigger `push` workflows,
-    # so redeploy whenever a collection run finishes to publish the new data.
-    workflow_run:
-        workflows: [Collect]
-        types: [completed]
 
 permissions:
     contents: read
@@ -26,36 +22,13 @@ concurrency:
 
 jobs:
     build:
-        # A failed Collect can still have committed what did validate, so only skip cancelled runs.
-        if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion != 'cancelled'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v5
-              with:
-                  ref: main
-
-            - uses: actions/setup-node@v5
-              with:
-                  node-version: '24'
-                  cache: npm
-                  cache-dependency-path: |
-                      package-lock.json
-                      web/package-lock.json
-
-            - name: Install
-              run: |
-                  npm ci
-                  npm ci --prefix web
-
-            - name: Build data API and site
-              working-directory: web
-              run: |
-                  npm run api
-                  npm run build
 
             - uses: actions/upload-pages-artifact@v4
               with:
-                  path: web/dist
+                  path: pages-redirect
 
     deploy:
         needs: build
