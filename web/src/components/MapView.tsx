@@ -19,7 +19,7 @@ const SEAM_WIDTH = 1.5;
  * same as a coastline and stays this thin however far in you zoom.
  */
 const BORDER_WIDTH = 0.5;
-const SELECTED_STROKE_WIDTH = 2;
+const SELECTED_STROKE_WIDTH = 1;
 
 /**
  * A theme colour token, such as the selected municipality's `--map-outline`. Cartis sets colours
