@@ -65,7 +65,7 @@ test.describe('map', () => {
     test('clicking a ranking entry selects that municipality', async ({ page, index, request }) => {
         // The top entry is the day's highest value, read from the same API the app uses.
         const { lastDate } = metricOf(index, 'et0');
-        const day = await (await request.get(`api/et0/days/${lastDate}.json`)).json();
+        const day = await (await request.get(`v1/et0/days/${lastDate}`)).json();
         const [topDico] = Object.entries(day.values as Record<string, number>).sort(
             (a, b) => b[1] - a[1]
         )[0];

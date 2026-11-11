@@ -2,21 +2,10 @@ name: Collect
 
 on:
     workflow_dispatch:
-        inputs:
-            source:
-                type: choice
-                description: Which IPMA source to collect.
-                options:
-                    - all
-                    - page
-                    - api
-                default: all
     schedule:
         # Daily ET0 page, twice a day so a missed or late update is picked up the same day.
         - cron: '0 8 * * *'
         - cron: '0 20 * * *'
-        # Open-data API (ET0, max and min temperature): weekly, it returns a rolling window.
-        - cron: '0 4 * * 1'
 
 concurrency:
     group: collect
@@ -42,15 +31,7 @@ jobs:
               run: npm ci
 
             - name: 🧶 Collect data
-              run: |
-                  if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-                    source="${{ inputs.source }}"
-                  elif [ "${{ github.event.schedule }}" = "0 4 * * 1" ]; then
-                    source="api"
-                  else
-                    source="page"
-                  fi
-                  npm run collect -- --source "$source"
+              run: npm run collect
 
             # Runs even when collection failed, so whatever did validate is kept.
             - name: 🧶 Commit changes

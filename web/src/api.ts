@@ -1,7 +1,7 @@
 import type { District, Municipality } from 'cartis';
 import type { ValueMatrix } from './query';
 
-/** Shapes written by `scripts/build-api.js`. */
+/** Shapes returned by the Worker's `/v1` API (see docs/API.md). */
 export type MetricId = 'et0' | 'tmax' | 'tmin';
 
 export interface MetricInfo {
@@ -45,11 +45,8 @@ export interface Series {
     rows: SeriesRow[];
 }
 
-/**
- * Static JSON next to the app (GitHub Pages), or the Cloudflare Worker's API when the build sets
- * `VITE_API_BASE=/v1`. Both serve the same paths and shapes.
- */
-const BASE: string = import.meta.env.VITE_API_BASE ?? `${import.meta.env.BASE_URL}api`;
+/** The Worker's API (worker/src/index.ts), on the same origin as the app. */
+const BASE = '/v1';
 const cache = new Map<string, Promise<unknown>>();
 
 function getJson<T>(path: string): Promise<T> {

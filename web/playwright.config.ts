@@ -3,8 +3,9 @@ import { defineConfig, devices } from '@playwright/test';
 const PORT = 4173;
 
 /**
- * End-to-end tests against the production build (`vite build` + `vite preview`), with the static
- * API generated from the real `data/` store. Run with `npm run test:e2e` from `web/`.
+ * End-to-end tests against the production build served by the Worker (`wrangler dev`), with a
+ * local D1 loaded from the real `data/` store. Run with `npm run test:e2e` from `web/`
+ * (needs `npm ci` in `worker/` too).
  */
 export default defineConfig({
     testDir: 'e2e',
@@ -22,7 +23,13 @@ export default defineConfig({
     },
     projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
     webServer: {
-        command: `npm run api && npm run build && npm run preview -- --port ${PORT} --strictPort`,
+        command: [
+            'npm run build',
+            'cd ../worker',
+            'npm run db:migrate:local',
+            'npm run db:sync:local',
+            `npx wrangler dev --port ${PORT}`,
+        ].join(' && '),
         url: `http://localhost:${PORT}/`,
         reuseExistingServer: !process.env.CI,
         timeout: 180_000,

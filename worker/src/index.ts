@@ -1,7 +1,6 @@
 /**
- * IPMA+ public API, served from D1 under `/v1` (and `/api`, the old static API's path). Every
- * route also accepts a trailing `.json`, so the web app reads the same paths it reads from the
- * static API (`index.json`, `et0/days/…json`).
+ * IPMA+ public API, served from D1 under `/v1`. For links to the retired static API, `/api` is
+ * an alias and every route also accepts a trailing `.json` (`/api/et0/latest.json`).
  *
  *   GET /v1                                   this list of endpoints
  *   GET /v1/index                             metrics (dates, colour domain), municipalities, sources

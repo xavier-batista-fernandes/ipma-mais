@@ -18,7 +18,7 @@ export function fill(message: string, values: Record<string, string | number>) {
  */
 export const test = base.extend<{ index: ApiIndex }>({
     index: async ({ request }, use) => {
-        const response = await request.get('api/index.json');
+        const response = await request.get('v1/index');
         expect(response.ok()).toBeTruthy();
         await use((await response.json()) as ApiIndex);
     },

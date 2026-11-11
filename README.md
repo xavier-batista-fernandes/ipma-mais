@@ -13,11 +13,11 @@ IPMA ──► Collect (GitHub Actions, twice a day) ──► data/*.csv in git
                                                         │
                        Deploy to Cloudflare ◄───────────┘
                        ├─ sync changed days into D1
-                       ├─ build web/ against /v1
+                       ├─ build web/
                        └─ deploy the Worker: app + /v1 API, one origin
 ```
 
-1. **Collect** (`scripts/collect.js`) scrapes the IPMA agrometeorology page twice a day for daily ET0, and the open-data API weekly for ET0 and temperature. Each value is stored by its observation date and the municipality's DICO code, and a repeated run never duplicates rows. The open-data API has published nothing new since November 2025, so `tmax` and `tmin` are an archive.
+1. **Collect** (`scripts/collect.js`) scrapes the IPMA agrometeorology page twice a day for daily ET0. Each value is stored by its observation date and the municipality's DICO code, and a repeated run never duplicates rows. `tmax`, `tmin` and the older ET0 rows came from IPMA's open-data API, which stopped publishing in November 2025; they are kept as an archive and are no longer collected.
 2. **Deploy to Cloudflare** runs after every collection and app change:
    - It copies the days that changed from `data/` into a D1 database (`scripts/sync-d1.js`).
    - It builds the app and deploys the Worker in `worker/`, which serves both the app and the API.
@@ -31,7 +31,7 @@ IPMA ──► Collect (GitHub Actions, twice a day) ──► data/*.csv in git
 | `data/raw/et0-page/{date}.json` | A full copy of each day the ET0 page published |
 | `data/meta.json` | When each source last succeeded, and its newest date |
 | `inputs/municipalities.json` | The 278 mainland municipalities and their DICO codes |
-| `scripts/`, `sources/`, `lib/` | Collector, static API builder, D1 sync |
+| `scripts/`, `sources/`, `lib/` | Collector and D1 sync |
 | `worker/` | Cloudflare Worker (`src/index.ts`) and D1 schema (`migrations/`) |
 | `web/` | React + Vite app, with the map drawn by [Cartis](https://github.com/xavier-batista-fernandes/cartis) |
 | `docs/API.md` | The public API guide |
@@ -43,32 +43,32 @@ Needs Node 22 or newer.
 ```bash
 npm ci
 npm test                       # collector and sync tests
-npm run collect                # collect now (or collect:page / collect:api)
+npm run collect                # collect now
 ```
 
-Run the app against static JSON:
-
-```bash
-cd web && npm ci
-npm run dev                    # builds public/api from ../data, then starts Vite
-npm run test:e2e               # Playwright against the production build (npx playwright install chromium once)
-```
-
-Run the Worker, D1 and the app the way production does:
+The app always reads the Worker's API, so start the Worker with a local D1 first:
 
 ```bash
 cd worker && npm ci
 npm run db:migrate:local       # create the local D1 tables
-npm run db:sync:local          # load data/ into local D1
-VITE_API_BASE=/v1 npm run build --prefix ../web
-npm run dev                    # app + API on http://localhost:8787
+npm run db:sync:local          # load data/ into local D1 (re-run after collecting)
+npm run dev                    # API on http://localhost:8787 (and the last web build)
+```
+
+Then, in another terminal:
+
+```bash
+cd web && npm ci
+npm run dev                    # Vite with hot reload, proxying /v1 to the Worker
+npm run test:e2e               # Playwright: builds the app and serves it with wrangler dev
+                               # (npx playwright install chromium once)
 ```
 
 ## Deployment
 
 | Workflow | Runs | Does |
 | --- | --- | --- |
-| [Collect](https://github.com/xavier-batista-fernandes/ipma-mais/actions/workflows/collect.yaml) | 08:00 and 20:00 UTC, plus Mondays 04:00 for the open-data API | Scrapes IPMA and commits `data/` |
+| [Collect](https://github.com/xavier-batista-fernandes/ipma-mais/actions/workflows/collect.yaml) | 08:00 and 20:00 UTC | Scrapes the ET0 page and commits `data/` |
 | [Deploy to Cloudflare](https://github.com/xavier-batista-fernandes/ipma-mais/actions/workflows/cloudflare.yaml) | After Collect, and on app or Worker changes | Migrates and syncs D1, builds and deploys the Worker |
 | [CI](https://github.com/xavier-batista-fernandes/ipma-mais/actions/workflows/ci.yaml), [E2E](https://github.com/xavier-batista-fernandes/ipma-mais/actions/workflows/e2e.yaml) | Pull requests and `main` | Tests, builds, typechecks the Worker, runs the Playwright suite |
 

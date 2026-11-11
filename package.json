@@ -8,9 +8,6 @@
     },
     "scripts": {
         "collect": "node scripts/collect.js",
-        "collect:page": "node scripts/collect.js --source page",
-        "collect:api": "node scripts/collect.js --source api",
-        "build:api": "node scripts/build-api.js",
         "test": "node --test \"test/*.test.js\""
     },
     "dependencies": {

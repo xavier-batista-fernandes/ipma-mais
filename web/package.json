@@ -4,8 +4,7 @@
     "version": "0.1.0",
     "type": "module",
     "scripts": {
-        "api": "node ../scripts/build-api.js --out public/api",
-        "dev": "npm run api && vite",
+        "dev": "vite",
         "build": "tsc --noEmit && vite build",
         "preview": "vite preview",
         "test": "node --test test/*.test.ts",

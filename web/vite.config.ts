@@ -1,9 +1,9 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
-// `base: './'` keeps every asset and data URL relative, so the build works both at the root
-// of a domain and under GitHub Pages' /ipma-mais/ path.
+// The app is served from the root of the Worker's domain. In development, Vite proxies the API
+// to `wrangler dev` (run `npm run dev` in worker/ first), so the app always talks to the real API.
 export default defineConfig({
-    base: './',
     plugins: [react()],
+    server: { proxy: { '/v1': 'http://localhost:8787' } },
 });
