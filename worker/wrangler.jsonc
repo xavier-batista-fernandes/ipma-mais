@@ -18,5 +18,13 @@
             "migrations_dir": "migrations"
         }
     ],
+    // Per-IP limit on /v1 (only /v1 runs Worker code). Keep in sync with RATE_LIMIT in src/index.ts.
+    "ratelimits": [
+        {
+            "name": "RATE_LIMITER",
+            "namespace_id": "1001",
+            "simple": { "limit": 600, "period": 60 }
+        }
+    ],
     "observability": { "enabled": true }
 }

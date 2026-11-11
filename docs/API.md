@@ -4,7 +4,7 @@ A free, read-only JSON API with daily weather data for the 278 municipalities of
 
 **Base URL:** `https://ipma-mais.xavierbatistafernandes-001.workers.dev/v1`
 
-No sign-up or key is needed. Every response is JSON, allows cross-origin requests (CORS `*`), and may be cached for up to 10 minutes.
+No sign-up or key is needed. Every response is JSON, allows cross-origin requests (CORS `*`), and may be cached for up to 10 minutes. Each IP address can make up to **600 requests a minute**.
 
 ```bash
 curl https://ipma-mais.xavierbatistafernandes-001.workers.dev/v1/et0/latest
@@ -140,6 +140,7 @@ Errors use the HTTP status and a JSON body with an `error` message:
 | `400` | A malformed date or DICO code, or `from` after `to` |
 | `404` | An unknown metric or path, or no data for that day or municipality |
 | `405` | Any method other than `GET`, `HEAD` or `OPTIONS` |
+| `429` | More than 600 requests in a minute from your IP. Wait for the number of seconds in the `Retry-After` header |
 | `503` | The database has not been loaded yet |
 
 ```json
@@ -170,6 +171,6 @@ writer.writerows(series["rows"])
 
 ## Fair use and attribution
 
-- The API is free and unauthenticated. Please cache responses on your side, and prefer a single `values` or `stats` request over hundreds of `days` requests. The service runs on a free tier shared with the IPMA+ app.
+- The API is free and unauthenticated, with a limit of 600 requests a minute per IP. The limit is counted separately in each Cloudflare location, so treat it as approximate. Please cache responses on your side, and prefer a single `values` or `stats` request over hundreds of `days` requests. The service runs on a free tier shared with the IPMA+ app.
 - The data comes from IPMA (Instituto Português do Mar e da Atmosfera). Credit IPMA as the source when you publish anything built on it.
 - There is no uptime guarantee. The full history is also in the repository as CSV ([`data/`](../data/)).

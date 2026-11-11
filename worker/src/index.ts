@@ -14,7 +14,12 @@
 
 export interface Env {
     DB: D1Database;
+    /** Per-IP limit (see wrangler.jsonc); absent in tests or if the binding is removed. */
+    RATE_LIMITER?: RateLimit;
 }
+
+/** Must match `ratelimits[0].simple` in wrangler.jsonc; sent back in the 429 response. */
+const RATE_LIMIT = { requests: 600, seconds: 60 };
 
 const METRICS = new Set(['et0', 'tmax', 'tmin']);
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -38,6 +43,23 @@ export default {
             return new Response(null, { status: 204, headers: corsHeaders() });
         if (request.method !== 'GET' && request.method !== 'HEAD') {
             return json({ error: 'Method not allowed' }, 405);
+        }
+
+        // Per IP and per Cloudflare location, approximate: it stops floods, not careful clients.
+        // 600 a minute leaves room for the app's timeline playback (up to 5 days a second).
+        if (env.RATE_LIMITER) {
+            const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+            const { success } = await env.RATE_LIMITER.limit({ key: ip });
+            if (!success) {
+                const response = json(
+                    {
+                        error: `Rate limit exceeded: ${RATE_LIMIT.requests} requests per ${RATE_LIMIT.seconds} seconds per IP`,
+                    },
+                    429
+                );
+                response.headers.set('Retry-After', String(RATE_LIMIT.seconds));
+                return response;
+            }
         }
 
         const cache = caches.default;
