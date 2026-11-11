@@ -47,6 +47,7 @@ export const en = {
     'map.zoomIn': 'Zoom in',
     'map.zoomOut': 'Zoom out',
     'map.reset': 'Show the whole country',
+    'map.borders': 'Municipality borders',
 
     'common.noData': 'no data',
     'legend.step': 'one colour = {step}',
@@ -160,6 +161,10 @@ export const en = {
     'settings.theme.dark': 'Dark',
     'settings.language': 'Language',
     'settings.languageHint': 'Changes the interface language, dates and numbers.',
+    'settings.borders': 'Map borders',
+    'settings.bordersHint': 'Thin lines between municipalities. They stay thin at any zoom.',
+    'settings.borders.off': 'Hidden',
+    'settings.borders.on': 'Thin lines',
 
     'about.title': 'About IPMA+',
     'about.intro':

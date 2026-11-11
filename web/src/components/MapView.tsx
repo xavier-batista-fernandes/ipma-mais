@@ -1,6 +1,7 @@
 import { Country, CountryMap, type Municipality, type MunicipalityInteractionEvent } from 'cartis';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MISSING_FILL } from '../colors';
+import { Icon } from './Icon';
 import { useI18n } from '../i18n';
 import { useSettings } from '../settings';
 
@@ -11,18 +12,24 @@ import { useSettings } from '../settings';
  * 1.5 screen pixels at any zoom (narrower still lets the background show through at 1x DPR).
  */
 const SEAM_WIDTH = 1.5;
-const SELECTED_STROKE_WIDTH = 2;
+/**
+ * Optional borders (a setting): always a hairline in the theme's `--map-border` colour, which is
+ * the page background, so they read as thin gaps between municipalities. The stroke is opaque
+ * and doesn't scale with zoom either, so a shared edge, stroked by both neighbours, looks the
+ * same as a coastline and stays this thin however far in you zoom.
+ */
+const BORDER_WIDTH = 0.5;
+const SELECTED_STROKE_WIDTH = 1;
 
 /**
- * The selected municipality's outline colour: the theme's `--map-outline` token. Cartis sets it
- * as an SVG attribute, where `var()` doesn't work, so it is read here and re-read whenever the
+ * A theme colour token, such as the selected municipality's `--map-outline`. Cartis sets colours
+ * as SVG attributes, where `var()` doesn't work, so it is read here and re-read whenever the
  * theme changes (a Settings choice or the system's light/dark switch).
  */
-function useOutlineColor() {
+function useThemeColor(token: string, fallback: string) {
     const { theme } = useSettings();
     const read = () =>
-        getComputedStyle(document.documentElement).getPropertyValue('--map-outline').trim() ||
-        '#111827';
+        getComputedStyle(document.documentElement).getPropertyValue(token).trim() || fallback;
     const [color, setColor] = useState(read);
     useEffect(() => {
         setColor(read());
@@ -35,19 +42,15 @@ function useOutlineColor() {
 }
 
 /**
- * Moves a municipality's path to the end of its group so its outline paints above its
- * neighbours' seam strokes (otherwise every neighbour drawn later covers half of it). Cartis has
- * no API for this, so it finds the path through the feature D3 bound to it; if that ever
- * changes, this quietly does nothing and the outline is just thinner on some sides.
+ * A municipality's path. Cartis has no API for this, so it is found through the feature D3 bound
+ * to it; if that ever changes, this returns null and the selection is simply not highlighted.
  */
-function bringToFront(container: HTMLElement | null, name: Municipality) {
+function findPath(container: HTMLElement | null, name: Municipality) {
     for (const path of container?.querySelectorAll('svg path') ?? []) {
         const datum = (path as { __data__?: { properties?: { NAME_2?: string } } }).__data__;
-        if (datum?.properties?.NAME_2 === name) {
-            path.parentNode?.appendChild(path);
-            return;
-        }
+        if (datum?.properties?.NAME_2 === name) return path;
     }
+    return null;
 }
 
 interface Props {
@@ -65,18 +68,28 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
     const [map, setMap] = useState<CountryMap | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [movedAway, setMovedAway] = useState(false);
-    const outline = useOutlineColor();
+    const { borders, setBorders } = useSettings();
+    const outline = useThemeColor('--map-outline', '#111827');
+    const borderColor = useThemeColor('--map-border', '#ffffff');
     const selectedBorder = useMemo(
         () => ({ strokeColor: outline, strokeWidth: SELECTED_STROKE_WIDTH }),
         [outline]
+    );
+    /** The stroke of an unselected municipality filled in `fill`: a thin border or a seam. */
+    const strokeFor = useCallback(
+        (fill: string) =>
+            borders
+                ? { strokeColor: borderColor, strokeWidth: BORDER_WIDTH }
+                : { strokeColor: fill, strokeWidth: SEAM_WIDTH },
+        [borders, borderColor]
     );
 
     // Latest callbacks, so the map's single registered handler never goes stale.
     const handlers = useRef({ onHover, onSelect });
     handlers.current = { onHover, onSelect };
     // Read by the effects below without making them re-run (and re-zoom) on every change.
-    const latest = useRef({ fills, selected, selectedBorder });
-    latest.current = { fills, selected, selectedBorder };
+    const latest = useRef({ fills, selected, selectedBorder, strokeFor });
+    latest.current = { fills, selected, selectedBorder, strokeFor };
 
     useEffect(() => {
         let cancelled = false;
@@ -84,7 +97,7 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
         const unsubscribe: (() => void)[] = [];
 
         CountryMap.create(Country.PORTUGAL, containerRef.current!, {
-            style: { fill: MISSING_FILL, strokeColor: MISSING_FILL, strokeWidth: SEAM_WIDTH },
+            style: { fill: MISSING_FILL, ...latest.current.strokeFor(MISSING_FILL) },
         })
             .then((created) => {
                 // StrictMode mounts twice: a create() that resolves after cleanup is discarded.
@@ -121,17 +134,22 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
             byColor.get(color)!.push(name);
         }
         for (const [fill, names] of byColor) {
-            map.styleMunicipalities(names, { fill, strokeColor: fill, strokeWidth: SEAM_WIDTH });
+            map.styleMunicipalities(names, { fill, ...strokeFor(fill) });
         }
         // Recolouring just reset the selected municipality's stroke too; put its outline back.
         const { selected, selectedBorder } = latest.current;
         if (selected) map.styleMunicipalities([selected], selectedBorder);
-    }, [map, fills, allNames]);
+    }, [map, fills, allNames, strokeFor]);
 
     // Outline and frame the selected municipality.
     useEffect(() => {
         if (!map || !selected) return;
-        bringToFront(containerRef.current, selected);
+        // The rest of the map is dimmed (CSS `.map.has-selection path`) and this one isn't. It
+        // also moves to the end of its group so its outline paints above its neighbours' strokes
+        // (otherwise every neighbour drawn later covers half of it).
+        const path = findPath(containerRef.current, selected);
+        path?.classList.add('selected');
+        path?.parentNode?.appendChild(path);
         map.styleMunicipalities([selected], latest.current.selectedBorder);
         // Deferred a little: right after the map first renders, Cartis' resize handling can still
         // reproject once and would interrupt a zoom transition started in the same frame.
@@ -141,8 +159,9 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
         );
         return () => {
             window.clearTimeout(timer);
+            path?.classList.remove('selected');
             const fill = latest.current.fills.get(selected) ?? MISSING_FILL;
-            map.styleMunicipalities([selected], { strokeColor: fill, strokeWidth: SEAM_WIDTH });
+            map.styleMunicipalities([selected], latest.current.strokeFor(fill));
         };
     }, [map, selected]);
 
@@ -153,7 +172,11 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
 
     return (
         <div className="map-wrap">
-            <div ref={containerRef} className="map" aria-label={t('map.label')} />
+            <div
+                ref={containerRef}
+                className={selected ? 'map has-selection' : 'map'}
+                aria-label={t('map.label')}
+            />
             {!map && !error && <div className="map-status">{t('map.loading')}</div>}
             {error && <div className="map-status error">{t('map.error', { error })}</div>}
             {map && (
@@ -167,6 +190,15 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
                         aria-label={t('map.zoomOut')}
                     >
                         −
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setBorders(!borders)}
+                        aria-label={t('map.borders')}
+                        aria-pressed={borders}
+                        title={t('map.borders')}
+                    >
+                        <Icon name="borders" />
                     </button>
                     {movedAway && (
                         <button

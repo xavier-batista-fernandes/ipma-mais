@@ -4,7 +4,7 @@ import { LANGUAGES, THEMES, useSettings } from '../settings';
 
 export function SettingsPage() {
     const { t } = useI18n();
-    const { theme, setTheme, language, setLanguage } = useSettings();
+    const { theme, setTheme, language, setLanguage, borders, setBorders } = useSettings();
 
     return (
         <main className="page">
@@ -45,6 +45,25 @@ export function SettingsPage() {
                         >
                             <span className="choice-badge">{id.toUpperCase()}</span>
                             {name}
+                        </button>
+                    ))}
+                </div>
+            </section>
+
+            <section className="card">
+                <h2 id="borders-label">{t('settings.borders')}</h2>
+                <p className="muted small">{t('settings.bordersHint')}</p>
+                <div className="choices" role="radiogroup" aria-labelledby="borders-label">
+                    {([false, true] as const).map((on) => (
+                        <button
+                            key={String(on)}
+                            type="button"
+                            role="radio"
+                            aria-checked={borders === on}
+                            onClick={() => setBorders(on)}
+                        >
+                            <Icon name={on ? 'borders' : 'map'} />
+                            {t(on ? 'settings.borders.on' : 'settings.borders.off')}
                         </button>
                     ))}
                 </div>

@@ -49,6 +49,35 @@ test.describe('map', () => {
             fill(en['panel.district'], { district: odemira.district })
         );
         await expect(page).toHaveURL(new RegExp(`[?&]c=${odemira.dico}`));
+
+        // The rest of the map is dimmed and the selection is not.
+        const map = page.getByLabel(en['map.label']);
+        await expect(map).toHaveClass(/has-selection/);
+        await expect(map.locator('svg path.selected')).toHaveCount(1);
+    });
+
+    test('toggles thin municipality borders and remembers the choice', async ({ page }) => {
+        await openMap(page);
+        const toggle = page.getByRole('button', { name: en['map.borders'] });
+        const firstPath = page.getByLabel(en['map.label']).locator('svg path').first();
+        await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+        await expect(firstPath).toHaveAttribute('stroke-width', '1.5');
+
+        await toggle.click();
+        await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+        await expect(firstPath).toHaveAttribute('stroke-width', '0.5');
+
+        await page.reload();
+        await expect(page.getByRole('button', { name: en['map.borders'] })).toHaveAttribute(
+            'aria-pressed',
+            'true'
+        );
+        await page.goto('./#/settings');
+        await expect(
+            page
+                .getByRole('radiogroup', { name: en['settings.borders'] })
+                .getByRole('radio', { name: en['settings.borders.on'] })
+        ).toHaveAttribute('aria-checked', 'true');
     });
 
     test('zoom buttons move the view and reset brings it back', async ({ page }) => {
