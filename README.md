@@ -21,7 +21,7 @@ IPMA ──► Collect (GitHub Actions, twice a day) ──► data/*.csv in git
 2. **Deploy to Cloudflare** runs after every collection and app change:
    - It copies the days that changed from `data/` into a D1 database (`scripts/sync-d1.js`).
    - It builds the app and deploys the Worker in `worker/`, which serves both the app and the API.
-3. **Deploy site** still publishes the same app with static JSON to [GitHub Pages](https://xavier-batista-fernandes.github.io/ipma-mais/) until that copy is retired.
+3. **`data/` stays in git as the backup.** Everything in D1 can be rebuilt from it with `scripts/sync-d1.js`.
 
 ## Repository
 
@@ -70,7 +70,6 @@ npm run dev                    # app + API on http://localhost:8787
 | --- | --- | --- |
 | [Collect](https://github.com/xavier-batista-fernandes/ipma-mais/actions/workflows/collect.yaml) | 08:00 and 20:00 UTC, plus Mondays 04:00 for the open-data API | Scrapes IPMA and commits `data/` |
 | [Deploy to Cloudflare](https://github.com/xavier-batista-fernandes/ipma-mais/actions/workflows/cloudflare.yaml) | After Collect, and on app or Worker changes | Migrates and syncs D1, builds and deploys the Worker |
-| [Deploy site](https://github.com/xavier-batista-fernandes/ipma-mais/actions/workflows/deploy.yaml) | Same | Publishes the GitHub Pages copy |
 | [CI](https://github.com/xavier-batista-fernandes/ipma-mais/actions/workflows/ci.yaml), [E2E](https://github.com/xavier-batista-fernandes/ipma-mais/actions/workflows/e2e.yaml) | Pull requests and `main` | Tests, builds, typechecks the Worker, runs the Playwright suite |
 
 Deploying to Cloudflare needs two repository secrets:
