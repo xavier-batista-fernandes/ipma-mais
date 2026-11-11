@@ -5,10 +5,9 @@ import path from 'node:path';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import { parseCsv } from '../lib/csv.js';
 import { daysBetween, isIsoDate, parsePtDate } from '../lib/dates.js';
-import { fetchText, mapLimit } from '../lib/fetch.js';
+import { fetchText } from '../lib/fetch.js';
 import { createResolver, loadMunicipalities } from '../lib/municipalities.js';
 import { readSeries, upsertSeries } from '../lib/store.js';
-import { apiUrl, parseApiCsv } from '../sources/ipma-api.js';
 import { parseEt0Page, snapshotToRows } from '../sources/ipma-page.js';
 import { buildSyncSql } from '../scripts/sync-d1.js';
 
@@ -93,24 +92,6 @@ describe('ipma page', () => {
     });
 });
 
-describe('ipma api', () => {
-    it('builds the open-data URL', () => {
-        const lisboa = { dico: '1106', slug: 'lisboa', districtSlug: 'lisboa' };
-        assert.equal(
-            apiUrl({ apiPath: 'temperature-max', apiPrefix: 'mtxmx' }, lisboa),
-            'https://api.ipma.pt/open-data/observation/climate/temperature-max/lisboa/mtxmx-1106-lisboa.csv'
-        );
-    });
-
-    it('maps open-data columns and drops unusable rows', () => {
-        const csv =
-            'date,minimum,maximum,range,mean,std\n2025-09-20,3.1,3.6,0.5,3.37,0.11\nbad,1,1,0,1,0\n2025-09-21,,,,,\n';
-        assert.deepEqual(parseApiCsv(csv), [
-            { date: '2025-09-20', mean: 3.37, min: 3.1, max: 3.6, std: 0.11, source: 'api' },
-        ]);
-    });
-});
-
 describe('store', () => {
     let dir;
     beforeEach(() => (dir = fs.mkdtempSync(path.join(os.tmpdir(), 'ipma-store-'))));
@@ -185,23 +166,6 @@ describe('fetch', () => {
         globalThis.fetch = async () => (calls++, new Response('', { status: 404 }));
         await assert.rejects(fetchText('https://x', { backoffMs: 1 }), /HTTP 404/);
         assert.equal(calls, 1);
-    });
-
-    it('limits concurrency and keeps order', async () => {
-        let running = 0;
-        let peak = 0;
-        const results = await mapLimit([1, 2, 3, 4, 5], 2, async (n) => {
-            peak = Math.max(peak, ++running);
-            await new Promise((r) => setTimeout(r, 5));
-            running--;
-            if (n === 3) throw new Error('boom');
-            return n * 10;
-        });
-        assert.equal(peak, 2);
-        assert.deepEqual(
-            results.map((r) => r.value ?? r.error.message),
-            [10, 20, 'boom', 40, 50]
-        );
     });
 });
 

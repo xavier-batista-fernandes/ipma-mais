@@ -32,7 +32,7 @@ const QUESTIONS = {
 };
 
 async function values(request: APIRequestContext) {
-    const response = await request.get('api/et0/values.json');
+    const response = await request.get('v1/et0/values');
     expect(response.ok()).toBeTruthy();
     return (await response.json()) as ValueMatrix;
 }
