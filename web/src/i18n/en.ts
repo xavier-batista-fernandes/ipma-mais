@@ -173,7 +173,7 @@ export const en = {
     'about.et0':
         'Reference evapotranspiration (ET0): how much water a reference crop loses in a day, in millimetres. Collected twice a day from the IPMA agrometeorology page.',
     'about.temperature':
-        'Maximum and minimum temperature: from IPMA’s open data, which has not been updated since late 2025.',
+        'Maximum and minimum temperature: from IPMA’s open data, updated daily. There is no data from 12 November 2025 to 21 October 2026.',
     'about.howTitle': 'How to use it',
     'about.how':
         'Pick a variable and a day, hover over a municipality to see its value, and click it to see its daily history. Switch to Query to ask questions over a period, such as which municipalities went above a value, for how many days in a row, or how a period compares with another, and export the results as a table or a map image. The address bar always holds the current view, so you can share it.',
