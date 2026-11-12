@@ -12,7 +12,7 @@ import { fetchText, mapLimit } from '../lib/fetch.js';
 import { loadMunicipalities } from '../lib/municipalities.js';
 import { upsertSeries } from '../lib/store.js';
 import { collectSmi, smiUrl } from '../sources/ipma-smi.js';
-import { storeVhi, VHI_START } from '../sources/ipma-vhi.js';
+import { storeVhi } from '../sources/ipma-vhi.js';
 import { featureInfoUrl, parseFeatureInfoGml, WMS } from '../sources/ipma-wms.js';
 import POINTS from '../inputs/municipality-points.json' with { type: 'json' };
 
@@ -21,6 +21,7 @@ const JOBS = {
     'probe-wms': probeWms,
     'probe-smi': probeSmi,
     'vhi-archive': vhiArchive,
+    'probe-history': probeHistory,
     smi: smiNow,
 };
 
@@ -33,21 +34,43 @@ async function smiNow() {
     for (const line of result.failed) console.log(`::warning::smi ${line}`);
 }
 
-/** Every VHI week since 2018: one request per municipality and year (about 2,500). */
+/** Every VHI week since 2018: one request per municipality returns its whole history. */
 async function vhiArchive() {
-    const thisYear = new Date().getUTCFullYear();
-    const ranges = [];
-    for (let year = Number(VHI_START.slice(0, 4)); year <= thisYear; year++) {
-        ranges.push([`${year}-01-01`, `${year}-12-31`]);
-    }
-    const result = await storeVhi(POINTS, ranges);
+    const result = await storeVhi(POINTS);
     console.log(
         `vhi-archive: latest ${result.latest}, ${result.added} added, ${result.changed} changed, ` +
-            `${result.failed.length} requests failed`
+            `${result.failed.length} municipalities failed`
     );
     for (const line of result.failed) console.log(`::warning::vhi-archive ${line}`);
-    if (result.failed.length > 50)
-        throw new Error(`${result.failed.length} requests failed; run it again`);
+    if (result.failed.length > 0)
+        throw new Error(`${result.failed.length} municipalities failed; run it again`);
+}
+
+/** How far back the old daily rain and temperature layers go, at Lisboa. */
+async function probeHistory() {
+    const lisboa = POINTS['1106'];
+    const layers = [
+        [WMS.precipitation, 'mrrto.obsSup.daily.vector.conc'],
+        [WMS.temperature, 'mtxmx.obsSup.daily.vector.conc'],
+        [WMS.temperature, 'mtnmn.obsSup.daily.vector.conc'],
+    ];
+    for (const [service, layer] of layers) {
+        try {
+            const started = Date.now();
+            const raw = await fetchText(featureInfoUrl(service, layer, lisboa), {
+                timeoutMs: 120000,
+                retries: 1,
+            });
+            const dates = parseFeatureInfoGml(raw)
+                .map((f) => f.date?.slice(0, 10))
+                .sort();
+            console.log(
+                `${layer}: ${dates.length} days, ${dates[0]}..${dates.at(-1)}, ${raw.length} bytes, ${Date.now() - started} ms`
+            );
+        } catch (error) {
+            console.log(`${layer}: ${error.message}`);
+        }
+    }
 }
 
 /** Prints what the SMI service answers for Lisboa with no time, a range, and one day. */

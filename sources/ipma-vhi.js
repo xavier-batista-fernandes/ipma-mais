@@ -10,11 +10,12 @@ import { getFeatureInfo, WMS } from './ipma-wms.js';
  * Each feature has `mean` (the VHI) and `ps35`/`ps15` (% of the area below 35 and 15, not kept).
  */
 export const VHI_LAYER = 'vhi.obsRem.7days.vector.conc';
-export const VHI_START = '2018-01-01';
 
-/** One municipality's VHI rows between two ISO dates (both included), oldest first. */
-export async function fetchVhiRange(point, from, to) {
-    const features = await getFeatureInfo(WMS.vhi, VHI_LAYER, point, `${from}/${to}`);
+/** One municipality's whole VHI history (a query with no time returns every week). */
+export async function fetchVhiHistory(point) {
+    const features = await getFeatureInfo(WMS.vhi, VHI_LAYER, point, undefined, {
+        timeoutMs: 60000,
+    });
     return featuresToRows(features);
 }
 
@@ -31,20 +32,17 @@ export function featuresToRows(features) {
 }
 
 /**
- * Reads `ranges` (`[[from, to]]`) for every municipality in `points` (`{ dico: [lon, lat] }`)
- * and stores the rows. Returns `{ added, changed, latest, failed: [message] }`.
+ * Reads every municipality in `points` (`{ dico: [lon, lat] }`) and stores its whole history.
+ * Returns `{ added, changed, latest, failed: [message] }`.
  */
-export async function storeVhi(points, ranges, { concurrency = 6 } = {}) {
+export async function storeVhi(points, { concurrency = 6 } = {}) {
     const result = { added: 0, changed: 0, latest: '', failed: [] };
-    const jobs = Object.entries(points).flatMap(([dico, point]) =>
-        ranges.map(([from, to]) => ({ dico, point, from, to }))
-    );
-    await mapLimit(jobs, concurrency, async ({ dico, point, from, to }) => {
+    await mapLimit(Object.entries(points), concurrency, async ([dico, point]) => {
         let rows;
         try {
-            rows = await fetchVhiRange(point, from, to);
+            rows = await fetchVhiHistory(point);
         } catch (error) {
-            result.failed.push(`${dico} ${from}/${to}: ${error.message}`);
+            result.failed.push(`${dico}: ${error.message}`);
             return;
         }
         const r = upsertSeries('vhi', dico, rows);
@@ -56,18 +54,16 @@ export async function storeVhi(points, ranges, { concurrency = 6 } = {}) {
 }
 
 /**
- * The daily Collect step: look up the newest weeks at one municipality first, and read every
- * municipality only when a date shows up that most of them don't have yet.
+ * The daily Collect step: look at one municipality first, and read every municipality only when
+ * it has a week that most of them don't have yet (IPMA adds one about once a week).
  */
-export async function collectVhi(points, today) {
-    const from = new Date(Date.parse(today) - 35 * 86400000).toISOString().slice(0, 10);
-    const [probeDico, probePoint] = Object.entries(points)[0];
-    const recent = await fetchVhiRange(probePoint, from, today);
-    const latest = recent.at(-1)?.date ?? '';
+export async function collectVhi(points) {
+    const [, probePoint] = Object.entries(points)[0];
+    const rows = await fetchVhiHistory(probePoint);
+    const latest = rows.at(-1)?.date ?? '';
     const dicos = Object.keys(points);
     const coverage = dateCoverage('vhi', dicos);
-    const missing = recent.some(({ date }) => (coverage.get(date) ?? 0) < dicos.length * 0.95);
-    if (!missing)
-        return { added: 0, changed: 0, latest, failed: [], skipped: true, probe: probeDico };
-    return { ...(await storeVhi(points, [[from, today]])), skipped: false };
+    const missing = rows.some(({ date }) => (coverage.get(date) ?? 0) < dicos.length * 0.95);
+    if (!missing) return { added: 0, changed: 0, latest, failed: [], skipped: true };
+    return { ...(await storeVhi(points)), skipped: false };
 }

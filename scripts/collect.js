@@ -182,7 +182,7 @@ async function collectFireRisk() {
 async function collectVhi() {
     let result;
     try {
-        result = await collectVhiWeeks(POINTS, todayIso());
+        result = await collectVhiWeeks(POINTS);
     } catch (error) {
         errors.push(`vhi: ${error.message}`);
         return;
