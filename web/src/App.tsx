@@ -9,23 +9,29 @@ import {
     type DayValues,
     type MetricId,
     type MetricInfo,
+    type MunicipalityInfo,
     type Series,
 } from './api';
-import { createColorScale, createResultScale, MISSING_FILL } from './colors';
+import { createColorScale, createResultScale, MISSING_FILL, type ColorScale } from './colors';
 import { download, mapToSvg, svgToPng, toCsv } from './export';
 import { Header } from './components/Header';
 import { Icon } from './components/Icon';
 import { Legend } from './components/Legend';
 import { MapView } from './components/MapView';
-import { describeQuery, formatResult, QueryPanel, type ExportKind } from './components/QueryPanel';
-import { Search } from './components/Search';
+import {
+    describeQuery,
+    formatResult,
+    QueryForm,
+    QueryResults,
+    type ExportKind,
+} from './components/QueryPanel';
+import { Ranking } from './components/Ranking';
 import { Select } from './components/Select';
 import { SeriesChart } from './components/SeriesChart';
 import { Timeline } from './components/Timeline';
 import { useI18n } from './i18n';
 import { AboutPage } from './pages/AboutPage';
-import { SettingsPage } from './pages/SettingsPage';
-import { useRoute, type Route } from './route';
+import { navigate, routeHref, useRoute, type Route } from './route';
 import {
     defaultQuery,
     queryFromParams,
@@ -35,9 +41,13 @@ import {
     type ValueMatrix,
 } from './query';
 import { useSettings } from './settings';
-import { readUrlState, writeUrlState, type Mode } from './url-state';
+import { readUrlState, writeUrlState } from './url-state';
 
-export function App() {
+/**
+ * The app's state (variable, day, selection, query) lives here, above the pages, so moving
+ * between the map and the query page and back keeps each where it was.
+ */
+export function App({ openSettings = false }: { openSettings?: boolean }) {
     const route = useRoute();
     const i18n = useI18n();
     const { t, format } = i18n;
@@ -49,10 +59,10 @@ export function App() {
     const [metricId, setMetricId] = useState<MetricId>(initial.metric ?? 'et0');
     const [date, setDate] = useState<string | null>(initial.date ?? null);
     const [selectedDico, setSelectedDico] = useState<string | null>(initial.dico ?? null);
-    const [mode, setMode] = useState<Mode>(initial.mode ?? 'day');
     const [query, setQuery] = useState<Query | null>(null);
     const [matrix, setMatrix] = useState<(ValueMatrix & { metric: MetricId }) | null>(null);
     const [matrixError, setMatrixError] = useState<string | null>(null);
+    const querying = route === 'query';
 
     // The last day loaded for the current metric. While the next one loads the map keeps showing
     // this one instead of flashing to "no data", which matters most while playing through time.
@@ -121,8 +131,9 @@ export function App() {
         );
     }, [metric, initial]);
 
+    // Every day's values (one file per metric) are only needed on the query page.
     useEffect(() => {
-        if (mode !== 'query' || !metric) return;
+        if (!querying || !metric) return;
         let current = true;
         setMatrixError(null);
         getValues(metric.id).then(
@@ -132,14 +143,11 @@ export function App() {
         return () => {
             current = false;
         };
-    }, [mode, metric]);
+    }, [querying, metric]);
 
     const queryResult = useMemo<QueryResult | null>(
-        () =>
-            mode === 'query' && query && matrix && matrix.metric === metric?.id
-                ? runQuery(matrix, query)
-                : null,
-        [mode, query, matrix, metric]
+        () => (query && matrix && matrix.metric === metric?.id ? runQuery(matrix, query) : null),
+        [query, matrix, metric]
     );
     const resultByDico = useMemo(
         () => new Map(queryResult?.rows.map((row) => [row.dico, row]) ?? []),
@@ -158,12 +166,15 @@ export function App() {
     );
 
     useEffect(() => {
-        writeUrlState({ metric: metricId, date: activeDate, dico: selectedDico, mode, query });
-    }, [metricId, activeDate, selectedDico, mode, query]);
+        writeUrlState(route, { metric: metricId, date: activeDate, dico: selectedDico, query });
+    }, [route, metricId, activeDate, selectedDico, query]);
+
+    // Hovering is per map; a tooltip left over from the other page would point at nothing.
+    useEffect(() => setHover(null), [route]);
 
     const fills = useMemo(() => {
         const result = new Map<Municipality, string>();
-        if (mode === 'query') {
+        if (querying) {
             if (!resultScale) return result;
             for (const row of resultByDico.values()) {
                 const info = byDico.get(row.dico);
@@ -177,21 +188,33 @@ export function App() {
             if (info) result.set(info.name, scale.color(value));
         }
         return result;
-    }, [mode, resultScale, resultByDico, day, scale, byDico, metric]);
+    }, [querying, resultScale, resultByDico, day, scale, byDico, metric]);
 
-    // The map's state above lives on while another page is open, so coming back restores it.
+    const select = (name: Municipality) => setSelectedDico(byName.get(name)?.dico ?? null);
+
     const shell = (page: ReactNode) => (
-        <Shell route={route} generatedAt={index?.generatedAt ?? null}>
+        <Shell
+            route={route}
+            metric={metricId}
+            generatedAt={index?.generatedAt ?? null}
+            settingsOpen={openSettings}
+            onSearch={(name) => {
+                select(name);
+                // Search finds a municipality on a map: from a page without one, go to the map.
+                if (route === 'about') navigate(routeHref('map', metricId));
+            }}
+            describe={(name) => byName.get(name)?.district}
+        >
             {page}
         </Shell>
     );
-    if (route === 'settings') return shell(<SettingsPage />);
     if (route === 'about') return shell(<AboutPage generatedAt={index?.generatedAt ?? null} />);
     if (error) return shell(<div className="status">{t('app.loadError', { error })}</div>);
-    if (!index || !metric || !scale) return shell(<div className="status">{t('app.loading')}</div>);
+    if (!index || !metric || !scale || (querying && !query))
+        return shell(<div className="status">{t('app.loading')}</div>);
 
-    const querying = mode === 'query' && query !== null;
     const shownDay = day?.metric === metric.id ? day : null;
+    const showingQuery = querying && query !== null;
     // What the map shows for a municipality: the day's value, or its query result.
     const valueOf = (dico: string) =>
         querying ? resultByDico.get(dico)?.value : shownDay?.values[dico];
@@ -206,6 +229,37 @@ export function App() {
     const legendScale = querying ? resultScale : scale;
     const legendUnit = querying && queryResult?.unit === 'days' ? t('query.unitDays') : metric.unit;
     const missingLabel = querying ? t('query.notInResults') : t('common.noData');
+
+    const mapImage = (info: MetricInfo, subtitle: string, imageScale: ColorScale, unit: string) => {
+        const svg = document.querySelector<SVGSVGElement>('.map svg');
+        if (!svg) return null;
+        const css = getComputedStyle(document.documentElement);
+        const token = (name: string) => css.getPropertyValue(name).trim();
+        return mapToSvg(
+            svg,
+            (path) => {
+                const datum = (path as { __data__?: { properties?: { NAME_2?: string } } })
+                    .__data__;
+                const name = datum?.properties?.NAME_2 as Municipality | undefined;
+                return (name && fills.get(name)) || MISSING_FILL;
+            },
+            {
+                title: t(`metric.${info.id}`),
+                subtitle,
+                scale: imageScale,
+                tick: (value) =>
+                    queryResult?.signed ? format.signed(value, '').trim() : format.number(value),
+                unit,
+                missingColor: MISSING_FILL,
+                missingLabel,
+                source: t('export.source', { url: window.location.host }),
+                background: token('--surface') || '#ffffff',
+                text: token('--text') || '#0f172a',
+                muted: token('--muted') || '#64748b',
+                border: borders ? token('--map-border') || '#ffffff' : undefined,
+            }
+        );
+    };
 
     const exportResults = async (kind: ExportKind) => {
         if (!query || !queryResult || !resultScale) return;
@@ -269,117 +323,114 @@ export function App() {
         }
     };
 
-    const mapImage = (
-        info: MetricInfo,
-        subtitle: string,
-        imageScale: NonNullable<typeof resultScale>,
-        unit: string
-    ) => {
-        const svg = document.querySelector<SVGSVGElement>('.map svg');
-        if (!svg) return null;
-        const css = getComputedStyle(document.documentElement);
-        const token = (name: string) => css.getPropertyValue(name).trim();
-        return mapToSvg(
-            svg,
-            (path) => {
-                const datum = (path as { __data__?: { properties?: { NAME_2?: string } } })
-                    .__data__;
-                const name = datum?.properties?.NAME_2 as Municipality | undefined;
-                return (name && fills.get(name)) || MISSING_FILL;
-            },
-            {
-                title: t(`metric.${info.id}`),
-                subtitle,
-                scale: imageScale,
-                tick: (value) =>
-                    queryResult?.signed ? format.signed(value, '').trim() : format.number(value),
-                unit,
-                missingColor: MISSING_FILL,
-                missingLabel,
-                source: t('export.source', {
-                    url: `${window.location.host}${window.location.pathname}`,
-                }),
-                background: token('--surface') || '#ffffff',
-                text: token('--text') || '#0f172a',
-                muted: token('--muted') || '#64748b',
-                border: borders ? token('--map-border') || '#ffffff' : undefined,
-            }
-        );
-    };
     const staleNote =
         metric.lastDate &&
         Date.parse(index.generatedAt) - Date.parse(metric.lastDate) > 14 * 86400000
             ? t('panel.stale', { date: format.date(metric.lastDate) })
             : null;
 
+    const metricSelect = (
+        <Select
+            label={t('controls.metric')}
+            value={metric.id}
+            onChange={setMetricId}
+            options={index.metrics.map((m) => ({
+                value: m.id,
+                label: t(`metric.${m.id}`),
+                tag: m.unit,
+            }))}
+        />
+    );
+    const toolbar = (
+        <div className="toolbar">
+            <div className="controls">{metricSelect}</div>
+        </div>
+    );
+
+    const mapStage = (
+        <div className="map-stage">
+            <MapView
+                fills={fills}
+                allNames={allNames}
+                selected={selected?.name ?? null}
+                onHover={setHover}
+                onSelect={select}
+            />
+            {hover && hoverInfo && (
+                <div className="tooltip" style={{ left: hover.x, top: hover.y }}>
+                    <strong>{hover.municipality}</strong>
+                    <span className="muted small">{hover.district}</span>
+                    <span className="tooltip-value">{describeValue(hoverValue, missingLabel)}</span>
+                </div>
+            )}
+            {legendScale && (
+                <Legend
+                    scale={legendScale}
+                    unit={legendUnit}
+                    marker={hoverValue ?? selectedValue}
+                    missingLabel={missingLabel}
+                />
+            )}
+        </div>
+    );
+
+    // The selected municipality: its value (or query result) and its history. Picking a day on
+    // the chart opens that day on the map.
+    const selectedDetail = selected && (
+        <SelectedMunicipality
+            info={selected}
+            label={querying ? t('query.result') : null}
+            value={describeValue(
+                selectedValue,
+                querying ? t('query.notInResults') : t('panel.noDataThisDay')
+            )}
+            series={series}
+            unit={metric.unit}
+            highlightDate={querying && query ? query.to : (activeDate ?? '')}
+            onClose={() => setSelectedDico(null)}
+            onPickDate={(picked) => {
+                setDate(picked);
+                if (querying) navigate(routeHref('map', metricId));
+            }}
+        />
+    );
+
+    if (showingQuery) {
+        return shell(
+            <main className="query-page">
+                <section className="query-builder" aria-label={t('query.question')}>
+                    <QueryForm metric={metric} query={query} onChange={setQuery}>
+                        {metricSelect}
+                    </QueryForm>
+                </section>
+                <div className="map-layout" data-mode="query">
+                    <section className="map-panel">{mapStage}</section>
+                    <aside className="side-panel">
+                        {staleNote && <p className="notice">{staleNote}</p>}
+                        {selectedDetail && <div className="selected-card">{selectedDetail}</div>}
+                        <QueryResults
+                            metric={metric}
+                            query={query}
+                            result={queryResult}
+                            error={matrixError}
+                            byDico={byDico}
+                            selected={selectedDico}
+                            onSelect={setSelectedDico}
+                            onExport={(kind) => void exportResults(kind)}
+                        />
+                    </aside>
+                </div>
+            </main>
+        );
+    }
+
     return shell(
         <>
-            <div className="toolbar">
-                <div className="controls">
-                    <Select
-                        label={t('controls.metric')}
-                        value={metric.id}
-                        onChange={setMetricId}
-                        options={index.metrics.map((m) => ({
-                            value: m.id,
-                            label: t(`metric.${m.id}`),
-                            tag: m.unit,
-                        }))}
-                    />
-                    <Search
-                        onSelect={(name) => setSelectedDico(byName.get(name)?.dico ?? null)}
-                        describe={(name) => byName.get(name)?.district}
-                    />
-                    <div className="mode-switch">
-                        <span className="field-label" id="mode-label">
-                            {t('mode.label')}
-                        </span>
-                        <div className="segmented" role="group" aria-labelledby="mode-label">
-                            {(['day', 'query'] as const).map((id) => (
-                                <button
-                                    key={id}
-                                    type="button"
-                                    aria-pressed={mode === id}
-                                    onClick={() => setMode(id)}
-                                >
-                                    <Icon name={id === 'day' ? 'map' : 'filter'} />
-                                    {t(`mode.${id}`)}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <main className="map-layout" data-mode={mode}>
+            {toolbar}
+            <main className="map-layout" data-mode="day">
                 <section className="map-panel">
-                    <div className="map-stage">
-                        <MapView
-                            fills={fills}
-                            allNames={allNames}
-                            selected={selected?.name ?? null}
-                            onHover={setHover}
-                            onSelect={(name) => setSelectedDico(byName.get(name)?.dico ?? null)}
-                        />
-                        {hover && hoverInfo && (
-                            <div className="tooltip" style={{ left: hover.x, top: hover.y }}>
-                                <strong>{hover.municipality}</strong>
-                                <span className="muted small">{hover.district}</span>
-                                <span className="tooltip-value">
-                                    {describeValue(hoverValue, missingLabel)}
-                                </span>
-                            </div>
-                        )}
-                        {legendScale && (
-                            <Legend
-                                scale={legendScale}
-                                unit={legendUnit}
-                                marker={hoverValue ?? selectedValue}
-                                missingLabel={missingLabel}
-                            />
-                        )}
-                    </div>
-                    {!querying && activeDate && metric.dates.length > 0 && (
+                    {mapStage}
+                    {activeDate && metric.dates.length > 0 && (
                         <Timeline
                             dates={metric.dates}
                             value={activeDate}
@@ -390,64 +441,11 @@ export function App() {
                 </section>
 
                 <aside className="side-panel">
-                    {!querying && (
-                        <p className="day-label">
-                            {activeDate ? format.dateTitle(activeDate) : t('panel.noData')}
-                        </p>
-                    )}
+                    <p className="day-label">
+                        {activeDate ? format.dateTitle(activeDate) : t('panel.noData')}
+                    </p>
                     {staleNote && <p className="notice">{staleNote}</p>}
-                    {selected ? (
-                        <>
-                            <div className="selected-head">
-                                <div>
-                                    <h2>{selected.name}</h2>
-                                    <p className="muted">
-                                        {t('panel.district', { district: selected.district })}
-                                    </p>
-                                </div>
-                                <button
-                                    type="button"
-                                    className="icon-button ghost"
-                                    aria-label={t('panel.close')}
-                                    title={t('panel.close')}
-                                    onClick={() => setSelectedDico(null)}
-                                >
-                                    <Icon name="close" />
-                                </button>
-                            </div>
-                            {querying && <p className="day-label">{t('query.result')}</p>}
-                            <p className="big-value">
-                                {describeValue(
-                                    selectedValue,
-                                    querying ? t('query.notInResults') : t('panel.noDataThisDay')
-                                )}
-                            </p>
-                            {series ? (
-                                <SeriesChart
-                                    rows={series.rows}
-                                    unit={metric.unit}
-                                    highlightDate={querying ? query.to : (activeDate ?? '')}
-                                    onPickDate={(picked) => {
-                                        setDate(picked);
-                                        setMode('day');
-                                    }}
-                                />
-                            ) : (
-                                <p className="muted">{t('panel.loadingSeries')}</p>
-                            )}
-                        </>
-                    ) : querying ? (
-                        <QueryPanel
-                            metric={metric}
-                            query={query}
-                            onChange={setQuery}
-                            result={queryResult}
-                            error={matrixError}
-                            byDico={byDico}
-                            onSelect={setSelectedDico}
-                            onExport={(kind) => void exportResults(kind)}
-                        />
-                    ) : (
+                    {selectedDetail ?? (
                         <Ranking
                             day={shownDay}
                             byDico={byDico}
@@ -461,20 +459,87 @@ export function App() {
     );
 }
 
+function SelectedMunicipality({
+    info,
+    label,
+    value,
+    series,
+    unit,
+    highlightDate,
+    onClose,
+    onPickDate,
+}: {
+    info: MunicipalityInfo;
+    label: string | null;
+    value: string;
+    series: Series | null;
+    unit: string;
+    highlightDate: string;
+    onClose: () => void;
+    onPickDate: (date: string) => void;
+}) {
+    const { t } = useI18n();
+    return (
+        <>
+            <div className="selected-head">
+                <div>
+                    <h2>{info.name}</h2>
+                    <p className="muted">{t('panel.district', { district: info.district })}</p>
+                </div>
+                <button
+                    type="button"
+                    className="icon-button ghost"
+                    aria-label={t('panel.close')}
+                    title={t('panel.close')}
+                    onClick={onClose}
+                >
+                    <Icon name="close" />
+                </button>
+            </div>
+            {label && <p className="day-label">{label}</p>}
+            <p className="big-value">{value}</p>
+            {series ? (
+                <SeriesChart
+                    rows={series.rows}
+                    unit={unit}
+                    highlightDate={highlightDate}
+                    onPickDate={onPickDate}
+                />
+            ) : (
+                <p className="muted">{t('panel.loadingSeries')}</p>
+            )}
+        </>
+    );
+}
+
 /** Header, the current page and the footer. */
 function Shell({
     route,
+    metric,
     generatedAt,
+    settingsOpen,
+    onSearch,
+    describe,
     children,
 }: {
     route: Route;
+    metric: string;
     generatedAt: string | null;
+    settingsOpen: boolean;
+    onSearch: (name: Municipality) => void;
+    describe: (name: Municipality) => string | undefined;
     children: ReactNode;
 }) {
     const { t, format } = useI18n();
     return (
         <div className="app" data-route={route}>
-            <Header route={route} />
+            <Header
+                route={route}
+                metric={metric}
+                onSearch={onSearch}
+                describe={describe}
+                settingsOpen={settingsOpen}
+            />
             {children}
             <footer>
                 {t('footer.source')} <a href="https://www.ipma.pt">IPMA</a>,{' '}
@@ -485,59 +550,6 @@ function Shell({
                 {generatedAt &&
                     ` ${t('footer.updated', { date: format.date(generatedAt.slice(0, 10)) })}`}
             </footer>
-        </div>
-    );
-}
-
-function Ranking({
-    day,
-    byDico,
-    unit,
-    onSelect,
-}: {
-    day: DayValues | null;
-    byDico: Map<string, ApiIndex['municipalities'][number]>;
-    unit: string;
-    onSelect: (dico: string) => void;
-}) {
-    const { t, format } = useI18n();
-    if (!day) return <p className="muted">{t('app.loading')}</p>;
-    const sorted = Object.entries(day.values).sort((a, b) => b[1] - a[1]);
-    const min = sorted.at(-1)?.[1] ?? 0;
-    const max = sorted[0]?.[1] ?? 0;
-    // Each row's bar spans the day's range, so the top and bottom lists compare at a glance.
-    const share = (value: number) => (max > min ? 0.08 + (0.92 * (value - min)) / (max - min) : 1);
-    const list = (entries: [string, number][], rankOf: (i: number) => number) => (
-        <ol>
-            {entries.map(([dico, value], i) => {
-                const info = byDico.get(dico);
-                return (
-                    <li key={dico}>
-                        <button type="button" onClick={() => onSelect(dico)}>
-                            <span className="rank">{rankOf(i)}</span>
-                            <span className="ranking-name">
-                                <span>{info?.name ?? dico}</span>
-                                <span className="muted small">{info?.district}</span>
-                            </span>
-                            <span className="ranking-value">{format.value(value, unit)}</span>
-                            <span
-                                className="ranking-bar"
-                                style={{ transform: `scaleX(${share(value)})` }}
-                            />
-                        </button>
-                    </li>
-                );
-            })}
-        </ol>
-    );
-
-    return (
-        <div className="ranking">
-            <p className="muted">{t('ranking.hint')}</p>
-            <h3>{t('ranking.highest')}</h3>
-            {list(sorted.slice(0, 5), (i) => i + 1)}
-            <h3>{t('ranking.lowest')}</h3>
-            {list(sorted.slice(-5).reverse(), (i) => sorted.length - i)}
         </div>
     );
 }

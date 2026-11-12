@@ -7,8 +7,9 @@ export const pt: Messages = {
     'app.loadError': 'Não foi possível carregar os dados: {error}',
 
     'nav.home': 'Início do IPMA+',
-    'nav.menu': 'Menu',
+    'nav.pages': 'Páginas',
     'nav.map': 'Mapa',
+    'nav.query': 'Consultas',
     'nav.about': 'Sobre',
     'nav.settings': 'Definições',
 
@@ -62,10 +63,7 @@ export const pt: Messages = {
     'ranking.highest': 'Valores mais altos',
     'ranking.lowest': 'Valores mais baixos',
 
-    'mode.label': 'Vista',
-    'mode.day': 'Mapa diário',
-    'mode.query': 'Pesquisa',
-
+    'query.question': 'A pergunta',
     'query.type': 'Pergunta',
     'query.type.threshold': 'Dias acima ou abaixo de um valor',
     'query.type.total': 'Total ou média num período',
@@ -100,7 +98,7 @@ export const pt: Messages = {
     'query.day': 'Dia',
     'query.preset': 'Últimos {count} dias',
     'query.loading': 'A carregar todos os dias de dados…',
-    'query.loadError': 'Não foi possível carregar os dados para pesquisas: {error}',
+    'query.loadError': 'Não foi possível carregar os dados para consultas: {error}',
     'query.hint':
         'Os resultados atualizam-se à medida que muda a pergunta. Clique num município para ver o seu histórico.',
     'query.streakHint': 'Um dia sem dados interrompe a sequência.',
@@ -109,7 +107,7 @@ export const pt: Messages = {
     'query.none':
         'Nenhum município corresponde. Experimente um mínimo mais baixo ou um período mais longo.',
     'query.notInResults': 'Fora dos resultados',
-    'query.result': 'Resultado da pesquisa',
+    'query.result': 'Resultado da consulta',
     'query.unitDays': 'dias',
     'query.oneDay': '1 dia',
     'query.manyDays': '{count} dias',
@@ -133,7 +131,7 @@ export const pt: Messages = {
     'export.svg': 'Mapa SVG',
     'export.png': 'Mapa PNG',
     'export.csvTitle': 'Tabela para folhas de cálculo',
-    'export.jsonTitle': 'Dados com a pesquisa, para scripts',
+    'export.jsonTitle': 'Dados com a consulta, para scripts',
     'export.svgTitle': 'Mapa como imagem vetorial',
     'export.pngTitle': 'Mapa como imagem',
     'export.source': 'Dados: IPMA, recolhidos pelo IPMA+ · {url}',
@@ -160,7 +158,6 @@ export const pt: Messages = {
     'settings.theme.light': 'Claro',
     'settings.theme.dark': 'Escuro',
     'settings.language': 'Idioma',
-    'settings.languageHint': 'Muda o idioma da interface, das datas e dos números.',
     'settings.borders': 'Limites no mapa',
     'settings.bordersHint': 'Linhas finas entre concelhos. Mantêm-se finas em qualquer zoom.',
     'settings.borders.off': 'Ocultos',
@@ -176,7 +173,7 @@ export const pt: Messages = {
         'Temperatura máxima e mínima: dos dados abertos do IPMA, atualizados diariamente. Não há dados de 12 de novembro de 2025 a 21 de outubro de 2026.',
     'about.howTitle': 'Como usar',
     'about.how':
-        'Escolha uma variável e um dia, passe o cursor sobre um município para ver o seu valor e clique nele para ver o histórico diário. Mude para Pesquisa para fazer perguntas sobre um período, como que municípios ultrapassaram um valor, durante quantos dias seguidos, ou como um período se compara com outro, e exporte os resultados como tabela ou imagem do mapa. A barra de endereço guarda sempre a vista atual, para que a possa partilhar.',
+        'Escolha uma variável e um dia, passe o cursor sobre um município para ver o seu valor e clique nele para ver o histórico diário. Abra Consultas para fazer perguntas sobre um período, como que municípios ultrapassaram um valor, durante quantos dias seguidos, ou como um período se compara com outro, e exporte os resultados como tabela ou imagem do mapa. A barra de endereço guarda sempre a vista atual, para que a possa partilhar.',
     'about.updated': 'Dados atualizados em {date}.',
     'about.code': 'Código-fonte no GitHub',
 };

@@ -7,11 +7,11 @@ const panel = (page: Page) => page.getByRole('complementary');
 const results = (page: Page) =>
     panel(page).getByRole('region', { name: en['query.result'] }).getByRole('listitem');
 
-async function openQuery(page: Page, query = '') {
-    await openMap(page, query);
-    if (!query.includes('v=q')) {
-        await page.getByRole('button', { name: en['mode.query'], exact: true }).click();
-    }
+/** Opens the query page from the map's menu, so the link and the page are both covered. */
+async function openQuery(page: Page) {
+    await openMap(page);
+    await page.getByRole('link', { name: en['nav.query'] }).click();
+    await expect(page).toHaveURL(/\/consultas\?/);
     await expect(panel(page).getByRole('status')).toBeVisible();
 }
 
@@ -50,7 +50,7 @@ function countAbove(matrix: ValueMatrix, from: string, to: string, value: number
 }
 
 test.describe('queries', () => {
-    test('switches to query mode and finds the municipalities above a value', async ({
+    test('opens the query page and finds the municipalities above a value', async ({
         page,
         index,
         request,
@@ -58,7 +58,10 @@ test.describe('queries', () => {
         const et0 = metricOf(index, 'et0');
         await openQuery(page);
 
-        await expect(page).toHaveURL(/[?&]v=q/);
+        await expect(page.getByRole('link', { name: en['nav.query'] })).toHaveAttribute(
+            'aria-current',
+            'page'
+        );
         await expect(page.getByRole('region', { name: en['timeline.label'] })).toBeHidden();
         await expect(page.getByText(en['query.notInResults']).first()).toBeVisible();
 
@@ -88,9 +91,7 @@ test.describe('queries', () => {
         const status = (await panel(page).getByRole('status').textContent())!;
 
         await page.reload();
-        await expect(
-            page.getByRole('button', { name: en['mode.query'], exact: true })
-        ).toHaveAttribute('aria-pressed', 'true');
+        await expect(page).toHaveURL(/\/consultas\?/);
         await expect(page.getByLabel(fill(en['query.value'], { unit: 'mm' }))).toHaveValue('2');
         await expect(panel(page).getByRole('status')).toHaveText(status);
     });
@@ -138,7 +139,9 @@ test.describe('queries', () => {
         expect(days).toBeLessThanOrEqual(6);
     });
 
-    test('clicking a result selects it and the daily map is one click away', async ({ page }) => {
+    test('clicking a result shows it above the results and the map is one click away', async ({
+        page,
+    }) => {
         await openQuery(page);
         await page.getByLabel(fill(en['query.value'], { unit: 'mm' })).fill('0');
         const first = results(page).first();
@@ -147,11 +150,19 @@ test.describe('queries', () => {
 
         await expect(panel(page).getByRole('heading', { level: 2, name })).toBeVisible();
         await expect(panel(page).getByText(en['query.result'])).toBeVisible();
+        // The results stay in view under the selection.
+        await expect(first).toBeVisible();
+        await expect(first.getByRole('button')).toHaveAttribute('aria-current', 'true');
 
-        await page.getByRole('button', { name: en['panel.close'] }).click();
-        await page.getByRole('button', { name: en['mode.day'], exact: true }).click();
-        await expect(page).not.toHaveURL(/[?&]v=q/);
+        // The map keeps the selection; Back returns to the same question.
+        const queryUrl = page.url();
+        await page.getByRole('link', { name: en['nav.map'] }).click();
+        await expect(page).toHaveURL(/^[^?]*\/\?/);
         await expect(page.getByRole('region', { name: en['timeline.label'] })).toBeVisible();
+        await expect(panel(page).getByRole('heading', { level: 2, name })).toBeVisible();
+        await page.goBack();
+        await expect(page).toHaveURL(queryUrl);
+        await expect(panel(page).getByRole('status')).toBeVisible();
     });
 
     test('exports the results as CSV, JSON, SVG and PNG', async ({ page }) => {

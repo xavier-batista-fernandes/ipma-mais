@@ -8,8 +8,9 @@ export const en = {
     'app.loadError': 'Could not load the data: {error}',
 
     'nav.home': 'IPMA+ home',
-    'nav.menu': 'Menu',
+    'nav.pages': 'Pages',
     'nav.map': 'Map',
+    'nav.query': 'Queries',
     'nav.about': 'About',
     'nav.settings': 'Settings',
 
@@ -63,10 +64,7 @@ export const en = {
     'ranking.highest': 'Highest values',
     'ranking.lowest': 'Lowest values',
 
-    'mode.label': 'View',
-    'mode.day': 'Daily map',
-    'mode.query': 'Query',
-
+    'query.question': 'The question',
     'query.type': 'Question',
     'query.type.threshold': 'Days above or below a value',
     'query.type.total': 'Total or average over a period',
@@ -160,7 +158,6 @@ export const en = {
     'settings.theme.light': 'Light',
     'settings.theme.dark': 'Dark',
     'settings.language': 'Language',
-    'settings.languageHint': 'Changes the interface language, dates and numbers.',
     'settings.borders': 'Map borders',
     'settings.bordersHint': 'Thin lines between municipalities. They stay thin at any zoom.',
     'settings.borders.off': 'Hidden',
@@ -176,7 +173,7 @@ export const en = {
         'Maximum and minimum temperature: from IPMA’s open data, updated daily. There is no data from 12 November 2025 to 21 October 2026.',
     'about.howTitle': 'How to use it',
     'about.how':
-        'Pick a variable and a day, hover over a municipality to see its value, and click it to see its daily history. Switch to Query to ask questions over a period, such as which municipalities went above a value, for how many days in a row, or how a period compares with another, and export the results as a table or a map image. The address bar always holds the current view, so you can share it.',
+        'Pick a variable and a day, hover over a municipality to see its value, and click it to see its daily history. Open Queries to ask questions over a period, such as which municipalities went above a value, for how many days in a row, or how a period compares with another, and export the results as a table or a map image. The address bar always holds the current view, so you can share it.',
     'about.updated': 'Data last updated {date}.',
     'about.code': 'Source code on GitHub',
 } as const;
