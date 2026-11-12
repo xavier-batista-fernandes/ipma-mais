@@ -1,7 +1,7 @@
 {
     "sources": {
         "page": {
-            "lastSuccess": "2026-11-12T16:25:26.376Z",
+            "lastSuccess": "2026-11-12T23:17:13.058Z",
             "latestDate": "2026-11-11"
         },
         "api:et0": {
@@ -9,12 +9,32 @@
             "latestDate": "2025-09-20"
         },
         "api:tmax": {
-            "lastSuccess": "2026-11-12T16:25:27.955Z",
+            "lastSuccess": "2026-11-12T23:17:14.170Z",
             "latestDate": "2026-11-11"
         },
         "api:tmin": {
-            "lastSuccess": "2026-11-12T16:25:28.066Z",
+            "lastSuccess": "2026-11-12T23:17:14.243Z",
             "latestDate": "2026-11-11"
+        },
+        "api:tmean": {
+            "lastSuccess": "2026-11-12T23:17:14.189Z",
+            "latestDate": "2026-11-11"
+        },
+        "api:prec": {
+            "lastSuccess": "2026-11-12T23:17:15.159Z",
+            "latestDate": "2026-11-11"
+        },
+        "api:fire": {
+            "lastSuccess": "2026-11-12T23:17:15.359Z",
+            "latestDate": "2026-11-13"
+        },
+        "wms:vhi": {
+            "lastSuccess": "2026-11-12T23:17:16.963Z",
+            "latestDate": "2026-11-04"
+        },
+        "wms:smi": {
+            "lastSuccess": "2026-11-12T23:17:29.360Z",
+            "latestDate": "2026-11-12"
         }
     }
 }
