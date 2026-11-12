@@ -1,7 +1,9 @@
 /**
  * One-off imports of history that the daily Collect run can't reach, into the canonical store.
  *
- *   node scripts/backfill.js prec-archive   # daily rain, 2025, from IPMA's frozen per-municipality CSVs
+ *   node scripts/backfill.js prec-archive   # daily rain, Aug-Nov 2025, from IPMA's frozen per-municipality CSVs
+ *   node scripts/backfill.js vhi-archive    # every VHI week since 2018
+ *   node scripts/backfill.js smi collect    # today's soil moisture, then a full Collect run
  *
  * Safe to repeat: rows go through `upsertSeries`, so an identical row is a no-op. Run from
  * the Backfill workflow (the cloud sandbox can't reach IPMA).
@@ -11,17 +13,13 @@ import { isIsoDate } from '../lib/dates.js';
 import { fetchText, mapLimit } from '../lib/fetch.js';
 import { loadMunicipalities } from '../lib/municipalities.js';
 import { upsertSeries } from '../lib/store.js';
-import { collectSmi, smiUrl } from '../sources/ipma-smi.js';
+import { collectSmi } from '../sources/ipma-smi.js';
 import { storeVhi } from '../sources/ipma-vhi.js';
-import { featureInfoUrl, parseFeatureInfoGml, WMS } from '../sources/ipma-wms.js';
 import POINTS from '../inputs/municipality-points.json' with { type: 'json' };
 
 const JOBS = {
     'prec-archive': precArchive,
-    'probe-wms': probeWms,
-    'probe-smi': probeSmi,
     'vhi-archive': vhiArchive,
-    'probe-history': probeHistory,
     smi: smiNow,
     // The whole daily collection, as the Collect workflow runs it. It exits the process, so list it last.
     collect: () => import('./collect.js'),
@@ -46,82 +44,6 @@ async function vhiArchive() {
     for (const line of result.failed) console.log(`::warning::vhi-archive ${line}`);
     if (result.failed.length > 0)
         throw new Error(`${result.failed.length} municipalities failed; run it again`);
-}
-
-/** How far back the old daily rain and temperature layers go, at Lisboa. */
-async function probeHistory() {
-    const lisboa = POINTS['1106'];
-    const layers = [
-        [WMS.precipitation, 'mrrto.obsSup.daily.vector.conc'],
-        [WMS.temperature, 'mtxmx.obsSup.daily.vector.conc'],
-        [WMS.temperature, 'mtnmn.obsSup.daily.vector.conc'],
-    ];
-    for (const [service, layer] of layers) {
-        try {
-            const started = Date.now();
-            const raw = await fetchText(featureInfoUrl(service, layer, lisboa), {
-                timeoutMs: 120000,
-                retries: 1,
-            });
-            const dates = parseFeatureInfoGml(raw)
-                .map((f) => f.date?.slice(0, 10))
-                .sort();
-            console.log(
-                `${layer}: ${dates.length} days, ${dates[0]}..${dates.at(-1)}, ${raw.length} bytes, ${Date.now() - started} ms`
-            );
-        } catch (error) {
-            console.log(`${layer}: ${error.message}`);
-        }
-    }
-}
-
-/** Prints what the SMI service answers for Lisboa with no time, a range, and one day. */
-async function probeSmi() {
-    const lisboa = POINTS['1106'];
-    for (const time of [undefined, '2026-10-01/2026-11-30', '2026-11-10']) {
-        try {
-            const text = await fetchText(smiUrl(lisboa, time), { timeoutMs: 30000 });
-            console.log(`smi ${time}: ${text.slice(0, 1500)}`);
-        } catch (error) {
-            console.log(`smi ${time}: ${error.message}`);
-        }
-    }
-}
-
-/** Checks whether a time range returns one feature per date, for VHI and the old daily rain layer. */
-async function probeWms() {
-    const lisboa = POINTS['1106'];
-    const probes = [
-        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2018-01-01/2018-12-31'],
-        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2026-11-04'],
-        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2026-11-03'],
-        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2026-10-28'],
-        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2018-01-07'],
-        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2018-01-14'],
-        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2026-11-04T00:00:00Z'],
-        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', undefined],
-        [WMS.precipitation, 'mrrto.obsSup.daily.vector.conc', '2025-11-10'],
-        [WMS.precipitation, 'mrrto.obsSup.daily.vector.conc', '2015-11-10'],
-    ];
-    for (const [service, layer, time] of probes) {
-        try {
-            const raw = await fetchText(featureInfoUrl(service, layer, lisboa, time), {
-                timeoutMs: 60000,
-                retries: 1,
-            });
-            const features = parseFeatureInfoGml(raw);
-            if (features.length === 0) {
-                console.log(`${layer} ${time} raw: ${raw.replace(/\s+/g, ' ').slice(0, 600)}`);
-            }
-            const dates = features.map((f) => f.date?.slice(0, 10)).sort();
-            console.log(
-                `${layer} ${time}: ${features.length} features, ${dates[0]}..${dates.at(-1)}; ` +
-                    `first ${JSON.stringify(features[0])}; dates ${dates.slice(0, 12).join(' ')}`
-            );
-        } catch (error) {
-            console.log(`${layer} ${time}: ${error.message}`);
-        }
-    }
 }
 
 /**
