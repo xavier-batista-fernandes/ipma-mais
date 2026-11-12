@@ -15,7 +15,7 @@ import { useI18n } from '../i18n';
 import { Icon } from '../components/Icon';
 import { MapView } from '../components/MapView';
 import { MonthlyChart } from '../components/MonthlyChart';
-import { SeriesChart } from '../components/SeriesChart';
+import { SeriesChart, seriesGap } from '../components/SeriesChart';
 import { change, monthly, summarize, type Aggregate } from '../municipality';
 import { followLink, municipalityHref, routeHref } from '../route';
 
@@ -310,6 +310,7 @@ export function MunicipalityPage({
                                     width={720}
                                     height={230}
                                     previousYear
+                                    maxGap={seriesGap(metric.id)}
                                 />
                             </section>
                             <section className="card" aria-labelledby="monthly-title">

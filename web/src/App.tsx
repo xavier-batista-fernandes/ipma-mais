@@ -27,7 +27,7 @@ import {
 } from './components/QueryPanel';
 import { Ranking } from './components/Ranking';
 import { Select } from './components/Select';
-import { SeriesChart } from './components/SeriesChart';
+import { SeriesChart, seriesGap } from './components/SeriesChart';
 import { Timeline } from './components/Timeline';
 import { useI18n } from './i18n';
 import { DataPage } from './pages/DataPage';
@@ -404,6 +404,7 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
             )}
             series={series}
             unit={metric.unit}
+            maxGap={seriesGap(metric.id)}
             pageHref={municipalityHref(stringToSlug(selected.name), metricId)}
             highlightDate={querying && query ? query.to : (activeDate ?? '')}
             onClose={() => setSelectedDico(null)}
@@ -546,11 +547,13 @@ function SelectedMunicipality({
     value,
     series,
     unit,
+    maxGap,
     pageHref,
     highlightDate,
     onClose,
     onPickDate,
 }: {
+    maxGap: number;
     pageHref: string;
     info: MunicipalityInfo;
     label: string | null;
@@ -589,6 +592,7 @@ function SelectedMunicipality({
                 <SeriesChart
                     rows={series.rows}
                     unit={unit}
+                    maxGap={maxGap}
                     highlightDate={highlightDate}
                     onPickDate={onPickDate}
                 />

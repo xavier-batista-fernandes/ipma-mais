@@ -123,7 +123,8 @@ const MAX_LABELS = 8;
 export function createColorScale(metric: MetricInfo): ColorScale {
     const { stops, step } = PALETTES[metric.id];
     const [lo, hi] = metric.domain ?? [0, 1];
-    return createScale(stops, lo, hi, step);
+    // Classes start on a multiple of the step (VHI 15–20, not 16–21), so legend labels are round.
+    return createScale(stops, Math.floor(lo / step) * step, Math.ceil(hi / step) * step, step);
 }
 
 function createScale(stops: string[], lo: number, hi: number, step: number): ColorScale {
