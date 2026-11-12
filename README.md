@@ -17,7 +17,7 @@ IPMA ──► Collect (GitHub Actions, twice a day) ──► data/*.csv in git
                        └─ deploy the Worker: app + /v1 API, one origin
 ```
 
-1. **Collect** (`scripts/collect.js`) runs twice a day. It scrapes the IPMA agrometeorology page for daily ET0, and reads daily `tmax`, `tmean` and `tmin` from IPMA's [consolidated temperature file](https://api.ipma.pt/open-data/observation/climate/temperature/t2m-p1d-continental-obssup-idw-concelhos-20d.csv) and daily rain (`prec`) from its [precipitation file](https://api.ipma.pt/open-data/observation/climate/precipitation/prec-p1d-continental-obssup-idw-concelhos-20d.csv), both covering the last 20 days. Each value is stored by its observation date and the municipality's DICO code, and a repeated run never duplicates rows. The older ET0, `tmax`, `tmin` and `prec` rows came from IPMA's per-municipality open-data CSVs, which stopped updating in 2025 (`prec` was imported once with `scripts/backfill.js`, see the Backfill workflow). IPMA does not publish the temperatures and rain from 2025-11-12 to October 2026 anywhere we can collect, so that stretch is missing.
+1. **Collect** (`scripts/collect.js`) runs twice a day. It scrapes the IPMA agrometeorology page for daily ET0, and reads daily `tmax`, `tmean` and `tmin` from IPMA's [consolidated temperature file](https://api.ipma.pt/open-data/observation/climate/temperature/t2m-p1d-continental-obssup-idw-concelhos-20d.csv) and daily rain (`prec`) from its [precipitation file](https://api.ipma.pt/open-data/observation/climate/precipitation/prec-p1d-continental-obssup-idw-concelhos-20d.csv), both covering the last 20 days. It also stores IPMA's fire-risk forecast (`fire`) for today and tomorrow, the weekly vegetation health index (`vhi`) and the soil moisture index (`smi`); the last two only exist on IPMA's map server, which is read with one point query per municipality at `inputs/municipality-points.json` (a point inside each municipality, made from Cartis' boundaries by `scripts/municipality-points.js`). Each value is stored by its observation date and the municipality's DICO code, and a repeated run never duplicates rows. The older ET0, `tmax`, `tmin` and `prec` rows came from IPMA's per-municipality open-data CSVs, which stopped updating in 2025 (`prec` was imported once with `scripts/backfill.js`, see the Backfill workflow). IPMA does not publish the temperatures and rain from 2025-11-12 to October 2026 anywhere we can collect, so that stretch is missing.
 2. **Deploy to Cloudflare** runs after every collection and app change:
    - It copies the days that changed from `data/` into a D1 database (`scripts/sync-d1.js`).
    - It builds the app and deploys the Worker in `worker/`, which serves both the app and the API.
@@ -27,7 +27,7 @@ IPMA ──► Collect (GitHub Actions, twice a day) ──► data/*.csv in git
 
 | Path | Contents |
 | --- | --- |
-| `data/{et0,tmax,tmin,tmean,prec}/{dico}.csv` | Daily series per municipality: `date,mean,min,max,std,source` (`source` is `api` or `page`; the API wins when both exist) |
+| `data/{et0,tmax,tmin,tmean,prec,fire,vhi,smi}/{dico}.csv` | Daily series per municipality: `date,mean,min,max,std,source` (`source` is `api` or `page`; the API wins when both exist) |
 | `data/raw/et0-page/{date}.json` | A full copy of each day the ET0 page published |
 | `data/meta.json` | When each source last succeeded, and its newest date |
 | `inputs/municipalities.json` | The 278 mainland municipalities and their DICO codes |

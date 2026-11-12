@@ -19,6 +19,9 @@ curl https://ipma-mais.xavierbatistafernandes-001.workers.dev/v1/et0/latest
 | `tmin` | Minimum air temperature | °C | Twice a day, from IPMA's open-data temperature file. No data from 2025-11-12 to 2026-10-21 |
 | `tmean` | Mean air temperature | °C | Twice a day, from IPMA's open-data temperature file. Starts in October 2026 |
 | `prec` | Precipitation (total rain in the day) | mm per day | Twice a day, from IPMA's open-data precipitation file. No data from 2025-11-12 to 2026-10-19. A dry day is `0` |
+| `fire` | Rural fire risk, IPMA's forecast class from 1 (reduced) to 5 (maximum) | class | Twice a day, from IPMA's fire-risk forecast for today and tomorrow, so the newest day is tomorrow's forecast. Starts in November 2026 |
+| `vhi` | Vegetation health index (satellite), 0–100, below 35 means drought stress | index | About once a week, from IPMA's map server, since 2018 |
+| `smi` | Soil moisture index × 100: 0 is wilting point, 100 field capacity | % | Twice a day, from IPMA's ECMWF-based soil moisture, read at a point inside each municipality. Starts in October 2026 |
 
 - **Municipalities** are identified by their **DICO** code: 4 digits, where the first two are the district (for example `1106` is Lisboa and `1312` is Porto). `/v1/index` lists all of them with their names and districts.
 - **Dates** are `YYYY-MM-DD` and are the observation day IPMA reports, not the day it was collected.
