@@ -29,30 +29,39 @@ export function featureInfoUrl(service, layer, [lon, lat], time) {
         X: '1',
         Y: '1',
         INFO_FORMAT: 'application/vnd.ogc.gml',
-        FEATURE_COUNT: '1',
+        FEATURE_COUNT: '1000',
     });
     if (time) params.set('TIME', time);
     return `${service}?${params}`;
 }
 
 /**
- * Reads the first feature's plain fields out of MapServer's GML answer
- * (`<id>dico1107date20261104</id><mean>34.12</mean>…`). Null when nothing is there.
+ * Reads every feature's plain fields out of MapServer's GML answer
+ * (`<id>dico1107date20261104</id><mean>34.12</mean>…`). A time range (`TIME=start/end`)
+ * returns one feature per date in it, so one request can hold a whole year.
  */
 export function parseFeatureInfoGml(gml) {
-    const feature = gml.match(/<(\w+)_feature>([\s\S]*?)<\/\1_feature>/);
-    if (!feature) return null;
-    const fields = {};
-    for (const [, name, value] of feature[2].matchAll(/<(\w+)>([^<]*)<\/\1>/g)) {
-        fields[name] = value.trim();
+    const features = [];
+    for (const [, , body] of gml.matchAll(/<(\w+)_feature>([\s\S]*?)<\/\1_feature>/g)) {
+        const fields = {};
+        for (const [, name, value] of body.matchAll(/<(\w+)>([^<]*)<\/\1>/g)) {
+            fields[name] = value.trim();
+        }
+        features.push(fields);
     }
-    return fields;
+    return features;
 }
 
-export async function getFeatureInfo(service, layer, point, time) {
+export async function getFeatureInfo(
+    service,
+    layer,
+    point,
+    time,
+    { timeoutMs = 30000, retries = 4 } = {}
+) {
     const gml = await fetchText(featureInfoUrl(service, layer, point, time), {
-        timeoutMs: 30000,
-        retries: 4,
+        timeoutMs,
+        retries,
     });
     if (/ServiceException/.test(gml)) {
         throw new Error(

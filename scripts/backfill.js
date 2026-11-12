@@ -13,7 +13,7 @@ import { loadMunicipalities } from '../lib/municipalities.js';
 import { upsertSeries } from '../lib/store.js';
 import { smiUrl } from '../sources/ipma-smi.js';
 import { storeVhiWeeks, vhiWeeks } from '../sources/ipma-vhi.js';
-import { getFeatureInfo, layerTimes, WMS } from '../sources/ipma-wms.js';
+import { getFeatureInfo, WMS } from '../sources/ipma-wms.js';
 import POINTS from '../inputs/municipality-points.json' with { type: 'json' };
 
 const JOBS = {
@@ -55,31 +55,30 @@ async function probeSmi() {
     }
 }
 
-/** Prints the time extent of the map-server layers IPMA+ could read, and one sample value. */
+/** Checks whether a time range returns one feature per date, for VHI and the old daily rain layer. */
 async function probeWms() {
-    for (const [id, service] of Object.entries(WMS)) {
-        const times = await layerTimes(service, (name) => /conc|vhi/.test(name));
-        for (const [name, time] of Object.entries(times)) {
-            const extent =
-                time && time.length > 300 ? `${time.slice(0, 120)} … ${time.slice(-120)}` : time;
-            console.log(`${id} ${name}: ${extent}`);
+    const lisboa = POINTS['1106'];
+    const probes = [
+        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2018-01-01/2018-12-31'],
+        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2026-09-01/2026-11-30'],
+        [WMS.precipitation, 'mrrto.obsSup.daily.vector.conc', '2025-10-01/2025-11-30'],
+        [WMS.precipitation, 'mrrto.obsSup.daily.vector.conc', '1990-01-01/2025-11-30'],
+    ];
+    for (const [service, layer, time] of probes) {
+        try {
+            const features = await getFeatureInfo(service, layer, lisboa, time, {
+                timeoutMs: 60000,
+                retries: 1,
+            });
+            const dates = features.map((f) => f.date?.slice(0, 10)).sort();
+            console.log(
+                `${layer} ${time}: ${features.length} features, ${dates[0]}..${dates.at(-1)}; ` +
+                    `first ${JSON.stringify(features[0])}; dates ${dates.slice(0, 12).join(' ')}`
+            );
+        } catch (error) {
+            console.log(`${layer} ${time}: ${error.message}`);
         }
     }
-    const lisboa = POINTS['1106'];
-    console.log(
-        await getFeatureInfo(WMS.vhi, 'vhi.obsRem.7days.vector.conc', lisboa, '2026-11-04')
-    );
-    console.log(
-        await getFeatureInfo(WMS.vhi, 'vhi.obsRem.7days.vector.conc', lisboa, '2018-01-07')
-    );
-    console.log(
-        await getFeatureInfo(
-            WMS.precipitation,
-            'mrrto.obsSup.daily.vector.conc',
-            lisboa,
-            '2025-11-10'
-        )
-    );
 }
 
 /**
