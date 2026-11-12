@@ -238,4 +238,140 @@ export const pt: Messages = {
     'data.api.values': 'Todos os municípios × todos os dias, para análise',
     'data.api.stats': 'Totais e médias por município num período (from, to)',
     'data.docs': 'Documentação completa da API',
+    'nav.start': 'Início',
+    'nav.variables': 'Variáveis',
+
+    'home.title': 'Tempo e clima em cada município de Portugal continental',
+    'home.lead':
+        'O IPMA+ recolhe todos os dias os dados diários do IPMA para os 278 municípios e guarda o histórico completo, para que possa ver os valores de hoje, olhar para trás e comparar.',
+    'home.search': 'Encontre o seu município',
+    'home.updated': 'Dados atualizados {date}',
+    'home.latest': 'O último dia',
+    'home.latestHint':
+        'Cada variável no último dia publicado pelo IPMA. Abra uma para a explorar no mapa.',
+    'home.average': 'Média do país',
+    'home.highest': 'Mais alto',
+    'home.lowest': 'Mais baixo',
+    'home.openMap': 'Ver no mapa',
+    'home.about': 'O que é?',
+    'home.following': 'Os seus municípios',
+    'home.followingHint': 'Siga um município na sua página para o manter aqui.',
+    'home.explore': 'Explorar',
+    'home.explore.map': 'Todos os municípios num dia, e como evoluem dia a dia.',
+    'home.explore.municipalities': 'A lista completa, com o último valor e os últimos 30 dias.',
+    'home.explore.query':
+        'Perguntas sobre um período: rankings, sequências, comparações e exportação.',
+    'home.explore.data': 'De onde vêm os dados, o que falta e a API gratuita.',
+    'home.variables': 'O que significam as variáveis',
+    'home.variablesHint': 'O que cada uma mede, como ler os valores e de onde vem.',
+    'home.stale': 'Arquivo, até {date}',
+
+    'variable.group.water': 'Água',
+    'variable.group.temperature': 'Temperatura',
+    'variable.group.vegetation': 'Vegetação',
+    'variable.group.fire': 'Incêndios',
+    'variable.cadence.daily': 'Diária',
+    'variable.cadence.weekly': 'Semanal',
+    'variable.method.stations': 'Estações meteorológicas',
+    'variable.method.satellite': 'Satélite',
+    'variable.method.forecast': 'Previsão',
+    'variable.method.model': 'Modelo',
+    'variable.aggregate.sum': 'Soma-se ao longo de um período',
+    'variable.aggregate.mean': 'Faz-se a média ao longo de um período',
+    'variable.what': 'O que mede',
+    'variable.read': 'Como ler os valores',
+    'variable.uses': 'Para que serve',
+    'variable.source': 'De onde vem',
+    'variable.sourceLink': 'Mais no IPMA',
+    'variable.scale': 'Cores do mapa',
+    'variable.scaleHint': 'A mesma cor significa sempre o mesmo valor, em qualquer dia.',
+    'variable.latest': 'Em {date}',
+    'variable.history': 'Histórico',
+    'variable.historyValue': '{first} → {last} · {count} dias',
+    'variable.openMap': 'Ver no mapa',
+    'variable.openQuery': 'Fazer uma consulta',
+    'variable.others': 'Outras variáveis',
+    'variable.notFound': 'Não há nenhuma variável neste endereço',
+    'variable.info': 'O que significa {name}?',
+    'variables.title': 'Variáveis',
+    'variables.lead': 'O que mede cada variável do IPMA+, como a ler e de onde vem.',
+
+    'metricInfo.et0.summary': 'Quanta água o solo e as plantas perdem para o ar num dia.',
+    'metricInfo.et0.what':
+        'A evapotranspiração de referência é a água que um relvado bem regado perderia num dia, por evaporação do solo e transpiração das folhas. Depende só do tempo (sol, temperatura, humidade e vento) e não de uma cultura em particular, por isso mede a “sede” do ar. É dada em milímetros: 1 mm é um litro de água por metro quadrado.',
+    'metricInfo.et0.read':
+        'Em Portugal continental vai de menos de 1 mm por dia em dias de inverno nublados a 6–8 mm em dias de verão quentes, secos e ventosos. Valores mais altos significam que o ar tira mais água ao solo. Ao longo de um período soma-se: uma semana a 5 mm por dia são 35 mm, ou 35 litros por metro quadrado.',
+    'metricInfo.et0.uses':
+        'Planear a rega. Uma cultura precisa de cerca de ET0 × o seu coeficiente cultural (Kc), menos a chuva que caiu, por isso comparar a ET0 com a precipitação mostra quanta água falta. É também um bom índice diário de quão secas estão as condições.',
+    'metricInfo.et0.source':
+        'Calculada pelo IPMA com o método FAO Penman-Monteith a partir das observações das estações meteorológicas e interpolada para cada município. O IPMA+ recolhe-a duas vezes por dia da página de agrometeorologia do IPMA.',
+
+    'metricInfo.tmax.summary': 'A temperatura do ar mais alta do dia.',
+    'metricInfo.tmax.what':
+        'A temperatura mais alta que o ar atingiu durante o dia, medida à sombra a 2 metros do solo, em média sobre a área do município.',
+    'metricInfo.tmax.read':
+        'O IPMA chama dia de verão a um dia com máxima acima de 25 °C, e dia muito quente a um com 35 °C ou mais. Os municípios do interior do Alentejo e do vale do Douro são normalmente os mais quentes no verão; o litoral e as serras são mais amenos. Num período, a app mostra a média das máximas diárias.',
+    'metricInfo.tmax.uses':
+        'Acompanhar ondas de calor e períodos quentes, o stress térmico em pessoas, animais e culturas, e comparar um período com a mesma altura do ano anterior.',
+    'metricInfo.tmax.source':
+        'Dados abertos do IPMA: observações das estações meteorológicas interpoladas para cada município (inverso da distância), publicadas diariamente. Não há dados de 12 de novembro de 2025 a 21 de outubro de 2026.',
+
+    'metricInfo.tmin.summary': 'A temperatura do ar mais baixa do dia, normalmente de madrugada.',
+    'metricInfo.tmin.what':
+        'A temperatura mais baixa que o ar atingiu durante o dia, normalmente pouco antes do nascer do sol, medida à sombra a 2 metros do solo e em média sobre a área do município.',
+    'metricInfo.tmin.read':
+        'Abaixo de 0 °C há risco de geada, sobretudo no interior norte e centro no inverno. O IPMA chama noite tropical a uma noite com mínima de 20 °C ou mais. O recorde que mais interessa é o valor mais baixo. Num período, a app mostra a média das mínimas diárias.',
+    'metricInfo.tmin.uses':
+        'Risco de geada para as culturas, vagas de frio, noites tropicais durante as ondas de calor e as horas de frio de que as árvores de fruto precisam no inverno.',
+    'metricInfo.tmin.source':
+        'Dados abertos do IPMA: observações das estações meteorológicas interpoladas para cada município (inverso da distância), publicadas diariamente. Não há dados de 12 de novembro de 2025 a 21 de outubro de 2026.',
+
+    'metricInfo.tmean.summary': 'A temperatura média do ar ao longo do dia.',
+    'metricInfo.tmean.what':
+        'A temperatura média do ar ao longo do dia e da noite, medida à sombra a 2 metros do solo e em média sobre a área do município.',
+    'metricInfo.tmean.read':
+        'Fica entre a mínima e a máxima e varia mais devagar do que qualquer uma delas. Em Portugal continental vai de cerca de 5 °C no inverno no interior a 25–28 °C no verão. Num período, a app mostra a média.',
+    'metricInfo.tmean.uses':
+        'Comparar quão quentes são, no geral, diferentes períodos e locais, e calcular graus-dia para as culturas (dias acima de uma temperatura base).',
+    'metricInfo.tmean.source':
+        'Dados abertos do IPMA: observações das estações meteorológicas interpoladas para cada município (inverso da distância), publicadas diariamente.',
+
+    'metricInfo.prec.summary': 'Quanta chuva caiu no dia.',
+    'metricInfo.prec.what':
+        'A precipitação total (chuva e, raramente, neve ou granizo em água) que caiu durante o dia, em milímetros: 1 mm é um litro de água por metro quadrado.',
+    'metricInfo.prec.read':
+        '0 mm é um dia seco. Menos de 1 mm é pouco mais do que um chuvisco; 10 mm é um dia de chuva a sério; acima de 30–40 mm num dia é chuva forte. Ao longo de um período soma-se, por isso o total de um mês pode ser comparado com a ET0 para ver se o solo ganhou ou perdeu água.',
+    'metricInfo.prec.uses':
+        'Acompanhar secas e períodos chuvosos, decidir quando regar e comparar uma estação com a do ano anterior.',
+    'metricInfo.prec.source':
+        'Dados abertos do IPMA: observações das estações meteorológicas e udómetros interpoladas para cada município, publicadas diariamente.',
+
+    'metricInfo.vhi.summary': 'Quão saudável a vegetação parece vista do espaço, de 0 a 100.',
+    'metricInfo.vhi.what':
+        'O Índice de Saúde da Vegetação (VHI) junta duas medições de satélite: quão verde e densa está a vegetação em comparação com a mesma semana noutros anos, e quão quente está a superfície. Vai de 0 (vegetação muito afetada) a 100 (muito saudável) e é calculado para cada semana.',
+    'metricInfo.vhi.read':
+        'Abaixo de 40 a vegetação está em stress, normalmente por seca ou calor; abaixo de 20 o stress é severo e abaixo de 10 extremo. Acima de 60 as condições são boas. Como cada semana é comparada com a mesma semana noutros anos, um valor baixo em agosto significa um agosto pior do que o habitual, não apenas verão.',
+    'metricInfo.vhi.uses':
+        'Detetar a seca agrícola antes de se notar nas colheitas, acompanhar a recuperação de pastagens e florestas depois da chuva e avaliar quão seca está a vegetação antes da época de incêndios.',
+    'metricInfo.vhi.source':
+        'IPMA, a partir de imagens de satélite, em média sobre cada município e publicado semanalmente nas páginas de agrometeorologia do IPMA.',
+
+    'metricInfo.fire.summary': 'A classe de perigo de incêndio rural do IPMA para o dia, de 1 a 5.',
+    'metricInfo.fire.what':
+        'A previsão do perigo de incêndio rural: com que facilidade um incêndio poderia começar e propagar-se no município nesse dia. Junta o tempo (temperatura, humidade, vento e há quanto tempo choveu) com o perigo próprio do território (vegetação e relevo).',
+    'metricInfo.fire.read':
+        '1 reduzido, 2 moderado, 3 elevado, 4 muito elevado, 5 máximo. As classes 4 e 5 trazem normalmente restrições a queimas, uso de maquinaria e acesso às florestas. Todos os dias o IPMA+ guarda a previsão para esse dia.',
+    'metricInfo.fire.uses':
+        'Saber se é permitido fazer queimas ou trabalhar com maquinaria, e acompanhar como o perigo aumenta ao longo do verão.',
+    'metricInfo.fire.source':
+        'Previsão do perigo de incêndio rural do IPMA, emitida todos os dias para hoje e os dias seguintes. O IPMA não guarda as previsões antigas, por isso o histórico começa no dia em que o IPMA+ começou a recolhê-la.',
+
+    'metricInfo.smi.summary': 'Quanta água utilizável pelas plantas o solo tem, de 0 a 1.',
+    'metricInfo.smi.what':
+        'O Índice de Humidade do Solo (SMI) mede a água na zona das raízes que as plantas ainda conseguem absorver: 0 é o ponto de emurchecimento (as plantas já não conseguem extrair mais) e 1 é a capacidade de campo (o solo retém tudo o que consegue depois de drenar).',
+    'metricInfo.smi.read':
+        'Perto de 1 o solo está húmido; abaixo de cerca de 0,4 as plantas começam a sentir falta de água; perto de 0 já não conseguem absorver nenhuma. Sobe depois da chuva e desce nos dias secos e de sol.',
+    'metricInfo.smi.uses': 'Decidir quando regar ou semear, e acompanhar a seca agrícola.',
+    'metricInfo.smi.source':
+        'IPMA, a partir de um modelo meteorológico (ECMWF) calculado numa grelha e amostrado em cada município.',
 };

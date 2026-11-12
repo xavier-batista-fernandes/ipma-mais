@@ -7,6 +7,8 @@ export interface SelectOption<T extends string> {
     label: string;
     /** A short tag shown at the end of the option, such as its unit. */
     tag?: string;
+    /** A second, quieter line under the label, such as what the option means. */
+    description?: string;
 }
 
 interface Props<T extends string> {
@@ -104,7 +106,12 @@ export function Select<T extends string>({ label, value, options, onChange }: Pr
                             onPointerEnter={() => setActive(i)}
                             onClick={() => choose(i)}
                         >
-                            <span className="option-label">{option.label}</span>
+                            <span className="option-label">
+                                {option.label}
+                                {option.description && (
+                                    <span className="option-description">{option.description}</span>
+                                )}
+                            </span>
                             {option.tag && <span className="tag">{option.tag}</span>}
                             <span className="option-check">
                                 {option.value === value && <Icon name="check" />}

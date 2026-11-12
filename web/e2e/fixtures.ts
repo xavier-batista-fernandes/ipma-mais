@@ -32,7 +32,7 @@ export function metricOf(index: ApiIndex, id: string) {
 
 /** Opens the map and waits until Cartis has drawn it and the day's values are in. */
 export async function openMap(page: Page, query = '') {
-    await page.goto(`./${query}`);
+    await page.goto(`./mapa${query}`);
     await expect(page.getByLabel(en['map.label']).locator('svg path').first()).toBeAttached();
     await expect(page.getByRole('button', { name: en['map.zoomIn'] })).toBeVisible();
 }

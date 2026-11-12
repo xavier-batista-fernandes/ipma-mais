@@ -31,6 +31,8 @@ import { SeriesChart } from './components/SeriesChart';
 import { Timeline } from './components/Timeline';
 import { useI18n } from './i18n';
 import { DataPage } from './pages/DataPage';
+import { HomePage } from './pages/HomePage';
+import { VariableNotFound, VariablePage, VariablesPage } from './pages/VariablePage';
 import { MunicipalitiesPage } from './pages/MunicipalitiesPage';
 import {
     followLink,
@@ -38,6 +40,7 @@ import {
     navigate,
     routeHref,
     useLocation,
+    variableHref,
     type Route,
 } from './route';
 import { useFollowing } from './following';
@@ -58,7 +61,7 @@ import { readUrlState, writeUrlState } from './url-state';
  * between the map and the query page and back keeps each where it was.
  */
 export function App({ openSettings = false }: { openSettings?: boolean }) {
-    const { route, slug } = useLocation();
+    const { route, slug, variable } = useLocation();
     const { following } = useFollowing();
     const i18n = useI18n();
     const { t, format } = i18n;
@@ -84,6 +87,12 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
     useEffect(() => {
         getIndex().then(setIndex, (e: unknown) => setError(String(e)));
     }, []);
+
+    // A variable's page makes it the current variable, so the other pages open on it.
+    useEffect(() => {
+        const shown = index?.metrics.find((m) => m.id === variable);
+        if (route === 'variable' && shown) setMetricId(shown.id);
+    }, [route, variable, index]);
 
     const metric = index?.metrics.find((m) => m.id === metricId) ?? index?.metrics[0] ?? null;
     const byName = useMemo(
@@ -347,7 +356,7 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
             ? t('panel.stale', { date: format.date(metric.lastDate) })
             : null;
 
-    const metricSelect = (
+    const picker = (
         <Select
             label={t('controls.metric')}
             value={metric.id}
@@ -356,8 +365,27 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
                 value: m.id,
                 label: t(`metric.${m.id}`),
                 tag: m.unit,
+                description: t(`metricInfo.${m.id}.summary`),
             }))}
         />
+    );
+    const metricHelp = (
+        <a
+            className="icon-button ghost metric-help"
+            href={variableHref(metric.id)}
+            onClick={followLink}
+            aria-label={t('variable.info', { name: t(`metric.${metric.id}`) })}
+            title={t('variable.info', { name: t(`metric.${metric.id}`) })}
+        >
+            <Icon name="info" />
+        </a>
+    );
+    // The picker with a link to what the chosen variable means; every page with a picker uses it.
+    const metricSelect = (
+        <div className="metric-picker">
+            {picker}
+            {metricHelp}
+        </div>
     );
     const toolbar = (
         <div className="toolbar">
@@ -414,6 +442,24 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
         />
     );
 
+    if (route === 'home')
+        return shell(<HomePage index={index} byDico={byDico} slugOf={stringToSlug} />);
+    if (route === 'variables') return shell(<VariablesPage index={index} />);
+    if (route === 'variable') {
+        const shownMetric = index.metrics.find((m) => m.id === variable);
+        return shell(
+            shownMetric ? (
+                <VariablePage
+                    index={index}
+                    metric={shownMetric}
+                    byDico={byDico}
+                    slugOf={stringToSlug}
+                />
+            ) : (
+                <VariableNotFound />
+            )
+        );
+    }
     if (route === 'data') return shell(<DataPage index={index} />);
     if (route === 'municipalities')
         return shell(
