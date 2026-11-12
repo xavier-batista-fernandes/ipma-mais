@@ -1,17 +1,16 @@
 import type { MetricId } from './api';
 import { queryToParams, type Query } from './query';
-
-export type Mode = 'day' | 'query';
+import type { Route } from './route';
 
 /**
- * The current view lives in the query string (`?m=et0&d=2026-10-19&c=1106`), so links share it.
- * In query mode `v=q` and the query's own parameters are added (see `query.ts`).
+ * The current view lives in the query string, so links share it. Every page keeps the variable
+ * (`m`); the map adds its day and municipality (`?m=et0&d=2026-10-19&c=1106`), the query page
+ * its question (see `query.ts`) and the selected municipality.
  */
 export interface UrlState {
     metric?: MetricId;
     date?: string | null;
     dico?: string | null;
-    mode?: Mode;
     query?: Query | null;
 }
 
@@ -22,22 +21,19 @@ export function readUrlState(): UrlState & { params: URLSearchParams } {
         metric: metric === 'et0' || metric === 'tmax' || metric === 'tmin' ? metric : undefined,
         date: params.get('d'),
         dico: params.get('c'),
-        mode: params.get('v') === 'q' ? 'query' : 'day',
         params,
     };
 }
 
-export function writeUrlState({ metric, date, dico, mode, query }: UrlState) {
+export function writeUrlState(route: Route, { metric, date, dico, query }: UrlState) {
     const params = new URLSearchParams();
     if (metric) params.set('m', metric);
-    if (date) params.set('d', date);
-    if (dico) params.set('c', dico);
-    if (mode === 'query') {
-        params.set('v', 'q');
-        if (query) queryToParams(query, params);
-    }
+    if (route === 'map' && date) params.set('d', date);
+    if (route !== 'about' && dico) params.set('c', dico);
+    if (route === 'query' && query) queryToParams(query, params);
     const search = params.toString();
-    // Keep the hash: it holds the current page (see route.ts).
-    const { pathname, hash } = window.location;
-    window.history.replaceState(null, '', `${search ? `?${search}` : pathname}${hash}`);
+    const { pathname } = window.location;
+    const next = `${pathname}${search ? `?${search}` : ''}`;
+    if (next !== `${pathname}${window.location.search}`)
+        window.history.replaceState(null, '', next);
 }

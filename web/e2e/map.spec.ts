@@ -72,7 +72,7 @@ test.describe('map', () => {
             'aria-pressed',
             'true'
         );
-        await page.goto('./#/settings');
+        await page.getByRole('button', { name: en['nav.settings'] }).click();
         await expect(
             page
                 .getByRole('radiogroup', { name: en['settings.borders'] })

@@ -204,7 +204,7 @@ footer {
 .menu {
     display: flex;
     gap: 4px;
-    margin-left: auto;
+    margin-left: 20px;
 }
 
 .menu a {
@@ -268,9 +268,85 @@ footer {
     color: var(--text);
 }
 
-.menu-toggle {
-    display: none;
+/* Search and the settings gear, on the right of the top bar. */
+.topbar-tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin-left: auto;
+}
+
+.topbar-search input {
+    height: 36px;
+    background: var(--surface-2);
+}
+
+.search-toggle {
+    display: none;
+}
+
+.settings-menu {
+    position: relative;
+}
+
+.settings-menu > .icon-button[aria-expanded='true'] {
+    border-color: var(--text);
+    background: var(--text);
+    color: var(--surface);
+}
+
+.popover.settings-panel {
+    top: calc(100% + 8px);
+    right: 0;
+    width: min(380px, calc(100vw - 32px));
+    max-height: calc(100vh - var(--topbar-height) - 24px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 16px 18px 18px;
+}
+
+.settings-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.settings-head h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.settings-head p {
+    margin: 2px 0 0;
+}
+
+.settings-panel h3 {
+    margin: 0 0 8px;
+}
+
+.settings-panel .choices {
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+    margin-top: 0;
+}
+
+.settings-panel .choices button {
+    height: 40px;
+    padding: 0 10px;
+    font-size: 0.875rem;
+}
+
+.settings-panel section > .muted {
+    margin: 8px 0 0;
+}
+
+/* Phones: the pages as a tab bar along the bottom, within reach of a thumb. */
+.tabbar {
+    display: none;
 }
 
 /* Map controls (variable, search) under the top bar. */
@@ -1432,31 +1508,97 @@ footer a {
     }
 }
 
-/* Narrow screens: the menu becomes a drop-down panel behind a toggle. */
+/* Narrow screens: the pages move to a tab bar at the bottom, and search folds into a button. */
 @media (max-width: 720px) {
-    .menu-toggle {
+    .app {
+        padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .menu,
+    .brand-tagline {
+        display: none;
+    }
+
+    .tabbar {
+        position: fixed;
+        z-index: 25;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+    }
+
+    .tabbar a {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        padding: 9px 0 8px;
+        color: var(--muted);
+        font-size: 0.7rem;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    .tabbar a .icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .tabbar a[aria-current='page'] {
+        color: var(--accent);
+        font-weight: 700;
+        box-shadow: inset 0 2px 0 var(--accent);
+    }
+
+    .search-toggle {
         display: grid;
     }
 
-    .menu {
+    .topbar-search {
+        display: none;
+    }
+
+    .topbar-search[data-open='true'] {
         position: absolute;
         top: var(--topbar-height);
         left: 0;
         right: 0;
-        display: none;
-        flex-direction: column;
-        padding: 8px 12px 12px;
+        display: block;
+        padding: 8px 16px 10px;
         background: var(--surface);
         border-bottom: 1px solid var(--border);
         box-shadow: var(--shadow-lg);
     }
 
-    .menu[data-open='true'] {
-        display: flex;
+    .topbar-search .search,
+    .topbar-search input {
+        width: 100%;
     }
 
-    .menu a {
-        height: 44px;
+    .popover.settings-panel {
+        position: fixed;
+        top: calc(var(--topbar-height) + 8px);
+        left: 16px;
+        right: 16px;
+        width: auto;
+    }
+
+    .query-builder {
+        padding: 14px 16px 16px;
+    }
+
+    .query-form > .select,
+    .query-form > .select .select-trigger,
+    .query-form .query-row,
+    .query-form .query-period,
+    .query-form .query-period .query-row {
+        width: 100%;
+        min-width: 0;
     }
 
     .page {
@@ -1468,35 +1610,83 @@ footer a {
  * Query mode (mode switch, query builder, results, export). Kept in its own block, built only on
  * the theme tokens, so a restyle can change it in one place.
  */
-.mode-switch .segmented {
-    height: 36px;
-    align-items: stretch;
-}
-
-.mode-switch .segmented button {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    height: auto;
-    padding: 0 12px;
-}
-
-.query-panel {
+/* The query page: the question across the top, then the map and the results side by side. */
+.query-page {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+}
+
+.query-builder {
+    padding: 16px 24px 18px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
 }
 
 .query-form {
     display: flex;
-    flex-direction: column;
-    gap: 14px;
+    flex-wrap: wrap;
+    gap: 14px 20px;
+    align-items: flex-start;
 }
 
-.query-form .select,
+.query-form > .select {
+    width: 330px;
+}
+
+/* The question and its variable fill the bar; the map and results take the rest of the screen,
+   and the results scroll inside their own column. */
+@media (min-width: 901px) {
+    .query-page {
+        flex: none;
+        height: calc(100vh - var(--topbar-height));
+        min-height: 640px;
+    }
+
+    .query-page .map-layout {
+        min-height: 0;
+        grid-template-rows: minmax(0, 1fr);
+    }
+
+    .query-page .map-panel {
+        min-height: 0;
+    }
+}
+
+.selected-card .big-value {
+    font-size: 1.6rem;
+}
+
+.selected-card .day-label {
+    margin: 12px 0 0;
+}
+
 .query-form .select-trigger {
     width: 100%;
     min-width: 0;
+}
+
+.query-form .query-row {
+    min-width: 260px;
+}
+
+.query-form .query-period .query-row {
+    min-width: 340px;
+}
+
+.query-page .map-layout {
+    flex: 1;
+}
+
+.selected-card {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.query-list button[aria-current='true'] {
+    background: var(--accent-soft);
+    font-weight: 600;
 }
 
 .query-row {
@@ -1522,11 +1712,11 @@ footer a {
     padding: 0;
 }
 
-.query-panel .date-picker {
+.query-form .date-picker {
     align-self: stretch;
 }
 
-.query-panel .date-trigger {
+.query-form .date-trigger {
     width: 100%;
     height: 36px;
     margin-left: 0;
@@ -1536,20 +1726,20 @@ footer a {
     font-size: 0.9rem;
 }
 
-.query-panel .date-trigger > span {
+.query-form .date-trigger > span {
     flex: 1;
     text-align: left;
     white-space: nowrap;
 }
 
-/* In the side panel the calendar opens downwards, under its field. */
-.query-panel .calendar {
+/* The calendar opens downwards, under its field. */
+.query-form .calendar {
     top: calc(100% + 6px);
     bottom: auto;
     left: 0;
 }
 
-.query-panel .query-row > :last-child .calendar {
+.query-form .query-row > :last-child .calendar {
     left: auto;
     right: 0;
 }
@@ -1563,8 +1753,7 @@ footer a {
 }
 
 .query-results {
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
+    display: block;
 }
 
 .query-summary {
@@ -1591,19 +1780,6 @@ footer a {
 
 .query-results .ranking > .muted {
     margin: 12px 0 8px;
-}
-
-/* The results list can be long: the map stays in view beside it instead of stretching with it. */
-@media (min-width: 901px) {
-    .map-layout[data-mode='query'] {
-        align-items: start;
-    }
-
-    .map-layout[data-mode='query'] .map-panel {
-        position: sticky;
-        top: 0;
-        height: max(70vh, calc(100vh - 160px));
-    }
 }
 
 /* "From" and "To" sit under the period's own label, so they drop the "//" marker. */
