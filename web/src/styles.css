@@ -1119,12 +1119,14 @@ button:disabled {
     overflow: hidden;
 }
 
-.ranking li + li button {
+.ranking li + li :is(button, a) {
     border-top: 1px solid var(--border);
 }
 
 /* Each row is a button with a faint bar behind it showing where the value sits that day. */
-.ranking li button {
+.ranking li :is(button, a) {
+    color: inherit;
+    text-decoration: none;
     position: relative;
     display: flex;
     align-items: center;
@@ -1141,7 +1143,7 @@ button:disabled {
     transition: background 0.15s;
 }
 
-.ranking li button:hover {
+.ranking li :is(button, a):hover {
     background: var(--surface-2);
 }
 
@@ -1785,4 +1787,322 @@ footer a {
 /* "From" and "To" sit under the period's own label, so they drop the "//" marker. */
 .query-period .query-row .field-label::before {
     content: none;
+}
+
+/*
+ * A municipality's page: title and actions, four headline figures, then the daily series and
+ * the months on the left, location and the district on the right. Theme tokens only.
+ */
+.municipality-page {
+    flex: 1;
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 28px 24px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.municipality-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px 24px;
+}
+
+.municipality-title h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.municipality-title .day-label {
+    margin: 0 0 4px;
+}
+
+.municipality-title p.muted {
+    margin: 6px 0 0;
+    font-family: var(--font-mono);
+}
+
+.municipality-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.municipality-actions .select-trigger {
+    min-width: 0;
+}
+
+.button-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 36px;
+    padding: 0 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        border-color 0.15s,
+        background 0.15s;
+}
+
+.button-outline:not(:disabled):hover {
+    border-color: var(--text);
+}
+
+.button-outline[aria-pressed='true'] {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.municipality-page .notice {
+    margin: 0;
+}
+
+.kpis {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.kpi {
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.kpi .field-label {
+    margin: 0 0 8px;
+}
+
+.kpi-value {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+}
+
+.kpi-detail {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+.kpi-detail[data-trend]::before {
+    margin-right: 4px;
+    color: var(--accent);
+}
+
+.kpi-detail[data-trend='up']::before {
+    content: '▲';
+}
+
+.kpi-detail[data-trend='down']::before {
+    content: '▼';
+}
+
+.municipality-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 12px;
+    align-items: start;
+}
+
+.municipality-main,
+.municipality-side {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+}
+
+.municipality-page .card {
+    margin: 0;
+    padding: 14px 16px;
+}
+
+.municipality-page .card > h2.field-label {
+    margin: 0 0 10px;
+    font-size: 0.68rem;
+    font-weight: 500;
+}
+
+.locator-map {
+    position: relative;
+    height: 300px;
+    margin: 0 -16px -14px;
+    border-top: 1px solid var(--border);
+    background-color: var(--bg);
+    background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+.locator-map .map-wrap,
+.locator-map .map {
+    height: 100%;
+}
+
+.municipality-side .ranking a[aria-current='page'] {
+    background: var(--accent-soft);
+    font-weight: 700;
+}
+
+/* Chart legends: a short line or block per series. */
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 8px;
+    margin: 6px 0 2px;
+    font-family: var(--font-mono);
+}
+
+.chart-legend .swatch,
+.chart-legend .swatch-line {
+    display: inline-block;
+    width: 12px;
+    height: 10px;
+    margin-left: 6px;
+    background: var(--accent);
+}
+
+.chart-legend .swatch-line {
+    width: 16px;
+    height: 0;
+    border-top: 2px solid var(--accent);
+    background: none;
+}
+
+.chart-legend .swatch.earlier {
+    background: var(--border-strong);
+}
+
+.chart-legend .swatch-line.earlier {
+    border-top: 2px dashed var(--muted);
+}
+
+.chart-legend .swatch:first-child,
+.chart-legend .swatch-line:first-child {
+    margin-left: 0;
+}
+
+.chart-legend-note {
+    margin-left: auto;
+}
+
+.chart .series-earlier {
+    fill: none;
+    stroke: var(--muted);
+    stroke-width: 1.2;
+    stroke-dasharray: 3 3;
+}
+
+.monthly-chart .bar {
+    fill: var(--accent);
+}
+
+.monthly-chart .bar-earlier {
+    fill: var(--border-strong);
+}
+
+.monthly-chart [data-partial] {
+    opacity: 0.45;
+}
+
+/* The selected municipality's way to its own page. */
+.open-page {
+    margin: -4px 0 16px;
+    width: 100%;
+    justify-content: center;
+}
+
+/* Followed municipalities on the map page, above the day's ranking. */
+.following {
+    margin-bottom: 20px;
+}
+
+.following h3 {
+    margin: 0 0 8px;
+}
+
+.following ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.following a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 32px;
+    padding: 0 10px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.following a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.following .ranking-value {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+@media (max-width: 900px) {
+    .kpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .municipality-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .municipality-page {
+        padding: 20px 16px 32px;
+    }
+
+    .municipality-title h1 {
+        font-size: 1.8rem;
+    }
+
+    .municipality-actions,
+    .municipality-actions .select {
+        width: 100%;
+    }
+
+    .chart-legend-note {
+        margin-left: 0;
+        width: 100%;
+    }
 }

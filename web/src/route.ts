@@ -1,26 +1,45 @@
-import { useEffect, useState, type MouseEvent } from 'react';
+import { useEffect, useMemo, useState, type MouseEvent } from 'react';
 
 /**
  * Pages live in the path (`/consultas`), the current view's state in the query string
  * (`?m=et0&d=…`, see url-state.ts). The Worker answers unknown paths with index.html.
  */
-export type Route = 'map' | 'query' | 'about';
+export type Route = 'map' | 'query' | 'about' | 'municipality';
 
-const PATHS: Record<Route, string> = {
+const PATHS: Record<Exclude<Route, 'municipality'>, string> = {
     map: '/',
     query: '/consultas',
     about: '/sobre',
 };
 
-function readRoute(): Route {
-    const path = window.location.pathname.replace(/\/+$/, '') || '/';
-    const match = (Object.keys(PATHS) as Route[]).find((route) => PATHS[route] === path);
-    return match ?? 'map';
+/** A municipality's page: `/concelhos/vila-real-de-santo-antonio`. */
+const MUNICIPALITY = /^\/concelhos\/([a-z0-9-]+)$/;
+
+export interface Location {
+    route: Route;
+    /** The municipality's slug on its page (see cartis' `stringToSlug`). */
+    slug?: string;
 }
 
+function readLocation(path = window.location.pathname): Location {
+    const clean = path.replace(/\/+$/, '') || '/';
+    const municipality = MUNICIPALITY.exec(clean);
+    if (municipality) return { route: 'municipality', slug: municipality[1] };
+    const match = (Object.keys(PATHS) as (keyof typeof PATHS)[]).find(
+        (route) => PATHS[route] === clean
+    );
+    return { route: match ?? 'map' };
+}
+
+const withMetric = (path: string, metric?: string) => (metric ? `${path}?m=${metric}` : path);
+
 /** A page's link. `metric` is carried along so the other page opens on the same variable. */
-export const routeHref = (route: Route, metric?: string) =>
-    metric ? `${PATHS[route]}?m=${metric}` : PATHS[route];
+export const routeHref = (route: keyof typeof PATHS, metric?: string) =>
+    withMetric(PATHS[route], metric);
+
+/** A municipality page's link, from its slug. */
+export const municipalityHref = (slug: string, metric?: string) =>
+    withMetric(`/concelhos/${slug}`, metric);
 
 const NAVIGATE = 'ipma-mais:navigate';
 
@@ -49,10 +68,11 @@ export function followLink(event: MouseEvent<HTMLAnchorElement>) {
     navigate(event.currentTarget.href);
 }
 
-export function useRoute() {
-    const [route, setRoute] = useState(readRoute);
+/** The current page, re-read on every navigation (including Back and Forward). */
+export function useLocation(): Location {
+    const [path, setPath] = useState(() => window.location.pathname);
     useEffect(() => {
-        const update = () => setRoute(readRoute());
+        const update = () => setPath(window.location.pathname);
         window.addEventListener('popstate', update);
         window.addEventListener(NAVIGATE, update);
         return () => {
@@ -60,7 +80,7 @@ export function useRoute() {
             window.removeEventListener(NAVIGATE, update);
         };
     }, []);
-    return route;
+    return useMemo(() => readLocation(path), [path]);
 }
 
 /**

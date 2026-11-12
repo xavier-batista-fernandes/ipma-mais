@@ -27,10 +27,13 @@ const PATHS = {
     filter: 'M4 5h16l-6 7.5V19l-4 1.5v-8L4 5Z',
     borders: 'M4 4h16v16H4zM4 13l6-1 3-8m-3 8 4 8m-1-6 7-1',
     layers: 'm12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5',
+    star: 'm12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9L12 3.5Z',
+    starFilled: 'm12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9L12 3.5Z',
+    arrowRight: 'M5 12h14m-6-6 6 6-6 6',
 } as const;
 
 /** Icons drawn as solid shapes rather than strokes. */
-const FILLED: ReadonlySet<IconName> = new Set(['play', 'pause']);
+const FILLED: ReadonlySet<IconName> = new Set(['play', 'pause', 'starFilled']);
 
 export type IconName = keyof typeof PATHS;
 

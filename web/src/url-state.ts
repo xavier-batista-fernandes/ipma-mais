@@ -29,7 +29,7 @@ export function writeUrlState(route: Route, { metric, date, dico, query }: UrlSt
     const params = new URLSearchParams();
     if (metric) params.set('m', metric);
     if (route === 'map' && date) params.set('d', date);
-    if (route !== 'about' && dico) params.set('c', dico);
+    if ((route === 'map' || route === 'query') && dico) params.set('c', dico);
     if (route === 'query' && query) queryToParams(query, params);
     const search = params.toString();
     const { pathname } = window.location;
