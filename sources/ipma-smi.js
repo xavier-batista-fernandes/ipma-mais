@@ -60,6 +60,32 @@ export async function fetchSmi(point, time) {
 }
 
 /**
+ * The model grid is about 16 km wide and has no value over the sea, so a point in a narrow
+ * coastal municipality (Póvoa de Varzim, Esposende, Sines) can land on a sea cell. Then the
+ * nearest land cell inland (east) stands in for it.
+ */
+const INLAND_STEPS = [
+    [0, 0],
+    [0.08, 0],
+    [0.16, 0],
+    [0.24, 0],
+];
+
+export async function fetchSmiNearby([lon, lat], time) {
+    let lastError;
+    for (const [dx, dy] of INLAND_STEPS) {
+        try {
+            const days = await fetchSmi([lon + dx, lat + dy], time);
+            if (days.length > 0) return days;
+            lastError = new Error('no value');
+        } catch (error) {
+            lastError = error;
+        }
+    }
+    throw lastError;
+}
+
+/**
  * Reads every municipality in `points` and stores its days up to `today`.
  * Returns `{ added, changed, latest, failed: [message] }`.
  */
@@ -70,7 +96,7 @@ export async function collectSmi(points, today, { concurrency = 6 } = {}) {
     await mapLimit(Object.entries(points), concurrency, async ([dico, point]) => {
         let days;
         try {
-            days = await fetchSmi(point, `${from}/${to}`);
+            days = await fetchSmiNearby(point, `${from}/${to}`);
         } catch (error) {
             result.failed.push(`${dico}: ${error.message}`);
             return;
