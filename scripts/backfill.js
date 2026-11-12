@@ -11,10 +11,40 @@ import { isIsoDate } from '../lib/dates.js';
 import { fetchText } from '../lib/fetch.js';
 import { loadMunicipalities } from '../lib/municipalities.js';
 import { upsertSeries } from '../lib/store.js';
+import { getFeatureInfo, layerTimes, WMS } from '../sources/ipma-wms.js';
+import POINTS from '../inputs/municipality-points.json' with { type: 'json' };
 
 const JOBS = {
     'prec-archive': precArchive,
+    'probe-wms': probeWms,
 };
+
+/** Prints the time extent of the map-server layers IPMA+ could read, and one sample value. */
+async function probeWms() {
+    for (const [id, service] of Object.entries(WMS)) {
+        const times = await layerTimes(service, (name) => /conc|vhi/.test(name));
+        for (const [name, time] of Object.entries(times)) {
+            const extent =
+                time && time.length > 300 ? `${time.slice(0, 120)} … ${time.slice(-120)}` : time;
+            console.log(`${id} ${name}: ${extent}`);
+        }
+    }
+    const lisboa = POINTS['1106'];
+    console.log(
+        await getFeatureInfo(WMS.vhi, 'vhi.obsRem.7days.vector.conc', lisboa, '2026-11-04')
+    );
+    console.log(
+        await getFeatureInfo(WMS.vhi, 'vhi.obsRem.7days.vector.conc', lisboa, '2018-01-07')
+    );
+    console.log(
+        await getFeatureInfo(
+            WMS.precipitation,
+            'mrrto.obsSup.daily.vector.conc',
+            lisboa,
+            '2025-11-10'
+        )
+    );
+}
 
 /**
  * IPMA's older per-municipality open-data CSVs (`date,minimum,maximum,range,mean,std`) stopped
