@@ -1,20 +1,20 @@
 {
     "sources": {
         "page": {
-            "lastSuccess": "2026-11-12T01:47:40.860Z",
-            "latestDate": "2026-11-10"
+            "lastSuccess": "2026-11-12T16:25:26.376Z",
+            "latestDate": "2026-11-11"
         },
         "api:et0": {
             "lastSuccess": "2026-11-09T12:27:36.540Z",
             "latestDate": "2025-09-20"
         },
         "api:tmax": {
-            "lastSuccess": "2026-11-12T01:47:42.101Z",
-            "latestDate": "2026-11-10"
+            "lastSuccess": "2026-11-12T16:25:27.955Z",
+            "latestDate": "2026-11-11"
         },
         "api:tmin": {
-            "lastSuccess": "2026-11-12T01:47:42.277Z",
-            "latestDate": "2026-11-10"
+            "lastSuccess": "2026-11-12T16:25:28.066Z",
+            "latestDate": "2026-11-11"
         }
     }
 }
