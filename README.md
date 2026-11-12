@@ -17,7 +17,7 @@ IPMA ──► Collect (GitHub Actions, twice a day) ──► data/*.csv in git
                        └─ deploy the Worker: app + /v1 API, one origin
 ```
 
-1. **Collect** (`scripts/collect.js`) scrapes the IPMA agrometeorology page twice a day for daily ET0. Each value is stored by its observation date and the municipality's DICO code, and a repeated run never duplicates rows. `tmax`, `tmin` and the older ET0 rows came from IPMA's open-data API, which stopped publishing in November 2025; they are kept as an archive and are no longer collected.
+1. **Collect** (`scripts/collect.js`) runs twice a day. It scrapes the IPMA agrometeorology page for daily ET0, and reads daily `tmax` and `tmin` from IPMA's [consolidated temperature file](https://api.ipma.pt/open-data/observation/climate/temperature/t2m-p1d-continental-obssup-idw-concelhos-20d.csv), which covers the last 20 days. Each value is stored by its observation date and the municipality's DICO code, and a repeated run never duplicates rows. The older ET0, `tmax` and `tmin` rows came from IPMA's per-municipality open-data CSVs, which stopped updating in 2025. IPMA does not publish the temperatures from 2025-11-12 to 2026-10-21 anywhere we can collect, so that stretch is missing.
 2. **Deploy to Cloudflare** runs after every collection and app change:
    - It copies the days that changed from `data/` into a D1 database (`scripts/sync-d1.js`).
    - It builds the app and deploys the Worker in `worker/`, which serves both the app and the API.

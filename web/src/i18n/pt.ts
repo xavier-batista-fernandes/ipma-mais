@@ -173,7 +173,7 @@ export const pt: Messages = {
     'about.et0':
         'Evapotranspiração de referência (ET0): a água que uma cultura de referência perde num dia, em milímetros. Recolhida duas vezes por dia da página de agrometeorologia do IPMA.',
     'about.temperature':
-        'Temperatura máxima e mínima: dos dados abertos do IPMA, que não são atualizados desde o final de 2025.',
+        'Temperatura máxima e mínima: dos dados abertos do IPMA, atualizados diariamente. Não há dados de 12 de novembro de 2025 a 21 de outubro de 2026.',
     'about.howTitle': 'Como usar',
     'about.how':
         'Escolha uma variável e um dia, passe o cursor sobre um município para ver o seu valor e clique nele para ver o histórico diário. Mude para Pesquisa para fazer perguntas sobre um período, como que municípios ultrapassaram um valor, durante quantos dias seguidos, ou como um período se compara com outro, e exporte os resultados como tabela ou imagem do mapa. A barra de endereço guarda sempre a vista atual, para que a possa partilhar.',
