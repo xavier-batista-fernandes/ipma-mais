@@ -1,4 +1,4 @@
-import type { Municipality, MunicipalityInteractionEvent } from 'cartis';
+import { stringToSlug, type Municipality, type MunicipalityInteractionEvent } from 'cartis';
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
     getDay,
@@ -31,7 +31,16 @@ import { SeriesChart } from './components/SeriesChart';
 import { Timeline } from './components/Timeline';
 import { useI18n } from './i18n';
 import { AboutPage } from './pages/AboutPage';
-import { navigate, routeHref, useRoute, type Route } from './route';
+import {
+    followLink,
+    municipalityHref,
+    navigate,
+    routeHref,
+    useLocation,
+    type Route,
+} from './route';
+import { useFollowing } from './following';
+import { MunicipalityNotFound, MunicipalityPage } from './pages/MunicipalityPage';
 import {
     defaultQuery,
     queryFromParams,
@@ -48,7 +57,8 @@ import { readUrlState, writeUrlState } from './url-state';
  * between the map and the query page and back keeps each where it was.
  */
 export function App({ openSettings = false }: { openSettings?: boolean }) {
-    const route = useRoute();
+    const { route, slug } = useLocation();
+    const { following } = useFollowing();
     const i18n = useI18n();
     const { t, format } = i18n;
     const { borders } = useSettings();
@@ -84,6 +94,10 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
         [index]
     );
     const allNames = useMemo(() => index?.municipalities.map((m) => m.name) ?? [], [index]);
+    const bySlug = useMemo(
+        () => new Map(index?.municipalities.map((m) => [stringToSlug(m.name), m]) ?? []),
+        [index]
+    );
     const scale = useMemo(() => (metric ? createColorScale(metric) : null), [metric]);
     const selected = selectedDico ? (byDico.get(selectedDico) ?? null) : null;
 
@@ -191,6 +205,8 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
     }, [querying, resultScale, resultByDico, day, scale, byDico, metric]);
 
     const select = (name: Municipality) => setSelectedDico(byName.get(name)?.dico ?? null);
+    const openMunicipality = (name: Municipality) =>
+        navigate(municipalityHref(stringToSlug(name), metricId));
 
     const shell = (page: ReactNode) => (
         <Shell
@@ -199,9 +215,9 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
             generatedAt={index?.generatedAt ?? null}
             settingsOpen={openSettings}
             onSearch={(name) => {
-                select(name);
-                // Search finds a municipality on a map: from a page without one, go to the map.
-                if (route === 'about') navigate(routeHref('map', metricId));
+                // On a map, search selects the municipality there; elsewhere it opens its page.
+                if (route === 'map' || route === 'query') select(name);
+                else openMunicipality(name);
             }}
             describe={(name) => byName.get(name)?.district}
         >
@@ -210,6 +226,8 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
     );
     if (route === 'about') return shell(<AboutPage generatedAt={index?.generatedAt ?? null} />);
     if (error) return shell(<div className="status">{t('app.loadError', { error })}</div>);
+    if (route === 'municipality' && index && !bySlug.has(slug ?? ''))
+        return shell(<MunicipalityNotFound metric={metricId} />);
     if (!index || !metric || !scale || (querying && !query))
         return shell(<div className="status">{t('app.loading')}</div>);
 
@@ -386,6 +404,7 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
             )}
             series={series}
             unit={metric.unit}
+            pageHref={municipalityHref(stringToSlug(selected.name), metricId)}
             highlightDate={querying && query ? query.to : (activeDate ?? '')}
             onClose={() => setSelectedDico(null)}
             onPickDate={(picked) => {
@@ -394,6 +413,26 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
             }}
         />
     );
+
+    if (route === 'municipality') {
+        const info = bySlug.get(slug ?? '')!;
+        return shell(
+            <MunicipalityPage
+                info={info}
+                metric={metric}
+                metricSelect={metricSelect}
+                municipalities={index.municipalities}
+                slugOf={stringToSlug}
+                staleNote={staleNote}
+                onOpenMap={(picked) => {
+                    setSelectedDico(info.dico);
+                    if (picked) setDate(picked);
+                    navigate(routeHref('map', metricId));
+                }}
+                onOpenMunicipality={openMunicipality}
+            />
+        );
+    }
 
     if (showingQuery) {
         return shell(
@@ -445,6 +484,37 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
                         {activeDate ? format.dateTitle(activeDate) : t('panel.noData')}
                     </p>
                     {staleNote && <p className="notice">{staleNote}</p>}
+                    {!selectedDetail && following.length > 0 && (
+                        <nav className="following" aria-label={t('following.title')}>
+                            <h3 className="field-label">{t('following.title')}</h3>
+                            <ul>
+                                {following
+                                    .map((dico) => byDico.get(dico))
+                                    .filter((m) => m !== undefined)
+                                    .map((m) => (
+                                        <li key={m.dico}>
+                                            <a
+                                                href={municipalityHref(
+                                                    stringToSlug(m.name),
+                                                    metricId
+                                                )}
+                                                onClick={followLink}
+                                            >
+                                                <span>{m.name}</span>
+                                                <span className="ranking-value">
+                                                    {shownDay?.values[m.dico] === undefined
+                                                        ? '—'
+                                                        : format.value(
+                                                              shownDay.values[m.dico],
+                                                              metric.unit
+                                                          )}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    ))}
+                            </ul>
+                        </nav>
+                    )}
                     {selectedDetail ?? (
                         <Ranking
                             day={shownDay}
@@ -465,10 +535,12 @@ function SelectedMunicipality({
     value,
     series,
     unit,
+    pageHref,
     highlightDate,
     onClose,
     onPickDate,
 }: {
+    pageHref: string;
     info: MunicipalityInfo;
     label: string | null;
     value: string;
@@ -498,6 +570,10 @@ function SelectedMunicipality({
             </div>
             {label && <p className="day-label">{label}</p>}
             <p className="big-value">{value}</p>
+            <a className="button open-page" href={pageHref} onClick={followLink}>
+                {t('municipality.open')}
+                <Icon name="arrowRight" />
+            </a>
             {series ? (
                 <SeriesChart
                     rows={series.rows}

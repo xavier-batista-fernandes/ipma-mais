@@ -7,7 +7,11 @@ import { Logo } from './Logo';
 import { Search } from './Search';
 import { SettingsMenu } from './SettingsMenu';
 
-const ITEMS: { route: Route; icon: IconName; label: 'nav.map' | 'nav.query' | 'nav.about' }[] = [
+const ITEMS: {
+    route: Exclude<Route, 'municipality'>;
+    icon: IconName;
+    label: 'nav.map' | 'nav.query' | 'nav.about';
+}[] = [
     { route: 'map', icon: 'map', label: 'nav.map' },
     { route: 'query', icon: 'filter', label: 'nav.query' },
     { route: 'about', icon: 'info', label: 'nav.about' },

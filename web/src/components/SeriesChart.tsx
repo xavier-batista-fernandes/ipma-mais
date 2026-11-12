@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import type { SeriesRow } from '../api';
 import { parseIsoDate } from '../format';
 import { useI18n } from '../i18n';
+import { yearBefore } from '../municipality';
 
 const RANGES = [
     { label: 'chart.range30', days: 30 },
@@ -12,8 +13,6 @@ const RANGES = [
     { label: 'chart.rangeAll', days: Infinity },
 ] as const;
 
-const WIDTH = 360;
-const HEIGHT = 180;
 const M = { top: 10, right: 12, bottom: 22, left: 34 };
 
 interface Props {
@@ -21,10 +20,23 @@ interface Props {
     unit: string;
     highlightDate: string;
     onPickDate: (date: string) => void;
+    /** The drawing's size in SVG units; it scales to its container's width. */
+    width?: number;
+    height?: number;
+    /** Also draws the same days a year earlier, dashed, for comparison. */
+    previousYear?: boolean;
 }
 
 /** A daily line chart; shaded where the source also gives the municipality's min–max spread. */
-export function SeriesChart({ rows, unit, highlightDate, onPickDate }: Props) {
+export function SeriesChart({
+    rows,
+    unit,
+    highlightDate,
+    onPickDate,
+    width: WIDTH = 360,
+    height: HEIGHT = 180,
+    previousYear = false,
+}: Props) {
     const { t, format } = useI18n();
     const [rangeDays, setRangeDays] = useState<number>(90);
     const [hover, setHover] = useState<SeriesRow | null>(null);
@@ -37,7 +49,19 @@ export function SeriesChart({ rows, unit, highlightDate, onPickDate }: Props) {
             ([date]) => rangeDays === Infinity || parseIsoDate(date) >= start
         );
 
-        const values = visible.flatMap(([, mean, min, max]) => [mean, min ?? mean, max ?? mean]);
+        // A year earlier, matched day by day to the visible days.
+        const byDate = new Map(rows.map((row) => [row[0], row[1]]));
+        const earlier: [string, number][] = previousYear
+            ? visible.flatMap(([date]) => {
+                  const value = byDate.get(yearBefore(date));
+                  return value === undefined ? [] : [[date, value] as [string, number]];
+              })
+            : [];
+
+        const values = [
+            ...visible.flatMap(([, mean, min, max]) => [mean, min ?? mean, max ?? mean]),
+            ...earlier.map(([, value]) => value),
+        ];
         const x = scaleUtc()
             .domain([parseIsoDate(visible[0][0]), end])
             .range([M.left, WIDTH - M.right]);
@@ -56,17 +80,26 @@ export function SeriesChart({ rows, unit, highlightDate, onPickDate }: Props) {
             .x(([date]) => x(parseIsoDate(date)))
             .y(([, mean]) => y(mean));
         const meanLines = runs.map((run) => lineGen(run) ?? '');
+        const earlierRuns: [string, number][][] = [];
+        earlier.forEach((row, i) => {
+            if (i === 0 || daysApart(earlier[i - 1][0], row[0]) > 1) earlierRuns.push([]);
+            earlierRuns.at(-1)!.push(row);
+        });
+        const earlierLine = line<[string, number]>()
+            .x(([date]) => x(parseIsoDate(date)))
+            .y(([, value]) => y(value));
+        const earlierLines = earlierRuns.map((run) => earlierLine(run) ?? '');
         const band = area<SeriesRow>()
             .defined(([, , min, max]) => min !== null && max !== null)
             .x(([date]) => x(parseIsoDate(date)))
             .y0(([, , min]) => y(min!))
             .y1(([, , , max]) => y(max!))(visible);
 
-        return { visible, x, y, meanLines, band };
-    }, [rows, rangeDays]);
+        return { visible, x, y, meanLines, earlierLines, band };
+    }, [rows, rangeDays, previousYear, WIDTH, HEIGHT]);
 
     if (!chart) return <p className="muted">{t('chart.noData')}</p>;
-    const { visible, x, y, meanLines, band } = chart;
+    const { visible, x, y, meanLines, earlierLines, band } = chart;
 
     const pick = (event: React.MouseEvent<SVGRectElement>) => {
         const box = event.currentTarget.getBoundingClientRect();
@@ -142,6 +175,9 @@ export function SeriesChart({ rows, unit, highlightDate, onPickDate }: Props) {
                     </text>
                 ))}
                 {band && <path className="band" d={band} />}
+                {earlierLines.map((d, i) => (
+                    <path key={`earlier-${i}`} className="series-earlier" d={d} />
+                ))}
                 {meanLines.map((d, i) => (
                     <path key={i} className="series" d={d} />
                 ))}
@@ -165,6 +201,12 @@ export function SeriesChart({ rows, unit, highlightDate, onPickDate }: Props) {
                     onClick={(e) => onPickDate(pick(e)[0])}
                 />
             </svg>
+            {previousYear && (
+                <p className="chart-legend muted small">
+                    <span className="swatch-line" /> {t('chart.thisYear')}
+                    <span className="swatch-line earlier" /> {t('chart.yearBefore')}
+                </p>
+            )}
             <p className="muted small">{t('chart.hint')}</p>
         </div>
     );

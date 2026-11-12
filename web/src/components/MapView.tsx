@@ -60,9 +60,18 @@ interface Props {
     selected: Municipality | null;
     onHover: (event: MunicipalityInteractionEvent | null) => void;
     onSelect: (name: Municipality) => void;
+    /** Zooms in on the selected municipality (off for a locator, which shows the whole country). */
+    zoomToSelected?: boolean;
 }
 
-export function MapView({ fills, allNames, selected, onHover, onSelect }: Props) {
+export function MapView({
+    fills,
+    allNames,
+    selected,
+    onHover,
+    onSelect,
+    zoomToSelected = true,
+}: Props) {
     const { t } = useI18n();
     const containerRef = useRef<HTMLDivElement>(null);
     const [map, setMap] = useState<CountryMap | null>(null);
@@ -153,17 +162,19 @@ export function MapView({ fills, allNames, selected, onHover, onSelect }: Props)
         map.styleMunicipalities([selected], latest.current.selectedBorder);
         // Deferred a little: right after the map first renders, Cartis' resize handling can still
         // reproject once and would interrupt a zoom transition started in the same frame.
-        const timer = window.setTimeout(
-            () => map.fitToMunicipalities([selected], { zoom: 0.4, duration: 750 }),
-            250
-        );
+        const timer = zoomToSelected
+            ? window.setTimeout(
+                  () => map.fitToMunicipalities([selected], { zoom: 0.4, duration: 750 }),
+                  250
+              )
+            : undefined;
         return () => {
             window.clearTimeout(timer);
             path?.classList.remove('selected');
             const fill = latest.current.fills.get(selected) ?? MISSING_FILL;
             map.styleMunicipalities([selected], latest.current.strokeFor(fill));
         };
-    }, [map, selected]);
+    }, [map, selected, zoomToSelected]);
 
     // A theme change only recolours the outline; it doesn't re-zoom.
     useEffect(() => {
