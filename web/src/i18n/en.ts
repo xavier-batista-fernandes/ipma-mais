@@ -11,7 +11,6 @@ export const en = {
     'nav.pages': 'Pages',
     'nav.map': 'Map',
     'nav.query': 'Queries',
-    'nav.about': 'About',
     'nav.settings': 'Settings',
 
     'metric.et0': 'Reference evapotranspiration (ET0)',
@@ -166,15 +165,12 @@ export const en = {
     'about.title': 'About IPMA+',
     'about.intro':
         'IPMA keeps some of its weather data online for only a few weeks. IPMA+ collects it every day and keeps the full history, so you can explore how each municipality has changed over time.',
-    'about.dataTitle': 'Data',
     'about.et0':
         'Reference evapotranspiration (ET0): how much water a reference crop loses in a day, in millimetres. Collected twice a day from the IPMA agrometeorology page.',
     'about.temperature':
         'Maximum and minimum temperature: from IPMA’s open data, updated daily. There is no data from 12 November 2025 to 21 October 2026.',
-    'about.howTitle': 'How to use it',
     'about.how':
         'Pick a variable and a day, hover over a municipality to see its value, and click it to see its daily history. Open Queries to ask questions over a period, such as which municipalities went above a value, for how many days in a row, or how a period compares with another, and export the results as a table or a map image. The address bar always holds the current view, so you can share it.',
-    'about.updated': 'Data last updated {date}.',
     'about.code': 'Source code on GitHub',
     'chart.thisYear': 'This period',
     'chart.yearBefore': 'A year earlier',
@@ -209,6 +205,40 @@ export const en = {
     'municipality.location': 'Location',
     'municipality.districtOn': '{district} district on {date}',
     'following.title': 'Following',
+    'nav.municipalities': 'Municipalities',
+    'nav.data': 'Data',
+    'municipalities.title': 'Municipalities',
+    'municipalities.subtitle':
+        'The {count} municipalities of mainland Portugal · {metric} on {date}',
+    'municipalities.filter': 'Filter',
+    'municipalities.filterPlaceholder': 'Name or district',
+    'municipalities.order': 'Order',
+    'municipalities.order.district': 'By district',
+    'municipalities.order.name': 'A–Z',
+    'municipalities.order.value': 'Value',
+    'municipalities.follow': 'Follow {name}',
+    'municipalities.unfollow': 'Stop following {name}',
+    'municipalities.vsCountry': '{diff} vs country',
+    'data.title': 'Data and API',
+    'data.variables': 'Variables',
+    'data.days': '{count} days',
+    'data.current': 'Updated twice a day',
+    'data.archive': 'Archive: nothing new since {date}',
+    'data.lastCollection': 'Last collection: {date}',
+    'data.coverage': 'Days with data',
+    'data.coverageHint': 'One square per day. Gaps are days IPMA published nothing for.',
+    'data.coverageLabel': 'Calendar of days with data, {missing} days missing',
+    'data.withData': 'with data',
+    'data.withoutData': 'no data ({count} days)',
+    'data.api': 'Public API',
+    'data.apiIntro':
+        'Everything in the app comes from a free JSON API you can use too. No key is needed, it allows cross-origin requests, and each address can make up to 600 requests a minute.',
+    'data.api.index': 'Variables with their dates, municipalities and collection status',
+    'data.api.latest': "Every municipality's value on the latest day",
+    'data.api.series': "One municipality's daily values",
+    'data.api.values': 'Every municipality × every day, for analysis',
+    'data.api.stats': 'Totals and averages per municipality over a period (from, to)',
+    'data.docs': 'Full API documentation',
 } as const;
 
 export type MessageKey = keyof typeof en;
