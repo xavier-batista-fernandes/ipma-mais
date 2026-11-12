@@ -11,13 +11,28 @@ import { isIsoDate } from '../lib/dates.js';
 import { fetchText } from '../lib/fetch.js';
 import { loadMunicipalities } from '../lib/municipalities.js';
 import { upsertSeries } from '../lib/store.js';
+import { smiUrl } from '../sources/ipma-smi.js';
 import { getFeatureInfo, layerTimes, WMS } from '../sources/ipma-wms.js';
 import POINTS from '../inputs/municipality-points.json' with { type: 'json' };
 
 const JOBS = {
     'prec-archive': precArchive,
     'probe-wms': probeWms,
+    'probe-smi': probeSmi,
 };
+
+/** Prints what the SMI service answers for Lisboa with no time, a range, and one day. */
+async function probeSmi() {
+    const lisboa = POINTS['1106'];
+    for (const time of [undefined, '2026-10-01/2026-11-30', '2026-11-10']) {
+        try {
+            const text = await fetchText(smiUrl(lisboa, time), { timeoutMs: 30000 });
+            console.log(`smi ${time}: ${text.slice(0, 1500)}`);
+        } catch (error) {
+            console.log(`smi ${time}: ${error.message}`);
+        }
+    }
+}
 
 /** Prints the time extent of the map-server layers IPMA+ could read, and one sample value. */
 async function probeWms() {
