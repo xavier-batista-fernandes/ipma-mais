@@ -8,10 +8,11 @@
  */
 import { parseCsv, toNumber } from '../lib/csv.js';
 import { isIsoDate } from '../lib/dates.js';
-import { fetchText } from '../lib/fetch.js';
+import { fetchText, mapLimit } from '../lib/fetch.js';
 import { loadMunicipalities } from '../lib/municipalities.js';
 import { upsertSeries } from '../lib/store.js';
 import { smiUrl } from '../sources/ipma-smi.js';
+import { storeVhiWeeks, vhiWeeks } from '../sources/ipma-vhi.js';
 import { getFeatureInfo, layerTimes, WMS } from '../sources/ipma-wms.js';
 import POINTS from '../inputs/municipality-points.json' with { type: 'json' };
 
@@ -19,7 +20,27 @@ const JOBS = {
     'prec-archive': precArchive,
     'probe-wms': probeWms,
     'probe-smi': probeSmi,
+    'vhi-archive': vhiArchive,
 };
+
+/**
+ * Every VHI week since 2018 (about 460 weeks × 278 municipalities). Stops starting new weeks
+ * after BACKFILL_MINUTES (default 240) so the job can commit; run it again to continue.
+ */
+async function vhiArchive() {
+    const minutes = Number(process.env.BACKFILL_MINUTES ?? 240);
+    const weeks = await vhiWeeks();
+    console.log(`vhi: ${weeks.length} weeks, ${weeks[0]}..${weeks.at(-1)}`);
+    const result = await storeVhiWeeks(weeks, POINTS, {
+        deadline: Date.now() + minutes * 60000,
+        log: console.log,
+    });
+    const skipped = result.weeks.filter((w) => !w.stored).length;
+    console.log(
+        `vhi-archive: ${result.weeks.length} weeks read, ${skipped} not stored, ${result.added} added, ` +
+            `${result.changed} changed, ${result.remaining} weeks left for another run`
+    );
+}
 
 /** Prints what the SMI service answers for Lisboa with no time, a range, and one day. */
 async function probeSmi() {
@@ -106,15 +127,6 @@ async function precArchive() {
     for (const line of failed) console.log(`::warning::prec-archive ${line}`);
     if (failed.length > municipalities.length / 10)
         throw new Error(`${failed.length} files failed`);
-}
-
-/** Runs `fn` over `items` with at most `limit` calls in flight. */
-export async function mapLimit(items, limit, fn) {
-    const queue = [...items];
-    const workers = Array.from({ length: limit }, async () => {
-        while (queue.length > 0) await fn(queue.shift());
-    });
-    await Promise.all(workers);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
