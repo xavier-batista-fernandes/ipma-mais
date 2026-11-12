@@ -20,7 +20,7 @@ import { DATA_DIR, upsertSeries } from '../lib/store.js';
 import { fetchEt0Page, snapshotToRows } from '../sources/ipma-page.js';
 import { FIRE_RISK_DAYS, fetchFireRisk } from '../sources/ipma-fire-risk.js';
 import { fetchOpenDataFile, OPEN_DATA_FILES } from '../sources/ipma-open-data.js';
-import { storeVhiWeeks, vhiWeeks } from '../sources/ipma-vhi.js';
+import { collectVhi as collectVhiWeeks } from '../sources/ipma-vhi.js';
 import POINTS from '../inputs/municipality-points.json' with { type: 'json' };
 
 const STALE_AFTER_DAYS = 14;
@@ -176,30 +176,33 @@ async function collectFireRisk() {
     updateSourceMeta('api:fire', { lastSuccess: new Date().toISOString(), latestDate: latest });
 }
 
-/** The newest VHI weeks; weeks already stored cost nothing, so only a new week is read. */
+/** The newest VHI weeks; a run reads every municipality only when IPMA has a new week. */
 async function collectVhi() {
-    let weeks;
+    let result;
     try {
-        weeks = (await vhiWeeks()).slice(-4);
+        result = await collectVhiWeeks(POINTS, todayIso());
     } catch (error) {
         errors.push(`vhi: ${error.message}`);
         return;
     }
-    const result = await storeVhiWeeks(weeks, POINTS);
-    for (const week of result.weeks.filter((w) => !w.stored)) {
-        errors.push(
-            `vhi ${week.date}: ${week.failed.length} municipalities failed, e.g. ${week.failed[0]}`
-        );
+    if (result.failed.length > 0) {
+        errors.push(`vhi: ${result.failed.length} municipalities failed, e.g. ${result.failed[0]}`);
     }
-    const latest = weeks.at(-1);
     summary.push(
-        `vhi: latest ${latest}, ${result.weeks.length} week(s) read, ${result.added} added`
+        `vhi: latest ${result.latest || 'none'}, ${result.skipped ? 'no new week' : `${result.added} added, ${result.changed} changed`}`
     );
     // Weekly, and IPMA publishes a few days late, so allow three weeks.
-    if (daysBetween(latest, todayIso()) > 21) {
-        warnings.push(`vhi: newest week is ${latest}; IPMA may have stopped updating it.`);
+    if (!result.latest || daysBetween(result.latest, todayIso()) > 21) {
+        warnings.push(
+            `vhi: newest week is ${result.latest || 'missing'}; IPMA may have stopped updating it.`
+        );
     }
-    updateSourceMeta('wms:vhi', { lastSuccess: new Date().toISOString(), latestDate: latest });
+    if (result.latest) {
+        updateSourceMeta('wms:vhi', {
+            lastSuccess: new Date().toISOString(),
+            latestDate: result.latest,
+        });
+    }
 }
 
 function validateOpenDataEntries(entries) {

@@ -12,7 +12,7 @@ import { fetchText, mapLimit } from '../lib/fetch.js';
 import { loadMunicipalities } from '../lib/municipalities.js';
 import { upsertSeries } from '../lib/store.js';
 import { smiUrl } from '../sources/ipma-smi.js';
-import { storeVhiWeeks, vhiWeeks } from '../sources/ipma-vhi.js';
+import { storeVhi, VHI_START } from '../sources/ipma-vhi.js';
 import { getFeatureInfo, WMS } from '../sources/ipma-wms.js';
 import POINTS from '../inputs/municipality-points.json' with { type: 'json' };
 
@@ -23,23 +23,21 @@ const JOBS = {
     'vhi-archive': vhiArchive,
 };
 
-/**
- * Every VHI week since 2018 (about 460 weeks × 278 municipalities). Stops starting new weeks
- * after BACKFILL_MINUTES (default 240) so the job can commit; run it again to continue.
- */
+/** Every VHI week since 2018: one request per municipality and year (about 2,500). */
 async function vhiArchive() {
-    const minutes = Number(process.env.BACKFILL_MINUTES ?? 240);
-    const weeks = await vhiWeeks();
-    console.log(`vhi: ${weeks.length} weeks, ${weeks[0]}..${weeks.at(-1)}`);
-    const result = await storeVhiWeeks(weeks, POINTS, {
-        deadline: Date.now() + minutes * 60000,
-        log: console.log,
-    });
-    const skipped = result.weeks.filter((w) => !w.stored).length;
+    const thisYear = new Date().getUTCFullYear();
+    const ranges = [];
+    for (let year = Number(VHI_START.slice(0, 4)); year <= thisYear; year++) {
+        ranges.push([`${year}-01-01`, `${year}-12-31`]);
+    }
+    const result = await storeVhi(POINTS, ranges);
     console.log(
-        `vhi-archive: ${result.weeks.length} weeks read, ${skipped} not stored, ${result.added} added, ` +
-            `${result.changed} changed, ${result.remaining} weeks left for another run`
+        `vhi-archive: latest ${result.latest}, ${result.added} added, ${result.changed} changed, ` +
+            `${result.failed.length} requests failed`
     );
+    for (const line of result.failed) console.log(`::warning::vhi-archive ${line}`);
+    if (result.failed.length > 50)
+        throw new Error(`${result.failed.length} requests failed; run it again`);
 }
 
 /** Prints what the SMI service answers for Lisboa with no time, a range, and one day. */
@@ -60,9 +58,15 @@ async function probeWms() {
     const lisboa = POINTS['1106'];
     const probes = [
         [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2018-01-01/2018-12-31'],
-        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2026-09-01/2026-11-30'],
-        [WMS.precipitation, 'mrrto.obsSup.daily.vector.conc', '2025-10-01/2025-11-30'],
-        [WMS.precipitation, 'mrrto.obsSup.daily.vector.conc', '1990-01-01/2025-11-30'],
+        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2026-11-04'],
+        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2026-11-03'],
+        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2026-10-28'],
+        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2018-01-07'],
+        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2018-01-14'],
+        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', '2026-11-04T00:00:00Z'],
+        [WMS.vhi, 'vhi.obsRem.7days.vector.conc', undefined],
+        [WMS.precipitation, 'mrrto.obsSup.daily.vector.conc', '2025-11-10'],
+        [WMS.precipitation, 'mrrto.obsSup.daily.vector.conc', '2015-11-10'],
     ];
     for (const [service, layer, time] of probes) {
         try {

@@ -65,22 +65,8 @@ export async function getFeatureInfo(
     });
     if (/ServiceException/.test(gml)) {
         throw new Error(
-            `WMS error for ${layer} at ${time}: ${gml.replace(/\s+/g, ' ').slice(0, 200)}`
+            `WMS error for ${layer} at ${time}: ${(gml.match(/<ServiceException[^>]*>([\s\S]*?)<\/ServiceException>/)?.[1] ?? gml).replace(/\s+/g, ' ').trim().slice(0, 300)}`
         );
     }
     return parseFeatureInfoGml(gml);
-}
-
-/** `{ layerName: timeExtent }` from a GetCapabilities document, for layers matching `filter`. */
-export async function layerTimes(service, filter = () => true) {
-    const xml = await fetchText(`${service}?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities`, {
-        timeoutMs: 60000,
-    });
-    const times = {};
-    for (const [, body] of xml.matchAll(/<Layer[^>]*>([\s\S]*?)<\/Layer>/g)) {
-        const name = body.match(/<Name>([^<]+)<\/Name>/)?.[1];
-        const time = body.match(/<Dimension[^>]*name="time"[^>]*>([^<]*)<\/Dimension>/)?.[1];
-        if (name && filter(name)) times[name] = time?.trim() ?? null;
-    }
-    return times;
 }
