@@ -3,7 +3,7 @@ name: Collect
 on:
     workflow_dispatch:
     schedule:
-        # Daily ET0 page, twice a day so a missed or late update is picked up the same day.
+        # Daily ET0 page and temperature file, twice a day so a missed or late update is picked up the same day.
         - cron: '0 8 * * *'
         - cron: '0 20 * * *'
 

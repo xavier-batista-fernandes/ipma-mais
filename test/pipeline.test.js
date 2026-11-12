@@ -9,6 +9,7 @@ import { fetchText } from '../lib/fetch.js';
 import { createResolver, loadMunicipalities } from '../lib/municipalities.js';
 import { readSeries, upsertSeries } from '../lib/store.js';
 import { parseEt0Page, snapshotToRows } from '../sources/ipma-page.js';
+import { parseTemperatureCsv } from '../sources/ipma-temperature.js';
 import { buildSyncSql } from '../scripts/sync-d1.js';
 
 const row = (date, mean, source = 'page') => ({
@@ -89,6 +90,54 @@ describe('ipma page', () => {
             () => parseEt0Page('<html>nothing here</html>'),
             /structure may have changed/
         );
+    });
+});
+
+describe('ipma temperature file', () => {
+    const header =
+        'time,zname,zid,mean_maxt2m,std_maxt2m,min_maxt2m,max_maxt2m,percentile_25_maxt2m,median_maxt2m,percentile_75_maxt2m,' +
+        'mean_meant2m,std_meant2m,min_meant2m,max_meant2m,percentile_25_meant2m,median_meant2m,percentile_75_meant2m,' +
+        'mean_mint2m,std_mint2m,min_mint2m,max_mint2m,percentile_25_mint2m,median_mint2m,percentile_75_mint2m';
+
+    it('turns each line into a tmax and a tmin row keyed by DICO and day', () => {
+        const csv =
+            header +
+            '\n2026-11-10 00:00:00+00:00,Águeda,0101,18.80,0.93,16.29,20.20,18.21,19.00,19.56,' +
+            '16.00,0.74,13.52,17.09,15.56,16.14,16.61,13.90,0.77,11.39,15.14,13.42,14.04,14.52\n';
+        assert.deepEqual(parseTemperatureCsv(csv), [
+            {
+                dico: '0101',
+                name: 'Águeda',
+                metric: 'tmax',
+                row: {
+                    date: '2026-11-10',
+                    mean: 18.8,
+                    min: 16.29,
+                    max: 20.2,
+                    std: 0.93,
+                    source: 'api',
+                },
+            },
+            {
+                dico: '0101',
+                name: 'Águeda',
+                metric: 'tmin',
+                row: {
+                    date: '2026-11-10',
+                    mean: 13.9,
+                    min: 11.39,
+                    max: 15.14,
+                    std: 0.77,
+                    source: 'api',
+                },
+            },
+        ]);
+    });
+
+    it('skips empty values and fails loudly on a new layout', () => {
+        const csv = header + '\n2026-11-10 00:00:00+00:00,Águeda,0101' + ','.repeat(21) + '\n';
+        assert.deepEqual(parseTemperatureCsv(csv), []);
+        assert.throws(() => parseTemperatureCsv('date,mean\n2026-01-01,1\n'), /structure/);
     });
 });
 
