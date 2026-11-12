@@ -69,6 +69,36 @@ const PALETTES: Record<MetricInfo['id'], Palette> = {
     },
     // IPMA's own fire-risk colours, one per class from reduced to maximum.
     fire: { step: 1, stops: ['#3fae49', '#f2d61a', '#f39200', '#e30613', '#7a0019'] },
+    // Stressed vegetation (low) in browns, healthy (high) in greens.
+    vhi: {
+        step: 5,
+        stops: [
+            '#6b2e0e',
+            '#a6541b',
+            '#d98c2b',
+            '#f2c94c',
+            '#d9e67a',
+            '#93c95b',
+            '#4fa64a',
+            '#1f7a3a',
+            '#0b4d2c',
+        ],
+    },
+    // Dry soil (low) in browns, soil at field capacity or wetter (high) in blues.
+    smi: {
+        step: 5,
+        stops: [
+            '#7a3b10',
+            '#b9692a',
+            '#e3a857',
+            '#f5e3a6',
+            '#c9e6d8',
+            '#7cc3d6',
+            '#3a95c8',
+            '#1f5fa8',
+            '#1b2f7a',
+        ],
+    },
 };
 
 export interface ColorScale {

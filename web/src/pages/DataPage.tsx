@@ -81,6 +81,8 @@ export function DataPage({ index }: { index: ApiIndex }) {
                     <li>{t('about.temperature')}</li>
                     <li>{t('about.precipitation')}</li>
                     <li>{t('about.fire')}</li>
+                    <li>{t('about.vhi')}</li>
+                    <li>{t('about.smi')}</li>
                 </ul>
                 {lastCollection && (
                     <p className="muted small mono">

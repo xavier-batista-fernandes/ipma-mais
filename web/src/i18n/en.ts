@@ -19,6 +19,8 @@ export const en = {
     'metric.tmean': 'Mean temperature',
     'metric.prec': 'Precipitation',
     'metric.fire': 'Fire risk (class 1–5)',
+    'metric.vhi': 'Vegetation health (VHI)',
+    'metric.smi': 'Soil moisture (SMI)',
 
     'controls.metric': 'Variable',
     'controls.day': 'Day',
@@ -176,6 +178,10 @@ export const en = {
         'Precipitation: the total rain in a day, in millimetres, from IPMA’s open data, updated daily. There is no data from 12 November 2025 to 19 October 2026.',
     'about.fire':
         'Fire risk: IPMA’s daily forecast of rural fire risk, from 1 (reduced) to 5 (maximum). IPMA keeps no history, so IPMA+ stores each day’s forecast from November 2026 on. The newest day is tomorrow’s forecast.',
+    'about.vhi':
+        'Vegetation health index (VHI): how healthy the vegetation looks from satellite, from 0 to 100; below 35 means drought stress. One value a week since January 2018, from IPMA’s map server.',
+    'about.smi':
+        'Soil moisture (SMI): how much water the soil holds, from 0% (wilting point) to 100% (field capacity), from IPMA’s ECMWF-based product. Daily, from November 2026 on, read at a point inside each municipality.',
     'about.how':
         'Pick a variable and a day, hover over a municipality to see its value, and click it to see its daily history. Open Queries to ask questions over a period, such as which municipalities went above a value, for how many days in a row, or how a period compares with another, and export the results as a table or a map image. The address bar always holds the current view, so you can share it.',
     'about.code': 'Source code on GitHub',

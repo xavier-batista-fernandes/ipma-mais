@@ -2,8 +2,17 @@ import type { District, Municipality } from 'cartis';
 import type { ValueMatrix } from './query';
 
 /** Shapes returned by the Worker's `/v1` API (see docs/API.md). */
-export type MetricId = 'et0' | 'tmax' | 'tmin' | 'tmean' | 'prec' | 'fire';
-export const METRIC_IDS: readonly MetricId[] = ['et0', 'tmax', 'tmin', 'tmean', 'prec', 'fire'];
+export type MetricId = 'et0' | 'tmax' | 'tmin' | 'tmean' | 'prec' | 'fire' | 'vhi' | 'smi';
+export const METRIC_IDS: readonly MetricId[] = [
+    'et0',
+    'tmax',
+    'tmin',
+    'tmean',
+    'prec',
+    'fire',
+    'vhi',
+    'smi',
+];
 
 export const isMetricId = (value: unknown): value is MetricId =>
     METRIC_IDS.includes(value as MetricId);

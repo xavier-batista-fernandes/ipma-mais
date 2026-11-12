@@ -158,7 +158,8 @@ export function MunicipalityPage({
         summary &&
         (() => {
             const { last, week, previousWeek, month, sameMonthLastYear } = summary;
-            const record = metric.id === 'tmin' ? summary.lowest : summary.highest;
+            const lowIsNotable = metric.id === 'tmin' || metric.id === 'vhi' || metric.id === 'smi';
+            const record = lowIsNotable ? summary.lowest : summary.highest;
             const monthName = longMonth.format(new Date(`${last.date}T00:00:00Z`));
             const lastYear = `${format.month(sameMonthLastYear.from)} ${sameMonthLastYear.from.slice(0, 4)}`;
             const monthChange = (() => {
@@ -213,7 +214,7 @@ export function MunicipalityPage({
                             : month.value - sameMonthLastYear.value,
                 },
                 {
-                    label: t(metric.id === 'tmin' ? 'municipality.lowest' : 'municipality.highest'),
+                    label: t(lowIsNotable ? 'municipality.lowest' : 'municipality.highest'),
                     value: amount(record.value),
                     detail: format.day(record.date),
                     trend: 0,

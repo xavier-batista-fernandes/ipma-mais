@@ -20,7 +20,7 @@ export interface Env {
 /** Must match `ratelimits[0].simple` in wrangler.jsonc; sent back in the 429 response. */
 const RATE_LIMIT = { requests: 600, seconds: 60 };
 
-const METRICS = new Set(['et0', 'tmax', 'tmin', 'tmean', 'prec', 'fire']);
+const METRICS = new Set(['et0', 'tmax', 'tmin', 'tmean', 'prec', 'fire', 'vhi', 'smi']);
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const DICO = /^\d{4}$/;
 

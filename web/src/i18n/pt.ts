@@ -18,6 +18,8 @@ export const pt: Messages = {
     'metric.tmean': 'Temperatura média',
     'metric.prec': 'Precipitação',
     'metric.fire': 'Risco de incêndio (classe 1–5)',
+    'metric.vhi': 'Saúde da vegetação (VHI)',
+    'metric.smi': 'Água no solo (SMI)',
 
     'controls.metric': 'Variável',
     'controls.day': 'Dia',
@@ -176,6 +178,10 @@ export const pt: Messages = {
         'Precipitação: a chuva total de um dia, em milímetros, dos dados abertos do IPMA, atualizados diariamente. Não há dados de 12 de novembro de 2025 a 19 de outubro de 2026.',
     'about.fire':
         'Risco de incêndio: a previsão diária do IPMA para o risco de incêndio rural, de 1 (reduzido) a 5 (máximo). O IPMA não guarda histórico, por isso o IPMA+ guarda a previsão de cada dia a partir de novembro de 2026. O dia mais recente é a previsão para amanhã.',
+    'about.vhi':
+        'Índice de saúde da vegetação (VHI): o estado da vegetação visto por satélite, de 0 a 100; abaixo de 35 indica stress por seca. Um valor por semana desde janeiro de 2018, do servidor de mapas do IPMA.',
+    'about.smi':
+        'Água no solo (SMI): a água que o solo tem, de 0% (ponto de emurchecimento) a 100% (capacidade de campo), do produto do IPMA baseado no ECMWF. Diário, a partir de novembro de 2026, lido num ponto dentro de cada município.',
     'about.how':
         'Escolha uma variável e um dia, passe o cursor sobre um município para ver o seu valor e clique nele para ver o histórico diário. Abra Consultas para fazer perguntas sobre um período, como que municípios ultrapassaram um valor, durante quantos dias seguidos, ou como um período se compara com outro, e exporte os resultados como tabela ou imagem do mapa. A barra de endereço guarda sempre a vista atual, para que a possa partilhar.',
     'about.code': 'Código-fonte no GitHub',
