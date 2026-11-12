@@ -86,7 +86,7 @@ export async function metricOptions(page: Page) {
     return page.getByRole('listbox', { name: en['controls.metric'] }).getByRole('option');
 }
 
-export async function chooseMetric(page: Page, id: 'et0' | 'tmax' | 'tmin') {
+export async function chooseMetric(page: Page, id: 'et0' | 'tmax' | 'tmin' | 'tmean' | 'prec') {
     if (await metricSelect(page).count()) return void (await metricSelect(page).selectOption(id));
     const options = await metricOptions(page);
     await options.filter({ hasText: en[`metric.${id}`] }).click();

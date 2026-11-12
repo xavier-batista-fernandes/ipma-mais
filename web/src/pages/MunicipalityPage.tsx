@@ -53,8 +53,8 @@ export function MunicipalityPage({
     const followed = following.includes(info.dico);
     const [series, setSeries] = useState<Series | null>(null);
     const [day, setDay] = useState<DayValues | null>(null);
-    // Evapotranspiration adds up over days; a temperature only averages.
-    const aggregate: Aggregate = metric.id === 'et0' ? 'sum' : 'mean';
+    // Evapotranspiration and rain add up over days; a temperature only averages.
+    const aggregate: Aggregate = metric.id === 'et0' || metric.id === 'prec' ? 'sum' : 'mean';
 
     useEffect(() => {
         const previous = document.title;

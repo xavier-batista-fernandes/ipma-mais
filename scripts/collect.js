@@ -1,10 +1,10 @@
 /**
  * Collects IPMA data into the canonical store (`data/{metric}/{dico}.csv`).
  *
- *   node scripts/collect.js   # daily ET0 (agrometeorology page) and tmax/tmin (open data)
+ *   node scripts/collect.js   # daily ET0 (agrometeorology page); temperature and rain (open data)
  *
- * Max and min temperature come from IPMA's consolidated per-municipality open-data file,
- * which holds a rolling 20-day window. IPMA's older per-municipality CSVs (ET0, tmax,
+ * Max, mean and min temperature and precipitation come from IPMA's consolidated
+ * per-municipality open-data files, which hold a rolling 20-day window. IPMA's older per-municipality CSVs (ET0, tmax,
  * tmin) stopped updating in 2025; their rows are kept in `data/` with source `api`.
  *
  * Exits non-zero when the page fails or returns data that does not validate, so the
@@ -18,7 +18,7 @@ import { updateSourceMeta } from '../lib/meta.js';
 import { createResolver, loadMunicipalities } from '../lib/municipalities.js';
 import { DATA_DIR, upsertSeries } from '../lib/store.js';
 import { fetchEt0Page, snapshotToRows } from '../sources/ipma-page.js';
-import { fetchTemperature } from '../sources/ipma-temperature.js';
+import { fetchOpenDataFile, OPEN_DATA_FILES } from '../sources/ipma-open-data.js';
 
 const STALE_AFTER_DAYS = 14;
 const RAW_PAGE_DIR = path.join(DATA_DIR, 'raw', 'et0-page');
@@ -30,7 +30,7 @@ const warnings = [];
 const errors = [];
 
 await collectPage();
-await collectTemperature();
+for (const file of OPEN_DATA_FILES) await collectOpenData(file);
 
 report();
 process.exit(errors.length > 0 ? 1 : 0);
@@ -84,12 +84,12 @@ async function collectPage() {
     updateSourceMeta('page', { lastSuccess: new Date().toISOString(), latestDate: latest });
 }
 
-async function collectTemperature() {
+async function collectOpenData(file) {
     let entries;
     try {
-        entries = await fetchTemperature();
+        entries = await fetchOpenDataFile(file);
     } catch (error) {
-        errors.push(`temperature: ${error.message}`);
+        errors.push(`${file.id}: ${error.message}`);
         return;
     }
 
@@ -103,9 +103,9 @@ async function collectTemperature() {
 
     const rowsByMetric = new Map();
     for (const [key, dayEntries] of byDay) {
-        const problems = validateTemperatureEntries(dayEntries);
+        const problems = validateOpenDataEntries(dayEntries);
         if (problems.length > 0) {
-            errors.push(`temperature ${key}: ${problems.join('; ')}`);
+            errors.push(`${file.id} ${key}: ${problems.join('; ')}`);
             continue;
         }
         const metric = dayEntries[0].metric;
@@ -136,7 +136,7 @@ async function collectTemperature() {
     }
 }
 
-function validateTemperatureEntries(entries) {
+function validateOpenDataEntries(entries) {
     const problems = [];
     const seen = new Set();
 

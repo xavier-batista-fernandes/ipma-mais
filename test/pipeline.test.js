@@ -9,7 +9,7 @@ import { fetchText } from '../lib/fetch.js';
 import { createResolver, loadMunicipalities } from '../lib/municipalities.js';
 import { readSeries, upsertSeries } from '../lib/store.js';
 import { parseEt0Page, snapshotToRows } from '../sources/ipma-page.js';
-import { parseTemperatureCsv } from '../sources/ipma-temperature.js';
+import { OPEN_DATA_FILES, parseOpenDataCsv } from '../sources/ipma-open-data.js';
 import { buildSyncSql } from '../scripts/sync-d1.js';
 
 const row = (date, mean, source = 'page') => ({
@@ -93,13 +93,16 @@ describe('ipma page', () => {
     });
 });
 
-describe('ipma temperature file', () => {
+describe('ipma open-data files', () => {
+    const fields = (id) => OPEN_DATA_FILES.find((file) => file.id === id).fields;
+    const parseTemperatureCsv = (text) => parseOpenDataCsv(text, fields('temperature'));
+
     const header =
         'time,zname,zid,mean_maxt2m,std_maxt2m,min_maxt2m,max_maxt2m,percentile_25_maxt2m,median_maxt2m,percentile_75_maxt2m,' +
         'mean_meant2m,std_meant2m,min_meant2m,max_meant2m,percentile_25_meant2m,median_meant2m,percentile_75_meant2m,' +
         'mean_mint2m,std_mint2m,min_mint2m,max_mint2m,percentile_25_mint2m,median_mint2m,percentile_75_mint2m';
 
-    it('turns each line into a tmax and a tmin row keyed by DICO and day', () => {
+    it('turns each temperature line into tmax, tmean and tmin rows keyed by DICO and day', () => {
         const csv =
             header +
             '\n2026-11-10 00:00:00+00:00,Águeda,0101,18.80,0.93,16.29,20.20,18.21,19.00,19.56,' +
@@ -121,6 +124,19 @@ describe('ipma temperature file', () => {
             {
                 dico: '0101',
                 name: 'Águeda',
+                metric: 'tmean',
+                row: {
+                    date: '2026-11-10',
+                    mean: 16,
+                    min: 13.52,
+                    max: 17.09,
+                    std: 0.74,
+                    source: 'api',
+                },
+            },
+            {
+                dico: '0101',
+                name: 'Águeda',
                 metric: 'tmin',
                 row: {
                     date: '2026-11-10',
@@ -132,6 +148,34 @@ describe('ipma temperature file', () => {
                 },
             },
         ]);
+    });
+
+    it('turns each precipitation line into a prec row, keeping dry days as 0 mm', () => {
+        const csv =
+            'time,zname,zid,mean_maxprate,std_maxprate,min_maxprate,max_maxprate,percentile_25_maxprate,median_maxprate,percentile_75_maxprate,' +
+            'mean_tp,std_tp,min_tp,max_tp,percentile_25_tp,median_tp,percentile_75_tp\n' +
+            '2026-10-20 00:00:00+00:00,Águeda,0101,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00\n' +
+            '2026-10-21 00:00:00+00:00,Águeda,0101,8.56,0.78,6.72,10.26,7.95,8.54,9.19,1.49,0.11,1.27,1.83,1.41,1.48,1.56\n';
+        assert.deepEqual(
+            parseOpenDataCsv(csv, fields('precipitation')).map((entry) => [
+                entry.metric,
+                entry.row,
+            ]),
+            [
+                ['prec', { date: '2026-10-20', mean: 0, min: 0, max: 0, std: 0, source: 'api' }],
+                [
+                    'prec',
+                    {
+                        date: '2026-10-21',
+                        mean: 1.49,
+                        min: 1.27,
+                        max: 1.83,
+                        std: 0.11,
+                        source: 'api',
+                    },
+                ],
+            ]
+        );
     });
 
     it('skips empty values and fails loudly on a new layout', () => {

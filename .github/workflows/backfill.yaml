@@ -1,0 +1,54 @@
+name: Backfill
+
+# One-off history imports (scripts/backfill.js). The next Deploy to Cloudflare run, or a
+# manual one, copies the new rows into D1.
+on:
+    workflow_dispatch:
+        inputs:
+            jobs:
+                description: 'Space-separated jobs from scripts/backfill.js'
+                required: true
+    push:
+        branches: [claude/project-thread-i8dzqn]
+        paths: [.github/backfill-request]
+
+concurrency:
+    group: collect
+    cancel-in-progress: false
+
+permissions:
+    contents: write
+
+jobs:
+    backfill:
+        runs-on: ubuntu-latest
+        timeout-minutes: 300
+        steps:
+            - uses: actions/checkout@v5
+
+            - uses: actions/setup-node@v5
+              with:
+                  node-version: '24'
+                  cache: npm
+
+            - run: npm ci
+
+            - name: 🧶 Backfill
+              env:
+                  JOBS: ${{ inputs.jobs }}
+              run: node scripts/backfill.js ${JOBS:-$(cat .github/backfill-request)}
+
+            - name: 🧶 Commit changes
+              if: ${{ !cancelled() }}
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+                  git add data/
+                  if git diff --cached --quiet; then
+                    echo "🟢 No changes to commit."
+                  else
+                    git commit -m "[auto] ⚙️ backfill IPMA data"
+                    git pull --rebase
+                    git push
+                  fi

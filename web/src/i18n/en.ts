@@ -16,6 +16,8 @@ export const en = {
     'metric.et0': 'Reference evapotranspiration (ET0)',
     'metric.tmax': 'Maximum temperature',
     'metric.tmin': 'Minimum temperature',
+    'metric.tmean': 'Mean temperature',
+    'metric.prec': 'Precipitation',
 
     'controls.metric': 'Variable',
     'controls.day': 'Day',
@@ -168,7 +170,9 @@ export const en = {
     'about.et0':
         'Reference evapotranspiration (ET0): how much water a reference crop loses in a day, in millimetres. Collected twice a day from the IPMA agrometeorology page.',
     'about.temperature':
-        'Maximum and minimum temperature: from IPMA’s open data, updated daily. There is no data from 12 November 2025 to 21 October 2026.',
+        'Maximum and minimum temperature: from IPMA’s open data, updated daily. There is no data from 12 November 2025 to 21 October 2026. Mean temperature starts in October 2026.',
+    'about.precipitation':
+        'Precipitation: the total rain in a day, in millimetres, from IPMA’s open data, updated daily. There is no data from 12 November 2025 to 19 October 2026.',
     'about.how':
         'Pick a variable and a day, hover over a municipality to see its value, and click it to see its daily history. Open Queries to ask questions over a period, such as which municipalities went above a value, for how many days in a row, or how a period compares with another, and export the results as a table or a map image. The address bar always holds the current view, so you can share it.',
     'about.code': 'Source code on GitHub',

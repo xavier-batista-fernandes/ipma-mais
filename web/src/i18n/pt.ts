@@ -15,6 +15,8 @@ export const pt: Messages = {
     'metric.et0': 'Evapotranspiração de referência (ET0)',
     'metric.tmax': 'Temperatura máxima',
     'metric.tmin': 'Temperatura mínima',
+    'metric.tmean': 'Temperatura média',
+    'metric.prec': 'Precipitação',
 
     'controls.metric': 'Variável',
     'controls.day': 'Dia',
@@ -168,7 +170,9 @@ export const pt: Messages = {
     'about.et0':
         'Evapotranspiração de referência (ET0): a água que uma cultura de referência perde num dia, em milímetros. Recolhida duas vezes por dia da página de agrometeorologia do IPMA.',
     'about.temperature':
-        'Temperatura máxima e mínima: dos dados abertos do IPMA, atualizados diariamente. Não há dados de 12 de novembro de 2025 a 21 de outubro de 2026.',
+        'Temperatura máxima e mínima: dos dados abertos do IPMA, atualizados diariamente. Não há dados de 12 de novembro de 2025 a 21 de outubro de 2026. A temperatura média começa em outubro de 2026.',
+    'about.precipitation':
+        'Precipitação: a chuva total de um dia, em milímetros, dos dados abertos do IPMA, atualizados diariamente. Não há dados de 12 de novembro de 2025 a 19 de outubro de 2026.',
     'about.how':
         'Escolha uma variável e um dia, passe o cursor sobre um município para ver o seu valor e clique nele para ver o histórico diário. Abra Consultas para fazer perguntas sobre um período, como que municípios ultrapassaram um valor, durante quantos dias seguidos, ou como um período se compara com outro, e exporte os resultados como tabela ou imagem do mapa. A barra de endereço guarda sempre a vista atual, para que a possa partilhar.',
     'about.code': 'Código-fonte no GitHub',

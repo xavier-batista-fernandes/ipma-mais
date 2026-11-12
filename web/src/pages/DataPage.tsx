@@ -79,6 +79,7 @@ export function DataPage({ index }: { index: ApiIndex }) {
                 <ul className="small muted data-notes">
                     <li>{t('about.et0')}</li>
                     <li>{t('about.temperature')}</li>
+                    <li>{t('about.precipitation')}</li>
                 </ul>
                 {lastCollection && (
                     <p className="muted small mono">

@@ -51,6 +51,22 @@ const PALETTES: Record<MetricInfo['id'], Palette> = {
     },
     tmax: { step: 1, stops: TEMPERATURE },
     tmin: { step: 1, stops: TEMPERATURE },
+    tmean: { step: 1, stops: TEMPERATURE },
+    // Dry days stay close to white so rain stands out; heavy rain runs to deep purple.
+    prec: {
+        step: 1,
+        stops: [
+            '#f7fbff',
+            '#d2e9f5',
+            '#9fd3ea',
+            '#5fb6dd',
+            '#2f8fd0',
+            '#2563b8',
+            '#3a3f9e',
+            '#57268a',
+            '#3d0b5c',
+        ],
+    },
 };
 
 export interface ColorScale {
