@@ -67,6 +67,8 @@ const PALETTES: Record<MetricInfo['id'], Palette> = {
             '#3d0b5c',
         ],
     },
+    // IPMA's own fire-risk colours, one per class from reduced to maximum.
+    fire: { step: 1, stops: ['#3fae49', '#f2d61a', '#f39200', '#e30613', '#7a0019'] },
 };
 
 export interface ColorScale {

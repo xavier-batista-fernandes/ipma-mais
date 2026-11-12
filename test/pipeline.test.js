@@ -9,6 +9,7 @@ import { fetchText } from '../lib/fetch.js';
 import { createResolver, loadMunicipalities } from '../lib/municipalities.js';
 import { readSeries, upsertSeries } from '../lib/store.js';
 import { parseEt0Page, snapshotToRows } from '../sources/ipma-page.js';
+import { parseFireRisk } from '../sources/ipma-fire-risk.js';
 import { OPEN_DATA_FILES, parseOpenDataCsv } from '../sources/ipma-open-data.js';
 import { buildSyncSql } from '../scripts/sync-d1.js';
 
@@ -182,6 +183,44 @@ describe('ipma open-data files', () => {
         const csv = header + '\n2026-11-10 00:00:00+00:00,Águeda,0101' + ','.repeat(21) + '\n';
         assert.deepEqual(parseTemperatureCsv(csv), []);
         assert.throws(() => parseTemperatureCsv('date,mean\n2026-01-01,1\n'), /structure/);
+    });
+});
+
+describe('ipma fire risk', () => {
+    it("stores each municipality's class under the day it is forecast for", () => {
+        const json = {
+            dataPrev: '2026-11-11',
+            dataRun: '2026-11-10',
+            local: {
+                '0101': { data: { rcm: 1 }, dico: '0101', latitude: 40.58, longitude: -8.44 },
+                1106: { data: { rcm: 3 }, latitude: 38.75, longitude: -9.15 },
+            },
+        };
+        assert.deepEqual(parseFireRisk(json), [
+            {
+                dico: '0101',
+                row: {
+                    date: '2026-11-11',
+                    mean: 1,
+                    min: null,
+                    max: null,
+                    std: null,
+                    source: 'api',
+                },
+            },
+            {
+                dico: '1106',
+                row: {
+                    date: '2026-11-11',
+                    mean: 3,
+                    min: null,
+                    max: null,
+                    std: null,
+                    source: 'api',
+                },
+            },
+        ]);
+        assert.throws(() => parseFireRisk({ local: {} }), /structure/);
     });
 });
 
