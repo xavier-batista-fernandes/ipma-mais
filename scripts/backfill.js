@@ -23,6 +23,8 @@ const JOBS = {
     'vhi-archive': vhiArchive,
     'probe-history': probeHistory,
     smi: smiNow,
+    // The whole daily collection, as the Collect workflow runs it. It exits the process, so list it last.
+    collect: () => import('./collect.js'),
 };
 
 /** Soil moisture for the days IPMA's latest run holds (the same step Collect runs). */
