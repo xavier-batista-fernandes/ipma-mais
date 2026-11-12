@@ -80,10 +80,14 @@ async function probeWms() {
     ];
     for (const [service, layer, time] of probes) {
         try {
-            const features = await getFeatureInfo(service, layer, lisboa, time, {
+            const raw = await fetchText(featureInfoUrl(service, layer, lisboa, time), {
                 timeoutMs: 60000,
                 retries: 1,
             });
+            const features = parseFeatureInfoGml(raw);
+            if (features.length === 0) {
+                console.log(`${layer} ${time} raw: ${raw.replace(/\s+/g, ' ').slice(0, 600)}`);
+            }
             const dates = features.map((f) => f.date?.slice(0, 10)).sort();
             console.log(
                 `${layer} ${time}: ${features.length} features, ${dates[0]}..${dates.at(-1)}; ` +
