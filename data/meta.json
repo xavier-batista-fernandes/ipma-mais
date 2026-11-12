@@ -1,7 +1,7 @@
 {
     "sources": {
         "page": {
-            "lastSuccess": "2026-11-11T15:41:27.298Z",
+            "lastSuccess": "2026-11-12T01:47:40.860Z",
             "latestDate": "2026-11-10"
         },
         "api:et0": {
@@ -9,12 +9,12 @@
             "latestDate": "2025-09-20"
         },
         "api:tmax": {
-            "lastSuccess": "2026-11-09T12:27:36.653Z",
-            "latestDate": "2025-11-11"
+            "lastSuccess": "2026-11-12T01:47:42.101Z",
+            "latestDate": "2026-11-10"
         },
         "api:tmin": {
-            "lastSuccess": "2026-11-09T12:27:36.757Z",
-            "latestDate": "2025-11-11"
+            "lastSuccess": "2026-11-12T01:47:42.277Z",
+            "latestDate": "2026-11-10"
         }
     }
 }
