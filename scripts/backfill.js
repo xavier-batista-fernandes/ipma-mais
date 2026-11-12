@@ -11,9 +11,9 @@ import { isIsoDate } from '../lib/dates.js';
 import { fetchText, mapLimit } from '../lib/fetch.js';
 import { loadMunicipalities } from '../lib/municipalities.js';
 import { upsertSeries } from '../lib/store.js';
-import { smiUrl } from '../sources/ipma-smi.js';
+import { collectSmi, smiUrl } from '../sources/ipma-smi.js';
 import { storeVhi, VHI_START } from '../sources/ipma-vhi.js';
-import { getFeatureInfo, WMS } from '../sources/ipma-wms.js';
+import { featureInfoUrl, parseFeatureInfoGml, WMS } from '../sources/ipma-wms.js';
 import POINTS from '../inputs/municipality-points.json' with { type: 'json' };
 
 const JOBS = {
@@ -21,7 +21,17 @@ const JOBS = {
     'probe-wms': probeWms,
     'probe-smi': probeSmi,
     'vhi-archive': vhiArchive,
+    smi: smiNow,
 };
+
+/** Soil moisture for the days IPMA's latest run holds (the same step Collect runs). */
+async function smiNow() {
+    const result = await collectSmi(POINTS, new Date().toISOString().slice(0, 10));
+    console.log(
+        `smi: latest ${result.latest}, ${result.added} added, ${result.changed} changed, ${result.failed.length} failed`
+    );
+    for (const line of result.failed) console.log(`::warning::smi ${line}`);
+}
 
 /** Every VHI week since 2018: one request per municipality and year (about 2,500). */
 async function vhiArchive() {

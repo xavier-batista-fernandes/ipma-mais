@@ -20,6 +20,7 @@ import { DATA_DIR, upsertSeries } from '../lib/store.js';
 import { fetchEt0Page, snapshotToRows } from '../sources/ipma-page.js';
 import { FIRE_RISK_DAYS, fetchFireRisk } from '../sources/ipma-fire-risk.js';
 import { fetchOpenDataFile, OPEN_DATA_FILES } from '../sources/ipma-open-data.js';
+import { collectSmi as collectSmiDays } from '../sources/ipma-smi.js';
 import { collectVhi as collectVhiWeeks } from '../sources/ipma-vhi.js';
 import POINTS from '../inputs/municipality-points.json' with { type: 'json' };
 
@@ -36,6 +37,7 @@ await collectPage();
 for (const file of OPEN_DATA_FILES) await collectOpenData(file);
 await collectFireRisk();
 await collectVhi();
+await collectSmi();
 
 report();
 process.exit(errors.length > 0 ? 1 : 0);
@@ -203,6 +205,21 @@ async function collectVhi() {
             latestDate: result.latest,
         });
     }
+}
+
+/** Soil moisture, read at a point inside each municipality from IPMA's latest SMI run. */
+async function collectSmi() {
+    const result = await collectSmiDays(POINTS, todayIso());
+    if (result.failed.length > 0) {
+        errors.push(`smi: ${result.failed.length} municipalities failed, e.g. ${result.failed[0]}`);
+    }
+    if (!result.latest) return;
+    summary.push(`smi: latest ${result.latest}, ${result.added} added, ${result.changed} changed`);
+    checkStale('smi', result.latest);
+    updateSourceMeta('wms:smi', {
+        lastSuccess: new Date().toISOString(),
+        latestDate: result.latest,
+    });
 }
 
 function validateOpenDataEntries(entries) {

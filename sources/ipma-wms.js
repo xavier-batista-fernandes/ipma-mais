@@ -42,7 +42,7 @@ export function featureInfoUrl(service, layer, [lon, lat], time) {
  */
 export function parseFeatureInfoGml(gml) {
     const features = [];
-    for (const [, , body] of gml.matchAll(/<(\w+)_feature>([\s\S]*?)<\/\1_feature>/g)) {
+    for (const [, , body] of gml.matchAll(/<([\w.-]+)_feature>([\s\S]*?)<\/\1_feature>/g)) {
         const fields = {};
         for (const [, name, value] of body.matchAll(/<(\w+)>([^<]*)<\/\1>/g)) {
             fields[name] = value.trim();

@@ -9,7 +9,11 @@ import { fetchText } from '../lib/fetch.js';
 import { createResolver, loadMunicipalities } from '../lib/municipalities.js';
 import { readSeries, upsertSeries } from '../lib/store.js';
 import { parseEt0Page, snapshotToRows } from '../sources/ipma-page.js';
+import { interiorPoint } from '../scripts/municipality-points.js';
 import { parseFireRisk } from '../sources/ipma-fire-risk.js';
+import { parseSmi } from '../sources/ipma-smi.js';
+import { featuresToRows } from '../sources/ipma-vhi.js';
+import { parseFeatureInfoGml } from '../sources/ipma-wms.js';
 import { OPEN_DATA_FILES, parseOpenDataCsv } from '../sources/ipma-open-data.js';
 import { buildSyncSql } from '../scripts/sync-d1.js';
 
@@ -221,6 +225,63 @@ describe('ipma fire risk', () => {
             },
         ]);
         assert.throws(() => parseFireRisk({ local: {} }), /structure/);
+    });
+});
+
+describe('ipma map server', () => {
+    it('reads every feature of a GetFeatureInfo GML answer into VHI rows', () => {
+        const gml = `<?xml version="1.0" encoding="UTF-8"?>
+<msGMLOutput xmlns:gml="http://www.opengis.net/gml">
+<vhi.obsRem.7days.vector.conc_layer><gml:name>vhi</gml:name>
+<vhi.obsRem.7days.vector.conc_feature>
+<gml:boundedBy><gml:Box srsName="EPSG:4326"><gml:coordinates>-9.2,38.7 -9.1,38.8</gml:coordinates></gml:Box></gml:boundedBy>
+<id>dico1106date20261104</id><mean>34.12</mean><ps35>47.85</ps35><ps15>0</ps15><date>2026-11-04 00:00:00</date><concelho>LISBOA</concelho>
+</vhi.obsRem.7days.vector.conc_feature>
+<vhi.obsRem.7days.vector.conc_feature>
+<id>dico1106date20261028</id><mean></mean><date>2026-10-28 00:00:00</date>
+</vhi.obsRem.7days.vector.conc_feature>
+</vhi.obsRem.7days.vector.conc_layer></msGMLOutput>`;
+        const features = parseFeatureInfoGml(gml);
+        assert.equal(features.length, 2);
+        assert.equal(features[0].concelho, 'LISBOA');
+        assert.deepEqual(featuresToRows(features), [
+            { date: '2026-11-04', mean: 34.12, min: null, max: null, std: null, source: 'api' },
+        ]);
+        assert.deepEqual(parseFeatureInfoGml('<msGMLOutput></msGMLOutput>'), []);
+    });
+
+    it('reads the SMI days of a JSON answer', () => {
+        const json = [
+            {
+                variablename: 'smi',
+                dims: ['layer', 'time'],
+                data: {
+                    100: { '2026-11-12T00:00:00Z': '0.647207', '2026-11-11T00:00:00Z': '0.400312' },
+                },
+            },
+        ];
+        assert.deepEqual(parseSmi(json), [
+            ['2026-11-11', 0.400312],
+            ['2026-11-12', 0.647207],
+        ]);
+        assert.throws(() => parseSmi([]), /structure/);
+    });
+
+    it('finds a point inside a crescent-shaped municipality', () => {
+        // A "C" shape whose bounding-box centre is outside it.
+        const ring = [
+            [0, 0],
+            [3, 0],
+            [3, 1],
+            [1, 1],
+            [1, 2],
+            [3, 2],
+            [3, 3],
+            [0, 3],
+            [0, 0],
+        ];
+        const [x, y] = interiorPoint([ring]);
+        assert.ok(x > 0 && x < 1 && y > 0 && y < 3, `${x},${y} should be in the spine`);
     });
 });
 

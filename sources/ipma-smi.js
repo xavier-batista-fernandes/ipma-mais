@@ -1,4 +1,5 @@
-import { fetchText } from '../lib/fetch.js';
+import { fetchText, mapLimit } from '../lib/fetch.js';
+import { upsertSeries } from '../lib/store.js';
 
 /**
  * IPMA's soil moisture index (SMI): water in the root zone between wilting point (0) and field
@@ -6,7 +7,9 @@ import { fetchText } from '../lib/fetch.js';
  * days and a few days ahead. It is a grid, so IPMA+ samples it at a point inside each
  * municipality (`inputs/municipality-points.json`). GetFeatureInfo answers in JSON:
  * `[{ variablename: 'smi', data: { '100': { '2026-11-12T00:00:00Z': '0.625640', … } } }]`,
- * keyed by layer (soil level) and time.
+ * keyed by layer (soil level) and time. A time range returns every day the latest run holds
+ * (about 20 days back and 9 ahead), so one request per municipality covers a run. Only days up
+ * to today are stored; IPMA+ keeps the value as a percentage (SMI × 100).
  */
 const SERVICE = 'https://cs2.ipma.pt/wms';
 const DATASET = 'smi-forecast_10p1d-continental-ecmwf';
@@ -54,4 +57,38 @@ export function parseSmi(json) {
 
 export async function fetchSmi(point, time) {
     return parseSmi(await fetchText(smiUrl(point, time), { timeoutMs: 30000, retries: 4 }));
+}
+
+/**
+ * Reads every municipality in `points` and stores its days up to `today`.
+ * Returns `{ added, changed, latest, failed: [message] }`.
+ */
+export async function collectSmi(points, today, { concurrency = 6 } = {}) {
+    const from = new Date(Date.parse(today) - 60 * 86400000).toISOString().slice(0, 10);
+    const to = new Date(Date.parse(today) + 15 * 86400000).toISOString().slice(0, 10);
+    const result = { added: 0, changed: 0, latest: '', failed: [] };
+    await mapLimit(Object.entries(points), concurrency, async ([dico, point]) => {
+        let days;
+        try {
+            days = await fetchSmi(point, `${from}/${to}`);
+        } catch (error) {
+            result.failed.push(`${dico}: ${error.message}`);
+            return;
+        }
+        const rows = days
+            .filter(([date]) => date <= today)
+            .map(([date, value]) => ({
+                date,
+                mean: Math.round(value * 10000) / 100,
+                min: null,
+                max: null,
+                std: null,
+                source: 'api',
+            }));
+        const r = upsertSeries('smi', dico, rows);
+        result.added += r.added;
+        result.changed += r.changed;
+        for (const { date } of rows) if (date > result.latest) result.latest = date;
+    });
+    return result;
 }
