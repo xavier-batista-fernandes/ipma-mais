@@ -30,7 +30,8 @@ import { Select } from './components/Select';
 import { SeriesChart } from './components/SeriesChart';
 import { Timeline } from './components/Timeline';
 import { useI18n } from './i18n';
-import { AboutPage } from './pages/AboutPage';
+import { DataPage } from './pages/DataPage';
+import { MunicipalitiesPage } from './pages/MunicipalitiesPage';
 import {
     followLink,
     municipalityHref,
@@ -224,7 +225,6 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
             {page}
         </Shell>
     );
-    if (route === 'about') return shell(<AboutPage generatedAt={index?.generatedAt ?? null} />);
     if (error) return shell(<div className="status">{t('app.loadError', { error })}</div>);
     if (route === 'municipality' && index && !bySlug.has(slug ?? ''))
         return shell(<MunicipalityNotFound metric={metricId} />);
@@ -413,6 +413,17 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
             }}
         />
     );
+
+    if (route === 'data') return shell(<DataPage index={index} />);
+    if (route === 'municipalities')
+        return shell(
+            <MunicipalitiesPage
+                metric={metric}
+                metricSelect={metricSelect}
+                municipalities={index.municipalities}
+                slugOf={stringToSlug}
+            />
+        );
 
     if (route === 'municipality') {
         const info = bySlug.get(slug ?? '')!;

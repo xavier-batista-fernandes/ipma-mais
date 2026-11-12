@@ -82,16 +82,14 @@ test.describe('Portuguese browser', () => {
 });
 
 test.describe('navigation', () => {
-    test('About and back to the map keep the current view', async ({ page, index }) => {
+    test('Data and back to the map keep the current view', async ({ page, index }) => {
         const lisboa = index.municipalities.find((m) => m.name === 'Lisboa')!;
         await openMap(page, `?m=tmax&c=${lisboa.dico}`);
 
-        await page.getByRole('link', { name: en['nav.about'] }).click();
-        await expect(page).toHaveURL(/\/sobre\?m=tmax$/);
-        await expect(
-            page.getByRole('heading', { level: 1, name: en['about.title'] })
-        ).toBeVisible();
-        await expect(page.getByRole('link', { name: en['nav.about'] })).toHaveAttribute(
+        await page.getByRole('link', { name: en['nav.data'] }).click();
+        await expect(page).toHaveURL(/\/dados\?m=tmax$/);
+        await expect(page.getByRole('heading', { level: 1, name: en['data.title'] })).toBeVisible();
+        await expect(page.getByRole('link', { name: en['nav.data'] })).toHaveAttribute(
             'aria-current',
             'page'
         );
@@ -104,18 +102,14 @@ test.describe('navigation', () => {
 
         // The browser's Back and Forward move between the pages.
         await page.goBack();
-        await expect(
-            page.getByRole('heading', { level: 1, name: en['about.title'] })
-        ).toBeVisible();
+        await expect(page.getByRole('heading', { level: 1, name: en['data.title'] })).toBeVisible();
         await page.goForward();
         await expect(page.getByRole('region', { name: en['timeline.label'] })).toBeVisible();
     });
 
     test('pages open directly from their address', async ({ page }) => {
-        await page.goto('./sobre');
-        await expect(
-            page.getByRole('heading', { level: 1, name: en['about.title'] })
-        ).toBeVisible();
+        await page.goto('./dados');
+        await expect(page.getByRole('heading', { level: 1, name: en['data.title'] })).toBeVisible();
         await page.goto('./consultas?m=et0');
         await expect(page.getByRole('link', { name: en['nav.query'] })).toHaveAttribute(
             'aria-current',
@@ -125,10 +119,11 @@ test.describe('navigation', () => {
 
     test('links from before the pages had addresses still work', async ({ page }) => {
         await page.goto('./#/about');
-        await expect(page).toHaveURL(/\/sobre(\?|$)/);
-        await expect(
-            page.getByRole('heading', { level: 1, name: en['about.title'] })
-        ).toBeVisible();
+        await expect(page).toHaveURL(/\/dados(\?|$)/);
+        await expect(page.getByRole('heading', { level: 1, name: en['data.title'] })).toBeVisible();
+
+        await page.goto('./sobre');
+        await expect(page).toHaveURL(/\/dados(\?|$)/);
 
         await page.goto('./?m=et0#/settings');
         await expect(page.getByRole('dialog', { name: en['settings.title'] })).toBeVisible();

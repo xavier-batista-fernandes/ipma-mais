@@ -10,11 +10,12 @@ import { SettingsMenu } from './SettingsMenu';
 const ITEMS: {
     route: Exclude<Route, 'municipality'>;
     icon: IconName;
-    label: 'nav.map' | 'nav.query' | 'nav.about';
+    label: 'nav.map' | 'nav.municipalities' | 'nav.query' | 'nav.data';
 }[] = [
     { route: 'map', icon: 'map', label: 'nav.map' },
+    { route: 'municipalities', icon: 'list', label: 'nav.municipalities' },
     { route: 'query', icon: 'filter', label: 'nav.query' },
-    { route: 'about', icon: 'info', label: 'nav.about' },
+    { route: 'data', icon: 'database', label: 'nav.data' },
 ];
 
 interface Props {

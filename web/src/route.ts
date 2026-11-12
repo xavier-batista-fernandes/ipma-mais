@@ -4,13 +4,17 @@ import { useEffect, useMemo, useState, type MouseEvent } from 'react';
  * Pages live in the path (`/consultas`), the current view's state in the query string
  * (`?m=et0&d=…`, see url-state.ts). The Worker answers unknown paths with index.html.
  */
-export type Route = 'map' | 'query' | 'about' | 'municipality';
+export type Route = 'map' | 'municipalities' | 'query' | 'data' | 'municipality';
 
 const PATHS: Record<Exclude<Route, 'municipality'>, string> = {
     map: '/',
+    municipalities: '/concelhos',
     query: '/consultas',
-    about: '/sobre',
+    data: '/dados',
 };
+
+/** Addresses that moved: /sobre became part of /dados. */
+const MOVED: Record<string, string> = { '/sobre': PATHS.data };
 
 /** A municipality's page: `/concelhos/vila-real-de-santo-antonio`. */
 const MUNICIPALITY = /^\/concelhos\/([a-z0-9-]+)$/;
@@ -84,7 +88,7 @@ export function useLocation(): Location {
 }
 
 /**
- * Links from before the app had real paths keep working: `#/about` opens /sobre, `#/settings`
+ * Links from before the app had real paths keep working: `#/about` and /sobre open /dados, `#/settings`
  * opens the map with the settings panel, and a query (`?v=q&…`) opens /consultas. Returns whether
  * the settings panel should start open. Runs once, before the first render.
  */
@@ -93,8 +97,9 @@ export function redirectOldLinks(): { openSettings: boolean } {
     const params = new URLSearchParams(search);
     let path = pathname;
     let openSettings = false;
-    if (hash === '#/about') path = PATHS.about;
+    if (hash === '#/about') path = PATHS.data;
     else if (hash === '#/settings') openSettings = true;
+    path = MOVED[path.replace(/\/+$/, '')] ?? path;
     if (params.get('v') === 'q') {
         params.delete('v');
         path = PATHS.query;
