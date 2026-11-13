@@ -16,7 +16,8 @@ import { Icon } from '../components/Icon';
 import { MapView } from '../components/MapView';
 import { MonthlyChart } from '../components/MonthlyChart';
 import { SeriesChart, seriesGap } from '../components/SeriesChart';
-import { change, monthly, summarize, type Aggregate } from '../municipality';
+import { metricMeta } from '../metrics';
+import { change, monthly, summarize } from '../municipality';
 import { followLink, municipalityHref, routeHref } from '../route';
 
 interface Props {
@@ -53,8 +54,8 @@ export function MunicipalityPage({
     const followed = following.includes(info.dico);
     const [series, setSeries] = useState<Series | null>(null);
     const [day, setDay] = useState<DayValues | null>(null);
-    // Evapotranspiration and rain add up over days; a temperature only averages.
-    const aggregate: Aggregate = metric.id === 'et0' || metric.id === 'prec' ? 'sum' : 'mean';
+    // Evapotranspiration and rain add up over days; the other variables average.
+    const { aggregate, extreme } = metricMeta(metric.id);
 
     useEffect(() => {
         const previous = document.title;
@@ -158,8 +159,7 @@ export function MunicipalityPage({
         summary &&
         (() => {
             const { last, week, previousWeek, month, sameMonthLastYear } = summary;
-            const lowIsNotable = metric.id === 'tmin' || metric.id === 'vhi' || metric.id === 'smi';
-            const record = lowIsNotable ? summary.lowest : summary.highest;
+            const record = extreme === 'lowest' ? summary.lowest : summary.highest;
             const monthName = longMonth.format(new Date(`${last.date}T00:00:00Z`));
             const lastYear = `${format.month(sameMonthLastYear.from)} ${sameMonthLastYear.from.slice(0, 4)}`;
             const monthChange = (() => {
@@ -214,7 +214,7 @@ export function MunicipalityPage({
                             : month.value - sameMonthLastYear.value,
                 },
                 {
-                    label: t(lowIsNotable ? 'municipality.lowest' : 'municipality.highest'),
+                    label: t(extreme === 'lowest' ? 'municipality.lowest' : 'municipality.highest'),
                     value: amount(record.value),
                     detail: format.day(record.date),
                     trend: 0,

@@ -252,6 +252,142 @@ export const en = {
     'data.api.values': 'Every municipality × every day, for analysis',
     'data.api.stats': 'Totals and averages per municipality over a period (from, to)',
     'data.docs': 'Full API documentation',
+    'nav.start': 'Home',
+    'nav.variables': 'Variables',
+
+    'home.title': 'Weather and climate for every municipality in mainland Portugal',
+    'home.lead':
+        'IPMA+ collects IPMA’s daily data for the 278 municipalities every day and keeps the full history, so you can see today’s values, look back and compare.',
+    'home.search': 'Find your municipality',
+    'home.updated': 'Data updated {date}',
+    'home.latest': 'The latest day',
+    'home.latestHint':
+        'Each variable on the last day IPMA published it. Open one to explore it on the map.',
+    'home.average': 'Country average',
+    'home.highest': 'Highest',
+    'home.lowest': 'Lowest',
+    'home.openMap': 'See on the map',
+    'home.about': 'What is it?',
+    'home.following': 'Your municipalities',
+    'home.followingHint': 'Follow a municipality on its page to keep it here.',
+    'home.explore': 'Explore',
+    'home.explore.map': 'Every municipality on one day, and how it evolves day by day.',
+    'home.explore.municipalities': 'The full list, with the latest value and the last 30 days.',
+    'home.explore.query': 'Questions over a period: rankings, streaks, comparisons and exports.',
+    'home.explore.data': 'Where the data comes from, what is missing, and the free API.',
+    'home.variables': 'What the variables mean',
+    'home.variablesHint': 'What each one measures, how to read its values and where it comes from.',
+    'home.stale': 'Archive, up to {date}',
+
+    'variable.group.water': 'Water',
+    'variable.group.temperature': 'Temperature',
+    'variable.group.vegetation': 'Vegetation',
+    'variable.group.fire': 'Fire',
+    'variable.cadence.daily': 'Daily',
+    'variable.cadence.weekly': 'Weekly',
+    'variable.method.stations': 'Weather stations',
+    'variable.method.satellite': 'Satellite',
+    'variable.method.forecast': 'Forecast',
+    'variable.method.model': 'Model',
+    'variable.aggregate.sum': 'Adds up over a period',
+    'variable.aggregate.mean': 'Averaged over a period',
+    'variable.what': 'What it measures',
+    'variable.read': 'How to read the values',
+    'variable.uses': 'What it is useful for',
+    'variable.source': 'Where it comes from',
+    'variable.sourceLink': 'More at IPMA',
+    'variable.scale': 'Map colours',
+    'variable.scaleHint': 'The same colour always means the same value, on every day.',
+    'variable.latest': 'On {date}',
+    'variable.history': 'History',
+    'variable.historyValue': '{first} → {last} · {count} days',
+    'variable.openMap': 'See on the map',
+    'variable.openQuery': 'Ask a question',
+    'variable.others': 'Other variables',
+    'variable.notFound': 'There is no variable at this address',
+    'variable.info': 'What does {name} mean?',
+    'variables.title': 'Variables',
+    'variables.lead':
+        'What each variable in IPMA+ measures, how to read it and where it comes from.',
+
+    'metricInfo.et0.summary': 'How much water the soil and plants lose to the air in a day.',
+    'metricInfo.et0.what':
+        'Reference evapotranspiration is the water a well-watered grass lawn would lose in a day, by evaporation from the soil and transpiration through its leaves. It depends only on the weather (sun, temperature, humidity and wind), not on any particular crop, so it measures how “thirsty” the air was. It is given in millimetres: 1 mm is one litre of water per square metre.',
+    'metricInfo.et0.read':
+        'In mainland Portugal it goes from under 1 mm a day on cloudy winter days to 6–8 mm on hot, dry, windy summer days. Higher values mean the air takes more water from the soil. Over a period it adds up: a week at 5 mm a day is 35 mm, or 35 litres per square metre.',
+    'metricInfo.et0.uses':
+        'Planning irrigation. A crop needs roughly ET0 × its crop coefficient (Kc), minus the rain that fell, so comparing ET0 with rainfall shows how much water is missing. It is also a good everyday index of drying conditions.',
+    'metricInfo.et0.source':
+        'Calculated by IPMA with the FAO Penman-Monteith method from weather station observations and interpolated to each municipality. IPMA+ collects it twice a day from the IPMA agrometeorology page.',
+
+    'metricInfo.tmax.summary': 'The highest air temperature of the day.',
+    'metricInfo.tmax.what':
+        'The highest temperature the air reached during the day, measured in the shade at 2 metres above the ground, averaged over the municipality’s area.',
+    'metricInfo.tmax.read':
+        'IPMA calls a day with a maximum above 25 °C a summer day, and one at or above 35 °C a very hot day. Inland municipalities in the Alentejo and the Douro valley are usually the hottest in summer; the coast and the mountains are milder. Over a period the app shows the average of the daily maxima.',
+    'metricInfo.tmax.uses':
+        'Following heat waves and hot spells, heat stress for people, animals and crops, and comparing a period with the same time a year earlier.',
+    'metricInfo.tmax.source':
+        'IPMA open data: weather station observations interpolated to each municipality (inverse distance weighting), published daily. There is no data from 12 November 2025 to 21 October 2026.',
+
+    'metricInfo.tmin.summary': 'The lowest air temperature of the day, usually around dawn.',
+    'metricInfo.tmin.what':
+        'The lowest temperature the air reached during the day, usually just before sunrise, measured in the shade at 2 metres above the ground and averaged over the municipality’s area.',
+    'metricInfo.tmin.read':
+        'Below 0 °C there is a risk of frost, mostly in the interior north and centre in winter. IPMA calls a night with a minimum at or above 20 °C a tropical night. The record that matters most is the lowest value. Over a period the app shows the average of the daily minima.',
+    'metricInfo.tmin.uses':
+        'Frost risk for crops, cold spells, tropical nights during heat waves and the chill hours fruit trees need in winter.',
+    'metricInfo.tmin.source':
+        'IPMA open data: weather station observations interpolated to each municipality (inverse distance weighting), published daily. There is no data from 12 November 2025 to 21 October 2026.',
+
+    'metricInfo.tmean.summary': 'The average air temperature over the whole day.',
+    'metricInfo.tmean.what':
+        'The average temperature of the air over the day and night, measured in the shade at 2 metres above the ground and averaged over the municipality’s area.',
+    'metricInfo.tmean.read':
+        'It sits between the minimum and the maximum, and changes more slowly than either. In mainland Portugal it goes from around 5 °C in winter in the interior to 25–28 °C in summer. Over a period the app shows the average.',
+    'metricInfo.tmean.uses':
+        'Comparing how warm periods and places are overall, and growing degree days for crops (days above a base temperature).',
+    'metricInfo.tmean.source':
+        'IPMA open data: weather station observations interpolated to each municipality (inverse distance weighting), published daily.',
+
+    'metricInfo.prec.summary': 'How much rain fell in the day.',
+    'metricInfo.prec.what':
+        'The total precipitation (rain, and the rare snow or hail as water) that fell during the day, in millimetres: 1 mm is one litre of water per square metre.',
+    'metricInfo.prec.read':
+        '0 mm is a dry day. Under 1 mm is little more than a drizzle; 10 mm is a properly rainy day; above 30–40 mm in a day is heavy rain. Over a period it adds up, so a month’s total can be compared with ET0 to see whether the soil gained or lost water.',
+    'metricInfo.prec.uses':
+        'Following droughts and wet spells, deciding when to irrigate, and comparing a season with the year before.',
+    'metricInfo.prec.source':
+        'IPMA open data: weather station and rain gauge observations interpolated to each municipality, published daily.',
+
+    'metricInfo.vhi.summary': 'How healthy the vegetation looks from space, from 0 to 100.',
+    'metricInfo.vhi.what':
+        'The Vegetation Health Index combines two satellite measurements: how green and dense the vegetation is compared with the same week in other years, and how hot the land surface is. It goes from 0 (very stressed vegetation) to 100 (very healthy), and is calculated for each week.',
+    'metricInfo.vhi.read':
+        'Below 40 the vegetation is under stress, usually from drought or heat; below 20 the stress is severe and below 10 extreme. Above 60 conditions are good. Because each week is compared with the same week in other years, a low value in August means a worse August than usual, not just summer.',
+    'metricInfo.vhi.uses':
+        'Spotting agricultural drought before it shows in yields, following how pastures and forests recover after rain, and judging how dry the vegetation is ahead of the fire season.',
+    'metricInfo.vhi.source':
+        'IPMA, from satellite images, averaged over each municipality and published weekly on the IPMA agrometeorology pages.',
+
+    'metricInfo.fire.summary': 'IPMA’s rural fire danger class for the day, from 1 to 5.',
+    'metricInfo.fire.what':
+        'The rural fire danger forecast: how easily a fire could start and spread in the municipality that day. It combines the weather (temperature, humidity, wind and how long since it rained) with the land’s own danger (vegetation and terrain).',
+    'metricInfo.fire.read':
+        '1 low, 2 moderate, 3 high, 4 very high, 5 maximum. Classes 4 and 5 usually come with restrictions on burning, machinery and access to forests. Each day IPMA+ keeps the forecast for that day.',
+    'metricInfo.fire.uses':
+        'Knowing whether burning or work with machinery is allowed, and following how the danger builds up through the summer.',
+    'metricInfo.fire.source':
+        'IPMA rural fire danger forecast, issued every day for today and the next days. IPMA does not keep old forecasts, so the history starts on the day IPMA+ began collecting it.',
+
+    'metricInfo.smi.summary': 'How much water the soil holds that plants can use, from 0 to 1.',
+    'metricInfo.smi.what':
+        'The Soil Moisture Index measures the water in the root zone that plants can still take up: 0 is the wilting point (plants can’t extract any more) and 1 is field capacity (the soil holds all it can after draining).',
+    'metricInfo.smi.read':
+        'Near 1 the soil is wet; below about 0.4 plants start to feel the lack of water; near 0 they can’t take up any. It rises after rain and falls on dry, sunny days.',
+    'metricInfo.smi.uses': 'Deciding when to irrigate or sow, and following agricultural drought.',
+    'metricInfo.smi.source':
+        'IPMA, from a weather model (ECMWF) run over a grid, sampled at each municipality.',
 } as const;
 
 export type MessageKey = keyof typeof en;

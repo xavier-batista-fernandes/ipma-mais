@@ -464,6 +464,25 @@ footer {
     flex: 1;
 }
 
+/* A line of explanation under an option (the variable picker's "what is it"). */
+.select-list:has(.option-description) {
+    max-width: min(420px, calc(100vw - 32px));
+}
+
+.select-list:has(.option-description) li {
+    align-items: flex-start;
+    white-space: normal;
+}
+
+.option-description {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 400;
+    line-height: 1.35;
+}
+
 .option-check {
     display: grid;
     width: 18px;
@@ -2477,5 +2496,482 @@ footer a {
 
     .coverage-month {
         width: 42px;
+    }
+}
+
+/* Shared bits for the home and variable pages. */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.button.ghost {
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text);
+}
+
+.button.ghost:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.section-title {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.section-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.section-link:hover {
+    color: var(--accent);
+}
+
+.section-link .icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* The picker plus an (i) link to the variable's page. */
+.metric-picker {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.metric-picker .select {
+    min-width: 0;
+}
+
+.metric-help {
+    flex: none;
+    height: 38px;
+    color: var(--muted);
+}
+
+.metric-help:hover {
+    color: var(--accent);
+}
+
+/* A small still map: no zoom buttons, a fixed height. */
+.mini-map {
+    position: relative;
+    height: 240px;
+    margin: 4px -20px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background-color: var(--bg);
+    background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+.mini-map .map-wrap,
+.mini-map .map {
+    height: 100%;
+}
+
+.mini-map .zoom-controls {
+    display: none;
+}
+
+/* Home. */
+.home-page {
+    max-width: 1180px;
+}
+
+.home-hero {
+    max-width: 760px;
+    padding: 16px 0 32px;
+}
+
+.home-hero h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    line-height: 1.1;
+}
+
+.home-hero .lead {
+    margin-top: 14px;
+}
+
+.home-search {
+    max-width: 440px;
+    margin-bottom: 12px;
+}
+
+.home-search .search input {
+    height: 46px;
+    font-size: 1rem;
+}
+
+.home-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 36px;
+}
+
+.home-section > .muted {
+    margin: -4px 0 4px;
+}
+
+.metric-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+}
+
+.metric-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+}
+
+.metric-card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.metric-card h3 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.metric-card h3 a:hover {
+    color: var(--accent);
+}
+
+.metric-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+}
+
+.metric-card-date {
+    margin-left: auto;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+}
+
+.metric-card-date[data-current='false'] {
+    color: var(--notice-text);
+}
+
+.metric-card-summary {
+    min-height: 3em;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.metric-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 4px 0 0;
+}
+
+.metric-stats dt {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.metric-stats dd {
+    margin: 2px 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.metric-stat-place {
+    display: block;
+    overflow: hidden;
+    color: var(--muted);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.metric-card-links,
+.variable-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: auto 0 0;
+    padding-top: 6px;
+}
+
+.home-following {
+    margin: 0;
+    padding: 6px 4px;
+    overflow-x: auto;
+}
+
+.home-following table {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+}
+
+.home-following th,
+.home-following td {
+    padding: 8px 12px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.home-following thead th {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.home-following tbody tr + tr > * {
+    border-top: 1px solid var(--border);
+}
+
+.home-following tbody th {
+    text-align: left;
+}
+
+.home-following td {
+    font-family: var(--font-mono);
+}
+
+.home-following a {
+    color: var(--text);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.home-following a:hover {
+    color: var(--accent);
+}
+
+.explore {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.explore a,
+.variable-cards a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    height: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    transition: border-color 0.15s;
+}
+
+.explore a:hover,
+.variable-cards a:hover {
+    border-color: var(--accent);
+}
+
+.explore a > span {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.explore a > .icon:last-child {
+    color: var(--muted);
+}
+
+/* Variables. */
+.variable-page,
+.variables-page {
+    max-width: 1080px;
+}
+
+.breadcrumb {
+    margin: 0 0 10px;
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.breadcrumb a {
+    color: var(--muted);
+}
+
+.variable-page .lead {
+    margin-bottom: 14px;
+}
+
+.variable-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+}
+
+.variable-facts .tag {
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text);
+}
+
+.variable-facts .tag:first-child {
+    border-color: var(--text);
+    background: var(--text);
+    color: var(--surface);
+}
+
+.variable-actions {
+    margin-bottom: 24px;
+}
+
+.variable-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 16px;
+    align-items: start;
+}
+
+.variable-text .card h2 {
+    margin-bottom: 6px;
+}
+
+.variable-text .card p {
+    margin: 0 0 6px;
+}
+
+.variable-side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.variable-side .card {
+    margin: 0;
+}
+
+.variable-side .card > .field-label {
+    margin-bottom: 8px;
+    font-size: 0.68rem;
+}
+
+.variable-side .legend {
+    position: static;
+    margin: 0 0 8px;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    background: none;
+}
+
+.variable-page p.variable-status {
+    display: table;
+    margin: 4px 0 8px;
+}
+
+.variable-others {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 32px;
+}
+
+.variable-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.variable-cards a {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.variable-card-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.variable-cards .field-label {
+    margin-top: auto;
+}
+
+@media (max-width: 900px) {
+    .metric-picker {
+        width: 100%;
+    }
+
+    .metric-picker .select {
+        flex: 1;
+    }
+
+    .variable-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .metric-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .mini-map {
+        height: 220px;
+        margin: 4px -16px 0;
+    }
+
+    .home-hero {
+        padding-top: 0;
     }
 }

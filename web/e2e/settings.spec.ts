@@ -74,7 +74,7 @@ test.describe('Portuguese browser', () => {
     test.use({ locale: 'pt-PT' });
 
     test('defaults to Portuguese', async ({ page }) => {
-        await page.goto('./');
+        await page.goto('./mapa');
         await expect(page.locator('html')).toHaveAttribute('lang', 'pt');
         await expect(page.getByLabel(pt['map.label']).locator('svg path').first()).toBeAttached();
         await expect(page.getByRole('button', { name: pt['nav.settings'] })).toBeVisible();
@@ -126,7 +126,12 @@ test.describe('navigation', () => {
         await expect(page).toHaveURL(/\/dados(\?|$)/);
 
         await page.goto('./?m=et0#/settings');
+        await expect(page).toHaveURL(/\/mapa\?m=et0/);
         await expect(page.getByRole('dialog', { name: en['settings.title'] })).toBeVisible();
+
+        // The map used to be the home page: a shared view of it opens /mapa.
+        await page.goto('./?m=tmax&d=2026-11-01');
+        await expect(page).toHaveURL(/\/mapa\?m=tmax&d=2026-11-01/);
 
         await page.goto('./?m=et0&v=q&qt=threshold&x=2');
         await expect(page).toHaveURL(/\/consultas\?m=et0&.*x=2/);

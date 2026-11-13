@@ -8,10 +8,11 @@ import { Search } from './Search';
 import { SettingsMenu } from './SettingsMenu';
 
 const ITEMS: {
-    route: Exclude<Route, 'municipality'>;
+    route: Exclude<Route, 'municipality' | 'variable' | 'variables'>;
     icon: IconName;
-    label: 'nav.map' | 'nav.municipalities' | 'nav.query' | 'nav.data';
+    label: 'nav.start' | 'nav.map' | 'nav.municipalities' | 'nav.query' | 'nav.data';
 }[] = [
+    { route: 'home', icon: 'home', label: 'nav.start' },
     { route: 'map', icon: 'map', label: 'nav.map' },
     { route: 'municipalities', icon: 'list', label: 'nav.municipalities' },
     { route: 'query', icon: 'filter', label: 'nav.query' },
@@ -46,7 +47,7 @@ export function Header({ route, metric, onSearch, describe, settingsOpen }: Prop
             {ITEMS.map((item) => (
                 <a
                     key={item.route}
-                    href={routeHref(item.route, metric)}
+                    href={routeHref(item.route, item.route === 'home' ? undefined : metric)}
                     onClick={followLink}
                     aria-current={route === item.route ? 'page' : undefined}
                 >
@@ -62,7 +63,7 @@ export function Header({ route, metric, onSearch, describe, settingsOpen }: Prop
             <header className="topbar">
                 <a
                     className="brand"
-                    href={routeHref('map', metric)}
+                    href={routeHref('home')}
                     onClick={followLink}
                     aria-label={t('nav.home')}
                 >

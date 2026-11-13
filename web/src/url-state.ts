@@ -27,7 +27,8 @@ export function readUrlState(): UrlState & { params: URLSearchParams } {
 
 export function writeUrlState(route: Route, { metric, date, dico, query }: UrlState) {
     const params = new URLSearchParams();
-    if (metric) params.set('m', metric);
+    // The home page has no view of its own; `/?m=…` would read as an old link to the map.
+    if (metric && route !== 'home') params.set('m', metric);
     if (route === 'map' && date) params.set('d', date);
     if ((route === 'map' || route === 'query') && dico) params.set('c', dico);
     if (route === 'query' && query) queryToParams(query, params);

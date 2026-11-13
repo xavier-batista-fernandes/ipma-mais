@@ -1,7 +1,8 @@
 import { scaleLinear, scaleUtc } from 'd3-scale';
 import { area, line } from 'd3-shape';
 import { useMemo, useState } from 'react';
-import type { SeriesRow } from '../api';
+import type { MetricId, SeriesRow } from '../api';
+import { metricMeta } from '../metrics';
 import { parseIsoDate } from '../format';
 import { useI18n } from '../i18n';
 import { yearBefore } from '../municipality';
@@ -32,8 +33,8 @@ interface Props {
     maxGap?: number;
 }
 
-/** How far apart a metric's values can be and still be joined: VHI is published weekly. */
-export const seriesGap = (metric: string) => (metric === 'vhi' ? 10 : 1);
+/** How far apart a metric's values can be and still be joined: a weekly one (VHI) up to 10 days. */
+export const seriesGap = (metric: MetricId) => (metricMeta(metric).cadence === 'weekly' ? 10 : 1);
 
 /** A daily line chart; shaded where the source also gives the municipality's min–max spread. */
 export function SeriesChart({

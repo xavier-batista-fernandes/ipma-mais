@@ -91,7 +91,7 @@ test.describe('municipality page', () => {
         const lisboa = index.municipalities.find((m) => m.name === 'Lisboa')!;
         await openLisboa(page);
         await page.getByRole('button', { name: en['municipality.showOnMap'] }).click();
-        await expect(page).toHaveURL(new RegExp(`/\\?m=et0.*[?&]c=${lisboa.dico}`));
+        await expect(page).toHaveURL(new RegExp(`/mapa\\?m=et0.*[?&]c=${lisboa.dico}`));
         await expect(
             page.getByRole('complementary').getByRole('heading', { level: 2, name: 'Lisboa' })
         ).toBeVisible();
@@ -100,7 +100,7 @@ test.describe('municipality page', () => {
         const chart = page.getByRole('img', { name: fill(en['chart.label'], { unit: 'mm' }) });
         const box = (await chart.boundingBox())!;
         await page.mouse.click(box.x + box.width * 0.2, box.y + box.height * 0.5);
-        await expect(page).toHaveURL(/\/\?m=et0&d=\d{4}-\d{2}-\d{2}&c=/);
+        await expect(page).toHaveURL(/\/mapa\?m=et0&d=\d{4}-\d{2}-\d{2}&c=/);
         await expect(page.getByRole('region', { name: en['timeline.label'] })).toBeVisible();
     });
 

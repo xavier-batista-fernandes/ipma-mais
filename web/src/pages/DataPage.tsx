@@ -4,6 +4,7 @@ import { Icon } from '../components/Icon';
 import { parseIsoDate } from '../format';
 import { useI18n } from '../i18n';
 import { addDays } from '../municipality';
+import { followLink, variableHref } from '../route';
 
 const DOCS = 'https://github.com/xavier-batista-fernandes/ipma-mais/blob/main/docs/API.md';
 const CODE = 'https://github.com/xavier-batista-fernandes/ipma-mais';
@@ -55,7 +56,10 @@ export function DataPage({ index }: { index: ApiIndex }) {
                             <span className="variable-id">{m.id}</span>
                             <span className="variable-name">
                                 <span>
-                                    {t(`metric.${m.id}`)} <span className="tag">{m.unit}</span>
+                                    <a href={variableHref(m.id)} onClick={followLink}>
+                                        {t(`metric.${m.id}`)}
+                                    </a>{' '}
+                                    <span className="tag">{m.unit}</span>
                                 </span>
                                 <span className="muted small">
                                     {m.firstDate && m.lastDate
