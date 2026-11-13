@@ -1,6 +1,6 @@
 # IPMA+ API
 
-A free, read-only JSON API with daily weather data for the 278 municipalities of mainland Portugal, collected from [IPMA](https://www.ipma.pt) since April 2025. It keeps the history that IPMA itself only serves for a few weeks.
+A free, read-only JSON API with daily weather data for the 278 municipalities of mainland Portugal, collected from [IPMA](https://www.ipma.pt) since April 2025, with daily rain and maximum and minimum temperature back to 2000. It keeps the history that IPMA itself only serves for a few weeks.
 
 **Base URL:** `https://ipma-mais.xavierbatistafernandes-001.workers.dev/v1`
 
@@ -15,12 +15,17 @@ curl https://ipma-mais.xavierbatistafernandes-001.workers.dev/v1/et0/latest
 | Metric | What it is | Unit | Updated |
 | --- | --- | --- | --- |
 | `et0` | Reference evapotranspiration | mm per day | Twice a day, from IPMA's agrometeorology page |
-| `tmax` | Maximum air temperature | °C | Twice a day, from IPMA's open-data temperature file. No data from 2025-11-12 to 2026-10-21 |
-| `tmin` | Minimum air temperature | °C | Twice a day, from IPMA's open-data temperature file. No data from 2025-11-12 to 2026-10-21 |
+| `tmax` | Maximum air temperature | °C | Twice a day, from IPMA's open-data temperature file. Since 2000-01-01; no data from 2025-11-12 to 2026-10-21 |
+| `tmin` | Minimum air temperature | °C | Twice a day, from IPMA's open-data temperature file. Since 2000-01-01; no data from 2025-11-12 to 2026-10-21 |
+| `tmean` | Mean air temperature | °C | Twice a day, from IPMA's open-data temperature file. Starts in October 2026 |
+| `prec` | Precipitation (total rain in the day) | mm per day | Twice a day, from IPMA's open-data precipitation file. Since 2000-01-01; no data from 2025-11-12 to 2026-10-19. A dry day is `0` |
+| `fire` | Rural fire risk, IPMA's forecast class from 1 (reduced) to 5 (maximum) | class | Twice a day, from IPMA's fire-risk forecast for today and tomorrow, so the newest day is tomorrow's forecast. Starts in November 2026 |
+| `vhi` | Vegetation health index (satellite), 0–100, below 35 means drought stress | index | About once a week, from IPMA's map server, since 2018 |
+| `smi` | Soil moisture index × 100: 0 is wilting point, 100 field capacity | % | Twice a day, from IPMA's ECMWF-based soil moisture, read at a point inside each municipality. Starts in October 2026 |
 
 - **Municipalities** are identified by their **DICO** code: 4 digits, where the first two are the district (for example `1106` is Lisboa and `1312` is Porto). `/v1/index` lists all of them with their names and districts.
 - **Dates** are `YYYY-MM-DD` and are the observation day IPMA reports, not the day it was collected.
-- **Values** are the municipality's mean, rounded to 2 decimals. Where the source gives them, `min` and `max` are the lowest and highest values across the municipality's area. They are `null` for values from the agrometeorology page, which only publishes the mean.
+- **Values** are the municipality's mean, rounded to 2 decimals. Where the source gives them, `min` and `max` are the lowest and highest values across the municipality's area. They are `null` for values from the agrometeorology page and for the history since 2000 (before May 2025 for temperature, before August 2025 for rain), which only publish the mean.
 - **Gaps:** some days are missing because IPMA published nothing for them. A missing day is absent from lists and `null` in matrices; it is never `0`.
 
 ## Endpoints
@@ -31,11 +36,12 @@ curl https://ipma-mais.xavierbatistafernandes-001.workers.dev/v1/et0/latest
 | [`GET /v1/index`](#get-v1index) | Metrics with their available dates, municipalities, and source status |
 | [`GET /v1/{metric}/latest`](#get-v1metriclatest-and-get-v1metricdaysdate) | Every municipality's value on the most recent day |
 | [`GET /v1/{metric}/days/{date}`](#get-v1metriclatest-and-get-v1metricdaysdate) | Every municipality's value on one day |
+| [`GET /v1/{metric}/days`](#get-v1metricvalues) | Every municipality's value on each day of a period, as a list |
 | [`GET /v1/{metric}/series/{dico}`](#get-v1metricseriesdico) | One municipality's daily values |
 | [`GET /v1/{metric}/values`](#get-v1metricvalues) | Every municipality × every day, as a matrix |
 | [`GET /v1/{metric}/stats`](#get-v1metricstats) | Per-municipality totals and averages over a period |
 
-`series`, `values` and `stats` take optional `from` and `to` query parameters (inclusive, `YYYY-MM-DD`). Without them, the whole history is used.
+`series`, `values`, the `days` list and `stats` take optional `from` and `to` query parameters (inclusive, `YYYY-MM-DD`). Without them, `series` and `stats` use the whole history, and `values` and `days` the last 366 days.
 
 Every path also works with a `.json` suffix (`/v1/et0/latest.json`) and under `/api/` instead of `/v1/`, which were the paths of the earlier static files.
 
@@ -104,6 +110,8 @@ From the open-data source, `min` and `max` are filled in:
 ### `GET /v1/{metric}/values`
 
 All municipalities over a period in one response. `values[dico][i]` is the mean on `dates[i]`, or `null` when that municipality has no value that day. Use this to run your own analysis across the country.
+
+Without `from`, it returns the 366 days up to `to` (or up to the newest day). One request covers at most 1000 days, so a longer period, like the rain since 2000, takes a few requests; a longer range gets a `400`. For long periods, `GET /v1/{metric}/days?from&to` is lighter: the same data as a list of days, `{ "from", "to", "days": [{ "date", "values": { dico: mean } }] }`, with the same limits.
 
 ```bash
 curl "https://ipma-mais.xavierbatistafernandes-001.workers.dev/v1/et0/values?from=2026-11-06&to=2026-11-08"

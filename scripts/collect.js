@@ -1,10 +1,10 @@
 /**
  * Collects IPMA data into the canonical store (`data/{metric}/{dico}.csv`).
  *
- *   node scripts/collect.js   # daily ET0 (agrometeorology page) and tmax/tmin (open data)
+ *   node scripts/collect.js   # daily ET0 (agrometeorology page); temperature and rain (open data)
  *
- * Max and min temperature come from IPMA's consolidated per-municipality open-data file,
- * which holds a rolling 20-day window. IPMA's older per-municipality CSVs (ET0, tmax,
+ * Max, mean and min temperature and precipitation come from IPMA's consolidated
+ * per-municipality open-data files, which hold a rolling 20-day window. IPMA's older per-municipality CSVs (ET0, tmax,
  * tmin) stopped updating in 2025; their rows are kept in `data/` with source `api`.
  *
  * Exits non-zero when the page fails or returns data that does not validate, so the
@@ -18,7 +18,11 @@ import { updateSourceMeta } from '../lib/meta.js';
 import { createResolver, loadMunicipalities } from '../lib/municipalities.js';
 import { DATA_DIR, upsertSeries } from '../lib/store.js';
 import { fetchEt0Page, snapshotToRows } from '../sources/ipma-page.js';
-import { fetchTemperature } from '../sources/ipma-temperature.js';
+import { FIRE_RISK_DAYS, fetchFireRisk } from '../sources/ipma-fire-risk.js';
+import { fetchOpenDataFile, OPEN_DATA_FILES } from '../sources/ipma-open-data.js';
+import { collectSmi as collectSmiDays } from '../sources/ipma-smi.js';
+import { collectVhi as collectVhiWeeks } from '../sources/ipma-vhi.js';
+import POINTS from '../inputs/municipality-points.json' with { type: 'json' };
 
 const STALE_AFTER_DAYS = 14;
 const RAW_PAGE_DIR = path.join(DATA_DIR, 'raw', 'et0-page');
@@ -30,7 +34,10 @@ const warnings = [];
 const errors = [];
 
 await collectPage();
-await collectTemperature();
+for (const file of OPEN_DATA_FILES) await collectOpenData(file);
+await collectFireRisk();
+await collectVhi();
+await collectSmi();
 
 report();
 process.exit(errors.length > 0 ? 1 : 0);
@@ -84,12 +91,12 @@ async function collectPage() {
     updateSourceMeta('page', { lastSuccess: new Date().toISOString(), latestDate: latest });
 }
 
-async function collectTemperature() {
+async function collectOpenData(file) {
     let entries;
     try {
-        entries = await fetchTemperature();
+        entries = await fetchOpenDataFile(file);
     } catch (error) {
-        errors.push(`temperature: ${error.message}`);
+        errors.push(`${file.id}: ${error.message}`);
         return;
     }
 
@@ -103,9 +110,9 @@ async function collectTemperature() {
 
     const rowsByMetric = new Map();
     for (const [key, dayEntries] of byDay) {
-        const problems = validateTemperatureEntries(dayEntries);
+        const problems = validateOpenDataEntries(dayEntries);
         if (problems.length > 0) {
-            errors.push(`temperature ${key}: ${problems.join('; ')}`);
+            errors.push(`${file.id} ${key}: ${problems.join('; ')}`);
             continue;
         }
         const metric = dayEntries[0].metric;
@@ -136,14 +143,93 @@ async function collectTemperature() {
     }
 }
 
-function validateTemperatureEntries(entries) {
+async function collectFireRisk() {
+    let added = 0;
+    let changed = 0;
+    let latest = '';
+    for (const day of FIRE_RISK_DAYS) {
+        let entries;
+        try {
+            entries = await fetchFireRisk(day);
+        } catch (error) {
+            errors.push(`fire risk d${day}: ${error.message}`);
+            continue;
+        }
+        const problems = validateOpenDataEntries(entries);
+        for (const { dico, row } of entries) {
+            if (!Number.isInteger(row.mean) || row.mean < 1 || row.mean > 5) {
+                problems.push(`class ${row.mean} for ${dico}`);
+            }
+        }
+        if (problems.length > 0) {
+            errors.push(`fire risk d${day}: ${problems.join('; ')}`);
+            continue;
+        }
+        for (const { dico, row } of entries) {
+            const result = upsertSeries('fire', dico, [row]);
+            added += result.added;
+            changed += result.changed;
+            if (row.date > latest) latest = row.date;
+        }
+    }
+    if (!latest) return;
+    summary.push(`fire risk: latest ${latest}, ${added} added, ${changed} changed`);
+    checkStale('fire risk', latest);
+    updateSourceMeta('api:fire', { lastSuccess: new Date().toISOString(), latestDate: latest });
+}
+
+/** The newest VHI weeks; a run reads every municipality only when IPMA has a new week. */
+async function collectVhi() {
+    let result;
+    try {
+        result = await collectVhiWeeks(POINTS);
+    } catch (error) {
+        errors.push(`vhi: ${error.message}`);
+        return;
+    }
+    if (result.failed.length > 0) {
+        errors.push(`vhi: ${result.failed.length} municipalities failed, e.g. ${result.failed[0]}`);
+    }
+    summary.push(
+        `vhi: latest ${result.latest || 'none'}, ${result.skipped ? 'no new week' : `${result.added} added, ${result.changed} changed`}`
+    );
+    // Weekly, and IPMA publishes a few days late, so allow three weeks.
+    if (!result.latest || daysBetween(result.latest, todayIso()) > 21) {
+        warnings.push(
+            `vhi: newest week is ${result.latest || 'missing'}; IPMA may have stopped updating it.`
+        );
+    }
+    if (result.latest) {
+        updateSourceMeta('wms:vhi', {
+            lastSuccess: new Date().toISOString(),
+            latestDate: result.latest,
+        });
+    }
+}
+
+/** Soil moisture, read at a point inside each municipality from IPMA's latest SMI run. */
+async function collectSmi() {
+    const result = await collectSmiDays(POINTS, todayIso());
+    if (result.failed.length > 0) {
+        errors.push(`smi: ${result.failed.length} municipalities failed, e.g. ${result.failed[0]}`);
+    }
+    if (!result.latest) return;
+    summary.push(`smi: latest ${result.latest}, ${result.added} added, ${result.changed} changed`);
+    checkStale('smi', result.latest);
+    updateSourceMeta('wms:smi', {
+        lastSuccess: new Date().toISOString(),
+        latestDate: result.latest,
+    });
+}
+
+function validateOpenDataEntries(entries) {
     const problems = [];
     const seen = new Set();
 
     for (const { dico, name } of entries) {
         const known = resolver.byDico.get(dico);
         if (!known) problems.push(`unknown DICO ${dico} (${name})`);
-        else if (stringToSlug(name) !== known.slug) {
+        else if (name !== undefined && stringToSlug(name) !== known.slug) {
             problems.push(`DICO ${dico} is ${known.name}, file says ${name}`);
         }
         if (seen.has(dico)) problems.push(`DICO ${dico} repeated`);

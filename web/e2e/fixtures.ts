@@ -1,7 +1,7 @@
 import { test as base, expect, type Page } from '@playwright/test';
 import { en } from '../src/i18n/en';
 import { pt } from '../src/i18n/pt';
-import type { ApiIndex } from '../src/api';
+import type { ApiIndex, MetricId } from '../src/api';
 
 export { expect, en, pt };
 
@@ -86,7 +86,7 @@ export async function metricOptions(page: Page) {
     return page.getByRole('listbox', { name: en['controls.metric'] }).getByRole('option');
 }
 
-export async function chooseMetric(page: Page, id: 'et0' | 'tmax' | 'tmin') {
+export async function chooseMetric(page: Page, id: MetricId) {
     if (await metricSelect(page).count()) return void (await metricSelect(page).selectOption(id));
     const options = await metricOptions(page);
     await options.filter({ hasText: en[`metric.${id}`] }).click();

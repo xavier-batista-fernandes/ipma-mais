@@ -15,6 +15,26 @@
         "api:tmin": {
             "lastSuccess": "2026-11-13T15:45:56.215Z",
             "latestDate": "2026-11-12"
+        },
+        "api:tmean": {
+            "lastSuccess": "2026-11-12T23:17:14.189Z",
+            "latestDate": "2026-11-11"
+        },
+        "api:prec": {
+            "lastSuccess": "2026-11-12T23:17:15.159Z",
+            "latestDate": "2026-11-11"
+        },
+        "api:fire": {
+            "lastSuccess": "2026-11-12T23:17:15.359Z",
+            "latestDate": "2026-11-13"
+        },
+        "wms:vhi": {
+            "lastSuccess": "2026-11-12T23:17:16.963Z",
+            "latestDate": "2026-11-04"
+        },
+        "wms:smi": {
+            "lastSuccess": "2026-11-12T23:17:29.360Z",
+            "latestDate": "2026-11-12"
         }
     }
 }

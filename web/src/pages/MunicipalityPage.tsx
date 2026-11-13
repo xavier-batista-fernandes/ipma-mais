@@ -15,7 +15,7 @@ import { useI18n } from '../i18n';
 import { Icon } from '../components/Icon';
 import { MapView } from '../components/MapView';
 import { MonthlyChart } from '../components/MonthlyChart';
-import { SeriesChart } from '../components/SeriesChart';
+import { SeriesChart, seriesGap } from '../components/SeriesChart';
 import { metricMeta } from '../metrics';
 import { change, monthly, summarize } from '../municipality';
 import { followLink, municipalityHref, routeHref } from '../route';
@@ -54,7 +54,7 @@ export function MunicipalityPage({
     const followed = following.includes(info.dico);
     const [series, setSeries] = useState<Series | null>(null);
     const [day, setDay] = useState<DayValues | null>(null);
-    // Evapotranspiration adds up over days; a temperature only averages.
+    // Evapotranspiration and rain add up over days; the other variables average.
     const { aggregate, extreme } = metricMeta(metric.id);
 
     useEffect(() => {
@@ -310,6 +310,7 @@ export function MunicipalityPage({
                                     width={720}
                                     height={230}
                                     previousYear
+                                    maxGap={seriesGap(metric.id)}
                                 />
                             </section>
                             <section className="card" aria-labelledby="monthly-title">

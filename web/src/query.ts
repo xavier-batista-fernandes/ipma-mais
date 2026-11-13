@@ -74,6 +74,34 @@ const dayNumber = (iso: string) => Date.parse(`${iso}T00:00:00Z`) / DAY_MS;
 export const addDays = (iso: string, days: number) =>
     new Date((dayNumber(iso) + days) * DAY_MS).toISOString().slice(0, 10);
 
+/** The periods (both ends included) whose values `query` reads. */
+export function queryPeriods(query: Query): [string, string][] {
+    const period = (a: string, b: string): [string, string] => (a <= b ? [a, b] : [b, a]);
+    switch (query.type) {
+        case 'ranking':
+            return [[query.day, query.day]];
+        case 'compare':
+            return [period(query.from, query.to), period(query.baseFrom, query.baseTo)];
+        default:
+            return [period(query.from, query.to)];
+    }
+}
+
+/** Turns a list of days (`{ date, values: { dico: value } }`, in any order) into a matrix. */
+export function daysToMatrix(
+    days: { date: string; values: Record<string, number> }[]
+): ValueMatrix {
+    const byDate = new Map(days.map((day) => [day.date, day.values]));
+    const dates = [...byDate.keys()].sort();
+    const values: ValueMatrix['values'] = {};
+    dates.forEach((date, i) => {
+        for (const [dico, value] of Object.entries(byDate.get(date)!)) {
+            (values[dico] ??= new Array(dates.length).fill(null))[i] = value;
+        }
+    });
+    return { dates, values };
+}
+
 /** The indexes `[start, end)` of `dates` (ascending) that fall within `from`–`to`. */
 export function dateRange(dates: string[], from: string, to: string): [number, number] {
     const [lo, hi] = from <= to ? [from, to] : [to, from];

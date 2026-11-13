@@ -51,6 +51,54 @@ const PALETTES: Record<MetricInfo['id'], Palette> = {
     },
     tmax: { step: 1, stops: TEMPERATURE },
     tmin: { step: 1, stops: TEMPERATURE },
+    tmean: { step: 1, stops: TEMPERATURE },
+    // Dry days stay close to white so rain stands out; heavy rain runs to deep purple.
+    prec: {
+        step: 1,
+        stops: [
+            '#f7fbff',
+            '#d2e9f5',
+            '#9fd3ea',
+            '#5fb6dd',
+            '#2f8fd0',
+            '#2563b8',
+            '#3a3f9e',
+            '#57268a',
+            '#3d0b5c',
+        ],
+    },
+    // IPMA's own fire-risk colours, one per class from reduced to maximum.
+    fire: { step: 1, stops: ['#3fae49', '#f2d61a', '#f39200', '#e30613', '#7a0019'] },
+    // Stressed vegetation (low) in browns, healthy (high) in greens.
+    vhi: {
+        step: 5,
+        stops: [
+            '#6b2e0e',
+            '#a6541b',
+            '#d98c2b',
+            '#f2c94c',
+            '#d9e67a',
+            '#93c95b',
+            '#4fa64a',
+            '#1f7a3a',
+            '#0b4d2c',
+        ],
+    },
+    // Dry soil (low) in browns, soil at field capacity or wetter (high) in blues.
+    smi: {
+        step: 5,
+        stops: [
+            '#7a3b10',
+            '#b9692a',
+            '#e3a857',
+            '#f5e3a6',
+            '#c9e6d8',
+            '#7cc3d6',
+            '#3a95c8',
+            '#1f5fa8',
+            '#1b2f7a',
+        ],
+    },
 };
 
 export interface ColorScale {
@@ -75,7 +123,8 @@ const MAX_LABELS = 8;
 export function createColorScale(metric: MetricInfo): ColorScale {
     const { stops, step } = PALETTES[metric.id];
     const [lo, hi] = metric.domain ?? [0, 1];
-    return createScale(stops, lo, hi, step);
+    // Classes start on a multiple of the step (VHI 15–20, not 16–21), so legend labels are round.
+    return createScale(stops, Math.floor(lo / step) * step, Math.ceil(hi / step) * step, step);
 }
 
 function createScale(stops: string[], lo: number, hi: number, step: number): ColorScale {

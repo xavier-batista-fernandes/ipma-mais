@@ -9,8 +9,13 @@ import { fetchText } from '../lib/fetch.js';
 import { createResolver, loadMunicipalities } from '../lib/municipalities.js';
 import { readSeries, upsertSeries } from '../lib/store.js';
 import { parseEt0Page, snapshotToRows } from '../sources/ipma-page.js';
-import { parseTemperatureCsv } from '../sources/ipma-temperature.js';
-import { buildSyncSql } from '../scripts/sync-d1.js';
+import { interiorPoint } from '../scripts/municipality-points.js';
+import { parseFireRisk } from '../sources/ipma-fire-risk.js';
+import { parseSmi } from '../sources/ipma-smi.js';
+import { featuresToRows } from '../sources/ipma-vhi.js';
+import { parseFeatureInfoGml } from '../sources/ipma-wms.js';
+import { OPEN_DATA_FILES, parseOpenDataCsv } from '../sources/ipma-open-data.js';
+import { buildSyncSql, compactIndex, dateRuns } from '../scripts/sync-d1.js';
 
 const row = (date, mean, source = 'page') => ({
     date,
@@ -93,13 +98,16 @@ describe('ipma page', () => {
     });
 });
 
-describe('ipma temperature file', () => {
+describe('ipma open-data files', () => {
+    const fields = (id) => OPEN_DATA_FILES.find((file) => file.id === id).fields;
+    const parseTemperatureCsv = (text) => parseOpenDataCsv(text, fields('temperature'));
+
     const header =
         'time,zname,zid,mean_maxt2m,std_maxt2m,min_maxt2m,max_maxt2m,percentile_25_maxt2m,median_maxt2m,percentile_75_maxt2m,' +
         'mean_meant2m,std_meant2m,min_meant2m,max_meant2m,percentile_25_meant2m,median_meant2m,percentile_75_meant2m,' +
         'mean_mint2m,std_mint2m,min_mint2m,max_mint2m,percentile_25_mint2m,median_mint2m,percentile_75_mint2m';
 
-    it('turns each line into a tmax and a tmin row keyed by DICO and day', () => {
+    it('turns each temperature line into tmax, tmean and tmin rows keyed by DICO and day', () => {
         const csv =
             header +
             '\n2026-11-10 00:00:00+00:00,Águeda,0101,18.80,0.93,16.29,20.20,18.21,19.00,19.56,' +
@@ -121,6 +129,19 @@ describe('ipma temperature file', () => {
             {
                 dico: '0101',
                 name: 'Águeda',
+                metric: 'tmean',
+                row: {
+                    date: '2026-11-10',
+                    mean: 16,
+                    min: 13.52,
+                    max: 17.09,
+                    std: 0.74,
+                    source: 'api',
+                },
+            },
+            {
+                dico: '0101',
+                name: 'Águeda',
                 metric: 'tmin',
                 row: {
                     date: '2026-11-10',
@@ -134,10 +155,133 @@ describe('ipma temperature file', () => {
         ]);
     });
 
+    it('turns each precipitation line into a prec row, keeping dry days as 0 mm', () => {
+        const csv =
+            'time,zname,zid,mean_maxprate,std_maxprate,min_maxprate,max_maxprate,percentile_25_maxprate,median_maxprate,percentile_75_maxprate,' +
+            'mean_tp,std_tp,min_tp,max_tp,percentile_25_tp,median_tp,percentile_75_tp\n' +
+            '2026-10-20 00:00:00+00:00,Águeda,0101,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00\n' +
+            '2026-10-21 00:00:00+00:00,Águeda,0101,8.56,0.78,6.72,10.26,7.95,8.54,9.19,1.49,0.11,1.27,1.83,1.41,1.48,1.56\n';
+        assert.deepEqual(
+            parseOpenDataCsv(csv, fields('precipitation')).map((entry) => [
+                entry.metric,
+                entry.row,
+            ]),
+            [
+                ['prec', { date: '2026-10-20', mean: 0, min: 0, max: 0, std: 0, source: 'api' }],
+                [
+                    'prec',
+                    {
+                        date: '2026-10-21',
+                        mean: 1.49,
+                        min: 1.27,
+                        max: 1.83,
+                        std: 0.11,
+                        source: 'api',
+                    },
+                ],
+            ]
+        );
+    });
+
     it('skips empty values and fails loudly on a new layout', () => {
         const csv = header + '\n2026-11-10 00:00:00+00:00,Águeda,0101' + ','.repeat(21) + '\n';
         assert.deepEqual(parseTemperatureCsv(csv), []);
         assert.throws(() => parseTemperatureCsv('date,mean\n2026-01-01,1\n'), /structure/);
+    });
+});
+
+describe('ipma fire risk', () => {
+    it("stores each municipality's class under the day it is forecast for", () => {
+        const json = {
+            dataPrev: '2026-11-11',
+            dataRun: '2026-11-10',
+            local: {
+                '0101': { data: { rcm: 1 }, dico: '0101', latitude: 40.58, longitude: -8.44 },
+                1106: { data: { rcm: 3 }, latitude: 38.75, longitude: -9.15 },
+            },
+        };
+        assert.deepEqual(parseFireRisk(json), [
+            {
+                dico: '0101',
+                row: {
+                    date: '2026-11-11',
+                    mean: 1,
+                    min: null,
+                    max: null,
+                    std: null,
+                    source: 'api',
+                },
+            },
+            {
+                dico: '1106',
+                row: {
+                    date: '2026-11-11',
+                    mean: 3,
+                    min: null,
+                    max: null,
+                    std: null,
+                    source: 'api',
+                },
+            },
+        ]);
+        assert.throws(() => parseFireRisk({ local: {} }), /structure/);
+    });
+});
+
+describe('ipma map server', () => {
+    it('reads every feature of a GetFeatureInfo GML answer into VHI rows', () => {
+        const gml = `<?xml version="1.0" encoding="UTF-8"?>
+<msGMLOutput xmlns:gml="http://www.opengis.net/gml">
+<vhi.obsRem.7days.vector.conc_layer><gml:name>vhi</gml:name>
+<vhi.obsRem.7days.vector.conc_feature>
+<gml:boundedBy><gml:Box srsName="EPSG:4326"><gml:coordinates>-9.2,38.7 -9.1,38.8</gml:coordinates></gml:Box></gml:boundedBy>
+<id>dico1106date20261104</id><mean>34.12</mean><ps35>47.85</ps35><ps15>0</ps15><date>2026-11-04 00:00:00</date><concelho>LISBOA</concelho>
+</vhi.obsRem.7days.vector.conc_feature>
+<vhi.obsRem.7days.vector.conc_feature>
+<id>dico1106date20261028</id><mean></mean><date>2026-10-28 00:00:00</date>
+</vhi.obsRem.7days.vector.conc_feature>
+</vhi.obsRem.7days.vector.conc_layer></msGMLOutput>`;
+        const features = parseFeatureInfoGml(gml);
+        assert.equal(features.length, 2);
+        assert.equal(features[0].concelho, 'LISBOA');
+        assert.deepEqual(featuresToRows(features), [
+            { date: '2026-11-04', mean: 34.12, min: null, max: null, std: null, source: 'api' },
+        ]);
+        assert.deepEqual(parseFeatureInfoGml('<msGMLOutput></msGMLOutput>'), []);
+    });
+
+    it('reads the SMI days of a JSON answer', () => {
+        const json = [
+            {
+                variablename: 'smi',
+                dims: ['layer', 'time'],
+                data: {
+                    100: { '2026-11-12T00:00:00Z': '0.647207', '2026-11-11T00:00:00Z': '0.400312' },
+                },
+            },
+        ];
+        assert.deepEqual(parseSmi(json), [
+            ['2026-11-11', 0.400312],
+            ['2026-11-12', 0.647207],
+        ]);
+        assert.throws(() => parseSmi([]), /structure/);
+    });
+
+    it('finds a point inside a crescent-shaped municipality', () => {
+        // A "C" shape whose bounding-box centre is outside it.
+        const ring = [
+            [0, 0],
+            [3, 0],
+            [3, 1],
+            [1, 1],
+            [1, 2],
+            [3, 2],
+            [3, 3],
+            [0, 3],
+            [0, 0],
+        ];
+        const [x, y] = interiorPoint([ring]);
+        assert.ok(x > 0 && x < 1 && y > 0 && y < 3, `${x},${y} should be in the spine`);
     });
 });
 
@@ -268,5 +412,29 @@ describe('D1 sync', () => {
         assert.equal(days, 1);
         assert.match(sql, /'2026-11-02'/);
         assert.doesNotMatch(sql, /'2026-11-01'/);
+    });
+});
+
+describe('stored index', () => {
+    it('keeps dates as runs of consecutive days', () => {
+        assert.deepEqual(
+            dateRuns([
+                '2000-02-28',
+                '2000-02-29',
+                '2000-03-01',
+                '2000-03-08',
+                '2026-10-25',
+                '2026-10-26',
+            ]),
+            [
+                ['2000-02-28', 3],
+                ['2000-03-08', 1],
+                ['2026-10-25', 2],
+            ]
+        );
+        const compact = compactIndex({
+            metrics: [{ id: 'prec', dates: ['2025-01-01', '2025-01-02'] }],
+        });
+        assert.deepEqual(compact.metrics, [{ id: 'prec', dateRuns: [['2025-01-01', 2]] }]);
     });
 });

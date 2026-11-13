@@ -1,4 +1,4 @@
-import type { MetricId } from './api';
+import { isMetricId, type MetricId } from './api';
 import { queryToParams, type Query } from './query';
 import type { Route } from './route';
 
@@ -18,7 +18,7 @@ export function readUrlState(): UrlState & { params: URLSearchParams } {
     const params = new URLSearchParams(window.location.search);
     const metric = params.get('m');
     return {
-        metric: metric === 'et0' || metric === 'tmax' || metric === 'tmin' ? metric : undefined,
+        metric: isMetricId(metric) ? metric : undefined,
         date: params.get('d'),
         dico: params.get('c'),
         params,

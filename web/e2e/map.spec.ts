@@ -115,7 +115,7 @@ test.describe('map', () => {
 });
 
 test.describe('variable picker', () => {
-    for (const id of ['tmax', 'tmin'] as const) {
+    for (const id of ['tmax', 'tmin', 'tmean', 'prec', 'fire', 'vhi', 'smi'] as const) {
         test(`switching to ${id} shows its latest day`, async ({ page, index }) => {
             const metric = metricOf(index, id);
             await openMap(page);

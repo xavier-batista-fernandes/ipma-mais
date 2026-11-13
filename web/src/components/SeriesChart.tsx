@@ -1,7 +1,8 @@
 import { scaleLinear, scaleUtc } from 'd3-scale';
 import { area, line } from 'd3-shape';
 import { useMemo, useState } from 'react';
-import type { SeriesRow } from '../api';
+import type { MetricId, SeriesRow } from '../api';
+import { metricMeta } from '../metrics';
 import { parseIsoDate } from '../format';
 import { useI18n } from '../i18n';
 import { yearBefore } from '../municipality';
@@ -25,7 +26,15 @@ interface Props {
     height?: number;
     /** Also draws the same days a year earlier, dashed, for comparison. */
     previousYear?: boolean;
+    /**
+     * The most days between two values that still join them with a line: 1 for daily series,
+     * more for a weekly one (VHI), whose values are a week apart by design.
+     */
+    maxGap?: number;
 }
+
+/** How far apart a metric's values can be and still be joined: a weekly one (VHI) up to 10 days. */
+export const seriesGap = (metric: MetricId) => (metricMeta(metric).cadence === 'weekly' ? 10 : 1);
 
 /** A daily line chart; shaded where the source also gives the municipality's min–max spread. */
 export function SeriesChart({
@@ -36,6 +45,7 @@ export function SeriesChart({
     width: WIDTH = 360,
     height: HEIGHT = 180,
     previousYear = false,
+    maxGap = 1,
 }: Props) {
     const { t, format } = useI18n();
     const [rangeDays, setRangeDays] = useState<number>(90);
@@ -49,11 +59,24 @@ export function SeriesChart({
             ([date]) => rangeDays === Infinity || parseIsoDate(date) >= start
         );
 
-        // A year earlier, matched day by day to the visible days.
+        // A year earlier, matched day by day to the visible days (a weekly series takes the
+        // nearest value within half a week).
         const byDate = new Map(rows.map((row) => [row[0], row[1]]));
+        const reach = Math.floor(maxGap / 2);
+        const earlierValue = (date: string) => {
+            const target = parseIsoDate(yearBefore(date)).getTime();
+            for (let d = 0; d <= reach; d++) {
+                for (const sign of d === 0 ? [1] : [-1, 1]) {
+                    const iso = new Date(target + sign * d * 86400000).toISOString().slice(0, 10);
+                    const value = byDate.get(iso);
+                    if (value !== undefined) return value;
+                }
+            }
+            return undefined;
+        };
         const earlier: [string, number][] = previousYear
             ? visible.flatMap(([date]) => {
-                  const value = byDate.get(yearBefore(date));
+                  const value = earlierValue(date);
                   return value === undefined ? [] : [[date, value] as [string, number]];
               })
             : [];
@@ -73,7 +96,7 @@ export function SeriesChart({
         // One path per run of consecutive days, so gaps show as gaps instead of straight bridges.
         const runs: SeriesRow[][] = [];
         visible.forEach((row, i) => {
-            if (i === 0 || daysApart(visible[i - 1][0], row[0]) > 1) runs.push([]);
+            if (i === 0 || daysApart(visible[i - 1][0], row[0]) > maxGap) runs.push([]);
             runs.at(-1)!.push(row);
         });
         const lineGen = line<SeriesRow>()
@@ -82,7 +105,7 @@ export function SeriesChart({
         const meanLines = runs.map((run) => lineGen(run) ?? '');
         const earlierRuns: [string, number][][] = [];
         earlier.forEach((row, i) => {
-            if (i === 0 || daysApart(earlier[i - 1][0], row[0]) > 1) earlierRuns.push([]);
+            if (i === 0 || daysApart(earlier[i - 1][0], row[0]) > maxGap) earlierRuns.push([]);
             earlierRuns.at(-1)!.push(row);
         });
         const earlierLine = line<[string, number]>()
@@ -96,7 +119,7 @@ export function SeriesChart({
             .y1(([, , , max]) => y(max!))(visible);
 
         return { visible, x, y, meanLines, earlierLines, band };
-    }, [rows, rangeDays, previousYear, WIDTH, HEIGHT]);
+    }, [rows, rangeDays, previousYear, maxGap, WIDTH, HEIGHT]);
 
     if (!chart) return <p className="muted">{t('chart.noData')}</p>;
     const { visible, x, y, meanLines, earlierLines, band } = chart;
