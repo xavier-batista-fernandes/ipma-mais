@@ -173,9 +173,9 @@ export const pt: Messages = {
     'about.et0':
         'Evapotranspiração de referência (ET0): a água que uma cultura de referência perde num dia, em milímetros. Recolhida duas vezes por dia da página de agrometeorologia do IPMA.',
     'about.temperature':
-        'Temperatura máxima e mínima: dos dados abertos do IPMA, atualizados diariamente. Não há dados de 12 de novembro de 2025 a 21 de outubro de 2026. A temperatura média começa em outubro de 2026.',
+        'Temperatura máxima e mínima: dos dados abertos do IPMA, atualizados diariamente, desde janeiro de 2000. Não há dados de 12 de novembro de 2025 a 21 de outubro de 2026. A temperatura média começa em outubro de 2026.',
     'about.precipitation':
-        'Precipitação: a chuva total de um dia, em milímetros, dos dados abertos do IPMA, atualizados diariamente. Não há dados de 12 de novembro de 2025 a 19 de outubro de 2026.',
+        'Precipitação: a chuva total de um dia, em milímetros, dos dados abertos do IPMA, atualizados diariamente, desde janeiro de 2000. Não há dados de 12 de novembro de 2025 a 19 de outubro de 2026.',
     'about.fire':
         'Risco de incêndio: a previsão diária do IPMA para o risco de incêndio rural, de 1 (reduzido) a 5 (máximo). O IPMA não guarda histórico, por isso o IPMA+ guarda a previsão de cada dia a partir de novembro de 2026. O dia mais recente é a previsão para amanhã.',
     'about.vhi':
@@ -327,7 +327,7 @@ export const pt: Messages = {
     'metricInfo.tmax.uses':
         'Acompanhar ondas de calor e períodos quentes, o stress térmico em pessoas, animais e culturas, e comparar um período com a mesma altura do ano anterior.',
     'metricInfo.tmax.source':
-        'Dados abertos do IPMA: observações das estações meteorológicas interpoladas para cada município (inverso da distância), publicadas diariamente. Não há dados de 12 de novembro de 2025 a 21 de outubro de 2026.',
+        'Dados abertos do IPMA: observações das estações meteorológicas interpoladas para cada município (inverso da distância), publicadas diariamente. Antes de maio de 2025 só há a média do município, não o intervalo. Não há dados de 12 de novembro de 2025 a 21 de outubro de 2026.',
 
     'metricInfo.tmin.summary': 'A temperatura do ar mais baixa do dia, normalmente de madrugada.',
     'metricInfo.tmin.what':
@@ -337,7 +337,7 @@ export const pt: Messages = {
     'metricInfo.tmin.uses':
         'Risco de geada para as culturas, vagas de frio, noites tropicais durante as ondas de calor e as horas de frio de que as árvores de fruto precisam no inverno.',
     'metricInfo.tmin.source':
-        'Dados abertos do IPMA: observações das estações meteorológicas interpoladas para cada município (inverso da distância), publicadas diariamente. Não há dados de 12 de novembro de 2025 a 21 de outubro de 2026.',
+        'Dados abertos do IPMA: observações das estações meteorológicas interpoladas para cada município (inverso da distância), publicadas diariamente. Antes de maio de 2025 só há a média do município, não o intervalo. Não há dados de 12 de novembro de 2025 a 21 de outubro de 2026.',
 
     'metricInfo.tmean.summary': 'A temperatura média do ar ao longo do dia.',
     'metricInfo.tmean.what':
@@ -357,7 +357,7 @@ export const pt: Messages = {
     'metricInfo.prec.uses':
         'Acompanhar secas e períodos chuvosos, decidir quando regar e comparar uma estação com a do ano anterior.',
     'metricInfo.prec.source':
-        'Dados abertos do IPMA: observações das estações meteorológicas e udómetros interpoladas para cada município, publicadas diariamente.',
+        'Dados abertos do IPMA: observações das estações meteorológicas e udómetros interpoladas para cada município, publicadas diariamente, desde janeiro de 2000. Antes de agosto de 2025 só há a média do município, não o intervalo.',
 
     'metricInfo.vhi.summary': 'Quão saudável a vegetação parece vista do espaço, de 0 a 100.',
     'metricInfo.vhi.what':

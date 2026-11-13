@@ -173,9 +173,9 @@ export const en = {
     'about.et0':
         'Reference evapotranspiration (ET0): how much water a reference crop loses in a day, in millimetres. Collected twice a day from the IPMA agrometeorology page.',
     'about.temperature':
-        'Maximum and minimum temperature: from IPMA’s open data, updated daily. There is no data from 12 November 2025 to 21 October 2026. Mean temperature starts in October 2026.',
+        'Maximum and minimum temperature: from IPMA’s open data, updated daily, since January 2000. There is no data from 12 November 2025 to 21 October 2026. Mean temperature starts in October 2026.',
     'about.precipitation':
-        'Precipitation: the total rain in a day, in millimetres, from IPMA’s open data, updated daily. There is no data from 12 November 2025 to 19 October 2026.',
+        'Precipitation: the total rain in a day, in millimetres, from IPMA’s open data, updated daily, since January 2000. There is no data from 12 November 2025 to 19 October 2026.',
     'about.fire':
         'Fire risk: IPMA’s daily forecast of rural fire risk, from 1 (reduced) to 5 (maximum). IPMA keeps no history, so IPMA+ stores each day’s forecast from November 2026 on. The newest day is tomorrow’s forecast.',
     'about.vhi':
@@ -328,7 +328,7 @@ export const en = {
     'metricInfo.tmax.uses':
         'Following heat waves and hot spells, heat stress for people, animals and crops, and comparing a period with the same time a year earlier.',
     'metricInfo.tmax.source':
-        'IPMA open data: weather station observations interpolated to each municipality (inverse distance weighting), published daily. There is no data from 12 November 2025 to 21 October 2026.',
+        'IPMA open data: weather station observations interpolated to each municipality (inverse distance weighting), published daily. Before May 2025, only the municipality’s mean is available, not its range. There is no data from 12 November 2025 to 21 October 2026.',
 
     'metricInfo.tmin.summary': 'The lowest air temperature of the day, usually around dawn.',
     'metricInfo.tmin.what':
@@ -338,7 +338,7 @@ export const en = {
     'metricInfo.tmin.uses':
         'Frost risk for crops, cold spells, tropical nights during heat waves and the chill hours fruit trees need in winter.',
     'metricInfo.tmin.source':
-        'IPMA open data: weather station observations interpolated to each municipality (inverse distance weighting), published daily. There is no data from 12 November 2025 to 21 October 2026.',
+        'IPMA open data: weather station observations interpolated to each municipality (inverse distance weighting), published daily. Before May 2025, only the municipality’s mean is available, not its range. There is no data from 12 November 2025 to 21 October 2026.',
 
     'metricInfo.tmean.summary': 'The average air temperature over the whole day.',
     'metricInfo.tmean.what':
@@ -358,7 +358,7 @@ export const en = {
     'metricInfo.prec.uses':
         'Following droughts and wet spells, deciding when to irrigate, and comparing a season with the year before.',
     'metricInfo.prec.source':
-        'IPMA open data: weather station and rain gauge observations interpolated to each municipality, published daily.',
+        'IPMA open data: weather station and rain gauge observations interpolated to each municipality, published daily, since January 2000. Before August 2025, only the municipality’s mean is available, not its range.',
 
     'metricInfo.vhi.summary': 'How healthy the vegetation looks from space, from 0 to 100.',
     'metricInfo.vhi.what':
