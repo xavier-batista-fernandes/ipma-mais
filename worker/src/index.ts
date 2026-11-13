@@ -8,6 +8,7 @@
  *   GET /v1/{metric}/days/{date}              { date, values: { dico: mean } }
  *   GET /v1/{metric}/series/{dico}?from&to    { dico, rows: [[date, mean, min, max]] }
  *   GET /v1/{metric}/values?from&to           { dates, values: { dico: [mean | null per date] } }
+ *                                             (the last 366 days by default; at most 3660 days)
  *   GET /v1/{metric}/stats?from&to            { from, to, days, values: { dico: { n, sum, mean, min, max } } }
  */
 
@@ -106,7 +107,7 @@ async function route(url: URL, db: D1Database): Promise<unknown> {
             if (id !== undefined) return series(db, metric, id, range);
             break;
         case 'values':
-            if (id === undefined) return values(db, metric, range);
+            if (id === undefined) return values(db, metric, await valuesRange(db, metric, url));
             break;
         case 'stats':
             if (id === undefined) return stats(db, metric, range);
@@ -180,6 +181,34 @@ async function series(db: D1Database, metric: string, dico: string, { from, to }
             return [date, mean, min, max];
         }),
     };
+}
+
+/** Days a `values` request may span: about ten years, a few MB of JSON. */
+const MAX_VALUES_DAYS = 3660;
+const DAY_MS = 86400000;
+const shiftDays = (iso: string, days: number) =>
+    new Date(Date.parse(`${iso}T00:00:00Z`) + days * DAY_MS).toISOString().slice(0, 10);
+
+/**
+ * `values` holds every municipality for every day, so it is bounded: without `from` it starts a
+ * year before `to` (or before the newest day), and a longer span than MAX_VALUES_DAYS is refused.
+ */
+async function valuesRange(db: D1Database, metric: string, url: URL): Promise<Range> {
+    let { from, to } = readRange(url);
+    if (!url.searchParams.has('to')) {
+        const newest = await db
+            .prepare('SELECT MAX(date) AS date FROM day WHERE metric = ?')
+            .bind(metric)
+            .first<{ date: string | null }>();
+        to = newest?.date ?? to;
+    }
+    if (!url.searchParams.has('from')) from = shiftDays(to, -365);
+    if (from > to) throw new HttpError(400, '"from" is after "to"');
+    const span = (Date.parse(to) - Date.parse(from)) / DAY_MS + 1;
+    if (span > MAX_VALUES_DAYS) {
+        throw new HttpError(400, `At most ${MAX_VALUES_DAYS} days per request; split the range`);
+    }
+    return { from, to };
 }
 
 async function values(db: D1Database, metric: string, { from, to }: Range) {

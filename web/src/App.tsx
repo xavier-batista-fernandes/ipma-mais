@@ -48,6 +48,7 @@ import { MunicipalityNotFound, MunicipalityPage } from './pages/MunicipalityPage
 import {
     defaultQuery,
     queryFromParams,
+    queryPeriods,
     runQuery,
     type Query,
     type QueryResult,
@@ -74,7 +75,7 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
     const [date, setDate] = useState<string | null>(initial.date ?? null);
     const [selectedDico, setSelectedDico] = useState<string | null>(initial.dico ?? null);
     const [query, setQuery] = useState<Query | null>(null);
-    const [matrix, setMatrix] = useState<(ValueMatrix & { metric: MetricId }) | null>(null);
+    const [matrix, setMatrix] = useState<(ValueMatrix & { key: string }) | null>(null);
     const [matrixError, setMatrixError] = useState<string | null>(null);
     const querying = route === 'query';
 
@@ -155,23 +156,26 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
         );
     }, [metric, initial]);
 
-    // Every day's values (one file per metric) are only needed on the query page.
+    // The query page loads every municipality's values, but only for the periods it asks about.
+    const periodsKey = metric && query ? `${metric.id}:${JSON.stringify(queryPeriods(query))}` : '';
     useEffect(() => {
-        if (!querying || !metric) return;
+        if (!querying || !metric || !query) return;
         let current = true;
         setMatrixError(null);
-        getValues(metric.id).then(
-            (values) => current && setMatrix({ ...values, metric: metric.id }),
+        const key = periodsKey;
+        getValues(metric.id, queryPeriods(query)).then(
+            (values) => current && setMatrix({ ...values, key }),
             (e: unknown) => current && setMatrixError(String(e))
         );
         return () => {
             current = false;
         };
-    }, [querying, metric]);
+        // `periodsKey` stands for the query's periods; other query edits need no new values.
+    }, [querying, periodsKey]);
 
     const queryResult = useMemo<QueryResult | null>(
-        () => (query && matrix && matrix.metric === metric?.id ? runQuery(matrix, query) : null),
-        [query, matrix, metric]
+        () => (query && matrix && matrix.key === periodsKey ? runQuery(matrix, query) : null),
+        [query, matrix, periodsKey]
     );
     const resultByDico = useMemo(
         () => new Map(queryResult?.rows.map((row) => [row.dico, row]) ?? []),

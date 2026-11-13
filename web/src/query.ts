@@ -74,6 +74,37 @@ const dayNumber = (iso: string) => Date.parse(`${iso}T00:00:00Z`) / DAY_MS;
 export const addDays = (iso: string, days: number) =>
     new Date((dayNumber(iso) + days) * DAY_MS).toISOString().slice(0, 10);
 
+/** The periods (both ends included) whose values `query` reads. */
+export function queryPeriods(query: Query): [string, string][] {
+    const period = (a: string, b: string): [string, string] => (a <= b ? [a, b] : [b, a]);
+    switch (query.type) {
+        case 'ranking':
+            return [[query.day, query.day]];
+        case 'compare':
+            return [period(query.from, query.to), period(query.baseFrom, query.baseTo)];
+        default:
+            return [period(query.from, query.to)];
+    }
+}
+
+/** Joins matrices of the same metric over different (possibly overlapping) periods. */
+export function mergeMatrices(parts: ValueMatrix[]): ValueMatrix {
+    if (parts.length === 1) return parts[0];
+    const dates = [...new Set(parts.flatMap((part) => part.dates))].sort();
+    const index = new Map(dates.map((date, i) => [date, i]));
+    const values: ValueMatrix['values'] = {};
+    for (const part of parts) {
+        const at = part.dates.map((date) => index.get(date)!);
+        for (const [dico, series] of Object.entries(part.values)) {
+            const merged = (values[dico] ??= new Array(dates.length).fill(null));
+            series.forEach((value, i) => {
+                if (value !== null) merged[at[i]] = value;
+            });
+        }
+    }
+    return { dates, values };
+}
+
 /** The indexes `[start, end)` of `dates` (ascending) that fall within `from`–`to`. */
 export function dateRange(dates: string[], from: string, to: string): [number, number] {
     const [lo, hi] = from <= to ? [from, to] : [to, from];

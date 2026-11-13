@@ -3,6 +3,8 @@ import { describe, it } from 'node:test';
 import {
     dateRange,
     defaultQuery,
+    mergeMatrices,
+    queryPeriods,
     queryFromParams,
     queryToParams,
     runQuery,
@@ -154,5 +156,47 @@ describe('URL state', () => {
         assert.equal(read.type, fallback.type);
         assert.equal(read.value, fallback.value);
         assert.equal(read.from, fallback.from);
+    });
+});
+
+describe('loading only the periods a query reads', () => {
+    it('reads one period, a single day for a ranking, and two periods for a comparison', () => {
+        const query = defaultQuery(matrix.dates, [0, 10]);
+        assert.deepEqual(
+            queryPeriods({ ...query, type: 'total', from: '2026-07-05', to: '2026-07-01' }),
+            [['2026-07-01', '2026-07-05']]
+        );
+        assert.deepEqual(queryPeriods({ ...query, type: 'ranking', day: '2026-07-03' }), [
+            ['2026-07-03', '2026-07-03'],
+        ]);
+        assert.deepEqual(
+            queryPeriods({
+                ...query,
+                type: 'compare',
+                from: '2026-07-05',
+                to: '2026-07-06',
+                baseFrom: '2001-07-05',
+                baseTo: '2001-07-06',
+            }),
+            [
+                ['2026-07-05', '2026-07-06'],
+                ['2001-07-05', '2001-07-06'],
+            ]
+        );
+    });
+
+    it('merges matrices over separate and overlapping periods', () => {
+        const merged = mergeMatrices([
+            { dates: ['2026-07-05', '2026-07-06'], values: { '0101': [8, 9], '0102': [6, null] } },
+            { dates: ['2001-07-05', '2026-07-05'], values: { '0101': [1, 8], '0103': [2, 2] } },
+        ]);
+        assert.deepEqual(merged, {
+            dates: ['2001-07-05', '2026-07-05', '2026-07-06'],
+            values: {
+                '0101': [1, 8, 9],
+                '0102': [null, 6, null],
+                '0103': [2, 2, null],
+            },
+        });
     });
 });

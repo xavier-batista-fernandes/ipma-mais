@@ -4,7 +4,8 @@ import { getValues, type MetricInfo, type MunicipalityInfo } from '../api';
 import { Icon } from '../components/Icon';
 import { useFollowing } from '../following';
 import { useI18n } from '../i18n';
-import type { ValueMatrix } from '../query';
+import { metricMeta } from '../metrics';
+import { addDays, type ValueMatrix } from '../query';
 import { followLink, municipalityHref } from '../route';
 
 type Order = 'district' | 'name' | 'value';
@@ -48,14 +49,18 @@ export function MunicipalitiesPage({ metric, metricSelect, municipalities, slugO
     useEffect(() => {
         let current = true;
         setError(null);
-        getValues(metric.id).then(
+        // The newest day and the sparkline's points, a little wider for days without data.
+        const last = metric.dates.at(-1);
+        if (!last) return;
+        const step = metricMeta(metric.id).cadence === 'weekly' ? 7 : 1;
+        getValues(metric.id, [[addDays(last, -(TREND_DAYS + 10) * step), last]]).then(
             (values) => current && setMatrix({ ...values, metric: metric.id }),
             (e: unknown) => current && setError(String(e))
         );
         return () => {
             current = false;
         };
-    }, [metric.id]);
+    }, [metric.id, metric.dates]);
 
     const data = matrix?.metric === metric.id ? matrix : null;
     const lastIndex = data ? data.dates.length - 1 : -1;
