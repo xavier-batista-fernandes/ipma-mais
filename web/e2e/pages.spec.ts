@@ -37,6 +37,8 @@ test.describe('municipalities list', () => {
 
         await page.getByRole('searchbox', { name: en['municipalities.filter'] }).fill('');
         await page.getByRole('button', { name: en['municipalities.order.value'] }).click();
+        // The values load after the list; read them once they are there.
+        await expect(page.locator('.municipality-value').first()).toHaveText(/\d/);
         const numbers = await page
             .locator('.municipality-value')
             .evaluateAll((cells) =>
