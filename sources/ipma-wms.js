@@ -14,7 +14,7 @@ export const WMS = {
 /** Half the side of the tiny box queried around a point, in degrees (about 100 m). */
 const HALF = 0.001;
 
-export function featureInfoUrl(service, layer, [lon, lat], time) {
+export function featureInfoUrl(service, layer, [lon, lat], time, featureCount = 1000) {
     const params = new URLSearchParams({
         SERVICE: 'WMS',
         VERSION: '1.1.1',
@@ -29,7 +29,7 @@ export function featureInfoUrl(service, layer, [lon, lat], time) {
         X: '1',
         Y: '1',
         INFO_FORMAT: 'application/vnd.ogc.gml',
-        FEATURE_COUNT: '1000',
+        FEATURE_COUNT: String(featureCount),
     });
     if (time) params.set('TIME', time);
     return `${service}?${params}`;
@@ -57,9 +57,9 @@ export async function getFeatureInfo(
     layer,
     point,
     time,
-    { timeoutMs = 30000, retries = 4 } = {}
+    { timeoutMs = 30000, retries = 4, featureCount = 1000 } = {}
 ) {
-    const gml = await fetchText(featureInfoUrl(service, layer, point, time), {
+    const gml = await fetchText(featureInfoUrl(service, layer, point, time, featureCount), {
         timeoutMs,
         retries,
     });

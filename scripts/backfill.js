@@ -3,6 +3,7 @@
  *
  *   node scripts/backfill.js prec-archive   # daily rain, Aug-Nov 2025, from IPMA's frozen per-municipality CSVs
  *   node scripts/backfill.js vhi-archive    # every VHI week since 2018
+ *   node scripts/backfill.js prec-history   # daily rain since 2000 (also tmax-history, tmin-history)
  *   node scripts/backfill.js smi collect    # today's soil moisture, then a full Collect run
  *
  * Safe to repeat: rows go through `upsertSeries`, so an identical row is a no-op. Run from
@@ -13,6 +14,7 @@ import { isIsoDate } from '../lib/dates.js';
 import { fetchText, mapLimit } from '../lib/fetch.js';
 import { loadMunicipalities } from '../lib/municipalities.js';
 import { upsertSeries } from '../lib/store.js';
+import { storeHistory } from '../sources/ipma-history.js';
 import { collectSmi } from '../sources/ipma-smi.js';
 import { storeVhi } from '../sources/ipma-vhi.js';
 import POINTS from '../inputs/municipality-points.json' with { type: 'json' };
@@ -21,9 +23,23 @@ const JOBS = {
     'prec-archive': precArchive,
     'vhi-archive': vhiArchive,
     smi: smiNow,
+    'prec-history': () => history('prec'),
+    'tmax-history': () => history('tmax'),
+    'tmin-history': () => history('tmin'),
     // The whole daily collection, as the Collect workflow runs it. It exits the process, so list it last.
     collect: () => import('./collect.js'),
 };
+
+/** Daily history since 2000 from IPMA's map server (see sources/ipma-history.js). */
+async function history(metric) {
+    const result = await storeHistory(metric, POINTS, { log: console.log });
+    console.log(
+        `${metric}-history: ${result.first}..${result.last}, ${result.added} added, ${result.failed.length} failed`
+    );
+    for (const line of result.failed) console.log(`::warning::${metric}-history ${line}`);
+    if (result.failed.length > 0)
+        throw new Error(`${result.failed.length} municipalities failed; run it again`);
+}
 
 /** Soil moisture for the days IPMA's latest run holds (the same step Collect runs). */
 async function smiNow() {
