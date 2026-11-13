@@ -1,5 +1,5 @@
 import type { District, Municipality } from 'cartis';
-import { addDays, mergeMatrices, type ValueMatrix } from './query';
+import { addDays, daysToMatrix, type ValueMatrix } from './query';
 
 /** Shapes returned by the Worker's `/v1` API (see docs/API.md). */
 export type MetricId = 'et0' | 'tmax' | 'tmin' | 'tmean' | 'prec' | 'fire' | 'vhi' | 'smi';
@@ -79,12 +79,18 @@ function getJson<T>(path: string): Promise<T> {
 export const getIndex = () => getJson<ApiIndex>('index.json');
 export const getDay = (metric: MetricId, date: string) =>
     getJson<DayValues>(`${metric}/days/${date}.json`);
-/** The Worker's limit on one `values` request (MAX_VALUES_DAYS in worker/src/index.ts). */
-const VALUES_CHUNK_DAYS = 3650;
+interface DayList {
+    from: string;
+    to: string;
+    days: DayValues[];
+}
+
+/** The Worker's limit on one `days` request (MAX_VALUES_DAYS in worker/src/index.ts). */
+const VALUES_CHUNK_DAYS = 1000;
 
 /**
- * Every municipality's values for one metric over `from`–`to` (see `query.ts`), fetched in
- * chunks the Worker accepts and merged. `periods` may overlap.
+ * Every municipality's values for one metric over `periods` (see `query.ts`), fetched in
+ * chunks the Worker accepts. `periods` may overlap.
  */
 export async function getValues(
     metric: MetricId,
@@ -97,12 +103,11 @@ export async function getValues(
             chunks.push([start, end < to ? end : to]);
         }
     }
+    // `days` lists each day as stored, so the Worker does no work; the matrix is built here.
     const parts = await Promise.all(
-        chunks.map(([from, to]) =>
-            getJson<ValueMatrix>(`${metric}/values.json?from=${from}&to=${to}`)
-        )
+        chunks.map(([from, to]) => getJson<DayList>(`${metric}/days.json?from=${from}&to=${to}`))
     );
-    return mergeMatrices(parts);
+    return daysToMatrix(parts.flatMap((part) => part.days));
 }
 export const getSeries = (metric: MetricId, dico: string) =>
     getJson<Series>(`${metric}/series/${dico}.json`);

@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 import {
     dateRange,
     defaultQuery,
-    mergeMatrices,
+    daysToMatrix,
     queryPeriods,
     queryFromParams,
     queryToParams,
@@ -185,18 +185,23 @@ describe('loading only the periods a query reads', () => {
         );
     });
 
-    it('merges matrices over separate and overlapping periods', () => {
-        const merged = mergeMatrices([
-            { dates: ['2026-07-05', '2026-07-06'], values: { '0101': [8, 9], '0102': [6, null] } },
-            { dates: ['2001-07-05', '2026-07-05'], values: { '0101': [1, 8], '0103': [2, 2] } },
-        ]);
-        assert.deepEqual(merged, {
-            dates: ['2001-07-05', '2026-07-05', '2026-07-06'],
-            values: {
-                '0101': [1, 8, 9],
-                '0102': [null, 6, null],
-                '0103': [2, 2, null],
-            },
-        });
+    it('builds a matrix from days in any order, repeated or not', () => {
+        const day = (date: string, values: Record<string, number>) => ({ date, values });
+        assert.deepEqual(
+            daysToMatrix([
+                day('2026-07-05', { '0101': 8, '0102': 6 }),
+                day('2001-07-05', { '0101': 1, '0103': 2 }),
+                day('2026-07-06', { '0101': 9 }),
+                day('2026-07-05', { '0101': 8, '0102': 6 }),
+            ]),
+            {
+                dates: ['2001-07-05', '2026-07-05', '2026-07-06'],
+                values: {
+                    '0101': [1, 8, 9],
+                    '0102': [null, 6, null],
+                    '0103': [2, null, null],
+                },
+            }
+        );
     });
 });

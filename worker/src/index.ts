@@ -8,7 +8,8 @@
  *   GET /v1/{metric}/days/{date}              { date, values: { dico: mean } }
  *   GET /v1/{metric}/series/{dico}?from&to    { dico, rows: [[date, mean, min, max]] }
  *   GET /v1/{metric}/values?from&to           { dates, values: { dico: [mean | null per date] } }
- *                                             (the last 366 days by default; at most 3660 days)
+ *                                             (the last 366 days by default; at most 1000 days)
+ *   GET /v1/{metric}/days?from&to              { days: [{ date, values: { dico: mean } }] } (same limits)
  *   GET /v1/{metric}/stats?from&to            { from, to, days, values: { dico: { n, sum, mean, min, max } } }
  */
 
@@ -102,7 +103,7 @@ async function route(url: URL, db: D1Database): Promise<unknown> {
             break;
         case 'days':
             if (id !== undefined) return day(db, metric, id);
-            break;
+            return dayList(db, metric, await valuesRange(db, metric, url));
         case 'series':
             if (id !== undefined) return series(db, metric, id, range);
             break;
@@ -124,6 +125,7 @@ function endpoints() {
         endpoints: [
             '/v1/index',
             '/v1/{metric}/latest',
+            '/v1/{metric}/days?from=YYYY-MM-DD&to=YYYY-MM-DD',
             '/v1/{metric}/days/{YYYY-MM-DD}',
             '/v1/{metric}/series/{dico}?from=YYYY-MM-DD&to=YYYY-MM-DD',
             '/v1/{metric}/values?from=YYYY-MM-DD&to=YYYY-MM-DD',
@@ -137,7 +139,24 @@ async function index(db: D1Database) {
         .prepare("SELECT body FROM document WHERE key = 'index'")
         .first<{ body: string }>();
     if (!row) throw new HttpError(503, 'No data yet');
-    return raw(row.body);
+    return expandIndex(JSON.parse(row.body));
+}
+
+type StoredMetric = Record<string, unknown> & { dateRuns?: [string, number][] };
+
+/** The stored index keeps dates as runs (`compactIndex` in scripts/sync-d1.js); list them again. */
+function expandIndex(index: { metrics: StoredMetric[] }) {
+    return {
+        ...index,
+        metrics: index.metrics.map(({ dateRuns, ...metric }) => {
+            if (!dateRuns) return metric;
+            const dates: string[] = [];
+            for (const [first, count] of dateRuns) {
+                for (let i = 0; i < count; i++) dates.push(shiftDays(first, i));
+            }
+            return { ...metric, dates };
+        }),
+    };
 }
 
 async function latest(db: D1Database, metric: string) {
@@ -183,14 +202,14 @@ async function series(db: D1Database, metric: string, dico: string, { from, to }
     };
 }
 
-/** Days a `values` request may span: about ten years, a few MB of JSON. */
-const MAX_VALUES_DAYS = 3660;
+/** Days a `values` or `days` request may span: under three years, about 3.5 MB of JSON. */
+const MAX_VALUES_DAYS = 1000;
 const DAY_MS = 86400000;
 const shiftDays = (iso: string, days: number) =>
     new Date(Date.parse(`${iso}T00:00:00Z`) + days * DAY_MS).toISOString().slice(0, 10);
 
 /**
- * `values` holds every municipality for every day, so it is bounded: without `from` it starts a
+ * `values` and `days` hold every municipality for every day, so they are bounded: without `from` it starts a
  * year before `to` (or before the newest day), and a longer span than MAX_VALUES_DAYS is refused.
  */
 async function valuesRange(db: D1Database, metric: string, url: URL): Promise<Range> {
@@ -209,6 +228,23 @@ async function valuesRange(db: D1Database, metric: string, url: URL): Promise<Ra
         throw new HttpError(400, `At most ${MAX_VALUES_DAYS} days per request; split the range`);
     }
     return { from, to };
+}
+
+/**
+ * Every municipality's value for each day in the range, passed through as stored without parsing
+ * it: unlike `values`, this costs the Worker almost no CPU, so the app reads long periods this way.
+ */
+async function dayList(db: D1Database, metric: string, { from, to }: Range) {
+    const { results } = await db
+        .prepare(
+            'SELECT date, mean FROM day WHERE metric = ? AND date BETWEEN ? AND ? ORDER BY date'
+        )
+        .bind(metric, from, to)
+        .all<{ date: string; mean: string }>();
+    const days = results.map((row) => `{"date":${JSON.stringify(row.date)},"values":${row.mean}}`);
+    return raw(
+        `{"from":${JSON.stringify(from)},"to":${JSON.stringify(to)},"days":[${days.join(',')}]}`
+    );
 }
 
 async function values(db: D1Database, metric: string, { from, to }: Range) {

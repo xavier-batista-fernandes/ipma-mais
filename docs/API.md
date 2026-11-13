@@ -36,11 +36,12 @@ curl https://ipma-mais.xavierbatistafernandes-001.workers.dev/v1/et0/latest
 | [`GET /v1/index`](#get-v1index) | Metrics with their available dates, municipalities, and source status |
 | [`GET /v1/{metric}/latest`](#get-v1metriclatest-and-get-v1metricdaysdate) | Every municipality's value on the most recent day |
 | [`GET /v1/{metric}/days/{date}`](#get-v1metriclatest-and-get-v1metricdaysdate) | Every municipality's value on one day |
+| [`GET /v1/{metric}/days`](#get-v1metricvalues) | Every municipality's value on each day of a period, as a list |
 | [`GET /v1/{metric}/series/{dico}`](#get-v1metricseriesdico) | One municipality's daily values |
 | [`GET /v1/{metric}/values`](#get-v1metricvalues) | Every municipality × every day, as a matrix |
 | [`GET /v1/{metric}/stats`](#get-v1metricstats) | Per-municipality totals and averages over a period |
 
-`series`, `values` and `stats` take optional `from` and `to` query parameters (inclusive, `YYYY-MM-DD`). Without them, `series` and `stats` use the whole history and `values` the last 366 days.
+`series`, `values`, the `days` list and `stats` take optional `from` and `to` query parameters (inclusive, `YYYY-MM-DD`). Without them, `series` and `stats` use the whole history, and `values` and `days` the last 366 days.
 
 Every path also works with a `.json` suffix (`/v1/et0/latest.json`) and under `/api/` instead of `/v1/`, which were the paths of the earlier static files.
 
@@ -110,7 +111,7 @@ From the open-data source, `min` and `max` are filled in:
 
 All municipalities over a period in one response. `values[dico][i]` is the mean on `dates[i]`, or `null` when that municipality has no value that day. Use this to run your own analysis across the country.
 
-Without `from`, it returns the 366 days up to `to` (or up to the newest day). One request covers at most 3660 days (about ten years), so a longer period, like the rain since 2000, takes a few requests; a longer range gets a `400`.
+Without `from`, it returns the 366 days up to `to` (or up to the newest day). One request covers at most 1000 days, so a longer period, like the rain since 2000, takes a few requests; a longer range gets a `400`. For long periods, `GET /v1/{metric}/days?from&to` is lighter: the same data as a list of days, `{ "from", "to", "days": [{ "date", "values": { dico: mean } }] }`, with the same limits.
 
 ```bash
 curl "https://ipma-mais.xavierbatistafernandes-001.workers.dev/v1/et0/values?from=2026-11-06&to=2026-11-08"

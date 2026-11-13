@@ -87,21 +87,18 @@ export function queryPeriods(query: Query): [string, string][] {
     }
 }
 
-/** Joins matrices of the same metric over different (possibly overlapping) periods. */
-export function mergeMatrices(parts: ValueMatrix[]): ValueMatrix {
-    if (parts.length === 1) return parts[0];
-    const dates = [...new Set(parts.flatMap((part) => part.dates))].sort();
-    const index = new Map(dates.map((date, i) => [date, i]));
+/** Turns a list of days (`{ date, values: { dico: value } }`, in any order) into a matrix. */
+export function daysToMatrix(
+    days: { date: string; values: Record<string, number> }[]
+): ValueMatrix {
+    const byDate = new Map(days.map((day) => [day.date, day.values]));
+    const dates = [...byDate.keys()].sort();
     const values: ValueMatrix['values'] = {};
-    for (const part of parts) {
-        const at = part.dates.map((date) => index.get(date)!);
-        for (const [dico, series] of Object.entries(part.values)) {
-            const merged = (values[dico] ??= new Array(dates.length).fill(null));
-            series.forEach((value, i) => {
-                if (value !== null) merged[at[i]] = value;
-            });
+    dates.forEach((date, i) => {
+        for (const [dico, value] of Object.entries(byDate.get(date)!)) {
+            (values[dico] ??= new Array(dates.length).fill(null))[i] = value;
         }
-    }
+    });
     return { dates, values };
 }
 

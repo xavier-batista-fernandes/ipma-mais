@@ -8,10 +8,6 @@ on:
             jobs:
                 description: 'Space-separated jobs from scripts/backfill.js'
                 required: true
-    # Temporary, until this workflow is on main and can be started by hand.
-    push:
-        branches: [claude/project-thread-i8dzqn]
-        paths: [.github/backfill-request]
 
 concurrency:
     group: collect
@@ -37,7 +33,7 @@ jobs:
             - name: 🧶 Backfill
               env:
                   JOBS: ${{ inputs.jobs }}
-              run: node scripts/backfill.js ${JOBS:-$(cat .github/backfill-request)}
+              run: node scripts/backfill.js $JOBS
 
             - name: 🧶 Commit changes
               if: ${{ !cancelled() }}
