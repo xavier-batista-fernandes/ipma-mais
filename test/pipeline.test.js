@@ -15,7 +15,7 @@ import { parseSmi } from '../sources/ipma-smi.js';
 import { featuresToRows } from '../sources/ipma-vhi.js';
 import { parseFeatureInfoGml } from '../sources/ipma-wms.js';
 import { OPEN_DATA_FILES, parseOpenDataCsv } from '../sources/ipma-open-data.js';
-import { buildSyncSql } from '../scripts/sync-d1.js';
+import { buildSyncSql, compactIndex, dateRuns } from '../scripts/sync-d1.js';
 
 const row = (date, mean, source = 'page') => ({
     date,
@@ -412,5 +412,29 @@ describe('D1 sync', () => {
         assert.equal(days, 1);
         assert.match(sql, /'2026-11-02'/);
         assert.doesNotMatch(sql, /'2026-11-01'/);
+    });
+});
+
+describe('stored index', () => {
+    it('keeps dates as runs of consecutive days', () => {
+        assert.deepEqual(
+            dateRuns([
+                '2000-02-28',
+                '2000-02-29',
+                '2000-03-01',
+                '2000-03-08',
+                '2026-10-25',
+                '2026-10-26',
+            ]),
+            [
+                ['2000-02-28', 3],
+                ['2000-03-08', 1],
+                ['2026-10-25', 2],
+            ]
+        );
+        const compact = compactIndex({
+            metrics: [{ id: 'prec', dates: ['2025-01-01', '2025-01-02'] }],
+        });
+        assert.deepEqual(compact.metrics, [{ id: 'prec', dateRuns: [['2025-01-01', 2]] }]);
     });
 });

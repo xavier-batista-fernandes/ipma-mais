@@ -59,13 +59,40 @@ export function buildSyncSql(
     if (known.get('document/index') !== indexHash) {
         statements.push(
             `INSERT INTO document (key, body, hash, updated_at) VALUES ('index', ${sqlString(
-                JSON.stringify({ ...index, generatedAt: now })
+                JSON.stringify(compactIndex({ ...index, generatedAt: now }))
             )}, ${sqlString(indexHash)}, ${sqlString(now)}) ON CONFLICT (key) DO UPDATE SET ` +
                 `body = excluded.body, hash = excluded.hash, updated_at = excluded.updated_at;`
         );
     }
 
     return { sql: statements.join('\n'), days: changed, statements: statements.length };
+}
+
+/**
+ * D1 refuses statements over 100 KB, and the list of dates since 2000 alone is bigger than that,
+ * so the stored index keeps each metric's dates as runs of consecutive days, `[first, count]`.
+ * The Worker expands them again (`expandIndex` in worker/src/index.ts).
+ */
+export function compactIndex(index) {
+    return {
+        ...index,
+        metrics: index.metrics.map(({ dates, ...metric }) => ({
+            ...metric,
+            dateRuns: dateRuns(dates),
+        })),
+    };
+}
+
+export function dateRuns(dates) {
+    const runs = [];
+    let previous = null;
+    for (const date of dates) {
+        const time = Date.parse(`${date}T00:00:00Z`);
+        if (previous !== null && time - previous === 86400000) runs.at(-1)[1]++;
+        else runs.push([date, 1]);
+        previous = time;
+    }
+    return runs;
 }
 
 function sqlString(value) {
