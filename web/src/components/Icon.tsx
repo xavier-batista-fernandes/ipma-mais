@@ -1,5 +1,7 @@
 /** Small stroke icons (24px grid), drawn in `currentColor`. */
 const PATHS = {
+    home: 'M4 10.5 12 4l8 6.5V20h-5.5v-6h-5v6H4v-9.5Z',
+    book: 'M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5v-13ZM13 4h5.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H13V4Z',
     map: 'M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Zm0 0v14m6-12v14',
     info: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm0-6v-5m0-3h.01',
     settings:

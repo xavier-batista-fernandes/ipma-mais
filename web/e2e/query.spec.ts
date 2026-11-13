@@ -157,7 +157,7 @@ test.describe('queries', () => {
         // The map keeps the selection; Back returns to the same question.
         const queryUrl = page.url();
         await page.getByRole('link', { name: en['nav.map'] }).click();
-        await expect(page).toHaveURL(/^[^?]*\/\?/);
+        await expect(page).toHaveURL(/\/mapa\?/);
         await expect(page.getByRole('region', { name: en['timeline.label'] })).toBeVisible();
         await expect(panel(page).getByRole('heading', { level: 2, name })).toBeVisible();
         await page.goBack();
