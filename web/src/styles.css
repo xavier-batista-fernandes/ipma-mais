@@ -23,6 +23,8 @@
     --grid: rgb(11 13 16 / 0.06);
     --map-outline: #0b0d10;
     --map-border: #ffffff;
+    /* Municipalities without data (or outside a query's results). */
+    --map-missing: #d4d4d8;
     --map-dim: 0.4;
     --shadow: 0 1px 2px rgb(11 13 16 / 0.06);
     --shadow-lg: 0 10px 28px -10px rgb(11 13 16 / 0.28);
@@ -55,6 +57,7 @@
         --grid: rgb(255 255 255 / 0.045);
         --map-outline: #ffffff;
         --map-border: #0d0f12;
+        --map-missing: #3a3f47;
         --map-dim: 0.6;
         --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
         --shadow-lg: 0 12px 32px -10px rgb(0 0 0 / 0.75);
@@ -79,6 +82,7 @@
     --grid: rgb(255 255 255 / 0.045);
     --map-outline: #ffffff;
     --map-border: #0d0f12;
+    --map-missing: #3a3f47;
     --map-dim: 0.6;
     --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
     --shadow-lg: 0 12px 32px -10px rgb(0 0 0 / 0.75);
@@ -873,6 +877,7 @@ button:disabled {
     }
 }
 
+.map-area,
 .map-wrap,
 .map {
     position: absolute;
@@ -1214,6 +1219,9 @@ button:disabled {
 /* Segmented control: a bordered strip with the chosen option filled in. */
 .segmented {
     display: flex;
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
     gap: 2px;
     padding: 2px;
     border: 1px solid var(--border);
@@ -1222,6 +1230,7 @@ button:disabled {
 }
 
 .segmented button {
+    flex: none;
     height: 26px;
     padding: 0 9px;
     border: 0;
@@ -1349,6 +1358,13 @@ footer {
 
 footer a {
     color: inherit;
+}
+
+/* Links in running text: the text's own colour, underlined in the accent. */
+a {
+    color: inherit;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 2px;
 }
 
 .status {
@@ -1525,6 +1541,46 @@ footer a {
 
     .controls,
     .search {
+        width: 100%;
+    }
+}
+
+/* Tablets and phones held sideways: the menu takes the room, so search folds into a button. */
+@media (max-width: 960px) {
+    .brand-tagline {
+        display: none;
+    }
+
+    .menu {
+        margin-left: 4px;
+    }
+
+    .menu a {
+        padding: 0 10px;
+    }
+
+    .search-toggle {
+        display: grid;
+    }
+
+    .topbar-search {
+        display: none;
+    }
+
+    .topbar-search[data-open='true'] {
+        position: absolute;
+        top: var(--topbar-height);
+        left: 0;
+        right: 0;
+        display: block;
+        padding: 8px 16px 10px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .topbar-search .search,
+    .topbar-search input {
         width: 100%;
     }
 }
@@ -2399,11 +2455,12 @@ footer a {
     display: flex;
     flex-direction: column;
     gap: 3px;
-    width: max-content;
+    max-width: max-content;
 }
 
 .coverage-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: 56px repeat(31, minmax(0, 11px));
     align-items: center;
     gap: 2px;
 }
@@ -2416,10 +2473,18 @@ footer a {
     text-transform: capitalize;
 }
 
-.coverage-day,
 .coverage-key {
     width: 11px;
     height: 11px;
+}
+
+/* Days shrink with the card on a phone and stay square. */
+.coverage-day {
+    aspect-ratio: 1;
+}
+
+.coverage-day,
+.coverage-key {
     border-radius: 2px;
     background: var(--accent);
 }
@@ -2973,5 +3038,270 @@ footer a {
 
     .home-hero {
         padding-top: 0;
+    }
+}
+
+/*
+ * Phones, either way up: the legend moves out from over the map to a strip under it, and a picked
+ * municipality shows in a sheet at the bottom of the map (the side panel is out of sight below).
+ * Keep these queries in step with PHONE_QUERY in media.ts.
+ */
+.selected-sheet {
+    display: none;
+}
+
+@media (max-width: 720px), (max-height: 500px) and (orientation: landscape) {
+    .map-stage {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .map-area {
+        position: relative;
+        inset: auto;
+        flex: 1;
+        min-height: 0;
+    }
+
+    .map-stage > .legend {
+        position: static;
+        padding: 8px 16px 10px;
+        border-width: 1px 0 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .map-stage .legend-bar,
+    .map-stage .legend-ticks {
+        width: 100%;
+    }
+
+    .selected-sheet {
+        position: absolute;
+        z-index: 6;
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 6px 6px 14px;
+        background: var(--surface);
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .selected-sheet-name {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .selected-sheet-name strong,
+    .selected-sheet-name span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .selected-sheet-value {
+        font-family: var(--font-mono);
+        font-size: 1.05rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+    }
+
+    .selected-sheet .button,
+    .selected-sheet .icon-button {
+        flex: none;
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+    }
+
+    /* The zoom buttons and the reset stay clear of the sheet. */
+    .map-area:has(.selected-sheet) .zoom-controls {
+        top: 8px;
+        left: 8px;
+    }
+}
+
+/*
+ * Phones held sideways: the screen is wide but only ~390px tall. The map takes the left of the
+ * screen at its full height and the day controls sit beside it.
+ */
+@media (max-height: 500px) and (orientation: landscape) {
+    :root {
+        --topbar-height: 48px;
+    }
+
+    .brand-tagline {
+        display: none;
+    }
+
+    .toolbar {
+        padding-top: 6px;
+        padding-bottom: 8px;
+    }
+
+    .toolbar .field-label {
+        display: none;
+    }
+
+    /* The page scrolls by the variable bar (~52px) at most, so the map ends at the screen's edge. */
+    .map-layout[data-mode='day'] .map-panel {
+        flex-direction: row;
+        min-height: 0;
+        height: calc(100dvh - var(--topbar-height) - 52px);
+    }
+
+    .map-layout[data-mode='day'] .map-panel .timeline {
+        flex: none;
+        width: min(380px, 46%);
+        overflow-y: auto;
+        border-top: 0;
+        border-left: 1px solid var(--border);
+    }
+
+    /* The day controls leave room under them: the picked municipality goes there, off the map. */
+    .map-layout[data-mode='day'] .selected-sheet {
+        position: fixed;
+        left: auto;
+        right: 12px;
+        bottom: 12px;
+        width: calc(min(380px, 46%) - 24px);
+    }
+
+    .map-stage .legend-missing {
+        display: none;
+    }
+
+    .query-page .map-panel {
+        min-height: calc(100dvh - var(--topbar-height));
+    }
+}
+
+/* Touch screens: controls a finger can hit (about 40px), and no text under 11px. */
+@media (pointer: coarse) {
+    .segmented button,
+    .chip {
+        height: 38px;
+        padding: 0 12px;
+    }
+
+    .zoom-controls button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .timeline-track input[type='range'] {
+        height: 44px;
+    }
+
+    footer {
+        line-height: 2.4;
+    }
+
+    footer a {
+        padding: 6px 0;
+    }
+}
+
+@media (max-width: 720px) {
+    .field-label,
+    .legend,
+    footer {
+        font-size: 0.75rem;
+    }
+}
+
+/* Municipalities: a strip of districts to jump to, kept in reach under the top bar. */
+.district-index {
+    position: sticky;
+    top: var(--topbar-height);
+    z-index: 10;
+    display: flex;
+    gap: 6px;
+    margin: 0 -24px;
+    padding: 8px 24px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+}
+
+.district-index a {
+    flex: none;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.district-index a:hover {
+    color: var(--text);
+}
+
+.municipalities-page .list-card {
+    scroll-margin-top: calc(var(--topbar-height) + 56px);
+}
+
+.municipality-list[data-grouped] .municipality-link .muted {
+    display: none;
+}
+
+@media (max-width: 720px) {
+    .district-index {
+        margin: 0 -16px;
+        padding: 8px 16px;
+    }
+
+    /* The variable first: it decides what every row shows. */
+    .municipalities-controls .metric-picker {
+        order: -1;
+    }
+
+    /* Home: each variable as a small map beside its figures. */
+    .metric-card {
+        display: grid;
+        grid-template-columns: 120px minmax(0, 1fr);
+        gap: 8px 14px;
+        align-items: start;
+    }
+
+    .metric-card > :not(.mini-map, .metric-stats) {
+        grid-column: 1 / -1;
+    }
+
+    .metric-card-summary {
+        display: none;
+    }
+
+    .metric-card .mini-map {
+        height: 150px;
+        margin: 0;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background-size: 16px 16px;
+    }
+
+    .metric-card .metric-stats {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        margin: 0;
+    }
+
+    .locator-map {
+        height: 260px;
     }
 }

@@ -1,8 +1,8 @@
 import { scaleLinear } from 'd3-scale';
 import { useI18n } from '../i18n';
+import { useElementWidth } from '../media';
 import type { Aggregate, MonthTotal } from '../municipality';
 
-const WIDTH = 720;
 const HEIGHT = 170;
 const M = { top: 10, right: 8, bottom: 22, left: 40 };
 const MONTHS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
@@ -21,12 +21,19 @@ interface Props {
  */
 export function MonthlyChart({ months, year, unit, aggregate }: Props) {
     const { t, format } = useI18n();
+    // Drawn at the card's real width, so the labels stay readable on a phone.
+    const [ref, WIDTH] = useElementWidth<HTMLDivElement>(720);
     const byMonth = new Map(months.map((m) => [m.month, m]));
     const years = [year - 1, year];
     const shown = years.flatMap((y) =>
         MONTHS.map((m) => byMonth.get(`${y}-${m}`)).filter((m): m is MonthTotal => !!m)
     );
-    if (shown.length === 0) return <p className="muted">{t('chart.noData')}</p>;
+    if (shown.length === 0)
+        return (
+            <div className="chart monthly-chart" ref={ref}>
+                <p className="muted">{t('chart.noData')}</p>
+            </div>
+        );
 
     const values = shown.map((m) => m.value);
     const y = scaleLinear()
@@ -35,6 +42,8 @@ export function MonthlyChart({ months, year, unit, aggregate }: Props) {
         .range([HEIGHT - M.bottom, M.top]);
     const slot = (WIDTH - M.left - M.right) / 12;
     const bar = slot * 0.36;
+    // Too narrow for twelve month names: label every other month.
+    const labelEvery = slot < 34 ? 2 : 1;
 
     const describe = (m: MonthTotal) =>
         `${format.month(`${m.month}-01`)} ${m.month.slice(0, 4)}: ${format.value(
@@ -43,7 +52,7 @@ export function MonthlyChart({ months, year, unit, aggregate }: Props) {
         )} · ${t('municipality.daysWithData', { days: m.days, total: m.daysInMonth })}`;
 
     return (
-        <div className="chart monthly-chart">
+        <div className="chart monthly-chart" ref={ref}>
             <svg
                 viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
                 role="img"
@@ -92,14 +101,16 @@ export function MonthlyChart({ months, year, unit, aggregate }: Props) {
                                     </rect>
                                 );
                             })}
-                            <text
-                                className="tick"
-                                x={M.left + i * slot + slot / 2}
-                                y={HEIGHT - 6}
-                                textAnchor="middle"
-                            >
-                                {format.month(`${year}-${m}-01`)}
-                            </text>
+                            {i % labelEvery === 0 && (
+                                <text
+                                    className="tick"
+                                    x={M.left + i * slot + slot / 2}
+                                    y={HEIGHT - 6}
+                                    textAnchor="middle"
+                                >
+                                    {format.month(`${year}-${m}-01`)}
+                                </text>
+                            )}
                         </g>
                     );
                 })}

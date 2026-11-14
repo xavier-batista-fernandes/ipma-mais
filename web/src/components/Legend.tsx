@@ -1,4 +1,4 @@
-import { MISSING_FILL, type ColorScale } from '../colors';
+import type { ColorScale } from '../colors';
 import { useI18n } from '../i18n';
 
 interface Props {
@@ -51,7 +51,7 @@ export function Legend({ scale, unit, marker, missingLabel }: Props) {
                 ))}
             </div>
             <div className="legend-missing">
-                <span className="legend-swatch" style={{ background: MISSING_FILL }} />{' '}
+                <span className="legend-swatch" style={{ background: 'var(--map-missing)' }} />{' '}
                 {missingLabel ?? t('common.noData')}
             </div>
         </figure>

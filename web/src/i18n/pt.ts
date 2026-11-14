@@ -183,7 +183,7 @@ export const pt: Messages = {
     'about.smi':
         'Água no solo (SMI): a água que o solo tem, de 0% (ponto de emurchecimento) a 100% (capacidade de campo), do produto do IPMA baseado no ECMWF. Diário, a partir de novembro de 2026, lido num ponto dentro de cada município.',
     'about.how':
-        'Escolha uma variável e um dia, passe o cursor sobre um município para ver o seu valor e clique nele para ver o histórico diário. Abra Consultas para fazer perguntas sobre um período, como que municípios ultrapassaram um valor, durante quantos dias seguidos, ou como um período se compara com outro, e exporte os resultados como tabela ou imagem do mapa. A barra de endereço guarda sempre a vista atual, para que a possa partilhar.',
+        'Escolha uma variável e um dia, toque num município ou passe-lhe o cursor por cima para ver o seu valor e abra-o para ver o histórico diário. Abra Consultas para fazer perguntas sobre um período, como que municípios ultrapassaram um valor, durante quantos dias seguidos, ou como um período se compara com outro, e exporte os resultados como tabela ou imagem do mapa. A barra de endereço guarda sempre a vista atual, para que a possa partilhar.',
     'about.code': 'Código-fonte no GitHub',
     'chart.thisYear': 'Este período',
     'chart.yearBefore': 'Um ano antes',
@@ -224,6 +224,7 @@ export const pt: Messages = {
     'municipalities.subtitle': 'Os {count} municípios de Portugal continental · {metric} em {date}',
     'municipalities.filter': 'Filtrar',
     'municipalities.filterPlaceholder': 'Nome ou distrito',
+    'municipalities.districts': 'Distritos',
     'municipalities.order': 'Ordem',
     'municipalities.order.district': 'Por distrito',
     'municipalities.order.name': 'A–Z',

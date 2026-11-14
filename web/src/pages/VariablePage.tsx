@@ -62,7 +62,7 @@ export function VariablePage({ index, metric, byDico, slugOf }: Props) {
                     {t('variables.title')}
                 </a>
                 <span aria-hidden="true"> / </span>
-                <span className="mono">{metric.id}</span>
+                <span className="mono">{metric.id.toUpperCase()}</span>
             </p>
             <h1>{t(`metric.${metric.id}`)}</h1>
             <p className="lead">{t(`metricInfo.${metric.id}.summary`)}</p>

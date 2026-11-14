@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test';
-import { en, expect, openMap, pt, test } from './fixtures';
+import { en, expect, municipalityPoint, openMap, pt, test } from './fixtures';
 
 /** Opens the settings panel from the gear in the top bar. */
 async function openSettings(
@@ -163,6 +163,22 @@ test.describe('navigation', () => {
                 page.getByRole('complementary').getByRole('heading', { level: 2, name: 'Évora' })
             ).toBeVisible();
             await expect(search).toBeHidden();
+        });
+
+        test('a tapped municipality shows in a sheet over the map, without zooming in', async ({
+            page,
+        }) => {
+            await openMap(page);
+            const point = await municipalityPoint(page, 'Évora');
+            await page.touchscreen.tap(point.x, point.y);
+
+            const sheet = page.getByRole('region', { name: 'Évora' });
+            await expect(sheet).toBeVisible();
+            await expect(page.locator('.tooltip')).toHaveCount(0);
+            await expect(page.getByRole('button', { name: en['map.reset'] })).toHaveCount(0);
+
+            await sheet.getByRole('link', { name: en['municipality.open'] }).click();
+            await expect(page).toHaveURL(/\/concelhos\/evora/);
         });
     });
 });

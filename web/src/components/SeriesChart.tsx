@@ -5,6 +5,7 @@ import type { MetricId, SeriesRow } from '../api';
 import { metricMeta } from '../metrics';
 import { parseIsoDate } from '../format';
 import { useI18n } from '../i18n';
+import { useElementWidth } from '../media';
 import { yearBefore } from '../municipality';
 
 const RANGES = [
@@ -21,7 +22,7 @@ interface Props {
     unit: string;
     highlightDate: string;
     onPickDate: (date: string) => void;
-    /** The drawing's size in SVG units; it scales to its container's width. */
+    /** The drawing's width until its container is measured; it then draws at that width. */
     width?: number;
     height?: number;
     /** Also draws the same days a year earlier, dashed, for comparison. */
@@ -42,12 +43,13 @@ export function SeriesChart({
     unit,
     highlightDate,
     onPickDate,
-    width: WIDTH = 360,
+    width = 360,
     height: HEIGHT = 180,
     previousYear = false,
     maxGap = 1,
 }: Props) {
     const { t, format } = useI18n();
+    const [ref, WIDTH] = useElementWidth<HTMLDivElement>(width);
     const [rangeDays, setRangeDays] = useState<number>(90);
     const [hover, setHover] = useState<SeriesRow | null>(null);
 
@@ -121,7 +123,12 @@ export function SeriesChart({
         return { visible, x, y, meanLines, earlierLines, band };
     }, [rows, rangeDays, previousYear, maxGap, WIDTH, HEIGHT]);
 
-    if (!chart) return <p className="muted">{t('chart.noData')}</p>;
+    if (!chart)
+        return (
+            <div className="chart" ref={ref}>
+                <p className="muted">{t('chart.noData')}</p>
+            </div>
+        );
     const { visible, x, y, meanLines, earlierLines, band } = chart;
 
     const pick = (event: React.MouseEvent<SVGRectElement>) => {
@@ -143,7 +150,7 @@ export function SeriesChart({
     const shown = hover ?? visible.find(([date]) => date === highlightDate) ?? visible.at(-1)!;
 
     return (
-        <div className="chart">
+        <div className="chart" ref={ref}>
             <div className="chart-head">
                 <span>
                     <strong>{format.value(shown[1], unit)}</strong> · {format.date(shown[0])}
@@ -186,7 +193,7 @@ export function SeriesChart({
                         </text>
                     </g>
                 ))}
-                {x.ticks(4).map((tick) => (
+                {x.ticks(Math.max(2, Math.floor(WIDTH / 110))).map((tick) => (
                     <text
                         key={tick.getTime()}
                         className="tick"

@@ -1,4 +1,4 @@
-import type { Municipality } from 'cartis';
+import type { District, Municipality } from 'cartis';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import {
     getDay,
@@ -339,6 +339,7 @@ export function MunicipalityPage({
                                         onHover={() => {}}
                                         onSelect={onOpenMunicipality}
                                         zoomToSelected={false}
+                                        frameDistrict={info.district as District}
                                     />
                                 </div>
                             </section>

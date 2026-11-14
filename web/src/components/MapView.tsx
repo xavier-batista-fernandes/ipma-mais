@@ -1,4 +1,10 @@
-import { Country, CountryMap, type Municipality, type MunicipalityInteractionEvent } from 'cartis';
+import {
+    Country,
+    CountryMap,
+    type District,
+    type Municipality,
+    type MunicipalityInteractionEvent,
+} from 'cartis';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MISSING_FILL } from '../colors';
 import { Icon } from './Icon';
@@ -62,6 +68,8 @@ interface Props {
     onSelect: (name: Municipality) => void;
     /** Zooms in on the selected municipality (off for a locator, which shows the whole country). */
     zoomToSelected?: boolean;
+    /** Frames this district instead of the whole country (a locator that shows the neighbours). */
+    frameDistrict?: District;
 }
 
 export function MapView({
@@ -71,6 +79,7 @@ export function MapView({
     onHover,
     onSelect,
     zoomToSelected = true,
+    frameDistrict,
 }: Props) {
     const { t } = useI18n();
     const containerRef = useRef<HTMLDivElement>(null);
@@ -80,6 +89,8 @@ export function MapView({
     const { borders, setBorders } = useSettings();
     const outline = useThemeColor('--map-outline', '#111827');
     const borderColor = useThemeColor('--map-border', '#ffffff');
+    // Light grey in the light theme, dark grey in the dark one (a pale map glares at night).
+    const missing = useThemeColor('--map-missing', MISSING_FILL);
     const selectedBorder = useMemo(
         () => ({ strokeColor: outline, strokeWidth: SELECTED_STROKE_WIDTH }),
         [outline]
@@ -97,8 +108,8 @@ export function MapView({
     const handlers = useRef({ onHover, onSelect });
     handlers.current = { onHover, onSelect };
     // Read by the effects below without making them re-run (and re-zoom) on every change.
-    const latest = useRef({ fills, selected, selectedBorder, strokeFor });
-    latest.current = { fills, selected, selectedBorder, strokeFor };
+    const latest = useRef({ fills, selected, selectedBorder, strokeFor, missing });
+    latest.current = { fills, selected, selectedBorder, strokeFor, missing };
 
     useEffect(() => {
         let cancelled = false;
@@ -106,7 +117,10 @@ export function MapView({
         const unsubscribe: (() => void)[] = [];
 
         CountryMap.create(Country.PORTUGAL, containerRef.current!, {
-            style: { fill: MISSING_FILL, ...latest.current.strokeFor(MISSING_FILL) },
+            style: {
+                fill: latest.current.missing,
+                ...latest.current.strokeFor(latest.current.missing),
+            },
         })
             .then((created) => {
                 // StrictMode mounts twice: a create() that resolves after cleanup is discarded.
@@ -138,7 +152,7 @@ export function MapView({
         if (!map) return;
         const byColor = new Map<string, Municipality[]>();
         for (const name of allNames) {
-            const color = fills.get(name) ?? MISSING_FILL;
+            const color = fills.get(name) ?? missing;
             if (!byColor.has(color)) byColor.set(color, []);
             byColor.get(color)!.push(name);
         }
@@ -148,7 +162,7 @@ export function MapView({
         // Recolouring just reset the selected municipality's stroke too; put its outline back.
         const { selected, selectedBorder } = latest.current;
         if (selected) map.styleMunicipalities([selected], selectedBorder);
-    }, [map, fills, allNames, strokeFor]);
+    }, [map, fills, allNames, strokeFor, missing]);
 
     // Outline and frame the selected municipality.
     useEffect(() => {
@@ -171,10 +185,20 @@ export function MapView({
         return () => {
             window.clearTimeout(timer);
             path?.classList.remove('selected');
-            const fill = latest.current.fills.get(selected) ?? MISSING_FILL;
+            const fill = latest.current.fills.get(selected) ?? latest.current.missing;
             map.styleMunicipalities([selected], latest.current.strokeFor(fill));
         };
     }, [map, selected, zoomToSelected]);
+
+    // Frame a district, a little zoomed out so its neighbours show around it.
+    useEffect(() => {
+        if (!map || !frameDistrict) return;
+        const timer = window.setTimeout(
+            () => map.fitToDistricts([frameDistrict], { zoom: 0.8, duration: 0 }),
+            250
+        );
+        return () => window.clearTimeout(timer);
+    }, [map, frameDistrict]);
 
     // A theme change only recolours the outline; it doesn't re-zoom.
     useEffect(() => {

@@ -183,7 +183,7 @@ export const en = {
     'about.smi':
         'Soil moisture (SMI): how much water the soil holds, from 0% (wilting point) to 100% (field capacity), from IPMA’s ECMWF-based product. Daily, from November 2026 on, read at a point inside each municipality.',
     'about.how':
-        'Pick a variable and a day, hover over a municipality to see its value, and click it to see its daily history. Open Queries to ask questions over a period, such as which municipalities went above a value, for how many days in a row, or how a period compares with another, and export the results as a table or a map image. The address bar always holds the current view, so you can share it.',
+        'Pick a variable and a day, tap or hover over a municipality to see its value, and open it to see its daily history. Open Queries to ask questions over a period, such as which municipalities went above a value, for how many days in a row, or how a period compares with another, and export the results as a table or a map image. The address bar always holds the current view, so you can share it.',
     'about.code': 'Source code on GitHub',
     'chart.thisYear': 'This period',
     'chart.yearBefore': 'A year earlier',
@@ -225,6 +225,7 @@ export const en = {
         'The {count} municipalities of mainland Portugal · {metric} on {date}',
     'municipalities.filter': 'Filter',
     'municipalities.filterPlaceholder': 'Name or district',
+    'municipalities.districts': 'Districts',
     'municipalities.order': 'Order',
     'municipalities.order.district': 'By district',
     'municipalities.order.name': 'A–Z',
