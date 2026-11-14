@@ -54,6 +54,7 @@ import {
     type QueryResult,
     type ValueMatrix,
 } from './query';
+import { NO_HOVER_QUERY, PHONE_QUERY, useMediaQuery } from './media';
 import { useSettings } from './settings';
 import { readUrlState, writeUrlState } from './url-state';
 
@@ -84,6 +85,10 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
     const [day, setDay] = useState<(DayValues & { metric: MetricId }) | null>(null);
     const [series, setSeries] = useState<Series | null>(null);
     const [hover, setHover] = useState<MunicipalityInteractionEvent | null>(null);
+    // On a phone the map stays on the whole country when a municipality is picked, and the pick
+    // shows in a sheet over the tab bar instead of a tooltip (a tap would leave one behind).
+    const phone = useMediaQuery(PHONE_QUERY);
+    const noHover = useMediaQuery(NO_HOVER_QUERY);
 
     useEffect(() => {
         getIndex().then(setIndex, (e: unknown) => setError(String(e)));
@@ -397,22 +402,42 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
         </div>
     );
 
+    // On a phone the side panel sits below the map and the timeline, out of sight: the selection
+    // also shows in a sheet pinned over the tab bar.
+    const selectedSheet = phone && selected && (
+        <SelectedSheet
+            info={selected}
+            value={describeValue(
+                selectedValue,
+                querying ? t('query.notInResults') : t('panel.noDataThisDay')
+            )}
+            pageHref={municipalityHref(stringToSlug(selected.name), metricId)}
+            onClose={() => setSelectedDico(null)}
+        />
+    );
+
     const mapStage = (
         <div className="map-stage">
-            <MapView
-                fills={fills}
-                allNames={allNames}
-                selected={selected?.name ?? null}
-                onHover={setHover}
-                onSelect={select}
-            />
-            {hover && hoverInfo && (
-                <div className="tooltip" style={{ left: hover.x, top: hover.y }}>
-                    <strong>{hover.municipality}</strong>
-                    <span className="muted small">{hover.district}</span>
-                    <span className="tooltip-value">{describeValue(hoverValue, missingLabel)}</span>
-                </div>
-            )}
+            <div className="map-area">
+                <MapView
+                    fills={fills}
+                    allNames={allNames}
+                    selected={selected?.name ?? null}
+                    onHover={noHover ? ignoreHover : setHover}
+                    onSelect={select}
+                    zoomToSelected={!phone}
+                />
+                {hover && hoverInfo && (
+                    <div className="tooltip" style={{ left: hover.x, top: hover.y }}>
+                        <strong>{hover.municipality}</strong>
+                        <span className="muted small">{hover.district}</span>
+                        <span className="tooltip-value">
+                            {describeValue(hoverValue, missingLabel)}
+                        </span>
+                    </div>
+                )}
+                {selectedSheet}
+            </div>
             {legendScale && (
                 <Legend
                     scale={legendScale}
@@ -588,6 +613,50 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
                 </aside>
             </main>
         </>
+    );
+}
+
+const ignoreHover = () => {};
+
+/** The selected municipality in brief, pinned to the bottom of a phone's screen. */
+function SelectedSheet({
+    info,
+    value,
+    pageHref,
+    onClose,
+}: {
+    info: MunicipalityInfo;
+    value: string;
+    pageHref: string;
+    onClose: () => void;
+}) {
+    const { t } = useI18n();
+    return (
+        <section className="selected-sheet" aria-label={info.name}>
+            <div className="selected-sheet-name">
+                <strong>{info.name}</strong>
+                <span className="muted small">{info.district}</span>
+            </div>
+            <span className="selected-sheet-value">{value}</span>
+            <a
+                className="button selected-sheet-open"
+                href={pageHref}
+                onClick={followLink}
+                aria-label={t('municipality.open')}
+                title={t('municipality.open')}
+            >
+                <Icon name="arrowRight" />
+            </a>
+            <button
+                type="button"
+                className="icon-button ghost"
+                aria-label={t('panel.close')}
+                title={t('panel.close')}
+                onClick={onClose}
+            >
+                <Icon name="close" />
+            </button>
+        </section>
     );
 }
 

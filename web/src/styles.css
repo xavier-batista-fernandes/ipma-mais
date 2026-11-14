@@ -873,6 +873,7 @@ button:disabled {
     }
 }
 
+.map-area,
 .map-wrap,
 .map {
     position: absolute;
@@ -1525,6 +1526,46 @@ footer a {
 
     .controls,
     .search {
+        width: 100%;
+    }
+}
+
+/* Tablets and phones held sideways: the menu takes the room, so search folds into a button. */
+@media (max-width: 960px) {
+    .brand-tagline {
+        display: none;
+    }
+
+    .menu {
+        margin-left: 4px;
+    }
+
+    .menu a {
+        padding: 0 10px;
+    }
+
+    .search-toggle {
+        display: grid;
+    }
+
+    .topbar-search {
+        display: none;
+    }
+
+    .topbar-search[data-open='true'] {
+        position: absolute;
+        top: var(--topbar-height);
+        left: 0;
+        right: 0;
+        display: block;
+        padding: 8px 16px 10px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .topbar-search .search,
+    .topbar-search input {
         width: 100%;
     }
 }
@@ -2973,5 +3014,150 @@ footer a {
 
     .home-hero {
         padding-top: 0;
+    }
+}
+
+/*
+ * Phones, either way up: the legend moves out from over the map to a strip under it, and a picked
+ * municipality shows in a sheet at the bottom of the map (the side panel is out of sight below).
+ * Keep these queries in step with PHONE_QUERY in media.ts.
+ */
+.selected-sheet {
+    display: none;
+}
+
+@media (max-width: 720px), (max-height: 500px) and (orientation: landscape) {
+    .map-stage {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .map-area {
+        position: relative;
+        inset: auto;
+        flex: 1;
+        min-height: 0;
+    }
+
+    .map-stage > .legend {
+        position: static;
+        padding: 8px 16px 10px;
+        border-width: 1px 0 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .map-stage .legend-bar,
+    .map-stage .legend-ticks {
+        width: 100%;
+    }
+
+    .selected-sheet {
+        position: absolute;
+        z-index: 6;
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 6px 6px 14px;
+        background: var(--surface);
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .selected-sheet-name {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .selected-sheet-name strong,
+    .selected-sheet-name span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .selected-sheet-value {
+        font-family: var(--font-mono);
+        font-size: 1.05rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+    }
+
+    .selected-sheet .button,
+    .selected-sheet .icon-button {
+        flex: none;
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+    }
+
+    /* The zoom buttons and the reset stay clear of the sheet. */
+    .map-area:has(.selected-sheet) .zoom-controls {
+        top: 8px;
+        left: 8px;
+    }
+}
+
+/*
+ * Phones held sideways: the screen is wide but only ~390px tall. The map takes the left of the
+ * screen at its full height and the day controls sit beside it.
+ */
+@media (max-height: 500px) and (orientation: landscape) {
+    :root {
+        --topbar-height: 48px;
+    }
+
+    .brand-tagline {
+        display: none;
+    }
+
+    .toolbar {
+        padding-top: 6px;
+        padding-bottom: 8px;
+    }
+
+    .toolbar .field-label {
+        display: none;
+    }
+
+    /* The page scrolls by the variable bar (~52px) at most, so the map ends at the screen's edge. */
+    .map-layout[data-mode='day'] .map-panel {
+        flex-direction: row;
+        min-height: 0;
+        height: calc(100dvh - var(--topbar-height) - 52px);
+    }
+
+    .map-layout[data-mode='day'] .map-panel .timeline {
+        flex: none;
+        width: min(380px, 46%);
+        overflow-y: auto;
+        border-top: 0;
+        border-left: 1px solid var(--border);
+    }
+
+    /* The day controls leave room under them: the picked municipality goes there, off the map. */
+    .map-layout[data-mode='day'] .selected-sheet {
+        position: fixed;
+        left: auto;
+        right: 12px;
+        bottom: 12px;
+        width: calc(min(380px, 46%) - 24px);
+    }
+
+    .map-stage .legend-missing {
+        display: none;
+    }
+
+    .query-page .map-panel {
+        min-height: calc(100dvh - var(--topbar-height));
     }
 }
