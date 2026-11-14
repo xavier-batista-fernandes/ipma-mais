@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type ReactNode } from 'react';
+import { Fragment, useEffect, useId, useState, type ReactNode } from 'react';
 import type { MetricInfo, MunicipalityInfo } from '../api';
 import { useI18n } from '../i18n';
 import {
@@ -49,11 +49,24 @@ export function describeQuery({ t, format }: I18n, query: Query, unit: string) {
 }
 
 interface FormProps {
-    /** Fields shown before the question, such as the variable it asks about. */
+    /** The variable picker; the sentence places it where the template says {metric}. */
     children?: ReactNode;
     metric: MetricInfo;
     query: Query;
     onChange: (query: Query) => void;
+}
+
+/** Splits "a {x} b {y}" into text and the node named by each placeholder. */
+function fillTemplate(template: string, slots: Record<string, ReactNode>) {
+    return template.split(/(\{\w+\})/).map((part, i) => {
+        const name = /^\{(\w+)\}$/.exec(part)?.[1];
+        if (name && name in slots) return <Fragment key={i}>{slots[name]}</Fragment>;
+        return part ? (
+            <span key={i} className="sentence-text">
+                {part}
+            </span>
+        ) : null;
+    });
 }
 
 /** The question and its parameters (only those the question uses). Results update on every change. */
@@ -61,172 +74,174 @@ export function QueryForm({ children, metric, query, onChange }: FormProps) {
     const { t } = useI18n();
     const set = (patch: Partial<Query>) => onChange({ ...query, ...patch });
     const { type } = query;
-    const usesThreshold = type === 'threshold' || type === 'streak';
     const usesPeriod = type !== 'ranking';
-    const usesStatistic = type === 'total' || type === 'compare';
-    const usesLimit = type === 'total' || type === 'ranking' || type === 'compare';
     const dates = metric.dates;
     const last = dates.at(-1) ?? query.to;
 
+    const typeSelect = (
+        <Select
+            label={t('query.type')}
+            value={type}
+            onChange={(value) =>
+                set({
+                    type: value,
+                    // Periods can have different numbers of days with data, so a
+                    // comparison of totals would mostly compare data coverage.
+                    statistic:
+                        value === 'compare' && query.statistic === 'sum' ? 'mean' : query.statistic,
+                })
+            }
+            options={QUERY_TYPES.map((id) => ({ value: id, label: t(`query.type.${id}`) }))}
+        />
+    );
+    const comparison = (
+        <Select
+            label={t('query.comparison')}
+            value={query.comparison}
+            onChange={(comparison) => set({ comparison })}
+            options={(['gt', 'lt'] as const).map((id) => ({
+                value: id,
+                label: t(`query.describe.${id}`),
+            }))}
+        />
+    );
+    const value = (
+        <NumberField
+            label={t('query.value', { unit: metric.unit })}
+            value={query.value}
+            step={0.1}
+            suffix={metric.unit}
+            onChange={(value) => set({ value })}
+        />
+    );
+    const minDays = (
+        <NumberField
+            label={t(type === 'streak' ? 'query.minRun' : 'query.minDays')}
+            value={query.minDays}
+            step={1}
+            min={1}
+            integer
+            onChange={(minDays) => set({ minDays })}
+        />
+    );
+    const statistic = (
+        <Select
+            label={t('query.statistic')}
+            value={query.statistic}
+            onChange={(statistic) => set({ statistic })}
+            options={STATISTICS.filter((id) => type !== 'compare' || id !== 'sum').map((id) => ({
+                value: id,
+                label: t(`query.statistic.${id}`),
+            }))}
+        />
+    );
+    const from = (
+        <DateField
+            label={t('query.from')}
+            dates={dates}
+            value={query.from}
+            onChange={(from) => set({ from })}
+        />
+    );
+    const to = (
+        <DateField
+            label={t('query.to')}
+            dates={dates}
+            value={query.to}
+            onChange={(to) => set({ to })}
+        />
+    );
+    const baseFrom = (
+        <DateField
+            label={t('query.baseFrom')}
+            dates={dates}
+            value={query.baseFrom}
+            onChange={(baseFrom) => set({ baseFrom })}
+        />
+    );
+    const baseTo = (
+        <DateField
+            label={t('query.baseTo')}
+            dates={dates}
+            value={query.baseTo}
+            onChange={(baseTo) => set({ baseTo })}
+        />
+    );
+    const day = (
+        <DateField
+            label={t('query.day')}
+            dates={dates}
+            value={query.day}
+            onChange={(day) => set({ day })}
+        />
+    );
+    const presets = usesPeriod && (
+        <div className="query-presets">
+            {[7, 30, 90, 365].map((count) => (
+                <button
+                    key={count}
+                    type="button"
+                    className="chip"
+                    onClick={() => set({ from: snap(dates, addDays(last, 1 - count)), to: last })}
+                >
+                    {t('query.preset', { count })}
+                </button>
+            ))}
+        </div>
+    );
+    const order = (
+        <Select
+            label={t('query.order')}
+            value={query.order}
+            onChange={(order) => set({ order })}
+            options={(['desc', 'asc'] as const).map((id) => ({
+                value: id,
+                label: t(
+                    type === 'compare'
+                        ? id === 'desc'
+                            ? 'query.order.increase'
+                            : 'query.order.decrease'
+                        : `query.order.${id}`
+                ),
+            }))}
+        />
+    );
+    const limit = (
+        <Select
+            label={t('query.limit')}
+            value={String(query.limit)}
+            onChange={(limit) => set({ limit: Number(limit) })}
+            options={[5, 10, 20, 50, 0].map((count) => ({
+                value: String(count),
+                label: count === 0 ? t('query.limit.all') : t('query.limit.n', { count }),
+            }))}
+        />
+    );
+
+    const slots: Record<string, ReactNode> = {
+        metric: children,
+        comparison,
+        value,
+        minDays,
+        days: (
+            <span className="sentence-text">
+                {t(query.minDays === 1 ? 'query.sentence.day' : 'query.sentence.days')}
+            </span>
+        ),
+        statistic,
+        from,
+        to,
+        baseFrom,
+        baseTo,
+        day,
+        order,
+        limit,
+    };
     return (
-        <form className="query-form" onSubmit={(e) => e.preventDefault()}>
-            {children}
-            <Select
-                label={t('query.type')}
-                value={type}
-                onChange={(value) =>
-                    set({
-                        type: value,
-                        // Periods can have different numbers of days with data, so a
-                        // comparison of totals would mostly compare data coverage.
-                        statistic:
-                            value === 'compare' && query.statistic === 'sum'
-                                ? 'mean'
-                                : query.statistic,
-                    })
-                }
-                options={QUERY_TYPES.map((id) => ({ value: id, label: t(`query.type.${id}`) }))}
-            />
-
-            {usesThreshold && (
-                <div className="query-row">
-                    <Select
-                        label={t('query.comparison')}
-                        value={query.comparison}
-                        onChange={(comparison) => set({ comparison })}
-                        options={(['gt', 'lt'] as const).map((id) => ({
-                            value: id,
-                            label: t(`query.comparison.${id}`),
-                        }))}
-                    />
-                    <NumberField
-                        label={t('query.value', { unit: metric.unit })}
-                        value={query.value}
-                        step={0.1}
-                        onChange={(value) => set({ value })}
-                    />
-                    <NumberField
-                        label={t(type === 'streak' ? 'query.minRun' : 'query.minDays')}
-                        value={query.minDays}
-                        step={1}
-                        min={1}
-                        integer
-                        onChange={(minDays) => set({ minDays })}
-                    />
-                </div>
-            )}
-
-            {usesStatistic && (
-                <Select
-                    label={t('query.statistic')}
-                    value={query.statistic}
-                    onChange={(statistic) => set({ statistic })}
-                    options={STATISTICS.filter((id) => type !== 'compare' || id !== 'sum').map(
-                        (id) => ({
-                            value: id,
-                            label: t(`query.statistic.${id}`),
-                        })
-                    )}
-                />
-            )}
-
-            {usesPeriod && (
-                <fieldset className="query-period">
-                    <legend className="field-label">{t('query.period')}</legend>
-                    <div className="query-row">
-                        <DateField
-                            label={t('query.from')}
-                            dates={dates}
-                            value={query.from}
-                            onChange={(from) => set({ from })}
-                        />
-                        <DateField
-                            label={t('query.to')}
-                            dates={dates}
-                            value={query.to}
-                            onChange={(to) => set({ to })}
-                        />
-                    </div>
-                    <div className="query-presets">
-                        {[7, 30, 90, 365].map((count) => (
-                            <button
-                                key={count}
-                                type="button"
-                                className="chip"
-                                onClick={() =>
-                                    set({
-                                        from: snap(dates, addDays(last, 1 - count)),
-                                        to: last,
-                                    })
-                                }
-                            >
-                                {t('query.preset', { count })}
-                            </button>
-                        ))}
-                    </div>
-                </fieldset>
-            )}
-
-            {type === 'compare' && (
-                <fieldset className="query-period">
-                    <legend className="field-label">{t('query.basePeriod')}</legend>
-                    <div className="query-row">
-                        <DateField
-                            label={t('query.baseFrom')}
-                            visibleLabel={t('query.from')}
-                            dates={dates}
-                            value={query.baseFrom}
-                            onChange={(baseFrom) => set({ baseFrom })}
-                        />
-                        <DateField
-                            label={t('query.baseTo')}
-                            visibleLabel={t('query.to')}
-                            dates={dates}
-                            value={query.baseTo}
-                            onChange={(baseTo) => set({ baseTo })}
-                        />
-                    </div>
-                </fieldset>
-            )}
-
-            {type === 'ranking' && (
-                <DateField
-                    label={t('query.day')}
-                    dates={dates}
-                    value={query.day}
-                    onChange={(day) => set({ day })}
-                />
-            )}
-
-            {usesLimit && (
-                <div className="query-row">
-                    <Select
-                        label={t('query.order')}
-                        value={query.order}
-                        onChange={(order) => set({ order })}
-                        options={(['desc', 'asc'] as const).map((id) => ({
-                            value: id,
-                            label: t(
-                                type === 'compare'
-                                    ? id === 'desc'
-                                        ? 'query.order.increase'
-                                        : 'query.order.decrease'
-                                    : `query.order.${id}`
-                            ),
-                        }))}
-                    />
-                    <Select
-                        label={t('query.limit')}
-                        value={String(query.limit)}
-                        onChange={(limit) => set({ limit: Number(limit) })}
-                        options={[5, 10, 20, 50, 0].map((count) => ({
-                            value: String(count),
-                            label:
-                                count === 0 ? t('query.limit.all') : t('query.limit.n', { count }),
-                        }))}
-                    />
-                </div>
-            )}
+        <form className="query-form query-sentence" onSubmit={(e) => e.preventDefault()}>
+            <div className="sentence-type">{typeSelect}</div>
+            <div className="sentence">{fillTemplate(t(`query.sentence.${type}`), slots)}</div>
+            {presets}
         </form>
     );
 }
@@ -393,17 +408,14 @@ function ResultList({
     );
 }
 
-/** A labelled calendar button over the days with data. */
+/** A calendar button over the days with data, named by `label` for screen readers. */
 function DateField({
     label,
-    visibleLabel,
     dates,
     value,
     onChange,
 }: {
     label: string;
-    /** Shorter text shown above the button when the fieldset already gives the context. */
-    visibleLabel?: string;
     dates: string[];
     value: string;
     onChange: (date: string) => void;
@@ -411,11 +423,7 @@ function DateField({
     const { format } = useI18n();
     return (
         <div className="query-field">
-            <span className="field-label" aria-hidden="true">
-                {visibleLabel ?? label}
-            </span>
             <DatePicker dates={dates} value={value} onChange={onChange} label={label}>
-                <Icon name="calendar" />
                 <span>{format.day(value)}</span>
                 <Icon name="chevronDown" />
             </DatePicker>
@@ -434,6 +442,7 @@ function NumberField({
     step,
     min,
     integer = false,
+    suffix,
 }: {
     label: string;
     value: number;
@@ -441,6 +450,8 @@ function NumberField({
     step: number;
     min?: number;
     integer?: boolean;
+    /** A unit written after the box, as in a sentence ("12 mm"). */
+    suffix?: string;
 }) {
     const id = useId();
     const [text, setText] = useState(String(value));
@@ -472,6 +483,7 @@ function NumberField({
                     onChange(parsed);
                 }}
             />
+            {suffix && <span className="query-suffix">{suffix}</span>}
         </div>
     );
 }

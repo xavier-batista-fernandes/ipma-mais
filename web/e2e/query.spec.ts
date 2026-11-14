@@ -84,6 +84,20 @@ test.describe('queries', () => {
         await expect(results(page)).toHaveCount(expected);
     });
 
+    test('reads the question as a sentence that follows the choices', async ({ page }) => {
+        await openQuery(page);
+        const question = page.getByRole('region', { name: en['query.question'] });
+        await page.getByLabel(en['query.minDays']).fill('1');
+        await expect(question).toContainText(`${en['query.sentence.day']},`);
+        await page.getByLabel(en['query.minDays']).fill('3');
+        await expect(question).toContainText(`${en['query.sentence.days']},`);
+
+        await chooseQuestion(page, 'ranking');
+        await expect(question).toContainText(en['query.sentence.ranking'].split(' {')[0]);
+        await expect(page.getByLabel(en['query.minDays'])).toHaveCount(0);
+        await expect(page.getByRole('button', { name: `${en['query.day']}: ` })).toBeVisible();
+    });
+
     test('restores the query from the link', async ({ page }) => {
         await openQuery(page);
         await page.getByLabel(fill(en['query.value'], { unit: 'mm' })).fill('2');
