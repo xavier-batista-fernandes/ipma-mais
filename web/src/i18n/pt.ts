@@ -75,8 +75,6 @@ export const pt: Messages = {
     'query.type.ranking': 'Classificação num dia',
     'query.type.compare': 'Comparar dois períodos',
     'query.comparison': 'Condição',
-    'query.comparison.gt': 'Acima de',
-    'query.comparison.lt': 'Abaixo de',
     'query.value': 'Valor ({unit})',
     'query.minDays': 'Em pelo menos (dias)',
     'query.minRun': 'Durante pelo menos (dias seguidos)',
@@ -93,8 +91,6 @@ export const pt: Messages = {
     'query.limit': 'Mostrar',
     'query.limit.n': 'Primeiros {count}',
     'query.limit.all': 'Todos',
-    'query.period': 'Período',
-    'query.basePeriod': 'Comparado com',
     'query.from': 'De',
     'query.to': 'Até',
     'query.baseFrom': 'Comparado com, de',
@@ -126,6 +122,17 @@ export const pt: Messages = {
         'Dias seguidos {comparison} {value}, pelo menos {minDays}, {from} – {to}',
     'query.describe.total': '{statistic}, {from} – {to}',
     'query.describe.ranking': 'Classificação em {day}',
+    'query.sentence.threshold':
+        'Concelhos com {metric} {comparison} {value} em pelo menos {minDays} {days}, entre {from} e {to}',
+    'query.sentence.streak':
+        'Concelhos com {metric} {comparison} {value} durante pelo menos {minDays} {days} seguidos, entre {from} e {to}',
+    'query.sentence.total':
+        'Concelhos por {statistic} de {metric} entre {from} e {to}, {order}, {limit}',
+    'query.sentence.ranking': 'Concelhos por {metric} em {day}, {order}, {limit}',
+    'query.sentence.compare':
+        'Concelhos por {statistic} de {metric} entre {from} e {to}, comparado com {baseFrom} a {baseTo}, {order}, {limit}',
+    'query.sentence.day': 'dia',
+    'query.sentence.days': 'dias',
     'query.describe.compare': '{statistic}, {from} – {to} vs {baseFrom} – {baseTo}',
 
     'export.label': 'Exportar',

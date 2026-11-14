@@ -1663,15 +1663,6 @@ a {
         padding: 14px 16px 16px;
     }
 
-    .query-form > .select,
-    .query-form > .select .select-trigger,
-    .query-form .query-row,
-    .query-form .query-period,
-    .query-form .query-period .query-row {
-        width: 100%;
-        min-width: 0;
-    }
-
     .page {
         padding: 24px 16px 40px;
     }
@@ -1692,17 +1683,6 @@ a {
     padding: 16px 24px 18px;
     background: var(--surface);
     border-bottom: 1px solid var(--border);
-}
-
-.query-form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px 20px;
-    align-items: flex-start;
-}
-
-.query-form > .select {
-    width: 330px;
 }
 
 /* The question and its variable fill the bar; the map and results take the rest of the screen,
@@ -1732,19 +1712,6 @@ a {
     margin: 12px 0 0;
 }
 
-.query-form .select-trigger {
-    width: 100%;
-    min-width: 0;
-}
-
-.query-form .query-row {
-    min-width: 260px;
-}
-
-.query-form .query-period .query-row {
-    min-width: 340px;
-}
-
 .query-page .map-layout {
     flex: 1;
 }
@@ -1760,46 +1727,12 @@ a {
     font-weight: 600;
 }
 
-.query-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-    gap: 10px;
-    align-items: end;
-}
-
-.query-field input {
-    width: 100%;
-    font-variant-numeric: tabular-nums;
-}
-
-.query-period {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    min-width: 0;
-}
-
-.query-period > legend {
-    padding: 0;
-}
-
-.query-form .date-picker {
-    align-self: stretch;
-}
-
 .query-form .date-trigger {
-    width: 100%;
-    height: 36px;
     margin-left: 0;
     gap: 8px;
-    border-color: var(--border);
-    background: var(--surface-2);
-    font-size: 0.9rem;
 }
 
 .query-form .date-trigger > span {
-    flex: 1;
-    text-align: left;
     white-space: nowrap;
 }
 
@@ -1808,11 +1741,6 @@ a {
     top: calc(100% + 6px);
     bottom: auto;
     left: 0;
-}
-
-.query-form .query-row > :last-child .calendar {
-    left: auto;
-    right: 0;
 }
 
 .query-presets,
@@ -1851,11 +1779,6 @@ a {
 
 .query-results .ranking > .muted {
     margin: 12px 0 8px;
-}
-
-/* "From" and "To" sit under the period's own label, so they drop the "//" marker. */
-.query-period .query-row .field-label::before {
-    content: none;
 }
 
 /*
@@ -2216,6 +2139,10 @@ a {
 
 .municipalities-controls .query-field {
     width: 200px;
+}
+
+.municipalities-controls .query-field input {
+    width: 100%;
 }
 
 .municipalities-controls .segmented button {
@@ -3297,5 +3224,142 @@ a {
 
     .locator-map {
         height: 260px;
+    }
+}
+
+/*
+ * The question as a sentence: plain text with the parameters as inline pills. Field labels stay
+ * for screen readers (and the tests) but are hidden, since the sentence says what each one is.
+ */
+.query-sentence {
+    display: block;
+}
+
+.sentence-type {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.sentence-type .select {
+    width: auto;
+    max-width: 100%;
+}
+
+.sentence-type .select-trigger {
+    width: auto;
+    min-width: 0;
+    height: 30px;
+    gap: 6px;
+    font-size: 0.85rem;
+}
+
+.sentence {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    /* Words keep their own spaces (pre-wrap), so a comma hugs the pill before it. */
+    gap: 8px 0;
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.4;
+}
+
+.sentence-text {
+    white-space: pre-wrap;
+}
+
+.sentence .field-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.sentence .metric-picker,
+.sentence .select,
+.sentence .query-field {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    width: auto;
+    min-width: 0;
+}
+
+.sentence .metric-help {
+    height: 32px;
+}
+
+.sentence .select-trigger,
+.sentence .date-trigger,
+.sentence input {
+    width: auto;
+    min-width: 0;
+    height: 34px;
+    padding: 0 10px;
+    border: 1px solid transparent;
+    border-bottom: 2px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--accent-soft);
+    font-size: inherit;
+    font-weight: 600;
+}
+
+.sentence .select-trigger:hover,
+.sentence .date-trigger:hover,
+.sentence input:hover {
+    border-color: var(--accent);
+}
+
+.sentence .select-trigger > .icon,
+.sentence .date-trigger > .icon {
+    width: 14px;
+    height: 14px;
+}
+
+.sentence .query-field input {
+    width: 4.5em;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+}
+
+.sentence .query-field input[inputmode='numeric'] {
+    width: 3.5em;
+}
+
+.query-suffix {
+    margin-left: 2px;
+    color: var(--muted);
+}
+
+.query-sentence .query-presets {
+    margin-top: 12px;
+}
+
+@media (max-width: 900px) {
+    .sentence {
+        font-size: 1.05rem;
+    }
+}
+
+/* On a phone a pill can sit anywhere on the line, so its list or calendar opens as a sheet
+   above the tab bar instead of hanging off the pill (and off the screen). */
+@media (max-width: 720px) {
+    .sentence .popover {
+        position: fixed;
+        top: auto;
+        left: 16px;
+        right: 16px;
+        bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+        width: auto;
+        min-width: 0;
+        max-height: 60vh;
+        overflow-y: auto;
+        transform-origin: bottom center;
     }
 }

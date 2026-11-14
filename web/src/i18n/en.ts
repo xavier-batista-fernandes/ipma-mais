@@ -76,8 +76,6 @@ export const en = {
     'query.type.ranking': 'Ranking on one day',
     'query.type.compare': 'Compare two periods',
     'query.comparison': 'Condition',
-    'query.comparison.gt': 'Above',
-    'query.comparison.lt': 'Below',
     'query.value': 'Value ({unit})',
     'query.minDays': 'On at least (days)',
     'query.minRun': 'For at least (days in a row)',
@@ -94,8 +92,6 @@ export const en = {
     'query.limit': 'Show',
     'query.limit.n': 'Top {count}',
     'query.limit.all': 'All',
-    'query.period': 'Period',
-    'query.basePeriod': 'Compared with',
     'query.from': 'From',
     'query.to': 'To',
     'query.baseFrom': 'Compared with, from',
@@ -126,6 +122,17 @@ export const en = {
         'Days in a row {comparison} {value}, at least {minDays}, {from} – {to}',
     'query.describe.total': '{statistic}, {from} – {to}',
     'query.describe.ranking': 'Ranking on {day}',
+    'query.sentence.threshold':
+        'Municipalities with {metric} {comparison} {value} on at least {minDays} {days}, from {from} to {to}',
+    'query.sentence.streak':
+        'Municipalities with {metric} {comparison} {value} for at least {minDays} {days} in a row, from {from} to {to}',
+    'query.sentence.total':
+        'Municipalities by {statistic} of {metric} from {from} to {to}, {order}, {limit}',
+    'query.sentence.ranking': 'Municipalities by {metric} on {day}, {order}, {limit}',
+    'query.sentence.compare':
+        'Municipalities by {statistic} of {metric} from {from} to {to}, compared with {baseFrom} to {baseTo}, {order}, {limit}',
+    'query.sentence.day': 'day',
+    'query.sentence.days': 'days',
     'query.describe.compare': '{statistic}, {from} – {to} vs {baseFrom} – {baseTo}',
 
     'export.label': 'Export',
