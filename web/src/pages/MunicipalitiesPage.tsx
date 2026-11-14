@@ -112,8 +112,9 @@ export function MunicipalitiesPage({ metric, metricSelect, municipalities, slugO
     const followed = rows.filter((r) => following.includes(r.dico));
     const round = (value: number) => Math.round(value * 100) / 100;
 
-    const list = (items: Row[], label: string) => (
-        <ul className="municipality-list" aria-label={label}>
+    // Grouped by district, each row's district line would only repeat its group's heading.
+    const list = (items: Row[], label: string, grouped = false) => (
+        <ul className="municipality-list" data-grouped={grouped || undefined} aria-label={label}>
             {items.map((row) => {
                 const isFollowed = following.includes(row.dico);
                 const diff =
@@ -226,12 +227,23 @@ export function MunicipalitiesPage({ metric, metricSelect, municipalities, slugO
                 </section>
             )}
 
+            {groups.length > 1 && (
+                <nav className="district-index" aria-label={t('municipalities.districts')}>
+                    {groups.map((group) => (
+                        <a key={group.name} href={`#${districtAnchor(group.name!)}`}>
+                            {group.name}
+                        </a>
+                    ))}
+                </nav>
+            )}
+
             {shown.length === 0 ? (
                 <p className="muted">{t('search.noResults')}</p>
             ) : (
                 groups.map((group) => (
                     <section
                         key={group.name ?? 'all'}
+                        id={group.name ? districtAnchor(group.name) : undefined}
                         className="card list-card"
                         aria-label={group.name ?? t('municipalities.title')}
                     >
@@ -241,13 +253,25 @@ export function MunicipalitiesPage({ metric, metricSelect, municipalities, slugO
                                 {group.rows.length}
                             </h2>
                         )}
-                        {list(group.rows, group.name ?? t('municipalities.title'))}
+                        {list(
+                            group.rows,
+                            group.name ?? t('municipalities.title'),
+                            group.name !== null
+                        )}
                     </section>
                 ))
             )}
         </main>
     );
 }
+
+/** A district's section on the page: `#distrito-viana-do-castelo`. */
+const districtAnchor = (name: string) =>
+    `distrito-${name
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')}`;
 
 /** The last days as a small line, so a rising or falling municipality stands out in the list. */
 function Sparkline({ values }: { values: (number | null)[] }) {

@@ -224,6 +224,7 @@ export const pt: Messages = {
     'municipalities.subtitle': 'Os {count} municípios de Portugal continental · {metric} em {date}',
     'municipalities.filter': 'Filtrar',
     'municipalities.filterPlaceholder': 'Nome ou distrito',
+    'municipalities.districts': 'Distritos',
     'municipalities.order': 'Ordem',
     'municipalities.order.district': 'Por distrito',
     'municipalities.order.name': 'A–Z',

@@ -3219,3 +3219,89 @@ a {
         font-size: 0.75rem;
     }
 }
+
+/* Municipalities: a strip of districts to jump to, kept in reach under the top bar. */
+.district-index {
+    position: sticky;
+    top: var(--topbar-height);
+    z-index: 10;
+    display: flex;
+    gap: 6px;
+    margin: 0 -24px;
+    padding: 8px 24px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+}
+
+.district-index a {
+    flex: none;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.district-index a:hover {
+    color: var(--text);
+}
+
+.municipalities-page .list-card {
+    scroll-margin-top: calc(var(--topbar-height) + 56px);
+}
+
+.municipality-list[data-grouped] .municipality-link .muted {
+    display: none;
+}
+
+@media (max-width: 720px) {
+    .district-index {
+        margin: 0 -16px;
+        padding: 8px 16px;
+    }
+
+    /* The variable first: it decides what every row shows. */
+    .municipalities-controls .metric-picker {
+        order: -1;
+    }
+
+    /* Home: each variable as a small map beside its figures. */
+    .metric-card {
+        display: grid;
+        grid-template-columns: 120px minmax(0, 1fr);
+        gap: 8px 14px;
+        align-items: start;
+    }
+
+    .metric-card > :not(.mini-map, .metric-stats) {
+        grid-column: 1 / -1;
+    }
+
+    .metric-card-summary {
+        display: none;
+    }
+
+    .metric-card .mini-map {
+        height: 150px;
+        margin: 0;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background-size: 16px 16px;
+    }
+
+    .metric-card .metric-stats {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        margin: 0;
+    }
+
+    .locator-map {
+        height: 260px;
+    }
+}

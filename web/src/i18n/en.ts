@@ -225,6 +225,7 @@ export const en = {
         'The {count} municipalities of mainland Portugal · {metric} on {date}',
     'municipalities.filter': 'Filter',
     'municipalities.filterPlaceholder': 'Name or district',
+    'municipalities.districts': 'Districts',
     'municipalities.order': 'Order',
     'municipalities.order.district': 'By district',
     'municipalities.order.name': 'A–Z',

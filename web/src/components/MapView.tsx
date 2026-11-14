@@ -1,4 +1,10 @@
-import { Country, CountryMap, type Municipality, type MunicipalityInteractionEvent } from 'cartis';
+import {
+    Country,
+    CountryMap,
+    type District,
+    type Municipality,
+    type MunicipalityInteractionEvent,
+} from 'cartis';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MISSING_FILL } from '../colors';
 import { Icon } from './Icon';
@@ -62,6 +68,8 @@ interface Props {
     onSelect: (name: Municipality) => void;
     /** Zooms in on the selected municipality (off for a locator, which shows the whole country). */
     zoomToSelected?: boolean;
+    /** Frames this district instead of the whole country (a locator that shows the neighbours). */
+    frameDistrict?: District;
 }
 
 export function MapView({
@@ -71,6 +79,7 @@ export function MapView({
     onHover,
     onSelect,
     zoomToSelected = true,
+    frameDistrict,
 }: Props) {
     const { t } = useI18n();
     const containerRef = useRef<HTMLDivElement>(null);
@@ -180,6 +189,16 @@ export function MapView({
             map.styleMunicipalities([selected], latest.current.strokeFor(fill));
         };
     }, [map, selected, zoomToSelected]);
+
+    // Frame a district, a little zoomed out so its neighbours show around it.
+    useEffect(() => {
+        if (!map || !frameDistrict) return;
+        const timer = window.setTimeout(
+            () => map.fitToDistricts([frameDistrict], { zoom: 0.8, duration: 0 }),
+            250
+        );
+        return () => window.clearTimeout(timer);
+    }, [map, frameDistrict]);
 
     // A theme change only recolours the outline; it doesn't re-zoom.
     useEffect(() => {
