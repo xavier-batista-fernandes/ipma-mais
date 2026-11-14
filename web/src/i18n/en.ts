@@ -253,7 +253,6 @@ export const en = {
     'data.api.values': 'Every municipality × every day, for analysis',
     'data.api.stats': 'Totals and averages per municipality over a period (from, to)',
     'data.docs': 'Full API documentation',
-    'nav.start': 'Home',
     'nav.variables': 'Variables',
 
     'home.title': 'Weather and climate for every municipality in mainland Portugal',

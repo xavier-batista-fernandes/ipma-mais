@@ -7,9 +7,10 @@ test.describe('home page', () => {
     }) => {
         await page.goto('./');
         await expect(page.getByRole('heading', { level: 1, name: en['home.title'] })).toBeVisible();
-        await expect(
-            page.getByRole('link', { name: en['nav.start'], exact: true })
-        ).toHaveAttribute('aria-current', 'page');
+        await expect(page.getByRole('link', { name: en['nav.home'], exact: true })).toHaveAttribute(
+            'aria-current',
+            'page'
+        );
         for (const m of index.metrics) {
             const card = page.getByRole('article', { name: en[`metric.${m.id}`] });
             await expect(card).toContainText(en[`metricInfo.${m.id}.summary`]);
