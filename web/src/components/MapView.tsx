@@ -5,6 +5,7 @@ import {
     type Municipality,
     type MunicipalityInteractionEvent,
 } from 'cartis';
+import { interpolateRgb } from 'd3-interpolate';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MISSING_FILL } from '../colors';
 import { Icon } from './Icon';
@@ -96,6 +97,19 @@ export function MapView({
     const borderColor = useThemeColor('--map-border', '#ffffff');
     // Light grey in the light theme, dark grey in the dark one (a pale map glares at night).
     const missing = useThemeColor('--map-missing', MISSING_FILL);
+    // A selection fades the rest of the map toward the background behind it.
+    const background = useThemeColor('--bg', '#eceef1');
+    const dimAmount = Number(useThemeColor('--map-dim', '0.4')) || 0.4;
+    /**
+     * A faded municipality's colour: its fill mixed into the background, opaque. Fading with
+     * `fill-opacity` instead left each seam stroke at full colour, so with borders off every
+     * faded municipality got a bright outline (worst in the dark theme); and translucent strokes
+     * would stack where neighbours overlap, drawing lines just the same.
+     */
+    const dim = useCallback(
+        (fill: string) => interpolateRgb(background, fill)(dimAmount),
+        [background, dimAmount]
+    );
     const selectedBorder = useMemo(
         () => ({ strokeColor: outline, strokeWidth: SELECTED_STROKE_WIDTH }),
         [outline]
@@ -113,8 +127,8 @@ export function MapView({
     const handlers = useRef({ onHover, onSelect });
     handlers.current = { onHover, onSelect };
     // Read by the effects below without making them re-run (and re-zoom) on every change.
-    const latest = useRef({ fills, selected, selectedBorder, strokeFor, missing });
-    latest.current = { fills, selected, selectedBorder, strokeFor, missing };
+    const latest = useRef({ selectedBorder, strokeFor, missing });
+    latest.current = { selectedBorder, strokeFor, missing };
 
     useEffect(() => {
         let cancelled = false;
@@ -152,33 +166,37 @@ export function MapView({
         };
     }, []);
 
-    // Choropleth: one style call per colour, plus one for municipalities without data.
+    // Choropleth: one style call per colour, plus one for municipalities without data. With a
+    // municipality selected, the rest are faded; the selected one keeps its colour and outline.
     useEffect(() => {
         if (!map) return;
         const byColor = new Map<string, Municipality[]>();
         for (const name of allNames) {
-            const color = fills.get(name) ?? missing;
+            if (name === selected) continue;
+            const fill = fills.get(name) ?? missing;
+            const color = selected ? dim(fill) : fill;
             if (!byColor.has(color)) byColor.set(color, []);
             byColor.get(color)!.push(name);
         }
         for (const [fill, names] of byColor) {
             map.styleMunicipalities(names, { fill, ...strokeFor(fill) });
         }
-        // Recolouring just reset the selected municipality's stroke too; put its outline back.
-        const { selected, selectedBorder } = latest.current;
-        if (selected) map.styleMunicipalities([selected], selectedBorder);
-    }, [map, fills, allNames, strokeFor, missing]);
+        if (selected) {
+            map.styleMunicipalities([selected], {
+                fill: fills.get(selected) ?? missing,
+                ...latest.current.selectedBorder,
+            });
+        }
+    }, [map, fills, allNames, strokeFor, missing, selected, dim]);
 
     // Outline and frame the selected municipality.
     useEffect(() => {
         if (!map || !selected) return;
-        // The rest of the map is dimmed (CSS `.map.has-selection path`) and this one isn't. It
-        // also moves to the end of its group so its outline paints above its neighbours' strokes
-        // (otherwise every neighbour drawn later covers half of it).
+        // The selected path moves to the end of its group so its outline paints above its
+        // neighbours' strokes (otherwise every neighbour drawn later covers half of it).
         const path = findPath(containerRef.current, selected);
         path?.classList.add('selected');
         path?.parentNode?.appendChild(path);
-        map.styleMunicipalities([selected], latest.current.selectedBorder);
         // Deferred a little: right after the map first renders, Cartis' resize handling can still
         // reproject once and would interrupt a zoom transition started in the same frame.
         const timer = zoomToSelected
@@ -190,8 +208,6 @@ export function MapView({
         return () => {
             window.clearTimeout(timer);
             path?.classList.remove('selected');
-            const fill = latest.current.fills.get(selected) ?? latest.current.missing;
-            map.styleMunicipalities([selected], latest.current.strokeFor(fill));
         };
     }, [map, selected, zoomToSelected]);
 
@@ -212,11 +228,7 @@ export function MapView({
 
     return (
         <div className="map-wrap">
-            <div
-                ref={containerRef}
-                className={selected ? 'map has-selection' : 'map'}
-                aria-label={t('map.label')}
-            />
+            <div ref={containerRef} className="map" aria-label={t('map.label')} />
             {!map && !error && <div className="map-status">{t('map.loading')}</div>}
             {error && <div className="map-status error">{t('map.error', { error })}</div>}
             {map && (
