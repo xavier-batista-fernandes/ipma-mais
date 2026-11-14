@@ -12,7 +12,13 @@ import {
     type MunicipalityInfo,
     type Series,
 } from './api';
-import { createColorScale, createResultScale, MISSING_FILL, type ColorScale } from './colors';
+import {
+    createColorScale,
+    createResultScale,
+    MISSING_FILL,
+    readableOn,
+    type ColorScale,
+} from './colors';
 import { download, mapToSvg, svgToPng, toCsv } from './export';
 import { Header } from './components/Header';
 import { Icon } from './components/Icon';
@@ -56,6 +62,7 @@ import {
 } from './query';
 import { NO_HOVER_QUERY, PHONE_QUERY, useMediaQuery } from './media';
 import { useSettings } from './settings';
+import { useThemeColor } from './theme';
 import { readUrlState, writeUrlState } from './url-state';
 
 /**
@@ -85,6 +92,8 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
     const [day, setDay] = useState<(DayValues & { metric: MetricId }) | null>(null);
     const [series, setSeries] = useState<Series | null>(null);
     const [hover, setHover] = useState<MunicipalityInteractionEvent | null>(null);
+    // The tooltip is inverted: its background is the theme's text colour.
+    const tooltipBackground = useThemeColor('--text', '#0b0d10');
     // On a phone the map stays on the whole country when a municipality is picked, and the pick
     // shows in a sheet over the tab bar instead of a tooltip (a tap would leave one behind).
     const phone = useMediaQuery(PHONE_QUERY);
@@ -262,6 +271,10 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
     const hoverInfo = hover ? byName.get(hover.municipality) : undefined;
     const hoverValue = hoverInfo ? valueOf(hoverInfo.dico) : undefined;
     const selectedValue = selected ? valueOf(selected.dico) : undefined;
+    // The hovered value is written in its municipality's colour on the scale (not the pale hover
+    // highlight), shaded just enough to stay readable on the tooltip.
+    const hoverFill = hover && hoverValue !== undefined ? fills.get(hover.municipality) : undefined;
+    const hoverColor = hoverFill ? readableOn(hoverFill, tooltipBackground) : undefined;
     const legendScale = querying ? resultScale : scale;
     const legendUnit = querying && queryResult?.unit === 'days' ? t('query.unitDays') : metric.unit;
     const missingLabel = querying ? t('query.notInResults') : t('common.noData');
@@ -432,7 +445,10 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
                     <div className="tooltip" style={{ left: hover.x, top: hover.y }}>
                         <strong>{hover.municipality}</strong>
                         <span className="muted small">{hover.district}</span>
-                        <span className="tooltip-value">
+                        <span
+                            className="tooltip-value"
+                            style={hoverColor ? { color: hoverColor } : undefined}
+                        >
                             {describeValue(hoverValue, missingLabel)}
                         </span>
                     </div>

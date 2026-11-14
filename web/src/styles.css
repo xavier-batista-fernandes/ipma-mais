@@ -973,7 +973,8 @@ button:disabled {
     font-size: 1rem;
     font-weight: 500;
     font-variant-numeric: tabular-nums;
-    color: color-mix(in srgb, var(--accent) 70%, var(--surface));
+    /* Without data; a value takes its municipality's map colour (set inline, see App). */
+    color: color-mix(in srgb, var(--surface) 62%, var(--text));
 }
 
 .legend {
