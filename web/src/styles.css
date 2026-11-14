@@ -973,7 +973,8 @@ button:disabled {
     font-size: 1rem;
     font-weight: 500;
     font-variant-numeric: tabular-nums;
-    color: color-mix(in srgb, var(--accent) 70%, var(--surface));
+    /* The tooltip's own text colour (white or black by theme): a map colour can read badly on it. */
+    color: inherit;
 }
 
 .legend {
