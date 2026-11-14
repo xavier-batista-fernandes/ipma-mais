@@ -252,7 +252,6 @@ export const pt: Messages = {
     'data.api.values': 'Todos os municípios × todos os dias, para análise',
     'data.api.stats': 'Totais e médias por município num período (from, to)',
     'data.docs': 'Documentação completa da API',
-    'nav.start': 'Início',
     'nav.variables': 'Variáveis',
 
     'home.title': 'Tempo e clima em cada município de Portugal continental',
