@@ -271,13 +271,14 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
         if (!svg) return null;
         const css = getComputedStyle(document.documentElement);
         const token = (name: string) => css.getPropertyValue(name).trim();
+        const missingColor = token('--map-missing') || MISSING_FILL;
         return mapToSvg(
             svg,
             (path) => {
                 const datum = (path as { __data__?: { properties?: { NAME_2?: string } } })
                     .__data__;
                 const name = datum?.properties?.NAME_2 as Municipality | undefined;
-                return (name && fills.get(name)) || MISSING_FILL;
+                return (name && fills.get(name)) || missingColor;
             },
             {
                 title: t(`metric.${info.id}`),
@@ -286,7 +287,7 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
                 tick: (value) =>
                     queryResult?.signed ? format.signed(value, '').trim() : format.number(value),
                 unit,
-                missingColor: MISSING_FILL,
+                missingColor,
                 missingLabel,
                 source: t('export.source', { url: window.location.host }),
                 background: token('--surface') || '#ffffff',

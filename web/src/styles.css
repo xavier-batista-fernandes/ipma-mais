@@ -23,6 +23,8 @@
     --grid: rgb(11 13 16 / 0.06);
     --map-outline: #0b0d10;
     --map-border: #ffffff;
+    /* Municipalities without data (or outside a query's results). */
+    --map-missing: #d4d4d8;
     --map-dim: 0.4;
     --shadow: 0 1px 2px rgb(11 13 16 / 0.06);
     --shadow-lg: 0 10px 28px -10px rgb(11 13 16 / 0.28);
@@ -55,6 +57,7 @@
         --grid: rgb(255 255 255 / 0.045);
         --map-outline: #ffffff;
         --map-border: #0d0f12;
+        --map-missing: #3a3f47;
         --map-dim: 0.6;
         --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
         --shadow-lg: 0 12px 32px -10px rgb(0 0 0 / 0.75);
@@ -79,6 +82,7 @@
     --grid: rgb(255 255 255 / 0.045);
     --map-outline: #ffffff;
     --map-border: #0d0f12;
+    --map-missing: #3a3f47;
     --map-dim: 0.6;
     --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
     --shadow-lg: 0 12px 32px -10px rgb(0 0 0 / 0.75);
@@ -1215,6 +1219,9 @@ button:disabled {
 /* Segmented control: a bordered strip with the chosen option filled in. */
 .segmented {
     display: flex;
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
     gap: 2px;
     padding: 2px;
     border: 1px solid var(--border);
@@ -1223,6 +1230,7 @@ button:disabled {
 }
 
 .segmented button {
+    flex: none;
     height: 26px;
     padding: 0 9px;
     border: 0;
@@ -1350,6 +1358,13 @@ footer {
 
 footer a {
     color: inherit;
+}
+
+/* Links in running text: the text's own colour, underlined in the accent. */
+a {
+    color: inherit;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 2px;
 }
 
 .status {
@@ -2440,11 +2455,12 @@ footer a {
     display: flex;
     flex-direction: column;
     gap: 3px;
-    width: max-content;
+    max-width: max-content;
 }
 
 .coverage-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: 56px repeat(31, minmax(0, 11px));
     align-items: center;
     gap: 2px;
 }
@@ -2457,10 +2473,18 @@ footer a {
     text-transform: capitalize;
 }
 
-.coverage-day,
 .coverage-key {
     width: 11px;
     height: 11px;
+}
+
+/* Days shrink with the card on a phone and stay square. */
+.coverage-day {
+    aspect-ratio: 1;
+}
+
+.coverage-day,
+.coverage-key {
     border-radius: 2px;
     background: var(--accent);
 }
@@ -3159,5 +3183,39 @@ footer a {
 
     .query-page .map-panel {
         min-height: calc(100dvh - var(--topbar-height));
+    }
+}
+
+/* Touch screens: controls a finger can hit (about 40px), and no text under 11px. */
+@media (pointer: coarse) {
+    .segmented button,
+    .chip {
+        height: 38px;
+        padding: 0 12px;
+    }
+
+    .zoom-controls button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .timeline-track input[type='range'] {
+        height: 44px;
+    }
+
+    footer {
+        line-height: 2.4;
+    }
+
+    footer a {
+        padding: 6px 0;
+    }
+}
+
+@media (max-width: 720px) {
+    .field-label,
+    .legend,
+    footer {
+        font-size: 0.75rem;
     }
 }

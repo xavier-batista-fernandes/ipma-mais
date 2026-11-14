@@ -38,6 +38,16 @@ export function Header({ route, metric, onSearch, describe, settingsOpen }: Prop
 
     // Close the phone search row after navigating.
     useEffect(() => setSearching(false), [route]);
+    // A press anywhere else (the settings gear included) folds the phone search row away.
+    useEffect(() => {
+        if (!searching) return;
+        const close = (event: PointerEvent) => {
+            const target = event.target as Element | null;
+            if (!target?.closest('.topbar-search, .search-toggle')) setSearching(false);
+        };
+        document.addEventListener('pointerdown', close);
+        return () => document.removeEventListener('pointerdown', close);
+    }, [searching]);
     useEffect(() => {
         if (searching) document.querySelector<HTMLInputElement>('.topbar-search input')?.focus();
     }, [searching]);
