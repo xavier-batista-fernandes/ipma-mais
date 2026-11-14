@@ -45,6 +45,7 @@ import {
 } from './route';
 import { useFollowing } from './following';
 import { MunicipalityNotFound, MunicipalityPage } from './pages/MunicipalityPage';
+import { usePageMeta } from './page-meta';
 import {
     defaultQuery,
     queryFromParams,
@@ -116,6 +117,13 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
     );
     const scale = useMemo(() => (metric ? createColorScale(metric) : null), [metric]);
     const selected = selectedDico ? (byDico.get(selectedDico) ?? null) : null;
+
+    const slugMunicipality = route === 'municipality' ? bySlug.get(slug ?? '') : undefined;
+    usePageMeta({ route, slug, variable }, i18n.language, {
+        ready: index !== null,
+        municipality: slugMunicipality,
+        knownVariable: index?.metrics.some((m) => m.id === variable) ?? false,
+    });
 
     // Keep the date valid for the current metric: fall back to its latest day.
     const activeDate =

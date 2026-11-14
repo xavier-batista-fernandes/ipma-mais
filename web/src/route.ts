@@ -1,68 +1,35 @@
 import { useEffect, useMemo, useState, type MouseEvent } from 'react';
+import {
+    MOVED,
+    PATHS,
+    municipalityPath,
+    parsePath,
+    variablePath,
+    type Location,
+    type PageRoute,
+} from './paths';
+
+export type { Location, Route } from './paths';
 
 /**
- * Pages live in the path (`/consultas`), the current view's state in the query string
- * (`?m=et0&d=…`, see url-state.ts). The Worker answers unknown paths with index.html.
+ * Pages live in the path (`/consultas`, see paths.ts), the current view's state in the query
+ * string (`?m=et0&d=…`, see url-state.ts). Unknown paths show the home page.
  */
-export type Route =
-    | 'home'
-    | 'map'
-    | 'municipalities'
-    | 'query'
-    | 'data'
-    | 'variables'
-    | 'municipality'
-    | 'variable';
-
-const PATHS: Record<Exclude<Route, 'municipality' | 'variable'>, string> = {
-    home: '/',
-    map: '/mapa',
-    variables: '/variaveis',
-    municipalities: '/concelhos',
-    query: '/consultas',
-    data: '/dados',
-};
-
-/** Addresses that moved: /sobre became part of /dados. */
-const MOVED: Record<string, string> = { '/sobre': PATHS.data };
-
-/** A municipality's page: `/concelhos/vila-real-de-santo-antonio`. */
-const MUNICIPALITY = /^\/concelhos\/([a-z0-9-]+)$/;
-/** A variable's page: `/variaveis/et0`. */
-const VARIABLE = /^\/variaveis\/([a-z0-9-]+)$/;
-
-export interface Location {
-    route: Route;
-    /** The municipality's slug on its page (see cartis' `stringToSlug`). */
-    slug?: string;
-    /** The variable's id on its page. */
-    variable?: string;
-}
-
 function readLocation(path = window.location.pathname): Location {
-    const clean = path.replace(/\/+$/, '') || '/';
-    const municipality = MUNICIPALITY.exec(clean);
-    if (municipality) return { route: 'municipality', slug: municipality[1] };
-    const variable = VARIABLE.exec(clean);
-    if (variable) return { route: 'variable', variable: variable[1] };
-    const match = (Object.keys(PATHS) as (keyof typeof PATHS)[]).find(
-        (route) => PATHS[route] === clean
-    );
-    return { route: match ?? 'home' };
+    return parsePath(path) ?? { route: 'home' };
 }
 
 const withMetric = (path: string, metric?: string) => (metric ? `${path}?m=${metric}` : path);
 
 /** A page's link. `metric` is carried along so the other page opens on the same variable. */
-export const routeHref = (route: keyof typeof PATHS, metric?: string) =>
-    withMetric(PATHS[route], metric);
+export const routeHref = (route: PageRoute, metric?: string) => withMetric(PATHS[route], metric);
 
 /** A variable's page. */
-export const variableHref = (id: string) => `/variaveis/${id}`;
+export const variableHref = variablePath;
 
 /** A municipality page's link, from its slug. */
 export const municipalityHref = (slug: string, metric?: string) =>
-    withMetric(`/concelhos/${slug}`, metric);
+    withMetric(municipalityPath(slug), metric);
 
 const NAVIGATE = 'ipma-mais:navigate';
 

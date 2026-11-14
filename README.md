@@ -32,7 +32,7 @@ IPMA ──► Collect (GitHub Actions, twice a day) ──► data/*.csv in git
 | `data/meta.json` | When each source last succeeded, and its newest date |
 | `inputs/municipalities.json` | The 278 mainland municipalities and their DICO codes |
 | `scripts/`, `sources/`, `lib/` | Collector and D1 sync |
-| `worker/` | Cloudflare Worker (`src/index.ts`) and D1 schema (`migrations/`) |
+| `worker/` | Cloudflare Worker: the /v1 API (`src/index.ts`), each page's HTML for search engines plus `sitemap.xml` and `robots.txt` (`src/pages.ts`), and the D1 schema (`migrations/`) |
 | `web/` | React + Vite app, with the map drawn by [Cartis](https://github.com/xavier-batista-fernandes/cartis) |
 | `docs/API.md` | The public API guide |
 
