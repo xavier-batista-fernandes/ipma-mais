@@ -50,10 +50,24 @@ test.describe('map', () => {
         );
         await expect(page).toHaveURL(new RegExp(`[?&]c=${odemira.dico}`));
 
-        // The rest of the map is dimmed and the selection is not.
+        // The selection keeps its outline; the rest of the map fades, and with borders off each
+        // faded municipality is still stroked in its own (faded, opaque) fill, so no outlines show.
         const map = page.getByLabel(en['map.label']);
-        await expect(map).toHaveClass(/has-selection/);
-        await expect(map.locator('svg path.selected')).toHaveCount(1);
+        const selected = map.locator('svg path.selected');
+        await expect(selected).toHaveCount(1);
+        await expect(selected).toHaveAttribute('stroke-width', '1');
+        const others = await map.locator('svg path:not(.selected)').evaluateAll((paths) =>
+            paths.map((p) => ({
+                fill: p.getAttribute('fill'),
+                stroke: p.getAttribute('stroke'),
+                fillOpacity: getComputedStyle(p).fillOpacity,
+            }))
+        );
+        expect(others.length).toBeGreaterThan(200);
+        for (const path of others) {
+            expect(path.stroke).toBe(path.fill);
+            expect(path.fillOpacity).toBe('1');
+        }
     });
 
     test('toggles thin municipality borders and remembers the choice', async ({ page }) => {
