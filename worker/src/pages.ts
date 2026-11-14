@@ -68,7 +68,7 @@ const WORDS = {
 /** The pages in the order the navigation and the sitemap list them. */
 const MAIN_PAGES: PageRoute[] = ['home', 'map', 'municipalities', 'variables', 'query', 'data'];
 const NAV_LABEL: Record<PageRoute, keyof Messages> = {
-    home: 'nav.start',
+    home: 'nav.home',
     map: 'nav.map',
     municipalities: 'nav.municipalities',
     variables: 'nav.variables',
