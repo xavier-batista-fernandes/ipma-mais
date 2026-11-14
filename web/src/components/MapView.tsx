@@ -70,6 +70,8 @@ interface Props {
     zoomToSelected?: boolean;
     /** Frames this district instead of the whole country (a locator that shows the neighbours). */
     frameDistrict?: District;
+    /** Overrides the borders setting (thumbnails are always drawn without borders). */
+    borders?: boolean;
 }
 
 export function MapView({
@@ -80,13 +82,16 @@ export function MapView({
     onSelect,
     zoomToSelected = true,
     frameDistrict,
+    borders: bordersOverride,
 }: Props) {
     const { t } = useI18n();
     const containerRef = useRef<HTMLDivElement>(null);
     const [map, setMap] = useState<CountryMap | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [movedAway, setMovedAway] = useState(false);
-    const { borders, setBorders } = useSettings();
+    const settings = useSettings();
+    const borders = bordersOverride ?? settings.borders;
+    const { setBorders } = settings;
     const outline = useThemeColor('--map-outline', '#111827');
     const borderColor = useThemeColor('--map-border', '#ffffff');
     // Light grey in the light theme, dark grey in the dark one (a pale map glares at night).
