@@ -24,7 +24,7 @@ test.describe('settings', () => {
                 name: pt['settings.language'],
             })
         ).toBeVisible();
-        await expect(page.locator('html')).toHaveAttribute('lang', 'pt');
+        await expect(page.locator('html')).toHaveAttribute('lang', 'pt-PT');
         await expect(page.getByRole('link', { name: pt['nav.map'] })).toBeVisible();
 
         await page.reload();
@@ -75,7 +75,7 @@ test.describe('Portuguese browser', () => {
 
     test('defaults to Portuguese', async ({ page }) => {
         await page.goto('./mapa');
-        await expect(page.locator('html')).toHaveAttribute('lang', 'pt');
+        await expect(page.locator('html')).toHaveAttribute('lang', 'pt-PT');
         await expect(page.getByLabel(pt['map.label']).locator('svg path').first()).toBeAttached();
         await expect(page.getByRole('button', { name: pt['nav.settings'] })).toBeVisible();
     });

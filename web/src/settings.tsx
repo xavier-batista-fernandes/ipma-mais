@@ -33,11 +33,15 @@ function loadSettings(): Settings {
         // Storage can be blocked or hold junk: fall back to defaults.
     }
     const theme = THEMES.includes(saved.theme as Theme) ? (saved.theme as Theme) : 'system';
-    const language = LANGUAGES.some((l) => l.id === saved.language)
-        ? (saved.language as Language)
-        : navigator.language.toLowerCase().startsWith('pt')
-          ? 'pt'
-          : 'en';
+    // `?lang=en` (the address search engines list for the English pages) wins and is kept.
+    const asked = new URLSearchParams(window.location.search).get('lang');
+    const language = LANGUAGES.some((l) => l.id === asked)
+        ? (asked as Language)
+        : LANGUAGES.some((l) => l.id === saved.language)
+          ? (saved.language as Language)
+          : navigator.language.toLowerCase().startsWith('pt')
+            ? 'pt'
+            : 'en';
     const borders = saved.borders === true;
     return { theme, language, borders };
 }
@@ -52,7 +56,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         const root = document.documentElement;
         if (settings.theme === 'system') delete root.dataset.theme;
         else root.dataset.theme = settings.theme;
-        root.lang = settings.language;
+        root.lang = settings.language === 'pt' ? 'pt-PT' : 'en';
         try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
         } catch {

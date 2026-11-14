@@ -11,10 +11,15 @@
  *                                             (the last 366 days by default; at most 1000 days)
  *   GET /v1/{metric}/days?from&to              { days: [{ date, values: { dico: mean } }] } (same limits)
  *   GET /v1/{metric}/stats?from&to            { from, to, days, values: { dico: { n, sum, mean, min, max } } }
+ *
+ * Every other address is a page of the app (see pages.ts), /sitemap.xml, /robots.txt or a static file.
  */
+import { servePage } from './pages';
 
 export interface Env {
     DB: D1Database;
+    /** The built web app (web/dist), see `assets` in wrangler.jsonc. */
+    ASSETS: Fetcher;
     /** Per-IP limit (see wrangler.jsonc); absent in tests or if the binding is removed. */
     RATE_LIMITER?: RateLimit;
 }
@@ -45,6 +50,10 @@ export default {
         if (request.method !== 'GET' && request.method !== 'HEAD') {
             return json({ error: 'Method not allowed' }, 405);
         }
+
+        const { pathname } = new URL(request.url);
+        const api = /^\/(v1|api)(\/|\.json$|$)/.test(pathname);
+        if (!api) return servePage(request, env);
 
         // Per IP and per Cloudflare location, approximate: it stops floods, not careful clients.
         // 600 a minute leaves room for the app's timeline playback (up to 5 days a second).

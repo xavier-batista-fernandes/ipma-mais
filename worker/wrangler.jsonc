@@ -1,15 +1,18 @@
 {
-    // One Worker serves the built web app (web/dist) as static assets and the /v1 JSON API
-    // from D1. Only /v1/* runs Worker code; every other path is a static file, or index.html.
+    // One Worker serves the built web app (web/dist) and the /v1 JSON API from D1. Built files
+    // under /assets/ (and the favicon) are served directly; every other address runs the Worker,
+    // which answers the app's pages with their own title, description and text (src/pages.ts),
+    // serves /sitemap.xml and /robots.txt, and falls back to the static files.
     "$schema": "node_modules/wrangler/config-schema.json",
     "name": "ipma-mais",
     "main": "src/index.ts",
     "compatibility_date": "2026-10-20",
     "assets": {
         "directory": "../web/dist",
-        // The app's pages (/consultas, /sobre…) are routes in the app: answer them with index.html.
-        "not_found_handling": "single-page-application",
-        "run_worker_first": ["/v1", "/v1/*"]
+        "binding": "ASSETS",
+        // Unknown addresses are answered by the Worker (the app with a 404 status), not index.html.
+        "not_found_handling": "none",
+        "run_worker_first": ["/*", "!/assets/*", "!/favicon.svg"]
     },
     "d1_databases": [
         {
@@ -20,7 +23,7 @@
             "migrations_dir": "migrations"
         }
     ],
-    // Per-IP limit on /v1 (only /v1 runs Worker code). Keep in sync with RATE_LIMIT in src/index.ts.
+    // Per-IP limit on the /v1 API (pages are not limited). Keep in sync with RATE_LIMIT in src/index.ts.
     "ratelimits": [
         {
             "name": "RATE_LIMITER",
