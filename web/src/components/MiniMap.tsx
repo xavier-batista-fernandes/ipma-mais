@@ -12,7 +12,10 @@ interface Props {
     onSelect: (name: Municipality) => void;
 }
 
-/** A small, still map of one day (no zoom buttons): a thumbnail of the variable. */
+/**
+ * A small, still map of one day (no zoom buttons): a thumbnail of the variable. Always drawn
+ * without borders, whatever the map setting, since at this size they'd cover the colours.
+ */
 export function MiniMap({ day, scale, byDico, allNames, onSelect }: Props) {
     const fills = useMemo(() => {
         const result = new Map<Municipality, string>();
@@ -31,6 +34,7 @@ export function MiniMap({ day, scale, byDico, allNames, onSelect }: Props) {
                 onHover={() => {}}
                 onSelect={onSelect}
                 zoomToSelected={false}
+                borders={false}
             />
         </div>
     );
