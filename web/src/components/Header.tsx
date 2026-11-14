@@ -8,11 +8,10 @@ import { Search } from './Search';
 import { SettingsMenu } from './SettingsMenu';
 
 const ITEMS: {
-    route: Exclude<Route, 'municipality' | 'variable' | 'variables'>;
+    route: Exclude<Route, 'home' | 'municipality' | 'variable' | 'variables'>;
     icon: IconName;
-    label: 'nav.start' | 'nav.map' | 'nav.municipalities' | 'nav.query' | 'nav.data';
+    label: 'nav.map' | 'nav.municipalities' | 'nav.query' | 'nav.data';
 }[] = [
-    { route: 'home', icon: 'home', label: 'nav.start' },
     { route: 'map', icon: 'map', label: 'nav.map' },
     { route: 'municipalities', icon: 'list', label: 'nav.municipalities' },
     { route: 'query', icon: 'filter', label: 'nav.query' },
@@ -29,7 +28,7 @@ interface Props {
 }
 
 /**
- * Top bar: logo, the pages, municipality search and the settings gear. On phones the pages move
+ * Top bar: logo (the link to the home page), the pages, municipality search and the settings gear. On phones the pages move
  * to a tab bar at the bottom of the screen and search folds into a button.
  */
 export function Header({ route, metric, onSearch, describe, settingsOpen }: Props) {
@@ -57,7 +56,7 @@ export function Header({ route, metric, onSearch, describe, settingsOpen }: Prop
             {ITEMS.map((item) => (
                 <a
                     key={item.route}
-                    href={routeHref(item.route, item.route === 'home' ? undefined : metric)}
+                    href={routeHref(item.route, metric)}
                     onClick={followLink}
                     aria-current={route === item.route ? 'page' : undefined}
                 >
@@ -76,6 +75,7 @@ export function Header({ route, metric, onSearch, describe, settingsOpen }: Prop
                     href={routeHref('home')}
                     onClick={followLink}
                     aria-label={t('nav.home')}
+                    aria-current={route === 'home' ? 'page' : undefined}
                 >
                     <Logo />
                     <span className="brand-text">
