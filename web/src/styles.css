@@ -887,12 +887,6 @@ button:disabled {
 /* Keep municipality strokes at a fixed on-screen width instead of growing with zoom. */
 .map path {
     vector-effect: non-scaling-stroke;
-    transition: fill-opacity 0.2s;
-}
-
-/* With a municipality selected, the rest of the map fades so the selection stands out. */
-.map.has-selection path:not(.selected) {
-    fill-opacity: var(--map-dim);
 }
 
 .map-status {
