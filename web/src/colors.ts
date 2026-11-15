@@ -112,6 +112,9 @@ export interface ColorScale {
     labels: number[];
 }
 
+/** A metric's colour ramp, low to high: the footer draws it as its top edge. */
+export const paletteStops = (id: MetricInfo['id']) => PALETTES[id].stops;
+
 /** At most this many labels fit under the legend without crowding. */
 const MAX_LABELS = 8;
 

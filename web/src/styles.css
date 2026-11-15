@@ -124,7 +124,10 @@ select {
 .calendar-day,
 .brand-tagline,
 .choice-badge,
-footer {
+.site-footer dt,
+.site-footer dd,
+.footer-station,
+.footer-strip {
     font-family: var(--font-mono);
 }
 
@@ -554,8 +557,7 @@ button:disabled {
     position: relative;
     flex: 1;
     background-color: var(--bg);
-    background-image:
-        linear-gradient(var(--grid) 1px, transparent 1px),
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid) 1px, transparent 1px);
     background-size: 32px 32px;
     background-position: -1px -1px;
@@ -1343,16 +1345,226 @@ button:disabled {
     font-size: 0.85rem;
 }
 
-footer {
-    padding: 10px 24px;
-    font-size: 0.7rem;
+/*
+ * Footer: the instrument's identification plate. Its top edge is the colour ramp of the variable
+ * on screen with a graduated scale over it; below, the call sign and a few readouts in mono, and a
+ * strip with the area's coordinates and the links.
+ */
+.site-footer {
+    position: relative;
+    margin-top: auto;
     color: var(--muted);
-    border-top: 1px solid var(--border);
+    background:
+        linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 100% 24px,
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 24px 100%,
+        var(--surface);
+    border-top: 1px solid var(--border-strong);
+}
+
+.footer-ramp {
+    position: relative;
+    height: 6px;
+}
+
+/* Ticks hang off the ramp like the graduations on a thermometer: a long one every 5. */
+.footer-ramp::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 9px;
+    background:
+        repeating-linear-gradient(90deg, var(--border-strong) 0 1px, transparent 1px 12px) 0 0 /
+            100% 4px no-repeat,
+        repeating-linear-gradient(90deg, var(--border-strong) 0 1px, transparent 1px 60px) 0 0 /
+            100% 9px no-repeat;
+}
+
+.footer-plate {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.6fr);
+    gap: 32px 48px;
+    padding: 36px 24px 28px;
+}
+
+.footer-callsign {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    margin: 0 0 12px;
+    color: var(--text);
+}
+
+.footer-callsign .logo {
+    width: 22px;
+    height: 22px;
+}
+
+.footer-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.footer-station {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.footer-station::before {
+    content: '// ';
+    color: var(--accent);
+}
+
+.footer-lede {
+    margin: 0 0 8px;
+    max-width: 42ch;
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+.footer-note {
+    margin: 0;
+    max-width: 48ch;
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+/* Four readouts in a row of outlined cells, like the dials on a panel. */
+.footer-readouts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-self: start;
+    margin: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     background: var(--surface);
 }
 
-footer a {
-    color: inherit;
+.footer-readouts > div {
+    padding: 12px 14px 14px;
+    min-width: 0;
+}
+
+.footer-readouts > div + div {
+    border-left: 1px solid var(--border);
+}
+
+.footer-readouts dt {
+    margin-bottom: 8px;
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.footer-readouts dd {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 8px;
+    margin: 0;
+    color: var(--text);
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.footer-ago {
+    flex-basis: 100%;
+    color: var(--muted);
+    font-size: 0.7rem;
+}
+
+/* The status light: lit (accent, a slow pulse) while the last collection is recent. */
+.footer-led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+}
+
+.footer-led[data-fresh] {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+    animation: footer-led 2.4s ease-in-out infinite;
+}
+
+@keyframes footer-led {
+    50% {
+        box-shadow: 0 0 0 5px transparent;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .footer-led[data-fresh] {
+        animation: none;
+    }
+}
+
+.footer-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 24px;
+    padding: 10px 24px;
+    font-size: 0.7rem;
+    border-top: 1px dashed var(--border);
+    background: var(--surface);
+}
+
+.footer-coords {
+    letter-spacing: 0.04em;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+}
+
+.site-footer a {
+    color: var(--text);
+}
+
+.site-footer a:hover {
+    color: var(--accent);
+}
+
+@media (max-width: 1000px) {
+    .footer-plate {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+    }
+}
+
+@media (max-width: 720px) {
+    .footer-plate {
+        padding: 28px 16px 20px;
+    }
+
+    .footer-readouts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .footer-readouts > div:nth-child(3) {
+        border-left: 0;
+    }
+
+    .footer-readouts > div:nth-child(n + 3) {
+        border-top: 1px solid var(--border);
+    }
+
+    .footer-strip {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 16px;
+    }
 }
 
 /* Links in running text: the text's own colour, underlined in the accent. */
@@ -1943,8 +2155,7 @@ a {
     margin: 0 -16px -14px;
     border-top: 1px solid var(--border);
     background-color: var(--bg);
-    background-image:
-        linear-gradient(var(--grid) 1px, transparent 1px),
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid) 1px, transparent 1px);
     background-size: 24px 24px;
 }
@@ -2574,8 +2785,7 @@ a {
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     background-color: var(--bg);
-    background-image:
-        linear-gradient(var(--grid) 1px, transparent 1px),
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid) 1px, transparent 1px);
     background-size: 24px 24px;
 }
@@ -3125,19 +3335,15 @@ a {
         height: 44px;
     }
 
-    footer {
-        line-height: 2.4;
-    }
-
-    footer a {
-        padding: 6px 0;
+    .footer-links a {
+        display: inline-block;
+        padding: 8px 0;
     }
 }
 
 @media (max-width: 720px) {
     .field-label,
-    .legend,
-    footer {
+    .legend {
         font-size: 0.75rem;
     }
 }

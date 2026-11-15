@@ -156,10 +156,24 @@ export const en = {
     'chart.label': 'Daily series in {unit}',
     'chart.hint': 'Click the chart to see that day on the map.',
 
-    'footer.source': 'Source:',
-    'footer.collectedBy': 'collected by',
+    'footer.station': 'Daily readings, mainland Portugal',
+    'footer.lede':
+        'Weather and climate data from IPMA, read every day and laid out municipality by municipality.',
+    'footer.independent':
+        'An independent project, not affiliated with IPMA. Values are as IPMA publishes them.',
+    'footer.lastReading': 'Last reading',
+    'footer.coverage': 'Coverage',
+    'footer.municipalities': '{count} municipalities',
+    'footer.variables': '{count} variables',
+    'footer.archive': 'Archive',
+    'footer.since': 'Daily since {year}',
+    'footer.source': 'Source',
+    'footer.cadence': 'twice a day',
+    'footer.coordsTitle': 'The area covered: mainland Portugal',
+    'footer.links': 'About IPMA+',
+    'footer.api': 'Public API',
+    'footer.code': 'Source code',
     'footer.mapBy': 'Map drawn with',
-    'footer.updated': 'Updated {date}.',
 
     'settings.title': 'Settings',
     'settings.subtitle': 'Your choices are saved in this browser.',

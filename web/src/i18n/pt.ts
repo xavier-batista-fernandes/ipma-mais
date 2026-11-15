@@ -156,10 +156,24 @@ export const pt: Messages = {
     'chart.label': 'Série diária em {unit}',
     'chart.hint': 'Clique no gráfico para ver esse dia no mapa.',
 
-    'footer.source': 'Fonte:',
-    'footer.collectedBy': 'recolhido por',
+    'footer.station': 'Leituras diárias, Portugal continental',
+    'footer.lede':
+        'Dados meteorológicos e climáticos do IPMA, lidos todos os dias e arrumados concelho a concelho.',
+    'footer.independent':
+        'Um projeto independente, sem ligação ao IPMA. Os valores são os que o IPMA publica.',
+    'footer.lastReading': 'Última leitura',
+    'footer.coverage': 'Cobertura',
+    'footer.municipalities': '{count} concelhos',
+    'footer.variables': '{count} variáveis',
+    'footer.archive': 'Arquivo',
+    'footer.since': 'Diário desde {year}',
+    'footer.source': 'Fonte',
+    'footer.cadence': 'duas vezes por dia',
+    'footer.coordsTitle': 'A área coberta: Portugal continental',
+    'footer.links': 'Sobre o IPMA+',
+    'footer.api': 'API pública',
+    'footer.code': 'Código-fonte',
     'footer.mapBy': 'Mapa desenhado com',
-    'footer.updated': 'Atualizado em {date}.',
 
     'settings.title': 'Definições',
     'settings.subtitle': 'As suas escolhas ficam guardadas neste navegador.',
