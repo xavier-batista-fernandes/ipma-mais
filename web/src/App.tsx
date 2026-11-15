@@ -14,6 +14,7 @@ import {
 } from './api';
 import { createColorScale, createResultScale, MISSING_FILL, type ColorScale } from './colors';
 import { download, mapToSvg, svgToPng, toCsv } from './export';
+import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { Icon } from './components/Icon';
 import { Legend } from './components/Legend';
@@ -239,7 +240,7 @@ export function App({ openSettings = false }: { openSettings?: boolean }) {
         <Shell
             route={route}
             metric={metricId}
-            generatedAt={index?.generatedAt ?? null}
+            index={index ?? null}
             settingsOpen={openSettings}
             onSearch={(name) => {
                 // On a map, search selects the municipality there; elsewhere it opens its page.
@@ -735,7 +736,7 @@ function SelectedMunicipality({
 function Shell({
     route,
     metric,
-    generatedAt,
+    index,
     settingsOpen,
     onSearch,
     describe,
@@ -743,13 +744,12 @@ function Shell({
 }: {
     route: Route;
     metric: string;
-    generatedAt: string | null;
+    index: ApiIndex | null;
     settingsOpen: boolean;
     onSearch: (name: Municipality) => void;
     describe: (name: Municipality) => string | undefined;
     children: ReactNode;
 }) {
-    const { t, format } = useI18n();
     return (
         <div className="app" data-route={route}>
             <Header
@@ -760,15 +760,7 @@ function Shell({
                 settingsOpen={settingsOpen}
             />
             {children}
-            <footer>
-                {t('footer.source')} <a href="https://www.ipma.pt">IPMA</a>,{' '}
-                {t('footer.collectedBy')}{' '}
-                <a href="https://github.com/xavier-batista-fernandes/ipma-mais">IPMA+</a>.{' '}
-                {t('footer.mapBy')}{' '}
-                <a href="https://github.com/xavier-batista-fernandes/cartis">Cartis</a>.
-                {generatedAt &&
-                    ` ${t('footer.updated', { date: format.date(generatedAt.slice(0, 10)) })}`}
-            </footer>
+            <Footer index={index} metric={metric} />
         </div>
     );
 }
