@@ -1,39 +1,39 @@
 {
     "sources": {
         "page": {
-            "lastSuccess": "2026-11-22T00:06:44.878Z",
-            "latestDate": "2026-11-20"
+            "lastSuccess": "2026-11-22T15:45:55.524Z",
+            "latestDate": "2026-11-21"
         },
         "api:et0": {
             "lastSuccess": "2026-11-09T12:27:36.540Z",
             "latestDate": "2025-09-20"
         },
         "api:tmax": {
-            "lastSuccess": "2026-11-22T00:06:49.013Z",
-            "latestDate": "2026-11-20"
+            "lastSuccess": "2026-11-22T15:46:01.614Z",
+            "latestDate": "2026-11-21"
         },
         "api:tmin": {
-            "lastSuccess": "2026-11-22T00:06:52.022Z",
-            "latestDate": "2026-11-20"
+            "lastSuccess": "2026-11-22T15:46:06.026Z",
+            "latestDate": "2026-11-21"
         },
         "api:tmean": {
-            "lastSuccess": "2026-11-22T00:06:49.037Z",
-            "latestDate": "2026-11-20"
+            "lastSuccess": "2026-11-22T15:46:01.667Z",
+            "latestDate": "2026-11-21"
         },
         "api:prec": {
-            "lastSuccess": "2026-11-22T00:06:56.209Z",
-            "latestDate": "2026-11-20"
+            "lastSuccess": "2026-11-22T15:46:11.560Z",
+            "latestDate": "2026-11-21"
         },
         "api:fire": {
-            "lastSuccess": "2026-11-22T00:06:56.430Z",
-            "latestDate": "2026-11-22"
+            "lastSuccess": "2026-11-22T15:46:11.867Z",
+            "latestDate": "2026-11-23"
         },
         "wms:vhi": {
-            "lastSuccess": "2026-11-22T00:06:58.149Z",
+            "lastSuccess": "2026-11-22T15:46:13.869Z",
             "latestDate": "2026-11-18"
         },
         "wms:smi": {
-            "lastSuccess": "2026-11-22T00:07:10.707Z",
+            "lastSuccess": "2026-11-22T15:46:28.111Z",
             "latestDate": "2026-11-22"
         }
     }
